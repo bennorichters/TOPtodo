@@ -25,7 +25,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final _formKey = GlobalKey<FormState>();
 
   void _connect() {
@@ -60,9 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     hintText: 'https://your-environment.topdesk.net',
                   ),
-                  validator: (String value) {
-                    return value.isEmpty ? 'cannot be empty' : null;
-                  },
+                  validator: (String value) =>
+                      value.isEmpty ? 'fill in the url of your TOPdesk environment' : null,
                 ),
                 SizedBox(height: 10),
                 TextFormField(
@@ -100,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _connect,
-        tooltip: 'Increment',
+        tooltip: 'Log in',
         child: Icon(Icons.play_arrow),
       ),
     );
