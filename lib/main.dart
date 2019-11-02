@@ -26,6 +26,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
+  final _verticalSpace = SizedBox(height: 10);
 
   void _connect() {
     if (_formKey.currentState.validate()) {
@@ -59,10 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     hintText: 'https://your-environment.topdesk.net',
                   ),
-                  validator: (String value) =>
-                      value.isEmpty ? 'fill in the url of your TOPdesk environment' : null,
+                  validator: (String value) => value.isEmpty
+                      ? 'fill in the url of your TOPdesk environment'
+                      : null,
                 ),
-                SizedBox(height: 10),
+                _verticalSpace,
                 TextFormField(
                   autocorrect: false,
                   decoration: InputDecoration(
@@ -76,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     hintText: 'login name',
                   ),
                 ),
-                SizedBox(height: 10),
+                _verticalSpace,
                 TextFormField(
                   autocorrect: false,
                   obscureText: true,
