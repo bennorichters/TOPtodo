@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state is LoginWaitingForSavedData) {
               return buildLoading();
             } else if (state is RetrievedSavedData) {
-              return buildInputFields(state.savedData);
+              return buildInputFields(context, state.savedData);
             }
           },
         )),
@@ -49,11 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildInputFields(Credentials savedData) {
-    final urlController = TextEditingController();
-    if (savedData.url != null) {
-      urlController.text = savedData.url;
-    }
+  Widget buildInputFields(BuildContext context, Credentials savedData) {
+    final urlController = TextEditingController()..text = savedData.url ?? '';
+    final loginNameController = TextEditingController()
+      ..text = savedData.loginName ?? '';
+    final passwordController = TextEditingController()
+      ..text = savedData.password ?? '';
 
     return Padding(
       padding: EdgeInsets.all(15),
@@ -81,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
             _verticalSpace,
             TextFormField(
               autocorrect: false,
+              controller: loginNameController,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.greenAccent, width: 5.0),
@@ -94,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
             _verticalSpace,
             TextFormField(
               autocorrect: false,
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -105,9 +108,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: 'application password',
               ),
             ),
+            _verticalSpace,
+            FloatingActionButton(
+              onPressed: () => _connect(
+                context,
+                Credentials(
+                  url: urlController.text,
+                  loginName: loginNameController.text,
+                  password: passwordController.text,
+                ),
+              ),
+              child: Icon(Icons.play_arrow),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _connect(BuildContext context, Credentials credentials) {
+    final bloc = BlocProvider.of<LoginBloc>(context);
+    bloc.add(TryLogin(credentials));
   }
 }

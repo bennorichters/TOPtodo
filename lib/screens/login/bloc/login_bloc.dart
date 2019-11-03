@@ -28,6 +28,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
 
       yield RetrievedSavedData(credentials);
+    } else if (event is TryLogin) {
+      yield LoginSubmitting();
+
+      final storage = FlutterSecureStorage();
+      storage.write(
+        key: 'url',
+        value: event.credentials.url,
+      );
+      storage.write(
+        key: 'loginName',
+        value: event.credentials.loginName,
+      );
+      storage.write(
+        key: 'password',
+        value: event.credentials.password,
+      );
     }
   }
 }

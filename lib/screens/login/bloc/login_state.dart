@@ -20,20 +20,20 @@ class RetrievedSavedData extends LoginState {
   List<Object> get props => [savedData];
 }
 
-// class LoginSubmitting extends LoginState {
-//   const LoginSubmitting();
+class LoginSubmitting extends LoginState {
+  const LoginSubmitting();
 
-//   @override
-//   List<Object> get props => [];
-// }
+  @override
+  List<Object> get props => [];
+}
 
-// class LoginSuccess extends LoginState {
-//   final Credentials credentials;
-//   const LoginSuccess(this.credentials);
+class LoginSuccess extends LoginState {
+  final Credentials credentials;
+  const LoginSuccess(this.credentials);
 
-//   @override
-//   List<Object> get props => [credentials];
-// }
+  @override
+  List<Object> get props => [credentials];
+}
 
 // class LoginFailed extends LoginState {
 //   final String message;

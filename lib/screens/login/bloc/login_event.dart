@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:toptopdo/data/model/credentials.dart';
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();
@@ -12,8 +13,9 @@ class AppStarted extends LoginEvent {
 }
 
 class TryLogin extends LoginEvent {
-  const TryLogin();
+  final Credentials credentials;
+  const TryLogin(this.credentials);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [credentials];
 }
