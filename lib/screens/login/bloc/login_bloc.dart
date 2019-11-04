@@ -23,7 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield RetrievedSavedData(credentials);
     } else if (event is TryLogin) {
       yield LoginSubmitting();
-      credentialsProvider.save(event.credentials);
+      await credentialsProvider.save(event.credentials);
       yield LoginSuccess(event.credentials.url);
     }
   }

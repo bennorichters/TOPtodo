@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class Settings {
@@ -16,4 +17,24 @@ class Settings {
     @required this.durationId,
     @required this.operatorId,
   });
+
+  Settings.fromJson(Map<String, dynamic> json)
+      : branchId = json['branchId'],
+        callerId = json['callerId'],
+        categoryId = json['categoryId'],
+        subcategoryId = json['subcategoryId'],
+        durationId = json['durationId'],
+        operatorId = json['operatorId'];
+
+  Map<String, dynamic> toJson() => {
+        'branchId': branchId,
+        'callerId': callerId,
+        'categoryId': categoryId,
+        'subcategoryId': subcategoryId,
+        'durationId': durationId,
+        'operatorId': operatorId,
+      };
+
+  @override
+  String toString() => jsonEncode(toJson());
 }
