@@ -1,11 +1,15 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:toptopdo/data/credentials_provider.dart';
 import 'package:toptopdo/data/model/credentials.dart';
 import './bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final CredentialsProvider credentialsProvider;
+  LoginBloc({@required this.credentialsProvider});
+
   @override
   LoginState get initialState => LoginWaitingForSavedData();
 
@@ -15,36 +19,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async* {
     if (event is AppStarted) {
       yield LoginWaitingForSavedData();
-
-      final storage = FlutterSecureStorage();
-      final url = await storage.read(key: 'url');
-      final loginName = await storage.read(key: 'loginName');
-      final password = await storage.read(key: 'password');
-
-      final credentials = Credentials(
-        url: url,
-        loginName: loginName,
-        password: password,
-      );
-
+      Credentials credentials = await credentialsProvider.provide();
       yield RetrievedSavedData(credentials);
     } else if (event is TryLogin) {
       yield LoginSubmitting();
-
-      final storage = FlutterSecureStorage();
-      storage.write(
-        key: 'url',
-        value: event.credentials.url,
-      );
-      storage.write(
-        key: 'loginName',
-        value: event.credentials.loginName,
-      );
-      storage.write(
-        key: 'password',
-        value: event.credentials.password,
-      );
-
+      credentialsProvider.save(event.credentials);
       yield LoginSuccess(event.credentials.url);
     }
   }

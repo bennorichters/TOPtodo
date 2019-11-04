@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 
+import 'data/credentials_provider.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,7 +16,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        builder: (context) => LoginBloc(),
+        builder: (context) => LoginBloc(
+          credentialsProvider: SecureStorageCredentials(),
+        ),
         child: LoginScreen(),
       ),
     );

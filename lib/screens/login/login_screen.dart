@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
             } else if (state is RetrievedSavedData) {
               return buildInputFields(context, state.savedData);
             } else if (state is LoginSuccess) {
-              return Text('Login success');
+              return Text('Login success!');
             }
           },
         )),
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   password: passwordController.text,
                 ),
               ),
-              child: Icon(Icons.play_arrow),
+              child: Icon(Icons.exit_to_app),
             ),
           ],
         ),
