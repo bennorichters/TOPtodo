@@ -28,11 +28,11 @@ class LoginSubmitting extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
-  final Credentials credentials;
-  const LoginSuccess(this.credentials);
+  final String url;
+  const LoginSuccess(this.url);
 
   @override
-  List<Object> get props => [credentials];
+  List<Object> get props => [url];
 }
 
 // class LoginFailed extends LoginState {

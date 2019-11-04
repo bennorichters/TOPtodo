@@ -44,6 +44,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         key: 'password',
         value: event.credentials.password,
       );
+
+      yield LoginSuccess(event.credentials.url);
     }
   }
 }

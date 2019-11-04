@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptopdo/data/model/credentials.dart';
+import 'package:toptopdo/screens/settings/settings_screen.dart';
 
 import 'bloc/bloc.dart';
 
@@ -29,13 +30,21 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Text('login'),
         ),
         body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
-          // TODO
+           if (state is LoginSuccess) {
+             Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => SettingsScreen(url: state.url),
+              ),
+            );
+           }
         }, child: BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             if (state is LoginWaitingForSavedData) {
               return buildLoading();
             } else if (state is RetrievedSavedData) {
               return buildInputFields(context, state.savedData);
+            } else if (state is LoginSuccess) {
+              return Text('Login success');
             }
           },
         )),

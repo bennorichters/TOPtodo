@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final String loginName;
+  final String url;
 
   const SettingsScreen({
     Key key,
-    @required this.loginName,
+    @required this.url,
   }) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Text('Settings'),
       ),
       body: Container(
-        child: Text('Welcome ${widget.loginName}!'),
+        child: Text('URL: ${widget.url}'),
       ),
     );
   }
