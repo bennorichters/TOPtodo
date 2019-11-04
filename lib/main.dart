@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toptopdo/data/settings_provider.dart';
 import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 
@@ -18,6 +19,8 @@ class MyApp extends StatelessWidget {
       home: BlocProvider(
         builder: (context) => LoginBloc(
           credentialsProvider: SecureStorageCredentials(),
+          settingsProviderFactory: (url, loginName) =>
+              SharedPreferencesSettingsProvider(url, loginName),
         ),
         child: LoginScreen(),
       ),

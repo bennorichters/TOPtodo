@@ -3,6 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
+typedef SettingsProvider SettingsProviderFactory(
+  String url,
+  String loginName,
+);
+
 abstract class SettingsProvider {
   Future<Settings> provide();
   Future<void> save(Settings settings);
