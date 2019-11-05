@@ -30,13 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Text('login'),
         ),
         body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
-           if (state is LoginSuccess) {
-             Navigator.of(context).push(
+          if (state is LoginSuccess) {
+            print('Settings ${state.settings}');
+            Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => SettingsScreen(url: state.url),
+                builder: (_) => SettingsScreen(
+                  credentials: state.credentials,
+                ),
               ),
             );
-           }
+          }
         }, child: BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             if (state is LoginWaitingForSavedData) {
@@ -45,6 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
               return buildInputFields(context, state.savedData);
             } else if (state is LoginSuccess) {
               return Text('Login success!');
+            } else {
+              print('State: $state');
+              return Container();
             }
           },
         )),

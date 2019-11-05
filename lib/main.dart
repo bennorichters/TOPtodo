@@ -16,13 +16,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-        builder: (context) => LoginBloc(
-          credentialsProvider: SecureStorageCredentials(),
-          settingsProviderFactory: (url, loginName) =>
-              SharedPreferencesSettingsProvider(url, loginName),
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<CredentialsProvider>(
+            builder: (context) => SecureStorageCredentials(),
+          ),
+          RepositoryProvider<SettingsProviderFactory>(
+            builder: (context) => (url, loginName) =>
+                SharedPreferencesSettingsProvider(url, loginName),
+          ),
+        ],
+        child: BlocProvider(
+          builder: (context) => LoginBloc(
+            credentialsProvider:
+                RepositoryProvider.of<CredentialsProvider>(context),
+            settingsProviderFactory:
+                RepositoryProvider.of<SettingsProviderFactory>(context),
+          ),
+          child: LoginScreen(),
         ),
-        child: LoginScreen(),
       ),
     );
   }

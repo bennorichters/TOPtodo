@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:toptopdo/data/model/credentials.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final String url;
+  final Credentials credentials;
 
   const SettingsScreen({
     Key key,
-    @required this.url,
+    @required this.credentials,
   }) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Text('Settings'),
       ),
       body: Container(
-        child: Text('URL: ${widget.url}'),
+        child: Text('URL: ${widget.credentials.url}'),
       ),
     );
   }

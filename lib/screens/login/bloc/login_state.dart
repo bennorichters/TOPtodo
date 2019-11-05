@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:toptopdo/data/model/credentials.dart';
+import 'package:toptopdo/data/model/settings.dart';
 
 abstract class LoginState extends Equatable {
   const LoginState();
@@ -28,11 +30,15 @@ class LoginSubmitting extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
-  final String url;
-  const LoginSuccess(this.url);
+  final Credentials credentials;
+  final Settings settings;
+  const LoginSuccess({
+    @required this.credentials,
+    @required this.settings,
+  });
 
   @override
-  List<Object> get props => [url];
+  List<Object> get props => [credentials];
 }
 
 // class LoginFailed extends LoginState {

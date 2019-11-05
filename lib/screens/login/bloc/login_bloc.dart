@@ -29,14 +29,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is TryLogin) {
       yield LoginSubmitting();
       await credentialsProvider.save(event.credentials);
+
       SettingsProvider settingsProvider = settingsProviderFactory(
         event.credentials.url,
         event.credentials.loginName,
       );
+      final settings = await settingsProvider.provide();
 
-      final settings = settingsProvider.provide();
-
-      yield LoginSuccess(event.credentials.url);
+      yield LoginSuccess(
+        credentials: event.credentials,
+        settings: settings,
+      );
     }
   }
 }
