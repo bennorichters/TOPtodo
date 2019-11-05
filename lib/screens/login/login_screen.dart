@@ -142,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _connect(BuildContext context, Credentials credentials) {
-    final bloc = BlocProvider.of<LoginBloc>(context);
-    bloc.add(TryLogin(credentials));
+    BlocProvider.of<LoginBloc>(context)..add(TryLogin(credentials));
   }
 }
