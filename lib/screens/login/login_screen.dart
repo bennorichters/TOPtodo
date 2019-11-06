@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
           if (state is LoginSuccess) {
             print('Settings ${state.settings}');
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => SettingsScreen(
                   credentials: state.credentials,
