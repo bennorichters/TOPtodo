@@ -30,8 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Text('login'),
         ),
         body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
-          if (state is LoginSuccess) {
-            print('Settings ${state.settings}');
+          if (state is LoginSuccessNoSettings) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => SettingsScreen(
@@ -46,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
               return buildLoading();
             } else if (state is RetrievedSavedData) {
               return buildInputFields(context, state.savedData);
-            } else if (state is LoginSuccess) {
+            } else if (state is LoginSuccessNoSettings) {
               return Text('Login success!');
             } else {
               print('State: $state');

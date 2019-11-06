@@ -36,10 +36,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
       final settings = await settingsProvider.provide();
 
-      yield LoginSuccess(
-        credentials: event.credentials,
-        settings: settings,
-      );
+      if (settings == null) {
+        yield LoginSuccessNoSettings(credentials: event.credentials);
+      } else {
+        yield LoginSuccessWithSettings(
+          credentials: event.credentials,
+          settings: settings,
+        );
+      }
     }
   }
 }

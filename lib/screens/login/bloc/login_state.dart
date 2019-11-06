@@ -29,16 +29,24 @@ class LoginSubmitting extends LoginState {
   List<Object> get props => [];
 }
 
-class LoginSuccess extends LoginState {
+class LoginSuccessNoSettings extends LoginState {
+  final Credentials credentials;
+  const LoginSuccessNoSettings({@required this.credentials});
+
+  @override
+  List<Object> get props => [credentials];
+}
+
+class LoginSuccessWithSettings extends LoginState {
   final Credentials credentials;
   final Settings settings;
-  const LoginSuccess({
+  const LoginSuccessWithSettings({
     @required this.credentials,
     @required this.settings,
   });
 
   @override
-  List<Object> get props => [credentials];
+  List<Object> get props => [credentials, settings];
 }
 
 // class LoginFailed extends LoginState {
