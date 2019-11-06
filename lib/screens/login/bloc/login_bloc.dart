@@ -46,4 +46,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
   }
+
+  Credentials get credentials {
+    if (state is LoginSuccessNoSettings) {
+      return (state as LoginSuccessNoSettings).credentials;
+    } else if (state is LoginSuccessWithSettings) {
+      return (state as LoginSuccessWithSettings).credentials;
+    }
+
+    throw Exception('not in usable state, currently is: $state');
+  }
 }
