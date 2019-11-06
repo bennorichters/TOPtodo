@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:toptopdo/data/model/credentials.dart';
+import 'package:toptopdo/screens/settings/bloc/settings_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/settings_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final Credentials credentials;
-
-  const SettingsScreen({
-    Key key,
-    @required this.credentials,
-  }) : super(key: key);
-
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -20,8 +16,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text('Settings'),
       ),
-      body: Container(
-        child: Text('URL: ${widget.credentials.url}'),
+      body: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          return Text('State: $state');
+        }
       ),
     );
   }

@@ -33,9 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginSuccessNoSettings) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (_) => SettingsScreen(
-                  credentials: state.credentials,
-                ),
+                builder: (_) => SettingsScreen(),
               ),
             );
           }
