@@ -18,20 +18,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is SettingsInit) {
       yield SettingsNoSearchListData();
 
-      _topdeskConnect(loginBloc.credentials);
+      // _topdeskConnect(loginBloc.credentials);
     } else {}
-  }
-
-  void _topdeskConnect(Credentials credentials) async {
-    final url = '${credentials.url}/tas/api/incidents/durations';
-
-    // var res = await http.get(
-    //   url,
-    //   headers: _topdeskAuthHeaders(),
-    // );
-
-    // List<dynamic> elements = json.decode(res.body);
-
-    // print(event);
   }
 }
