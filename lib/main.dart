@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptopdo/data/settings_provider.dart';
+import 'package:toptopdo/data/topdesk_api_provider.dart';
 import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_bloc.dart';
@@ -21,6 +22,10 @@ class TopToDoApp extends StatelessWidget {
           builder: (context) => (url, loginName) =>
               SharedPreferencesSettingsProvider(url, loginName),
         ),
+        RepositoryProvider<TopdeskProviderFactory>(
+          builder: (context) =>
+              (credentials) => ApiTopdeskProvider(credentials),
+        )
       ],
       child: MultiBlocProvider(
         providers: [
@@ -30,11 +35,14 @@ class TopToDoApp extends StatelessWidget {
                   RepositoryProvider.of<CredentialsProvider>(context),
               settingsProviderFactory:
                   RepositoryProvider.of<SettingsProviderFactory>(context),
+              topdeskProviderFactory:
+                  RepositoryProvider.of<TopdeskProviderFactory>(context),
             ),
           ),
           BlocProvider<SettingsBloc>(
-            builder: (context) =>
-                SettingsBloc(BlocProvider.of<LoginBloc>(context)),
+            builder: (context) => SettingsBloc(
+              RepositoryProvider.of<LoginBloc>(context),
+            ),
           )
         ],
         child: MaterialApp(

@@ -3,6 +3,7 @@ import 'package:toptopdo/screens/settings/bloc/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/settings_bloc.dart';
+import 'bloc/settings_event.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -10,6 +11,12 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<SettingsBloc>(context)..add(SettingsInit());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

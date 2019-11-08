@@ -5,14 +5,17 @@ import 'package:bloc/bloc.dart';
 import 'package:toptopdo/data/credentials_provider.dart';
 import 'package:toptopdo/data/model/credentials.dart';
 import 'package:toptopdo/data/settings_provider.dart';
+import 'package:toptopdo/data/topdesk_api_provider.dart';
 import './bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final CredentialsProvider credentialsProvider;
   final SettingsProviderFactory settingsProviderFactory;
+  final TopdeskProviderFactory topdeskProviderFactory;
   LoginBloc({
     @required this.credentialsProvider,
     @required this.settingsProviderFactory,
+    @required this.topdeskProviderFactory,
   });
 
   @override
@@ -30,6 +33,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginSubmitting();
       await credentialsProvider.save(event.credentials);
 
+      final tdProvider = topdeskProviderFactory(event.credentials);
+
       SettingsProvider settingsProvider = settingsProviderFactory(
         event.credentials.url,
         event.credentials.loginName,
@@ -37,21 +42,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final settings = await settingsProvider.provide();
 
       if (settings == null) {
-        yield LoginSuccessNoSettings(credentials: event.credentials);
+        yield LoginSuccessNoSettings(
+          topdeskProvider: tdProvider,
+        );
       } else {
         yield LoginSuccessWithSettings(
-          credentials: event.credentials,
+          topdeskProvider: tdProvider,
           settings: settings,
         );
       }
     }
   }
 
-  Credentials get credentials {
+  TopdeskProvider get topdeskProvider {
     final currentState = state;
-    if (currentState is LoginSuccessNoSettings) return currentState.credentials;
+    if (currentState is LoginSuccessNoSettings)
+      return currentState.topdeskProvider;
     if (currentState is LoginSuccessWithSettings)
-      return currentState.credentials;
+      return currentState.topdeskProvider;
 
     throw Exception('No login success, state is: $currentState');
   }

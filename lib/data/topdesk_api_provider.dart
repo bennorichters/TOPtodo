@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 
+typedef TopdeskProvider TopdeskProviderFactory(Credentials credentials);
+
 abstract class TopdeskProvider {
   List<IncidentDuration> fetchDurations();
 }
@@ -15,11 +17,11 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   List<IncidentDuration> fetchDurations() {
-    // TODO: implement fetchDurations
+    _topdeskConnect();
     return null;
   }
 
-  void _topdeskConnect(Credentials credentials) async {
+  void _topdeskConnect() async {
     final url = '${credentials.url}/tas/api/incidents/durations';
 
     var res = await http.get(
@@ -29,7 +31,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     List<dynamic> elements = json.decode(res.body);
 
-    // print(event);
+    print(elements);
   }
 
   Map<String, String> _topdeskAuthHeaders() {

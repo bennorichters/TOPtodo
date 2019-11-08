@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:toptopdo/data/model/credentials.dart';
 import 'package:toptopdo/data/model/settings.dart';
+import 'package:toptopdo/data/topdesk_api_provider.dart';
 
 abstract class LoginState extends Equatable {
   const LoginState();
@@ -30,23 +31,23 @@ class LoginSubmitting extends LoginState {
 }
 
 class LoginSuccessNoSettings extends LoginState {
-  final Credentials credentials;
-  const LoginSuccessNoSettings({@required this.credentials});
+  final TopdeskProvider topdeskProvider;
+  const LoginSuccessNoSettings({@required this.topdeskProvider});
 
   @override
-  List<Object> get props => [credentials];
+  List<Object> get props => [topdeskProvider];
 }
 
 class LoginSuccessWithSettings extends LoginState {
-  final Credentials credentials;
+  final TopdeskProvider topdeskProvider;
   final Settings settings;
   const LoginSuccessWithSettings({
-    @required this.credentials,
+    @required this.topdeskProvider,
     @required this.settings,
   });
 
   @override
-  List<Object> get props => [credentials, settings];
+  List<Object> get props => [topdeskProvider, settings];
 }
 
 // class LoginFailed extends LoginState {
