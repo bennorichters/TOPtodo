@@ -17,9 +17,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is SettingsInit) {
       yield SettingsNoSearchListData();
 
-      print('here ${(loginBloc.state as LoginSuccessNoSettings).topdeskProvider}');
-
-      // _topdeskConnect(loginBloc.credentials);
+      loginBloc.topdeskProvider.fetchDurations();
     } else {}
   }
 }

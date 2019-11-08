@@ -29,6 +29,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       headers: _topdeskAuthHeaders(),
     );
 
+    print(res.statusCode);
+
     List<dynamic> elements = json.decode(res.body);
 
     print(elements);
