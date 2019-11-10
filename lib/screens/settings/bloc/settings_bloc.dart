@@ -17,7 +17,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is SettingsInit) {
       yield SettingsNoSearchListData();
 
-      topdeskProvider.fetchDurations();
+      final durations = await topdeskProvider.fetchDurations();
+      print(durations);
     } else {}
   }
 }

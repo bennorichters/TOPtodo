@@ -7,7 +7,7 @@ import 'dart:convert';
 
 abstract class TopdeskProvider {
   void init(Credentials credentials);
-  List<IncidentDuration> fetchDurations();
+  Future<List<IncidentDuration>> fetchDurations();
 }
 
 class ApiTopdeskProvider extends TopdeskProvider {
@@ -31,9 +31,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  List<IncidentDuration> fetchDurations() {
-    _callApi();
-    return null;
+  Future<List<IncidentDuration>> fetchDurations() async {
+    List response = await _callApi();
+    return response.map((e) => IncidentDuration.fromMappedJson(e)).toList();
   }
 
   dynamic _callApi() async {
