@@ -6,39 +6,20 @@ import 'dart:io';
 import 'dart:convert';
 
 abstract class TopdeskProvider {
-  void setCredentials(Credentials credentials);
+  void init(Credentials credentials);
   List<IncidentDuration> fetchDurations();
 }
 
 class ApiTopdeskProvider extends TopdeskProvider {
-  Credentials credentials;
+  String _url;
+  Map<String, String> _authHeaders;
 
-  void setCredentials(Credentials credentials) {
-    this.credentials = credentials;
+  void init(Credentials credentials) {
+    _url = credentials.url;
+    _authHeaders = _createAuthHeaders(credentials);
   }
 
-  @override
-  List<IncidentDuration> fetchDurations() {
-    _topdeskConnect();
-    return null;
-  }
-
-  void _topdeskConnect() async {
-    final url = '${credentials.url}/tas/api/incidents/durations';
-
-    var res = await http.get(
-      url,
-      headers: _topdeskAuthHeaders(),
-    );
-
-    print(res.statusCode);
-
-    List<dynamic> elements = json.decode(res.body);
-
-    print(elements);
-  }
-
-  Map<String, String> _topdeskAuthHeaders() {
+  Map<String, String> _createAuthHeaders(Credentials credentials) {
     var stringToBase64 = utf8.fuse(base64);
     var encoded = stringToBase64
         .encode('${credentials.loginName}:${credentials.password}');
@@ -47,5 +28,22 @@ class ApiTopdeskProvider extends TopdeskProvider {
       HttpHeaders.authorizationHeader: 'Basic ' + encoded,
       HttpHeaders.acceptHeader: 'application/json',
     };
+  }
+
+  @override
+  List<IncidentDuration> fetchDurations() {
+    _callApi();
+    return null;
+  }
+
+  dynamic _callApi() async {
+    if (_url == null) throw StateError('call init first');
+
+    var res = await http.get(
+      '$_url/tas/api/incidents/durations',
+      headers: _authHeaders,
+    );
+
+    return json.decode(res.body);
   }
 }
