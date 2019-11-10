@@ -20,22 +20,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController branchController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (BuildContext context, SettingsState state) {
-        if (state is SettingsInitial) {
-          return const SearchList();
-        } else if (state is SettingsNewTdData) {
-          return SearchList(
-            items: state.durations,
-            selectedItem: state.selectedDurationId,
-            onChangedCallBack: (String newValue) {
-              BlocProvider.of<SettingsBloc>(context)
-                ..add(SettingsDurationSelected(newValue));
-            },
+        if (state is SettingsTdData) {
+          return Form(
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: TextFormField(
+                        controller: branchController,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.greenAccent, width: 5.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue, width: 5.0),
+                          ),
+                          hintText: 'Branch',
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.search),
+                  ],
+                ),
+                if (state.durations == null)
+                  const SearchList()
+                else
+                  SearchList(
+                    items: state.durations,
+                    selectedItem: state.selectedDurationId,
+                    onChangedCallBack: (String newValue) {
+                      BlocProvider.of<SettingsBloc>(context)
+                        ..add(SettingsDurationSelected(newValue));
+                    },
+                  ),
+              ],
+            ),
           );
         } else {
           return Text('State: $state');
