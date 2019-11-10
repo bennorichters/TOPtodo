@@ -5,15 +5,17 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 
-typedef TopdeskProvider TopdeskProviderFactory(Credentials credentials);
-
 abstract class TopdeskProvider {
+  void setCredentials(Credentials credentials);
   List<IncidentDuration> fetchDurations();
 }
 
 class ApiTopdeskProvider extends TopdeskProvider {
-  final Credentials credentials;
-  ApiTopdeskProvider(this.credentials);
+  Credentials credentials;
+
+  void setCredentials(Credentials credentials) {
+    this.credentials = credentials;
+  }
 
   @override
   List<IncidentDuration> fetchDurations() {

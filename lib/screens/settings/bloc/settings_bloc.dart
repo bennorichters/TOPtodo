@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:toptopdo/screens/login/bloc/bloc.dart';
+import 'package:toptopdo/data/topdesk_api_provider.dart';
 import './bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final LoginBloc loginBloc;
-  SettingsBloc(this.loginBloc);
+  final TopdeskProvider topdeskProvider;
+  SettingsBloc(this.topdeskProvider);
 
   @override
   SettingsState get initialState => SettingsNoSearchListData();
@@ -17,7 +17,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is SettingsInit) {
       yield SettingsNoSearchListData();
 
-      loginBloc.topdeskProvider.fetchDurations();
+      topdeskProvider.fetchDurations();
     } else {}
   }
 }

@@ -11,11 +11,11 @@ import './bloc.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final CredentialsProvider credentialsProvider;
   final SettingsProviderFactory settingsProviderFactory;
-  final TopdeskProviderFactory topdeskProviderFactory;
+  final TopdeskProvider topdeskProvider;
   LoginBloc({
     @required this.credentialsProvider,
     @required this.settingsProviderFactory,
-    @required this.topdeskProviderFactory,
+    @required this.topdeskProvider,
   });
 
   @override
@@ -33,7 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginSubmitting();
       await credentialsProvider.save(event.credentials);
 
-      final tdProvider = topdeskProviderFactory(event.credentials);
+      topdeskProvider.setCredentials(event.credentials);
 
       SettingsProvider settingsProvider = settingsProviderFactory(
         event.credentials.url,
@@ -43,24 +43,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       if (settings == null) {
         yield LoginSuccessNoSettings(
-          topdeskProvider: tdProvider,
+          topdeskProvider: topdeskProvider,
         );
       } else {
         yield LoginSuccessWithSettings(
-          topdeskProvider: tdProvider,
+          topdeskProvider: topdeskProvider,
           settings: settings,
         );
       }
     }
-  }
-
-  TopdeskProvider get topdeskProvider {
-    final currentState = state;
-    if (currentState is LoginSuccessNoSettings)
-      return currentState.topdeskProvider;
-    if (currentState is LoginSuccessWithSettings)
-      return currentState.topdeskProvider;
-
-    throw Exception('No login success, state is: $currentState');
   }
 }

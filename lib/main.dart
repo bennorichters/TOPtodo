@@ -22,9 +22,8 @@ class TopToDoApp extends StatelessWidget {
           builder: (context) => (url, loginName) =>
               SharedPreferencesSettingsProvider(url, loginName),
         ),
-        RepositoryProvider<TopdeskProviderFactory>(
-          builder: (context) =>
-              (credentials) => ApiTopdeskProvider(credentials),
+        RepositoryProvider<TopdeskProvider>(
+          builder: (context) => ApiTopdeskProvider(),
         )
       ],
       child: MultiBlocProvider(
@@ -35,13 +34,12 @@ class TopToDoApp extends StatelessWidget {
                   RepositoryProvider.of<CredentialsProvider>(context),
               settingsProviderFactory:
                   RepositoryProvider.of<SettingsProviderFactory>(context),
-              topdeskProviderFactory:
-                  RepositoryProvider.of<TopdeskProviderFactory>(context),
+              topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
             ),
           ),
           BlocProvider<SettingsBloc>(
             builder: (context) => SettingsBloc(
-              RepositoryProvider.of<LoginBloc>(context),
+              RepositoryProvider.of<TopdeskProvider>(context),
             ),
           )
         ],
