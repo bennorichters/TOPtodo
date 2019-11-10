@@ -26,33 +26,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
         if (state is SettingsNoSearchListData) {
-          return CircularProgressIndicator();
+          return buildDurationDropDown();
         } else if (state is SettingsRetrievedDurations) {
-          return DropdownButton<String>(
-            value: state.selectedDurationId,
-            icon: Icon(Icons.arrow_downward),
-            iconSize: 24,
-            elevation: 16,
-            style: TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
-            ),
-            onChanged: (String newValue) {
+          return buildDurationDropDown(
+            items: state.durations,
+            selectedItem: state.selectedDurationId,
+            onChangedCallBack: (String newValue) {
               BlocProvider.of<SettingsBloc>(context)
                 ..add(SettingsDurationSelected(newValue));
             },
-            items: state.durations
-                .map((d) => DropdownMenuItem<String>(
-                      value: d.id,
-                      child: Text(d.name),
-                    ))
-                .toList(),
           );
         } else {
           return Text('State: $state');
         }
       }),
+    );
+  }
+
+  DropdownButton<String> buildDurationDropDown({
+    List<IncidentDuration> items,
+    String selectedItem,
+    ValueChanged<String> onChangedCallBack,
+  }) {
+    return DropdownButton<String>(
+      isExpanded: true,
+      value: selectedItem,
+      disabledHint: Text('Waiting for data'),
+      hint: Text('Duration'),
+      icon: items == null
+          ? SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(),
+            )
+          : Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: onChangedCallBack,
+      items: items?.map((duration) => DropdownMenuItem<String>(
+                value: duration.id,
+                child: Text(duration.name),
+              ))
+          ?.toList(),
     );
   }
 }
