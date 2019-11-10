@@ -33,7 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginSubmitting();
       await credentialsProvider.save(event.credentials);
 
-      topdeskProvider.setCredentials(event.credentials);
+      topdeskProvider.init(event.credentials);
 
       SettingsProvider settingsProvider = settingsProviderFactory(
         event.credentials.url,
