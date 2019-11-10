@@ -26,9 +26,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
         if (state is SettingsNoSearchListData) {
-          return buildDurationDropDown();
+          return _buildDurationDropDown();
         } else if (state is SettingsRetrievedDurations) {
-          return buildDurationDropDown(
+          return _buildDurationDropDown(
             items: state.durations,
             selectedItem: state.selectedDurationId,
             onChangedCallBack: (String newValue) {
@@ -43,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  DropdownButton<String> buildDurationDropDown({
+  static DropdownButton<String> _buildDurationDropDown({
     List<IncidentDuration> items,
     String selectedItem,
     ValueChanged<String> onChangedCallBack,
