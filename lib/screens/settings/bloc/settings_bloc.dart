@@ -21,8 +21,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield SettingsInitial();
 
       durations = await topdeskProvider.fetchDurations();
-      print(durations);
-
       yield SettingsNewTdData(
         durations: durations,
         selectedDurationId: null,
