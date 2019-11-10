@@ -10,9 +10,17 @@ class SettingsInit extends SettingsEvent {
   List<Object> get props => [];
 }
 
-class SettingsCategoryChosen extends SettingsEvent {
+class SettingsDurationSelected extends SettingsEvent {
+  final String durationId;
+  const SettingsDurationSelected(this.durationId);
+
+  @override
+  List<Object> get props => [durationId];
+}
+
+class SettingsCategorySelected extends SettingsEvent {
   final String categoryId;
-  const SettingsCategoryChosen(this.categoryId);
+  const SettingsCategorySelected(this.categoryId);
 
   @override
   List<Object> get props => [categoryId];

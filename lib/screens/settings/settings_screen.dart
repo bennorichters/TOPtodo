@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,11 +24,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text('Settings'),
       ),
-      body: BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (context, state) {
+      body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+        if (state is SettingsNoSearchListData) {
+          return CircularProgressIndicator();
+        } else if (state is SettingsRetrievedDurations) {
+          return DropdownButton<String>(
+            value: state.selectedDurationId,
+            icon: Icon(Icons.arrow_downward),
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String newValue) {
+              BlocProvider.of<SettingsBloc>(context)
+                ..add(SettingsDurationSelected(newValue));
+            },
+            items: state.durations
+                .map((d) => DropdownMenuItem<String>(
+                      value: d.id,
+                      child: Text(d.name),
+                    ))
+                .toList(),
+          );
+        } else {
           return Text('State: $state');
         }
-      ),
+      }),
     );
   }
 }
