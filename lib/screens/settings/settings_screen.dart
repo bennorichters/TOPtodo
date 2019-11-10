@@ -51,7 +51,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                     ),
-                    Icon(Icons.search),
+                    RaisedButton(
+                      child: Icon(Icons.search),
+                      onPressed: () {
+                        print(branchController.text);
+                      },
+                    ),
                   ],
                 ),
                 if (state.durations == null)
