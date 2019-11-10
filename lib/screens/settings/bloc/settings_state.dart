@@ -6,13 +6,13 @@ abstract class SettingsState extends Equatable {
   const SettingsState();
 }
 
-class SettingsNoSearchListData extends SettingsState {
+class SettingsInitial extends SettingsState {
   @override
   List<Object> get props => <Object> [];
 }
 
-class SettingsRetrievedDurations extends SettingsState {
-  const SettingsRetrievedDurations({
+class SettingsNewTdData extends SettingsState {
+  const SettingsNewTdData({
     @required this.durations,
     @required this.selectedDurationId,
   });

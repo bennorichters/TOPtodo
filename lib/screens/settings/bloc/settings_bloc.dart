@@ -11,24 +11,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   List<IncidentDuration> durations;
 
   @override
-  SettingsState get initialState => SettingsNoSearchListData();
+  SettingsState get initialState => SettingsInitial();
 
   @override
   Stream<SettingsState> mapEventToState(
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
-      yield SettingsNoSearchListData();
+      yield SettingsInitial();
 
       durations = await topdeskProvider.fetchDurations();
       print(durations);
 
-      yield SettingsRetrievedDurations(
+      yield SettingsNewTdData(
         durations: durations,
         selectedDurationId: null,
       );
     } else if (event is SettingsDurationSelected) {
-      yield SettingsRetrievedDurations(
+      yield SettingsNewTdData(
         durations: durations,
         selectedDurationId: event.durationId,
       );

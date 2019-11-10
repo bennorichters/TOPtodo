@@ -26,9 +26,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (BuildContext context, SettingsState state) {
-        if (state is SettingsNoSearchListData) {
+        if (state is SettingsInitial) {
           return const SearchList();
-        } else if (state is SettingsRetrievedDurations) {
+        } else if (state is SettingsNewTdData) {
           return SearchList(
             items: state.durations,
             selectedItem: state.selectedDurationId,
