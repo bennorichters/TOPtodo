@@ -47,3 +47,39 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return json.decode(res.body);
   }
 }
+
+class FakeTopdeskProvider implements TopdeskProvider {
+  @override
+  void init(Credentials credentials) {
+    print('init called with $credentials');
+  }
+
+  @override
+  Future<List<IncidentDuration>> fetchDurations() async {
+    return Future.delayed(
+      Duration(seconds: 2),
+      () => [
+        IncidentDuration(
+          id: 'a',
+          name: '1 minute',
+        ),
+        IncidentDuration(
+          id: 'b',
+          name: '1 hour',
+        ),
+        IncidentDuration(
+          id: 'c',
+          name: '2 hours',
+        ),
+        IncidentDuration(
+          id: 'd',
+          name: '1 week',
+        ),
+        IncidentDuration(
+          id: 'e',
+          name: '1 month',
+        ),
+      ],
+    );
+  }
+}

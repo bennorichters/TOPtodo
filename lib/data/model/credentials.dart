@@ -13,5 +13,8 @@ class Credentials {
 
   @override
   String toString() =>
-      '$url, $loginName, ${password == null ? "no" : "with"} password';
+      'Credentials: ['
+      '$url, '
+      '$loginName, '
+      '${password == null ? "no" : "with"} password]';
 }
