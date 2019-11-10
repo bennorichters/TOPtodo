@@ -5,6 +5,7 @@ import 'package:toptopdo/data/topdesk_api_provider.dart';
 import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_bloc.dart';
+import 'package:bloc/bloc.dart';
 
 import 'data/credentials_provider.dart';
 
@@ -14,22 +15,22 @@ class TopToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [
+      providers: <RepositoryProvider<dynamic>>[
         RepositoryProvider<CredentialsProvider>(
-          builder: (context) => SecureStorageCredentials(),
+          builder: (BuildContext context) => SecureStorageCredentials(),
         ),
         RepositoryProvider<SettingsProviderFactory>(
-          builder: (context) => (url, loginName) =>
+          builder: (BuildContext context) => (String url, String loginName) =>
               SharedPreferencesSettingsProvider(url, loginName),
         ),
         RepositoryProvider<TopdeskProvider>(
-          builder: (context) => FakeTopdeskProvider(),
+          builder: (BuildContext context) => FakeTopdeskProvider(),
         )
       ],
       child: MultiBlocProvider(
-        providers: [
+        providers: <BlocProvider<Bloc<dynamic, dynamic>>>[
           BlocProvider<LoginBloc>(
-            builder: (context) => LoginBloc(
+            builder: (BuildContext context) => LoginBloc(
               credentialsProvider:
                   RepositoryProvider.of<CredentialsProvider>(context),
               settingsProviderFactory:
@@ -38,14 +39,14 @@ class TopToDoApp extends StatelessWidget {
             ),
           ),
           BlocProvider<SettingsBloc>(
-            builder: (context) => SettingsBloc(
+            builder: (BuildContext context) => SettingsBloc(
               RepositoryProvider.of<TopdeskProvider>(context),
             ),
           )
         ],
         child: MaterialApp(
           title: 'TOPtodo',
-          home: LoginScreen(),
+          home: const LoginScreen(),
         ),
       ),
     );

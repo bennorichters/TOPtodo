@@ -1,5 +1,5 @@
-import 'model/credentials.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'model/credentials.dart';
 
 abstract class CredentialsProvider {
   Future<Credentials> provide();
@@ -9,22 +9,22 @@ abstract class CredentialsProvider {
 class SecureStorageCredentials implements CredentialsProvider {
   @override
   Future<Credentials> provide() async {
-    final storage = FlutterSecureStorage();
-    final url = storage.read(
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    final Future<String> url = storage.read(
       key: 'url',
     );
-    final loginName = storage.read(
+    final Future<String> loginName = storage.read(
       key: 'loginName',
     );
-    final password = storage.read(
+    final Future<String> password = storage.read(
       key: 'password',
     );
 
-    return Future.wait([
+    return Future.wait(<Future<String>>[
       url,
       loginName,
       password,
-    ]).then((data) {
+    ]).then((List<String> data) {
       return Credentials(
         url: data[0],
         loginName: data[1],
@@ -35,21 +35,21 @@ class SecureStorageCredentials implements CredentialsProvider {
 
   @override
   Future<void> save(Credentials credentials) {
-    final storage = FlutterSecureStorage();
-    final url = storage.write(
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    final Future<String> url = storage.write(
       key: 'url',
       value: credentials.url,
     );
-    final loginName = storage.write(
+    final Future<String> loginName = storage.write(
       key: 'loginName',
       value: credentials.loginName,
     );
-    final password = storage.write(
+    final Future<String> password = storage.write(
       key: 'password',
       value: credentials.password,
     );
 
-    return Future.wait([
+    return Future.wait(<Future<String>>[
       url,
       loginName,
       password,

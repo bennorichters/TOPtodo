@@ -13,13 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _verticalSpace = SizedBox(height: 10);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Widget _verticalSpace = const SizedBox(height: 10);
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<LoginBloc>(context)..add(AppStarted());
+    BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
   }
 
   @override
@@ -27,24 +27,25 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('login'),
+          title: const Text('login'),
         ),
-        body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
+        body: BlocListener<LoginBloc, LoginState>(
+            listener: (BuildContext context, LoginState state) {
           if (state is LoginSuccessNoSettings) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+            Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
+              MaterialPageRoute<SettingsScreen>(
                 builder: (_) => SettingsScreen(),
               ),
             );
           }
         }, child: BlocBuilder<LoginBloc, LoginState>(
-          builder: (context, state) {
+          builder: (BuildContext context, LoginState state) {
             if (state is LoginWaitingForSavedData) {
               return buildLoading();
             } else if (state is RetrievedSavedData) {
               return buildInputFields(context, state.savedData);
             } else if (state is LoginSuccessNoSettings) {
-              return Text('Login success!');
+              return const Text('Login success!');
             } else {
               print('State: $state');
               return Container();
@@ -57,19 +58,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget buildLoading() {
     return Center(
-      child: CircularProgressIndicator(),
+      child: const CircularProgressIndicator(),
     );
   }
 
   Widget buildInputFields(BuildContext context, Credentials savedData) {
-    final urlController = TextEditingController()..text = savedData.url ?? '';
-    final loginNameController = TextEditingController()
+    final TextEditingController urlController = TextEditingController()
+      ..text = savedData.url ?? '';
+    final TextEditingController loginNameController = TextEditingController()
       ..text = savedData.loginName ?? '';
-    final passwordController = TextEditingController()
+    final TextEditingController passwordController = TextEditingController()
       ..text = savedData.password ?? '';
 
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Form(
         key: _formKey,
         child: Column(

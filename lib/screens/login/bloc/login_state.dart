@@ -12,42 +12,43 @@ class LoginWaitingForSavedData extends LoginState {
   const LoginWaitingForSavedData();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object>[];
 }
 
 class RetrievedSavedData extends LoginState {
-  final Credentials savedData;
   const RetrievedSavedData(this.savedData);
+  final Credentials savedData;
 
   @override
-  List<Object> get props => [savedData];
+  List<Object> get props => <Object>[savedData];
 }
 
 class LoginSubmitting extends LoginState {
   const LoginSubmitting();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object>[];
 }
 
 class LoginSuccessNoSettings extends LoginState {
-  final TopdeskProvider topdeskProvider;
   const LoginSuccessNoSettings({@required this.topdeskProvider});
+  final TopdeskProvider topdeskProvider;
 
   @override
-  List<Object> get props => [topdeskProvider];
+  List<Object> get props => <Object>[topdeskProvider];
 }
 
 class LoginSuccessWithSettings extends LoginState {
-  final TopdeskProvider topdeskProvider;
-  final Settings settings;
   const LoginSuccessWithSettings({
     @required this.topdeskProvider,
     @required this.settings,
   });
 
+  final TopdeskProvider topdeskProvider;
+  final Settings settings;
+
   @override
-  List<Object> get props => [topdeskProvider, settings];
+  List<Object> get props => <Object> [topdeskProvider, settings];
 }
 
 // class LoginFailed extends LoginState {

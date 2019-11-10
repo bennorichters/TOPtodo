@@ -8,17 +8,18 @@ abstract class SettingsState extends Equatable {
 
 class SettingsNoSearchListData extends SettingsState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object> [];
 }
 
 class SettingsRetrievedDurations extends SettingsState {
-  final List<IncidentDuration> durations;
-  final String selectedDurationId;
-  SettingsRetrievedDurations({
+  const SettingsRetrievedDurations({
     @required this.durations,
     @required this.selectedDurationId,
   });
 
+  final List<IncidentDuration> durations;
+  final String selectedDurationId;
+
   @override
-  List<Object> get props => [durations, selectedDurationId];
+  List<Object> get props => <Object> [durations, selectedDurationId];
 }

@@ -1,9 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:toptopdo/data/model/credentials.dart';
 
 import 'model/topdesk_elements.dart';
-import 'package:http/http.dart' as http;
-import 'dart:io';
-import 'dart:convert';
 
 abstract class TopdeskProvider {
   void init(Credentials credentials);
@@ -14,17 +14,18 @@ class ApiTopdeskProvider extends TopdeskProvider {
   String _url;
   Map<String, String> _authHeaders;
 
+  @override
   void init(Credentials credentials) {
     _url = credentials.url;
     _authHeaders = _createAuthHeaders(credentials);
   }
 
   Map<String, String> _createAuthHeaders(Credentials credentials) {
-    var stringToBase64 = utf8.fuse(base64);
-    var encoded = stringToBase64
+    final String encoded = utf8
+        .fuse(base64)
         .encode('${credentials.loginName}:${credentials.password}');
 
-    return {
+    return <String, String>{
       HttpHeaders.authorizationHeader: 'Basic ' + encoded,
       HttpHeaders.acceptHeader: 'application/json',
     };
@@ -32,14 +33,18 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<List<IncidentDuration>> fetchDurations() async {
-    List response = await _callApi();
-    return response.map((e) => IncidentDuration.fromMappedJson(e)).toList();
+    final List<dynamic> response = await _callApi();
+    return response
+        .map((dynamic e) => IncidentDuration.fromMappedJson(e))
+        .toList();
   }
 
   dynamic _callApi() async {
-    if (_url == null) throw StateError('call init first');
+    if (_url == null) {
+      throw StateError('call init first');
+    }
 
-    var res = await http.get(
+    final http.Response res = await http.get(
       '$_url/tas/api/incidents/durations',
       headers: _authHeaders,
     );
@@ -56,9 +61,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<List<IncidentDuration>> fetchDurations() async {
-    return Future.delayed(
+    return Future<List<IncidentDuration>>.delayed(
       Duration(seconds: 2),
-      () => [
+      () => <IncidentDuration>[
         IncidentDuration(
           id: 'a',
           name: '1 minute',

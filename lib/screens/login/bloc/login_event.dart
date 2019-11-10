@@ -9,14 +9,14 @@ class AppStarted extends LoginEvent {
   const AppStarted();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object>[];
 }
 
 class TryLogin extends LoginEvent {
-  final Credentials credentials;
   const TryLogin(this.credentials);
+  final Credentials credentials;
 
   @override
-  List<Object> get props => [credentials];
+  List<Object> get props => <Object>[credentials];
 }
 

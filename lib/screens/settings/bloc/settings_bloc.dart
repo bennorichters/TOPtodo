@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'package:toptopdo/data/topdesk_api_provider.dart';
 import './bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
+  SettingsBloc(this.topdeskProvider);
+
   final TopdeskProvider topdeskProvider;
   List<IncidentDuration> durations;
-
-  SettingsBloc(this.topdeskProvider);
 
   @override
   SettingsState get initialState => SettingsNoSearchListData();

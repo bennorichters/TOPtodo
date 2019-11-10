@@ -7,29 +7,29 @@ abstract class SettingsEvent extends Equatable {
 
 class SettingsInit extends SettingsEvent {
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object> [];
 }
 
 class SettingsDurationSelected extends SettingsEvent {
-  final String durationId;
   const SettingsDurationSelected(this.durationId);
+  final String durationId;
 
   @override
-  List<Object> get props => [durationId];
+  List<Object> get props => <Object> [durationId];
 }
 
 class SettingsCategorySelected extends SettingsEvent {
-  final String categoryId;
   const SettingsCategorySelected(this.categoryId);
+  final String categoryId;
 
   @override
-  List<Object> get props => [categoryId];
+  List<Object> get props => <Object> [categoryId];
 }
 
 class SettingsSave extends SettingsEvent {
-  final Settings settings;
   const SettingsSave(this.settings);
+  final Settings settings;
 
   @override
-  List<Object> get props => [settings];
+  List<Object> get props => <Object> [settings];
 }

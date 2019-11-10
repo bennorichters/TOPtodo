@@ -22,13 +22,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
-      body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      body: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (BuildContext context, SettingsState state) {
         if (state is SettingsNoSearchListData) {
-          return _buildDurationDropDown();
+          return const SearchList();
         } else if (state is SettingsRetrievedDurations) {
-          return _buildDurationDropDown(
+          return SearchList(
             items: state.durations,
             selectedItem: state.selectedDurationId,
             onChangedCallBack: (String newValue) {
@@ -42,33 +43,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }),
     );
   }
+}
 
-  static DropdownButton<String> _buildDurationDropDown({
-    List<IncidentDuration> items,
-    String selectedItem,
-    ValueChanged<String> onChangedCallBack,
-  }) {
+class SearchList extends StatelessWidget {
+  const SearchList({
+    this.items,
+    this.selectedItem,
+    this.onChangedCallBack,
+  });
+
+  final List<IncidentDuration> items;
+  final String selectedItem;
+  final ValueChanged<String> onChangedCallBack;
+
+  @override
+  Widget build(BuildContext context) {
     return DropdownButton<String>(
       isExpanded: true,
       value: selectedItem,
-      disabledHint: Text('Waiting for data'),
-      hint: Text('Duration'),
+      disabledHint: const Text('Waiting for data'),
+      hint: const Text('Duration'),
       icon: items == null
-          ? SizedBox(
+          ? const SizedBox(
               height: 20,
               width: 20,
               child: CircularProgressIndicator(),
             )
-          : Icon(Icons.arrow_downward),
+          : const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
-      style: TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(color: Colors.deepPurple),
       underline: Container(
         height: 2,
         color: Colors.deepPurpleAccent,
       ),
       onChanged: onChangedCallBack,
-      items: items?.map((duration) => DropdownMenuItem<String>(
+      items: items
+          ?.map((IncidentDuration duration) => DropdownMenuItem<String>(
                 value: duration.id,
                 child: Text(duration.name),
               ))
