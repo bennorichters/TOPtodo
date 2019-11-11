@@ -3,8 +3,8 @@ import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/settings_bloc.dart';
-import 'bloc/settings_event.dart';
+import 'bloc/bloc.dart';
+import 'branch_search/branch_search_delegate.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -20,8 +20,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController branchController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -29,49 +27,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (BuildContext context, SettingsState state) {
         if (state is SettingsTdData) {
-          return Form(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: TextFormField(
-                        controller: branchController,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.greenAccent, width: 5.0),
+          return Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: TextField(
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.greenAccent,
+                            width: 5.0,
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue, width: 5.0),
-                          ),
-                          hintText: 'Branch',
                         ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                            width: 5.0,
+                          ),
+                        ),
+                        hintText: 'Branch',
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        print(branchController.text);
-                      },
-                    ),
-                  ],
-                ),
-                if (state.durations == null)
-                  const SearchList()
-                else
-                  SearchList(
-                    items: state.durations,
-                    selectedItem: state.selectedDurationId,
-                    onChangedCallBack: (String newValue) {
-                      BlocProvider.of<SettingsBloc>(context)
-                        ..add(SettingsDurationSelected(newValue));
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () async {
+                      final String result = await showSearch(
+                        context: context,
+                        delegate: BranchSearchDelegate(),
+                      );
+
+                      print(result);
                     },
                   ),
-              ],
-            ),
+                ],
+              ),
+              if (state.durations == null)
+                const SearchList()
+              else
+                SearchList(
+                  items: state.durations,
+                  selectedItem: state.selectedDurationId,
+                  onChangedCallBack: (String newValue) {
+                    BlocProvider.of<SettingsBloc>(context)
+                      ..add(SettingsDurationSelected(newValue));
+                  },
+                ),
+            ],
           );
         } else {
           return Text('State: $state');

@@ -6,6 +6,7 @@ import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:toptopdo/screens/settings/branch_search/bloc/bloc.dart';
 
 import 'data/credentials_provider.dart';
 
@@ -42,7 +43,10 @@ class TopToDoApp extends StatelessWidget {
             builder: (BuildContext context) => SettingsBloc(
               RepositoryProvider.of<TopdeskProvider>(context),
             ),
-          )
+          ),
+          BlocProvider<BranchSearchBloc>(
+            builder: (BuildContext context) => BranchSearchBloc(),
+          ),
         ],
         child: MaterialApp(
           title: 'TOPtodo',

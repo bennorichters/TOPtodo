@@ -30,28 +30,30 @@ class _LoginScreenState extends State<LoginScreen> {
           title: const Text('login'),
         ),
         body: BlocListener<LoginBloc, LoginState>(
-            listener: (BuildContext context, LoginState state) {
-          if (state is LoginSuccessNoSettings) {
-            Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
-              MaterialPageRoute<SettingsScreen>(
-                builder: (_) => SettingsScreen(),
-              ),
-            );
-          }
-        }, child: BlocBuilder<LoginBloc, LoginState>(
-          builder: (BuildContext context, LoginState state) {
-            if (state is LoginWaitingForSavedData) {
-              return buildLoading();
-            } else if (state is RetrievedSavedData) {
-              return buildInputFields(context, state.savedData);
-            } else if (state is LoginSuccessNoSettings) {
-              return const Text('Login success!');
-            } else {
-              print('State: $state');
-              return Container();
+          listener: (BuildContext context, LoginState state) {
+            if (state is LoginSuccessNoSettings) {
+              Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
+                MaterialPageRoute<SettingsScreen>(
+                  builder: (_) => SettingsScreen(),
+                ),
+              );
             }
           },
-        )),
+          child: BlocBuilder<LoginBloc, LoginState>(
+            builder: (BuildContext context, LoginState state) {
+              if (state is LoginWaitingForSavedData) {
+                return buildLoading();
+              } else if (state is RetrievedSavedData) {
+                return buildInputFields(context, state.savedData);
+              } else if (state is LoginSuccessNoSettings) {
+                return const Text('Login success!');
+              } else {
+                print('State: $state');
+                return Container();
+              }
+            },
+          ),
+        ),
       ),
     );
   }
