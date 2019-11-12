@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptopdo/data/model/topdesk_elements.dart';
@@ -5,6 +7,9 @@ import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'bloc/bloc.dart';
 
 class BranchSearchDelegate extends SearchDelegate<Branch> {
+  BranchSearchDelegate() : _debouncer = Debouncer(milliseconds: 500);
+  final Debouncer _debouncer;
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -63,6 +68,25 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    print('BranchSearchDelegate.buildSuggestions query: $query');
+    _debouncer.run(() => print('in debouncer query: $query'));
+
     return const Text('No suggestions available');
+  }
+}
+
+class Debouncer {
+  Debouncer({this.milliseconds});
+  final int milliseconds;
+
+  VoidCallback action;
+  Timer _timer;
+
+  void run(VoidCallback action) {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
