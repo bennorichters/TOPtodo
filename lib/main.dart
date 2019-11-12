@@ -45,7 +45,9 @@ class TopToDoApp extends StatelessWidget {
             ),
           ),
           BlocProvider<BranchSearchBloc>(
-            builder: (BuildContext context) => BranchSearchBloc(),
+            builder: (BuildContext context) => BranchSearchBloc(
+              RepositoryProvider.of<TopdeskProvider>(context),
+            ),
           ),
         ],
         child: MaterialApp(

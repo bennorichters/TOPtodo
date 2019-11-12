@@ -7,6 +7,9 @@ import 'model/topdesk_elements.dart';
 
 abstract class TopdeskProvider {
   void init(Credentials credentials);
+
+  // TODO: Make iterables?
+  Future<List<Branch>> fetchBranches(String startsWith);
   Future<List<IncidentDuration>> fetchDurations();
 }
 
@@ -51,6 +54,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     return json.decode(res.body);
   }
+
+  @override
+  Future<List<Branch>> fetchBranches(String startsWith) {
+    // TODO: implement fetchBranches
+    return null;
+  }
 }
 
 class FakeTopdeskProvider implements TopdeskProvider {
@@ -85,6 +94,36 @@ class FakeTopdeskProvider implements TopdeskProvider {
           name: '1 month',
         ),
       ],
+    );
+  }
+
+  @override
+  Future<List<Branch>> fetchBranches(String startsWith) {
+    final String swLower = startsWith.toLowerCase();
+    return Future<List<Branch>>.delayed(
+      Duration(seconds: 2),
+      () => <Branch>[
+        Branch(
+          id: 'a',
+          name: 'Branch A',
+        ),
+        Branch(
+          id: 'b',
+          name: 'Branch B',
+        ),
+        Branch(
+          id: 'c',
+          name: 'C Branch',
+        ),
+        Branch(
+          id: 'd',
+          name: 'D Branch',
+        ),
+        Branch(
+          id: 'e',
+          name: 'DD Branch',
+        ),
+      ].where((Branch b) => b.name.toLowerCase().startsWith(swLower)).toList(),
     );
   }
 }

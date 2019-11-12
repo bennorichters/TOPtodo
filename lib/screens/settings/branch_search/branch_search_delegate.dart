@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toptopdo/data/model/topdesk_elements.dart';
 
 import 'bloc/bloc.dart';
 
@@ -35,10 +36,11 @@ class BranchSearchDelegate extends SearchDelegate<String> {
         if (state is BranchSearchResults) {
           return ListView(
               children: state.results
-                  .map((String result) => ListTile(
-                        title: Text('---> $result'),
+                  .map((Branch branch) => ListTile(
+                        leading: Icon(Icons.location_city),
+                        title: Text(branch.name),
                         onTap: () {
-                          print(result);
+                          print(branch);
                         },
                       ))
                   .toList());

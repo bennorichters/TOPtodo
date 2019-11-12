@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:toptopdo/data/model/topdesk_elements.dart';
+import 'package:toptopdo/data/topdesk_api_provider.dart';
 import './bloc.dart';
 
 class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
+  BranchSearchBloc(this.topdeskProvider);
+  final TopdeskProvider topdeskProvider;
+
   @override
   BranchSearchState get initialState => BranchSearchInitialState();
 
@@ -11,13 +16,9 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
     BranchSearchEvent event,
   ) async* {
     if (event is BranchSearchQuery) {
-      yield const BranchSearchResults(
-        <String>[
-          'Amsterdam',
-          'Rotterdam',
-          'Delft',
-        ],
-      );
+      final List<Branch> results =
+          await topdeskProvider.fetchBranches(event.query);
+      yield BranchSearchResults(results);
     }
   }
 }
