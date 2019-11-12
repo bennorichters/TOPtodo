@@ -27,6 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (BuildContext context, SettingsState state) {
         if (state is SettingsTdData) {
+          print('SettingsScreenState.build state: $state');
           return Column(
             children: <Widget>[
               Row(
@@ -41,6 +42,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context: context,
                         delegate: BranchSearchDelegate(),
                       );
+
+                      print('Chose Branch: $chosenBranch');
 
                       BlocProvider.of<SettingsBloc>(context)
                         ..add(SettingsBranchSelected(chosenBranch));

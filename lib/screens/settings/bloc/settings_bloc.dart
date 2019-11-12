@@ -10,7 +10,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final TopdeskProvider topdeskProvider;
 
   Branch _branch;
-  List<IncidentDuration> _durations;
+  Iterable<IncidentDuration> _durations;
   IncidentDuration _duration;
 
   @override

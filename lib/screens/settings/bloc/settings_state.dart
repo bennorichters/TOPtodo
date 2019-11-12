@@ -13,7 +13,7 @@ class SettingsTdData extends SettingsState {
   });
 
   final Branch branch;
-  final List<IncidentDuration> durations;
+  final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
 
   @override
@@ -22,4 +22,11 @@ class SettingsTdData extends SettingsState {
         durations,
         duration,
       ];
+
+  @override
+  String toString() => 'SettingsState {'
+      'branch: $branch, '
+      'durations: $durations, '
+      'duration: $duration, '
+      '}';
 }

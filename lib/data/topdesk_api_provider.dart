@@ -8,9 +8,8 @@ import 'model/topdesk_elements.dart';
 abstract class TopdeskProvider {
   void init(Credentials credentials);
 
-  // TODO: Make iterables?
-  Future<List<Branch>> fetchBranches(String startsWith);
-  Future<List<IncidentDuration>> fetchDurations();
+  Future<Iterable<Branch>> fetchBranches(String startsWith);
+  Future<Iterable<IncidentDuration>> fetchDurations();
 }
 
 class ApiTopdeskProvider extends TopdeskProvider {
@@ -35,11 +34,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<List<IncidentDuration>> fetchDurations() async {
+  Future<Iterable<IncidentDuration>> fetchDurations() async {
     final List<dynamic> response = await _callApi();
     return response
-        .map((dynamic e) => IncidentDuration.fromMappedJson(e))
-        .toList();
+        .map((dynamic e) => IncidentDuration.fromMappedJson(e));
   }
 
   dynamic _callApi() async {
@@ -56,7 +54,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<List<Branch>> fetchBranches(String startsWith) {
+  Future<Iterable<Branch>> fetchBranches(String startsWith) {
     // TODO: implement fetchBranches
     return null;
   }
@@ -69,8 +67,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<List<IncidentDuration>> fetchDurations() async {
-    return Future<List<IncidentDuration>>.delayed(
+  Future<Iterable<IncidentDuration>> fetchDurations() async {
+    return Future<Iterable<IncidentDuration>>.delayed(
       Duration(seconds: 2),
       () => <IncidentDuration>[
         IncidentDuration(
@@ -98,9 +96,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<List<Branch>> fetchBranches(String startsWith) {
+  Future<Iterable<Branch>> fetchBranches(String startsWith) {
     final String swLower = startsWith.toLowerCase();
-    return Future<List<Branch>>.delayed(
+    return Future<Iterable<Branch>>.delayed(
       Duration(seconds: 2),
       () => <Branch>[
         Branch(
@@ -123,7 +121,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
           id: 'e',
           name: 'DD Branch',
         ),
-      ].where((Branch b) => b.name.toLowerCase().startsWith(swLower)).toList(),
+      ].where((Branch b) => b.name.toLowerCase().startsWith(swLower)),
     );
   }
 }

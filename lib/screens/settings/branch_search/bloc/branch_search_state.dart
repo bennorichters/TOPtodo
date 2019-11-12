@@ -12,7 +12,7 @@ class BranchSearchInitialState extends BranchSearchState {
 
 class BranchSearchResults extends BranchSearchState {
   const BranchSearchResults(this.results);
-  final List<Branch> results;
+  final Iterable<Branch> results;
 
   @override
   List<Object> get props => <Object> [results];
