@@ -7,8 +7,8 @@ import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'bloc/bloc.dart';
 
 class BranchSearchDelegate extends SearchDelegate<Branch> {
-  BranchSearchDelegate() : _debouncer = Debouncer(milliseconds: 500);
-  final Debouncer _debouncer;
+  BranchSearchDelegate() : _debouncer = _Debouncer(milliseconds: 500);
+  final _Debouncer _debouncer;
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -75,18 +75,14 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
   }
 }
 
-class Debouncer {
-  Debouncer({this.milliseconds});
+class _Debouncer {
+  _Debouncer({this.milliseconds});
   final int milliseconds;
 
-  VoidCallback action;
   Timer _timer;
 
   void run(VoidCallback action) {
-    if (_timer != null) {
-      _timer.cancel();
-    }
-
+    _timer?.cancel();
     _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
