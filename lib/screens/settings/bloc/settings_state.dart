@@ -7,22 +7,19 @@ abstract class SettingsState extends Equatable {
 
 class SettingsTdData extends SettingsState {
   const SettingsTdData({
-    this.branchId,
-    this.branchName,
+    this.branch,
     this.durations,
-    this.selectedDurationId,
+    this.duration,
   });
 
-  final String branchId;
-  final String branchName;
+  final Branch branch;
   final List<IncidentDuration> durations;
-  final String selectedDurationId;
+  final IncidentDuration duration;
 
   @override
   List<Object> get props => <Object>[
-        branchId,
-        branchName,
+        branch,
         durations,
-        selectedDurationId,
+        duration,
       ];
 }

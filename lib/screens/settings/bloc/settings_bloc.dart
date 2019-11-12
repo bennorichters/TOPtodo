@@ -8,7 +8,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc(this.topdeskProvider);
 
   final TopdeskProvider topdeskProvider;
-  List<IncidentDuration> durations;
+
+  Branch _branch;
+  List<IncidentDuration> _durations;
+  IncidentDuration _duration;
 
   @override
   SettingsState get initialState => const SettingsTdData();
@@ -18,18 +21,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
-      yield const SettingsTdData();
-
-      durations = await topdeskProvider.fetchDurations();
-      yield SettingsTdData(
-        durations: durations,
-        selectedDurationId: null,
-      );
+      yield _updatedState();
+      _durations = await topdeskProvider.fetchDurations();
+      yield _updatedState();
     } else if (event is SettingsDurationSelected) {
-      yield SettingsTdData(
-        durations: durations,
-        selectedDurationId: event.durationId,
-      );
+      _duration = event.duration;
+      yield _updatedState();
+    } else if (event is SettingsBranchSelected) {
+      _branch = event.branch;
+      yield _updatedState();
     } else {}
   }
+
+  SettingsTdData _updatedState() => SettingsTdData(
+    branch: _branch,
+    durations: _durations,
+    duration: _duration,
+  );
 }

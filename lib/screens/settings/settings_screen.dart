@@ -32,34 +32,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(
                 children: <Widget>[
                   Flexible(
-                    child: TextField(
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.greenAccent,
-                            width: 5.0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                            width: 5.0,
-                          ),
-                        ),
-                        hintText: 'Branch',
-                      ),
-                    ),
+                    child: Text((state.branch?.name) ?? 'Choose a branch'),
                   ),
                   IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () async {
-                      final String result = await showSearch(
+                      final Branch chosenBranch = await showSearch<Branch>(
                         context: context,
                         delegate: BranchSearchDelegate(),
                       );
 
-                      print(result);
+                      BlocProvider.of<SettingsBloc>(context)
+                        ..add(SettingsBranchSelected(chosenBranch));
                     },
                   ),
                 ],
@@ -69,8 +53,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               else
                 SearchList(
                   items: state.durations,
-                  selectedItem: state.selectedDurationId,
-                  onChangedCallBack: (String newValue) {
+                  selectedItem: state.duration,
+                  onChangedCallBack: (IncidentDuration newValue) {
                     BlocProvider.of<SettingsBloc>(context)
                       ..add(SettingsDurationSelected(newValue));
                   },
@@ -93,12 +77,12 @@ class SearchList extends StatelessWidget {
   });
 
   final List<IncidentDuration> items;
-  final String selectedItem;
-  final ValueChanged<String> onChangedCallBack;
+  final IncidentDuration selectedItem;
+  final ValueChanged<IncidentDuration> onChangedCallBack;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButton<IncidentDuration>(
       isExpanded: true,
       value: selectedItem,
       disabledHint: const Text('Waiting for data'),
@@ -119,10 +103,11 @@ class SearchList extends StatelessWidget {
       ),
       onChanged: onChangedCallBack,
       items: items
-          ?.map((IncidentDuration duration) => DropdownMenuItem<String>(
-                value: duration.id,
-                child: Text(duration.name),
-              ))
+          ?.map(
+              (IncidentDuration duration) => DropdownMenuItem<IncidentDuration>(
+                    value: duration,
+                    child: Text(duration.name),
+                  ))
           ?.toList(),
     );
   }

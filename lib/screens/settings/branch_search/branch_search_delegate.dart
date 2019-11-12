@@ -4,7 +4,7 @@ import 'package:toptopdo/data/model/topdesk_elements.dart';
 
 import 'bloc/bloc.dart';
 
-class BranchSearchDelegate extends SearchDelegate<String> {
+class BranchSearchDelegate extends SearchDelegate<Branch> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -40,7 +40,7 @@ class BranchSearchDelegate extends SearchDelegate<String> {
                         leading: Icon(Icons.location_city),
                         title: Text(branch.name),
                         onTap: () {
-                          print(branch);
+                          close(context, branch);
                         },
                       ))
                   .toList());
