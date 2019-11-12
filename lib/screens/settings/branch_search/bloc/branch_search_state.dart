@@ -10,6 +10,11 @@ class BranchSearchInitialState extends BranchSearchState {
   List<Object> get props => <Object> [];
 }
 
+ class BranchSearchSearching extends BranchSearchState {
+  @override
+  List<Object> get props => <Object> [];
+ }
+
 class BranchSearchResults extends BranchSearchState {
   const BranchSearchResults(this.results);
   final Iterable<Branch> results;

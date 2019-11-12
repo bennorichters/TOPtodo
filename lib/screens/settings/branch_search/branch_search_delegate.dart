@@ -29,10 +29,20 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
 
   @override
   Widget buildResults(BuildContext context) {
-    BlocProvider.of<BranchSearchBloc>(context)..add(BranchSearchQuery(query));
+    if (query.isNotEmpty) {
+      BlocProvider.of<BranchSearchBloc>(context)..add(BranchSearchQuery(query));
+    }
 
     return BlocBuilder<BranchSearchBloc, BranchSearchState>(
       builder: (BuildContext context, BranchSearchState state) {
+        if (state is BranchSearchInitialState) {
+          return const Text('Waiting for user input');
+        }
+
+        if (state is BranchSearchSearching) {
+          return const CircularProgressIndicator();
+        }
+
         if (state is BranchSearchResults) {
           return ListView(
               children: state.results
@@ -44,15 +54,15 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
                         },
                       ))
                   .toList());
-        } else {
-          return const Text('no results');
         }
+
+        throw StateError('unexpected state: $state');
       },
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Column();
+    return const Text('No suggestions available');
   }
 }
