@@ -40,6 +40,11 @@ class ApiTopdeskProvider extends TopdeskProvider {
         .map((dynamic e) => IncidentDuration.fromMappedJson(e));
   }
 
+  @override
+  Future<Iterable<Branch>> fetchBranches(String startsWith) {
+    return null;
+  }
+
   dynamic _callApi() async {
     if (_url == null) {
       throw StateError('call init first');
@@ -51,12 +56,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
     );
 
     return json.decode(res.body);
-  }
-
-  @override
-  Future<Iterable<Branch>> fetchBranches(String startsWith) {
-    // TODO: implement fetchBranches
-    return null;
   }
 }
 
