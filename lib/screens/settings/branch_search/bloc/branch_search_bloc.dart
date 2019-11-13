@@ -8,7 +8,6 @@ import './bloc.dart';
 class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   BranchSearchBloc(this.topdeskProvider);
   final TopdeskProvider topdeskProvider;
-
   final _Debouncer _debouncer = _Debouncer(milliseconds: 500);
 
   @override
@@ -27,8 +26,8 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
     } else if (event is BranchSearchIncompleteQuery) {
       yield BranchSearchSearching();
 
-      _debouncer.run(() => add(_BranchSearchDoIncompleteQuery(event.query)));
-    } else if (event is _BranchSearchDoIncompleteQuery) {
+      _debouncer.run(() => add(_BranchSearchIncompleteQueryReady(event.query)));
+    } else if (event is _BranchSearchIncompleteQueryReady) {
       final Iterable<Branch> results =
           await topdeskProvider.fetchBranches(event.query);
 
@@ -39,8 +38,8 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   }
 }
 
-class _BranchSearchDoIncompleteQuery extends BranchSearchEvent {
-  const _BranchSearchDoIncompleteQuery(this.query);
+class _BranchSearchIncompleteQueryReady extends BranchSearchEvent {
+  const _BranchSearchIncompleteQueryReady(this.query);
   final String query;
 
   @override
