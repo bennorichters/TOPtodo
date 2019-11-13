@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptopdo/data/model/topdesk_elements.dart';
@@ -7,9 +5,6 @@ import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'bloc/bloc.dart';
 
 class BranchSearchDelegate extends SearchDelegate<Branch> {
-  BranchSearchDelegate() : _debouncer = _Debouncer(milliseconds: 500);
-  final _Debouncer _debouncer;
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -38,7 +33,8 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
       return const Text('No suggestions available!');
     }
 
-    BlocProvider.of<BranchSearchBloc>(context)..add(BranchSearchQuery(query));
+    BlocProvider.of<BranchSearchBloc>(context)
+      ..add(BranchSearchFinishedQuery(query));
     return _stateDependendResult();
   }
 
@@ -48,27 +44,9 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
       return const Text('No suggestions available!');
     }
 
-    final Completer<Widget> completer = Completer<Widget>();
-      _debouncer.run(() {
-      completer.complete(_stateDependendResult());
-    });
-
-    return FutureBuilder<Widget>(
-        future: completer.future,
-        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            BlocProvider.of<BranchSearchBloc>(context)
-              ..add(BranchSearchQuery(query));
-            return snapshot.data;
-          }
-
-          throw StateError(
-              'unexpected snapshot.connectionState: ${snapshot.connectionState}');
-        });
+    BlocProvider.of<BranchSearchBloc>(context)
+      ..add(BranchSearchIncompleteQuery(query));
+    return _stateDependendResult();
   }
 
   BlocBuilder<BranchSearchBloc, BranchSearchState> _stateDependendResult() {
@@ -98,17 +76,5 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
         throw StateError('unexpected state: $state');
       },
     );
-  }
-}
-
-class _Debouncer {
-  _Debouncer({this.milliseconds});
-
-  final int milliseconds;
-  Timer _timer;
-
-  void run(VoidCallback action) {
-    _timer?.cancel();
-    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
