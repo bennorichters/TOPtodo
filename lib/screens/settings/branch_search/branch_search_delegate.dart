@@ -34,10 +34,44 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (query.isNotEmpty) {
-      BlocProvider.of<BranchSearchBloc>(context)..add(BranchSearchQuery(query));
+    if (query.isEmpty) {
+      return const Text('No suggestions available!');
     }
 
+    BlocProvider.of<BranchSearchBloc>(context)..add(BranchSearchQuery(query));
+    return _stateDependendResult();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.isEmpty) {
+      return const Text('No suggestions available!');
+    }
+
+    final Completer<Widget> completer = Completer<Widget>();
+      _debouncer.run(() {
+      completer.complete(_stateDependendResult());
+    });
+
+    return FutureBuilder<Widget>(
+        future: completer.future,
+        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            BlocProvider.of<BranchSearchBloc>(context)
+              ..add(BranchSearchQuery(query));
+            return snapshot.data;
+          }
+
+          throw StateError(
+              'unexpected snapshot.connectionState: ${snapshot.connectionState}');
+        });
+  }
+
+  BlocBuilder<BranchSearchBloc, BranchSearchState> _stateDependendResult() {
     return BlocBuilder<BranchSearchBloc, BranchSearchState>(
       builder: (BuildContext context, BranchSearchState state) {
         if (state is BranchSearchInitialState) {
@@ -65,20 +99,12 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
       },
     );
   }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    print('BranchSearchDelegate.buildSuggestions query: $query');
-    _debouncer.run(() => print('in debouncer query: $query'));
-
-    return const Text('No suggestions available');
-  }
 }
 
 class _Debouncer {
   _Debouncer({this.milliseconds});
-  final int milliseconds;
 
+  final int milliseconds;
   Timer _timer;
 
   void run(VoidCallback action) {

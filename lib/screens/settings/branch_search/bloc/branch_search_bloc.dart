@@ -19,6 +19,7 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
       yield BranchSearchSearching();
       final Iterable<Branch> results =
           await topdeskProvider.fetchBranches(event.query);
+
       yield BranchSearchResults(results);
     }
   }
