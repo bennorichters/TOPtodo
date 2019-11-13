@@ -59,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildLoading() {
-    return Center(
-      child: const CircularProgressIndicator(),
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 

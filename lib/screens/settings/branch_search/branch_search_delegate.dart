@@ -5,6 +5,9 @@ import 'package:toptopdo/data/model/topdesk_elements.dart';
 import 'bloc/bloc.dart';
 
 class BranchSearchDelegate extends SearchDelegate<Branch> {
+  static const Widget _emptyQueryText =
+      Center(child: Text('Start typing in the bar at the top'));
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -30,7 +33,7 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
   @override
   Widget buildResults(BuildContext context) {
     if (query.isEmpty) {
-      return const Text('No suggestions available!');
+      return _emptyQueryText;
     }
 
     BlocProvider.of<BranchSearchBloc>(context)
@@ -41,7 +44,7 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) {
-      return const Text('No suggestions available!');
+      return _emptyQueryText;
     }
 
     BlocProvider.of<BranchSearchBloc>(context)
@@ -53,24 +56,26 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
     return BlocBuilder<BranchSearchBloc, BranchSearchState>(
       builder: (BuildContext context, BranchSearchState state) {
         if (state is BranchSearchInitialState) {
-          return const Text('Waiting for user input');
+          return _emptyQueryText;
         }
 
         if (state is BranchSearchSearching) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state is BranchSearchResults) {
-          return ListView(
-              children: state.results
-                  .map((Branch branch) => ListTile(
-                        leading: Icon(Icons.location_city),
-                        title: Text(branch.name),
-                        onTap: () {
-                          close(context, branch);
-                        },
-                      ))
-                  .toList());
+          return state.results.isEmpty
+              ? Center(child: Text("No results for '$query'"))
+              : ListView(
+                  children: state.results
+                      .map((Branch branch) => ListTile(
+                            leading: Icon(Icons.location_city),
+                            title: Text(branch.name),
+                            onTap: () {
+                              close(context, branch);
+                            },
+                          ))
+                      .toList());
         }
 
         throw StateError('unexpected state: $state');
