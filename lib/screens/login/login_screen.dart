@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptopdo/data/model/credentials.dart';
+import 'package:toptopdo/models/credentials.dart';
 import 'package:toptopdo/screens/settings/settings_screen.dart';
 
 import 'bloc/bloc.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptopdo/data/model/topdesk_elements.dart';
+import 'package:toptopdo/models/topdesk_elements.dart';
 
 import 'bloc/bloc.dart';
 

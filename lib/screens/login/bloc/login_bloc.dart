@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:bloc/bloc.dart';
-import 'package:toptopdo/data/credentials_provider.dart';
-import 'package:toptopdo/data/model/credentials.dart';
-import 'package:toptopdo/data/model/settings.dart';
-import 'package:toptopdo/data/settings_provider.dart';
-import 'package:toptopdo/data/topdesk_api_provider.dart';
+import 'package:toptopdo/models/credentials.dart';
+import 'package:toptopdo/models/settings.dart';
+import 'package:toptopdo/repository_providers/credentials_provider.dart';
+import 'package:toptopdo/repository_providers/settings_provider.dart';
+import 'package:toptopdo/repository_providers/topdesk_api_provider.dart';
 import './bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {

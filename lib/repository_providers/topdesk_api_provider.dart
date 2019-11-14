@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:toptopdo/data/model/credentials.dart';
-
-import 'model/topdesk_elements.dart';
+import 'package:toptopdo/models/credentials.dart';
+import 'package:toptopdo/models/topdesk_elements.dart';
 
 abstract class TopdeskProvider {
   void init(Credentials credentials);
@@ -36,8 +35,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
     final List<dynamic> response = await _callApi();
-    return response
-        .map((dynamic e) => IncidentDuration.fromMappedJson(e));
+    return response.map((dynamic e) => IncidentDuration.fromMappedJson(e));
   }
 
   @override
@@ -69,7 +67,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<IncidentDuration>> fetchDurations() async {
     return Future<Iterable<IncidentDuration>>.delayed(
       Duration(seconds: 2),
-      () => <IncidentDuration>[
+      () => const <IncidentDuration>[
         IncidentDuration(
           id: 'a',
           name: '1 minute',
@@ -99,7 +97,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
     return Future<Iterable<Branch>>.delayed(
       Duration(seconds: 2),
-      () => <Branch>[
+      () => const <Branch>[
         Branch(
           id: 'a',
           name: 'Branch A',

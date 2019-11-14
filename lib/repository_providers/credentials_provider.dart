@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'model/credentials.dart';
+import 'package:toptopdo/models/credentials.dart';
 
 abstract class CredentialsProvider {
   Future<Credentials> provide();

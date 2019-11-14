@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptopdo/data/settings_provider.dart';
-import 'package:toptopdo/data/topdesk_api_provider.dart';
+import 'package:toptopdo/repository_providers/credentials_provider.dart';
+import 'package:toptopdo/repository_providers/settings_provider.dart';
+import 'package:toptopdo/repository_providers/topdesk_api_provider.dart';
 import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:toptopdo/screens/settings/branch_search/bloc/bloc.dart';
-
-import 'data/credentials_provider.dart';
 
 void main() => runApp(TopToDoApp());
 

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:toptopdo/data/model/topdesk_elements.dart';
+import 'package:toptopdo/models/topdesk_elements.dart';
 
 abstract class BranchSearchState extends Equatable {
   const BranchSearchState();

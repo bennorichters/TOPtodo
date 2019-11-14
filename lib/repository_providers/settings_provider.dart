@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
-import 'model/settings.dart';
+import 'package:toptopdo/models/settings.dart';
 
 typedef SettingsProviderFactory = SettingsProvider Function(
   String url,
