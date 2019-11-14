@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toptopdo/models/settings.dart';
-import 'package:toptopdo/repository_providers/settings_provider.dart';
+import 'package:toptopdo/repository_providers_impl/settings_provider.dart';
 
 void main() {
   setUp(() {

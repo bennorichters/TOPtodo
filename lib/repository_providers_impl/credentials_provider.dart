@@ -1,10 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:toptopdo/models/credentials.dart';
-
-abstract class CredentialsProvider {
-  Future<Credentials> provide();
-  Future<void> save(Credentials credentials);
-}
+import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
 
 class SecureStorageCredentials implements CredentialsProvider {
   @override

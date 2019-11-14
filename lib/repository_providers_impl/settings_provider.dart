@@ -2,16 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
 import 'package:toptopdo/models/settings.dart';
-
-typedef SettingsProviderFactory = SettingsProvider Function(
-  String url,
-  String loginName,
-);
-
-abstract class SettingsProvider {
-  Future<Settings> provide();
-  Future<void> save(Settings settings);
-}
+import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
 
 class SharedPreferencesSettingsProvider extends SettingsProvider {
   factory SharedPreferencesSettingsProvider(String url, String loginName) {

@@ -3,13 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:toptopdo/models/credentials.dart';
 import 'package:toptopdo/models/topdesk_elements.dart';
-
-abstract class TopdeskProvider {
-  void init(Credentials credentials);
-
-  Future<Iterable<Branch>> fetchBranches(String startsWith);
-  Future<Iterable<IncidentDuration>> fetchDurations();
-}
+import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
 
 class ApiTopdeskProvider extends TopdeskProvider {
   String _url;

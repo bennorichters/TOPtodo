@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptopdo/repository_providers/credentials_provider.dart';
-import 'package:toptopdo/repository_providers/settings_provider.dart';
-import 'package:toptopdo/repository_providers/topdesk_api_provider.dart';
+import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptopdo/repository_providers_impl/credentials_provider.dart';
+import 'package:toptopdo/repository_providers_impl/settings_provider.dart';
+import 'package:toptopdo/repository_providers_impl/topdesk_provider.dart';
 import 'package:toptopdo/screens/login/bloc/bloc.dart';
 import 'package:toptopdo/screens/login/login_screen.dart';
 import 'package:toptopdo/screens/settings/bloc/settings_bloc.dart';
