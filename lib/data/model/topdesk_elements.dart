@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class IncidentDuration {
-  IncidentDuration({
+class IncidentDuration extends Equatable {
+  const IncidentDuration({
     @required this.id,
     @required this.name,
   });
@@ -14,11 +15,14 @@ class IncidentDuration {
   final String name;
 
   @override
+  List<Object> get props => <Object> [id];
+
+  @override
   String toString() => name;
 }
 
-class Branch {
-  Branch({
+class Branch extends Equatable {
+  const Branch({
     @required this.id,
     @required this.name,
   });
@@ -29,6 +33,9 @@ class Branch {
 
   final String id;
   final String name;
+
+  @override
+  List<Object> get props => <Object> [id];
 
   @override
   String toString() => name;
