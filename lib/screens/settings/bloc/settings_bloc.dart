@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:toptopdo/models/topdesk_elements.dart';
-import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptodo_data/toptodo_data.dart';
+
 import './bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {

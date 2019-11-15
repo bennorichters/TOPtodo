@@ -1,0 +1,20 @@
+name: toptodo_topdesk_provider_mock
+description: Mock implementation for TopdeskProvider from the toptodo_data package
+version: 0.0.1
+author: Benno Richters <b.richters@gmail.com>
+repository: https://github.com/bennorichters/toptodo/
+issue_tracker: https://github.com/bennorichters/toptodo/issues
+homepage: https://github.com/bennorichters/toptodo/
+
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  toptodo_data:
+    path: ../toptodo_data
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

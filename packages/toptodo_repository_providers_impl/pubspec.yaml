@@ -1,0 +1,24 @@
+name: toptodo_repository_providers_impl
+description: Implementations for the RepositoryProviders defined in the toptodo_data package.
+version: 0.0.1
+author: Benno Richters <b.richters@gmail.com>
+repository: https://github.com/bennorichters/toptodo/
+issue_tracker: https://github.com/bennorichters/toptodo/issues
+homepage: https://github.com/bennorichters/toptodo/
+
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  toptodo_data:
+    path: ../toptodo_data
+  flutter_secure_storage: ^3.3.1+1
+  shared_preferences: ^0.5.4+3
+  crypto: ^2.1.3
+  http: ^0.12.0+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

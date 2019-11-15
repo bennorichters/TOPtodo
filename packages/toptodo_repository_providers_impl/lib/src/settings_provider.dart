@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
-import 'package:toptopdo/models/settings.dart';
-import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 class SharedPreferencesSettingsProvider extends SettingsProvider {
   factory SharedPreferencesSettingsProvider(String url, String loginName) {

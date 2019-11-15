@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:toptopdo/models/credentials.dart';
-import 'package:toptopdo/models/settings.dart';
-import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class LoginState extends Equatable {
   const LoginState();

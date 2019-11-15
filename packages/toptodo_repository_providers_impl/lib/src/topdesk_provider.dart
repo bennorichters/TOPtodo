@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:toptopdo/models/credentials.dart';
-import 'package:toptopdo/models/topdesk_elements.dart';
-import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 class ApiTopdeskProvider extends TopdeskProvider {
   String _url;

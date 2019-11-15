@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:toptopdo/models/topdesk_elements.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();

@@ -1,6 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:toptopdo/models/credentials.dart';
-import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 class SecureStorageCredentials implements CredentialsProvider {
   @override

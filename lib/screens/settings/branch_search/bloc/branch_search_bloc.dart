@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:toptopdo/models/topdesk_elements.dart';
-import 'package:toptopdo/repository_providers_api/repository_providers_api.dart';
+import 'package:toptodo_data/toptodo_data.dart';
+
 import './bloc.dart';
 
 class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {

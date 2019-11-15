@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:toptopdo/models/credentials.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();

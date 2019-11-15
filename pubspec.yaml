@@ -19,6 +19,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^1.0.0
+  equatable: ^0.6.1
+  flutter_secure_storage: ^3.3.1+1
+  shared_preferences: ^0.5.4+3
+  crypto: ^2.1.3
+  http: ^0.12.0+2
+  toptodo_data:
+    path: packages/toptodo_data
+  toptodo_repository_providers_impl:
+    path: packages/toptodo_repository_providers_impl
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -27,13 +37,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_bloc: ^1.0.0
-  equatable: ^0.6.1
-  flutter_secure_storage: ^3.3.1+1
-  shared_preferences: ^0.5.4+3
-  crypto: ^2.1.3
-  http: ^0.12.0+2
-
+  toptodo_topdesk_provider_mock:
+    path: packages/toptodo_topdesk_provider_mock
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

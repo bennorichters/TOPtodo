@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toptopdo/models/settings.dart';
-import 'package:toptopdo/repository_providers_impl/settings_provider.dart';
+import 'package:toptodo_data/toptodo_data.dart';
+
+import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
 
 void main() {
   setUp(() {
