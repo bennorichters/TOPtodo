@@ -16,33 +16,13 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Branch>> fetchBranches(String startsWith) {
+  Future<Iterable<Branch>> fetchBranches(String startsWith) async {
     final String swLower = startsWith.toLowerCase();
-    return Future<Iterable<Branch>>.delayed(
-      Duration(seconds: 2),
-      () => const <Branch>[
-        Branch(
-          id: 'a',
-          name: 'Branch A',
-        ),
-        Branch(
-          id: 'b',
-          name: 'Branch B',
-        ),
-        Branch(
-          id: 'c',
-          name: 'C Branch',
-        ),
-        Branch(
-          id: 'd',
-          name: 'D Branch',
-        ),
-        Branch(
-          id: 'e',
-          name: 'DD Branch',
-        ),
-      ].where((Branch b) => b.name.toLowerCase().startsWith(swLower)),
-    );
+
+    final List<dynamic> response = await _readJson('branches.json');
+    return response
+        .map((dynamic e) => Branch.fromMappedJson(e))
+        .where((Branch b) => b.name.toLowerCase().startsWith(swLower));
   }
 
   Future<List<dynamic>> _readJson(String file) async {
@@ -50,4 +30,3 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return json.decode(content);
   }
 }
-
