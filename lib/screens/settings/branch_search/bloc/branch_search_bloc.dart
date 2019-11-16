@@ -19,13 +19,13 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   ) async* {
     if (event is BranchSearchFinishedQuery) {
       yield BranchSearchSearching();
-      yield  await _queryBasedResults(event.query);
+      yield await _queryBasedResults(event.query);
     } else if (event is BranchSearchIncompleteQuery) {
       yield BranchSearchSearching();
 
       _debouncer.run(() => add(_BranchSearchIncompleteQueryReady(event.query)));
     } else if (event is _BranchSearchIncompleteQueryReady) {
-      yield  await _queryBasedResults(event.query);
+      yield await _queryBasedResults(event.query);
     } else {
       throw ArgumentError('unknown event $event');
     }
@@ -34,9 +34,8 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   Future<BranchSearchState> _queryBasedResults(String query) async {
     final Iterable<Branch> results =
         await topdeskProvider.fetchBranches(startsWith: query);
-    
-    final BranchSearchState branchSearchResults =
-        BranchSearchResults(results);
+
+    final BranchSearchState branchSearchResults = BranchSearchResults(results);
     return branchSearchResults;
   }
 }
