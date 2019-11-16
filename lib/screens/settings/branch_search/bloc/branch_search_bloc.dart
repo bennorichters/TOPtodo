@@ -8,7 +8,9 @@ import './bloc.dart';
 class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   BranchSearchBloc(this.topdeskProvider);
   final TopdeskProvider topdeskProvider;
-  final _Debouncer _debouncer = _Debouncer(milliseconds: 500);
+  final _Debouncer _debouncer = _Debouncer(
+    duration: const Duration(microseconds: 500),
+  );
 
   @override
   BranchSearchState get initialState => BranchSearchInitialState();
@@ -48,13 +50,13 @@ class _BranchSearchIncompleteQueryReady extends BranchSearchEvent {
 }
 
 class _Debouncer {
-  _Debouncer({this.milliseconds});
+  _Debouncer({this.duration});
 
-  final int milliseconds;
+  final Duration duration;
   Timer _timer;
 
   void run(VoidCallback action) {
     _timer?.cancel();
-    _timer = Timer(Duration(milliseconds: milliseconds), action);
+    _timer = Timer(duration, action);
   }
 }
