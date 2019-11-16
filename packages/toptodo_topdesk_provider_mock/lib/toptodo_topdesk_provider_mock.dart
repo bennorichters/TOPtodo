@@ -1,4 +1,6 @@
+import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class FakeTopdeskProvider implements TopdeskProvider {
@@ -9,31 +11,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
-    return Future<Iterable<IncidentDuration>>.delayed(
-      Duration(seconds: 2),
-      () => const <IncidentDuration>[
-        IncidentDuration(
-          id: 'a',
-          name: '1 minute',
-        ),
-        IncidentDuration(
-          id: 'b',
-          name: '1 hour',
-        ),
-        IncidentDuration(
-          id: 'c',
-          name: '2 hours',
-        ),
-        IncidentDuration(
-          id: 'd',
-          name: '1 week',
-        ),
-        IncidentDuration(
-          id: 'e',
-          name: '1 month',
-        ),
-      ],
-    );
+    final List<dynamic> response = await _readJson('durations.json');
+    return response.map((dynamic e) => IncidentDuration.fromMappedJson(e));
   }
 
   @override
@@ -65,4 +44,10 @@ class FakeTopdeskProvider implements TopdeskProvider {
       ].where((Branch b) => b.name.toLowerCase().startsWith(swLower)),
     );
   }
+
+  Future<List<dynamic>> _readJson(String file) async {
+    final String content = await rootBundle.loadString('json/' + file);
+    return json.decode(content);
+  }
 }
+
