@@ -1,65 +1,33 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
-class IncidentDuration extends Equatable {
-  const IncidentDuration({
-    @required this.id,
-    @required this.name,
-  });
+abstract class IdNameModel extends Equatable {
+  IdNameModel.fromMappedJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'];
 
+  final String id;
+  final String name;
+
+  @override
+  List<Object> get props => <Object>[id];
+
+  @override
+  String toString() => name;
+}
+
+class IncidentDuration extends IdNameModel {
   IncidentDuration.fromMappedJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-
-  final String id;
-  final String name;
-
-  @override
-  List<Object> get props => <Object> [id];
-
-  @override
-  String toString() => name;
+      : super.fromMappedJson(json);
 }
 
-class Branch extends Equatable {
-  const Branch({
-    @required this.id,
-    @required this.name,
-  });
-
-  Branch.fromMappedJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-
-  final String id;
-  final String name;
-
-  @override
-  List<Object> get props => <Object> [id];
-
-  @override
-  String toString() => name;
+class Branch extends IdNameModel {
+  Branch.fromMappedJson(Map<String, dynamic> json) : super.fromMappedJson(json);
 }
 
-class Person extends Equatable {
-  const Person({
-    @required this.id,
-    @required this.name,
-    @required this.branchid,
-  });
-
+class Person extends IdNameModel {
   Person.fromMappedJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        branchid = json['branchid'];
+      : branchid = json['branchid'],
+        super.fromMappedJson(json);
 
-  final String id;
-  final String name;
   final String branchid;
-
-  @override
-  List<Object> get props => <Object> [id];
-
-  @override
-  String toString() => name;
 }
