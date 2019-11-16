@@ -13,7 +13,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
     final List<dynamic> response = await _readJson('durations.json');
-    return response.map((dynamic e) => IncidentDuration.fromMappedJson(e));
+    return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
 
   @override
@@ -22,7 +22,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
     final List<dynamic> response = await _readJson('branches.json');
     return response
-        .map((dynamic e) => Branch.fromMappedJson(e))
+        .map((dynamic e) => Branch.fromJson(e))
         .where((Branch b) => b.name.toLowerCase().startsWith(swLower));
   }
 
@@ -43,7 +43,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson('persons.json');
-    return response.map((dynamic e) => Person.fromMappedJson(e)).where(
+    return response.map((dynamic e) => Person.fromJson(e)).where(
         (Person p) =>
             (p.branchid == branchId) &&
             p.name.toLowerCase().startsWith(swLower));

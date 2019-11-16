@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class IdNameModel extends Equatable {
-  IdNameModel.fromMappedJson(Map<String, dynamic> json)
+  IdNameModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'];
 
@@ -16,18 +16,17 @@ abstract class IdNameModel extends Equatable {
 }
 
 class IncidentDuration extends IdNameModel {
-  IncidentDuration.fromMappedJson(Map<String, dynamic> json)
-      : super.fromMappedJson(json);
+  IncidentDuration.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 class Branch extends IdNameModel {
-  Branch.fromMappedJson(Map<String, dynamic> json) : super.fromMappedJson(json);
+  Branch.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 class Person extends IdNameModel {
-  Person.fromMappedJson(Map<String, dynamic> json)
+  Person.fromJson(Map<String, dynamic> json)
       : branchid = json['branchid'],
-        super.fromMappedJson(json);
+        super.fromJson(json);
 
   final String branchid;
 }

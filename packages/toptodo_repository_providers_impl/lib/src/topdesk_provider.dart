@@ -28,7 +28,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
     final List<dynamic> response = await _callApi();
-    return response.map((dynamic e) => IncidentDuration.fromMappedJson(e));
+    return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
 
   @override
