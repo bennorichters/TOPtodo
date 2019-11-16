@@ -12,7 +12,16 @@ void main() {
 
   testWidgets('fetch branches', (WidgetTester t) async {
     final FakeTopdeskProvider ftp = FakeTopdeskProvider();
-    final Iterable<Branch> ds = await ftp.fetchBranches('E');
+    final Iterable<Branch> ds = await ftp.fetchBranches(startsWith: 'E');
     expect(ds.length, 3);
+  });
+
+  testWidgets('fetch persons', (WidgetTester t) async {
+    final FakeTopdeskProvider ftp = FakeTopdeskProvider();
+    final Iterable<Person> ds = await ftp.fetchPersons(
+      startsWith: 'A',
+      branchId: 'x',
+    );
+    expect(ds.length, isZero);
   });
 }

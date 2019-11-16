@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 import '../models/credentials.dart';
 import '../models/settings.dart';
@@ -21,6 +22,10 @@ abstract class SettingsProvider {
 abstract class TopdeskProvider {
   void init(Credentials credentials);
 
-  Future<Iterable<Branch>> fetchBranches(String startsWith);
+  Future<Iterable<Branch>> fetchBranches({@required String startsWith});
   Future<Iterable<IncidentDuration>> fetchDurations();
+  Future<Iterable<Person>> fetchPersons({
+    @required String startsWith,
+    @required String branchId,
+  });
 }

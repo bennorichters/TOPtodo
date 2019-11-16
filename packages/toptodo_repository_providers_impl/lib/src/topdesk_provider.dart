@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -31,7 +32,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Branch>> fetchBranches(String startsWith) {
+  Future<Iterable<Branch>> fetchBranches({@required String startsWith}) {
     return null;
   }
 
@@ -46,5 +47,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
     );
 
     return json.decode(res.body);
+  }
+
+  @override
+  Future<Iterable<Person>> fetchPersons({
+    @required String startsWith,
+    @required String branchId,
+  }) async {
+    return null;
   }
 }
