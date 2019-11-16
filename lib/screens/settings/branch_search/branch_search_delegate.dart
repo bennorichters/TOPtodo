@@ -37,7 +37,10 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
     }
 
     BlocProvider.of<BranchSearchBloc>(context)
-      ..add(BranchSearchFinishedQuery(query));
+      ..add(BranchSearchFinishedQuery(
+        type: Branch,
+        query: query,
+      ));
     return _stateDependendResult();
   }
 
@@ -48,7 +51,10 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
     }
 
     BlocProvider.of<BranchSearchBloc>(context)
-      ..add(BranchSearchIncompleteQuery(query));
+      ..add(BranchSearchIncompleteQuery(
+        type: Branch,
+        query: query,
+      ));
     return _stateDependendResult();
   }
 
