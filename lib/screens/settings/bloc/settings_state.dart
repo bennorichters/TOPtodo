@@ -10,11 +10,13 @@ class SettingsTdData extends SettingsState {
     this.branch,
     this.durations,
     this.duration,
+    this.person,
   });
 
   final Branch branch;
   final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
+  final Person person;
 
   @override
   List<Object> get props => <Object>[
@@ -28,5 +30,6 @@ class SettingsTdData extends SettingsState {
       'branch: $branch, '
       'durations: $durations, '
       'duration: $duration, '
+      'person: $person, '
       '}';
 }

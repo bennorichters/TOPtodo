@@ -42,11 +42,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         delegate: BranchSearchDelegate(),
                       );
 
-                      print('Chose Branch: $chosenBranch');
-
                       BlocProvider.of<SettingsBloc>(context)
                         ..add(SettingsBranchSelected(chosenBranch));
                     },
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: Text((state.person?.name) ??
+                        (state.branch == null
+                            ? 'First choose a branch'
+                            : 'Choose a person')),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: (state.branch == null) ? null : () async {},
                   ),
                 ],
               ),

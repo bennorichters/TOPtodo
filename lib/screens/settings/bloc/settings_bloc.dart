@@ -12,6 +12,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Branch _branch;
   Iterable<IncidentDuration> _durations;
   IncidentDuration _duration;
+  Person _person;
 
   @override
   SettingsState get initialState => const SettingsTdData();
@@ -30,12 +31,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else if (event is SettingsBranchSelected) {
       _branch = event.branch;
       yield _updatedState();
-    } else {}
+    } else if (event is SettingsPersonSelected) {
+      _person = event.person;
+    } else {
+      throw ArgumentError('unknown event $event');
+    }
   }
 
   SettingsTdData _updatedState() => SettingsTdData(
-    branch: _branch,
-    durations: _durations,
-    duration: _duration,
-  );
+        branch: _branch,
+        durations: _durations,
+        duration: _duration,
+        person: _person,
+      );
 }
