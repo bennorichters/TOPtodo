@@ -27,7 +27,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   Future<List<dynamic>> _readJson(String file) async {
-    final String content = await rootBundle.loadString('json/' + file);
+    // This explicit inclusion of the package name seems necessary.
+    // Unit tests will run without (only using 'json/'), but on
+    // a device that fails.
+    final String content = await rootBundle
+        .loadString('packages/toptodo_topdesk_provider_mock/json/' + file);
     return json.decode(content);
   }
 
