@@ -90,7 +90,7 @@ class SearchList extends StatelessWidget {
     this.onChangedCallBack,
   });
 
-  final List<IncidentDuration> items;
+  final Iterable<IncidentDuration> items;
   final IncidentDuration selectedItem;
   final ValueChanged<IncidentDuration> onChangedCallBack;
 
