@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptopdo/screens/settings/settings_screen.dart';
+import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'bloc/bloc.dart';

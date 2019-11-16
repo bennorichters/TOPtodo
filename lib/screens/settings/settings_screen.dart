@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toptopdo/screens/settings/bloc/settings_state.dart';
+import 'package:toptodo/screens/settings/bloc/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
