@@ -9,7 +9,7 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   BranchSearchBloc(this.topdeskProvider);
   final TopdeskProvider topdeskProvider;
   final _Debouncer _debouncer = _Debouncer(
-    duration: const Duration(microseconds: 500),
+    duration: const Duration(milliseconds: 500),
   );
 
   @override
