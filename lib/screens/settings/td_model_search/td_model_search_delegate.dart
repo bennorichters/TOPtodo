@@ -96,14 +96,17 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
               ? Center(child: Text("No results for '$query'"))
               : ListView(
                   children: state.results
-                      .map((TdModel model) => ListTile(
-                            leading: Icon(Icons.location_city),
-                            title: Text(model.name),
-                            onTap: () {
-                              close(context, model);
-                            },
-                          ))
-                      .toList());
+                      .map(
+                        (TdModel model) => ListTile(
+                          leading: Icon(Icons.location_city),
+                          title: Text(model.name),
+                          onTap: () {
+                            close(context, model);
+                          },
+                        ),
+                      )
+                      .toList(),
+                );
         }
 
         throw StateError('unexpected state: $state');
