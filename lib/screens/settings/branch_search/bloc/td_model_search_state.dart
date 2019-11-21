@@ -17,7 +17,7 @@ class TdModelSearchInitialState extends TdModelSearchState {
 
 class TdModelSearchResults extends TdModelSearchState {
   const TdModelSearchResults(this.results);
-  final Iterable<Branch> results;
+  final Iterable<TdModel> results;
 
   @override
   List<Object> get props => <Object> [results];

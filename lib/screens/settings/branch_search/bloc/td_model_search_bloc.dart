@@ -38,10 +38,23 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   }
 
   Future<TdModelSearchState> _queryBasedResults({SearchInfo searchInfo}) async {
-    final Iterable<Branch> results =
-        await topdeskProvider.fetchBranches(startsWith: searchInfo.query);
-
-    return TdModelSearchResults(results);
+    switch (searchInfo.type) {
+      case Branch:
+        return TdModelSearchResults(
+          await topdeskProvider.fetchBranches(
+            startsWith: searchInfo.query,
+          ),
+        );
+      case Person:
+        return TdModelSearchResults(
+          await topdeskProvider.fetchPersons(
+            branchId: searchInfo.linkedTo.id,
+            startsWith: searchInfo.query,
+          ),
+        );
+      default:
+        throw ArgumentError('no search for ${searchInfo.type}');
+    }
   }
 }
 

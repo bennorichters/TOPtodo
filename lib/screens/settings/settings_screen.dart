@@ -58,7 +58,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.search),
-                    onPressed: (state.branch == null) ? null : () async {},
+                    onPressed: (state.branch == null)
+                        ? null
+                        : () async {
+                            final Person chosenPerson =
+                                await showSearch<TdModel>(
+                              context: context,
+                              delegate: TdModelSearchDelegate.personsForBranch(
+                                branch: state.branch,
+                              ),
+                            );
+
+                            BlocProvider.of<SettingsBloc>(context)
+                              ..add(SettingsPersonSelected(chosenPerson));
+                          },
                   ),
                 ],
               ),

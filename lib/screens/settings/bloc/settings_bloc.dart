@@ -29,10 +29,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       _duration = event.duration;
       yield _updatedState();
     } else if (event is SettingsBranchSelected) {
+      _person = (_branch == event.branch) ? _person : null;
       _branch = event.branch;
       yield _updatedState();
     } else if (event is SettingsPersonSelected) {
       _person = event.person;
+      yield _updatedState();
     } else {
       throw ArgumentError('unknown event $event');
     }

@@ -23,6 +23,7 @@ class SettingsTdData extends SettingsState {
         branch,
         durations,
         duration,
+        person,
       ];
 
   @override
