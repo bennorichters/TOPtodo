@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text((state.branch?.name) ?? 'Choose a branch'),
                   ),
                   IconButton(
-                    icon: Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                     onPressed: () async {
                       final Branch chosenBranch = await showSearch<TdModel>(
                         context: context,
@@ -57,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             : 'Choose a person')),
                   ),
                   IconButton(
-                    icon: Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                     onPressed: (state.branch == null) ? null : () async {},
                   ),
                 ],
