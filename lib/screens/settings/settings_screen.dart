@@ -36,7 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.search),
-                    onPressed: _searchBranch(context, state),
+                    onPressed: _searchBranch(context),
                   ),
                 ],
               ),
@@ -50,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.search),
-                    onPressed: _searchPerson(context, state),
+                    onPressed: _searchPerson(context, state.branch),
                   ),
                 ],
               ),
@@ -74,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  VoidCallback _searchBranch(BuildContext context, SettingsTdData state) {
+  VoidCallback _searchBranch(BuildContext context) {
     return () async {
       final Branch chosenBranch = await showSearch<TdModel>(
         context: context,
@@ -86,14 +86,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     };
   }
 
-  VoidCallback _searchPerson(BuildContext context, SettingsTdData state) {
-    return (state.branch == null)
+  VoidCallback _searchPerson(BuildContext context, Branch branch) {
+    return (branch == null)
         ? null
         : () async {
             final Person chosenPerson = await showSearch<TdModel>(
               context: context,
               delegate: TdModelSearchDelegate.personsForBranch(
-                branch: state.branch,
+                branch: branch,
               ),
             );
 
