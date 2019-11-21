@@ -36,15 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.search),
-                    onPressed: () async {
-                      final Branch chosenBranch = await showSearch<TdModel>(
-                        context: context,
-                        delegate: TdModelSearchDelegate.allBranches(),
-                      );
-
-                      BlocProvider.of<SettingsBloc>(context)
-                        ..add(SettingsBranchSelected(chosenBranch));
-                    },
+                    onPressed: _searchBranch(context, state),
                   ),
                 ],
               ),
@@ -58,20 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.search),
-                    onPressed: (state.branch == null)
-                        ? null
-                        : () async {
-                            final Person chosenPerson =
-                                await showSearch<TdModel>(
-                              context: context,
-                              delegate: TdModelSearchDelegate.personsForBranch(
-                                branch: state.branch,
-                              ),
-                            );
-
-                            BlocProvider.of<SettingsBloc>(context)
-                              ..add(SettingsPersonSelected(chosenPerson));
-                          },
+                    onPressed: _searchPerson(context, state),
                   ),
                 ],
               ),
@@ -93,6 +72,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
         }
       }),
     );
+  }
+
+  VoidCallback _searchBranch(BuildContext context, SettingsTdData state) {
+    return () async {
+      final Branch chosenBranch = await showSearch<TdModel>(
+        context: context,
+        delegate: TdModelSearchDelegate.allBranches(),
+      );
+
+      BlocProvider.of<SettingsBloc>(context)
+        ..add(SettingsBranchSelected(chosenBranch));
+    };
+  }
+
+  VoidCallback _searchPerson(BuildContext context, SettingsTdData state) {
+    return (state.branch == null)
+        ? null
+        : () async {
+            final Person chosenPerson = await showSearch<TdModel>(
+              context: context,
+              delegate: TdModelSearchDelegate.personsForBranch(
+                branch: state.branch,
+              ),
+            );
+
+            BlocProvider.of<SettingsBloc>(context)
+              ..add(SettingsPersonSelected(chosenPerson));
+          };
   }
 }
 
