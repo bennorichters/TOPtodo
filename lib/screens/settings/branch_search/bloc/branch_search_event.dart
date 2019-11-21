@@ -5,8 +5,8 @@ abstract class BranchSearchEvent extends Equatable {
   const BranchSearchEvent();
 }
 
-class BranchSearchFinishedQuery extends BranchSearchEvent {
-  const BranchSearchFinishedQuery({
+class SearchInfo extends Equatable {
+  const SearchInfo({
     @required this.type,
     @required this.linkedTo,
     @required this.query,
@@ -19,16 +19,20 @@ class BranchSearchFinishedQuery extends BranchSearchEvent {
   List<Object> get props => <Object>[type, linkedTo, query];
 }
 
-class BranchSearchIncompleteQuery extends BranchSearchEvent {
-  const BranchSearchIncompleteQuery({
-    @required this.type,
-    @required this.linkedTo,
-    @required this.query,
-  });
-  final Type type;
-  final Type linkedTo;
-  final String query;
+abstract class SearchInfoEvent extends BranchSearchEvent {
+  const SearchInfoEvent({@required this.searchInfo});
+  final SearchInfo searchInfo;
 
   @override
-  List<Object> get props => <Object>[type, linkedTo, query];
+  List<Object> get props => <Object>[searchInfo];
+}
+
+class BranchSearchFinishedQuery extends SearchInfoEvent {
+  const BranchSearchFinishedQuery({@required SearchInfo searchInfo})
+      : super(searchInfo: searchInfo);
+}
+
+class BranchSearchIncompleteQuery extends SearchInfoEvent {
+  const BranchSearchIncompleteQuery({@required SearchInfo searchInfo})
+      : super(searchInfo: searchInfo);
 }

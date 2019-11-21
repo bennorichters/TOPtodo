@@ -21,32 +21,33 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
   ) async* {
     if (event is BranchSearchFinishedQuery) {
       yield BranchSearchSearching();
-      yield await _queryBasedResults(event.query);
+      yield await _queryBasedResults(searchInfo: event.searchInfo);
     } else if (event is BranchSearchIncompleteQuery) {
       yield BranchSearchSearching();
 
-      _debouncer.run(() => add(_BranchSearchIncompleteQueryReady(event.query)));
+      _debouncer.run(
+        () => add(
+          _BranchSearchIncompleteQueryReady(searchInfo: event.searchInfo),
+        ),
+      );
     } else if (event is _BranchSearchIncompleteQueryReady) {
-      yield await _queryBasedResults(event.query);
+      yield await _queryBasedResults(searchInfo: event.searchInfo);
     } else {
       throw ArgumentError('unknown event $event');
     }
   }
 
-  Future<BranchSearchState> _queryBasedResults(String query) async {
+  Future<BranchSearchState> _queryBasedResults({SearchInfo searchInfo}) async {
     final Iterable<Branch> results =
-        await topdeskProvider.fetchBranches(startsWith: query);
+        await topdeskProvider.fetchBranches(startsWith: searchInfo.query);
 
     return BranchSearchResults(results);
   }
 }
 
-class _BranchSearchIncompleteQueryReady extends BranchSearchEvent {
-  const _BranchSearchIncompleteQueryReady(this.query);
-  final String query;
-
-  @override
-  List<Object> get props => <Object>[query];
+class _BranchSearchIncompleteQueryReady extends SearchInfoEvent {
+  const _BranchSearchIncompleteQueryReady({@required SearchInfo searchInfo})
+      : super(searchInfo: searchInfo);
 }
 
 class _Debouncer {
