@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'bloc/bloc.dart';
-import 'branch_search/td_model_search_delegate.dart';
+import 'td_model_search/td_model_search_delegate.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
