@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () async {
                       final Branch chosenBranch = await showSearch<Branch>(
                         context: context,
-                        delegate: BranchSearchDelegate(),
+                        delegate: BranchSearchDelegate.allOf(type: Branch),
                       );
 
                       BlocProvider.of<SettingsBloc>(context)

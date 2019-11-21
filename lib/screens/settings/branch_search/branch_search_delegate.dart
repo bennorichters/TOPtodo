@@ -5,6 +5,19 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'bloc/bloc.dart';
 
 class BranchSearchDelegate extends SearchDelegate<Branch> {
+  BranchSearchDelegate.allOf({@required Type type})
+      : _type = type,
+        _linkedTo = null;
+
+  BranchSearchDelegate._linkedTo({
+    @required Type type,
+    @required Type linkedTo,
+  })  : _type = type,
+        _linkedTo = linkedTo;
+
+  final Type _type;
+  final Type _linkedTo;
+
   static const Widget _emptyQueryText =
       Center(child: Text('Start typing in the bar at the top'));
 
@@ -38,7 +51,8 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
 
     BlocProvider.of<BranchSearchBloc>(context)
       ..add(BranchSearchFinishedQuery(
-        type: Branch,
+        type: _type,
+        linkedTo: _linkedTo,
         query: query,
       ));
     return _stateDependendResult();
@@ -52,7 +66,8 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
 
     BlocProvider.of<BranchSearchBloc>(context)
       ..add(BranchSearchIncompleteQuery(
-        type: Branch,
+        type: _type,
+        linkedTo: _linkedTo,
         query: query,
       ));
     return _stateDependendResult();
