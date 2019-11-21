@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-abstract class BranchSearchEvent extends Equatable {
-  const BranchSearchEvent();
+abstract class TdModelSearchEvent extends Equatable {
+  const TdModelSearchEvent();
 }
 
 class SearchInfo extends Equatable {
@@ -19,20 +19,20 @@ class SearchInfo extends Equatable {
   List<Object> get props => <Object>[type, linkedTo, query];
 }
 
-abstract class SearchInfoEvent extends BranchSearchEvent {
-  const SearchInfoEvent({@required this.searchInfo});
+abstract class TdModelSearchInfoEvent extends TdModelSearchEvent {
+  const TdModelSearchInfoEvent({@required this.searchInfo});
   final SearchInfo searchInfo;
 
   @override
   List<Object> get props => <Object>[searchInfo];
 }
 
-class BranchSearchFinishedQuery extends SearchInfoEvent {
-  const BranchSearchFinishedQuery({@required SearchInfo searchInfo})
+class TdModelSearchFinishedQuery extends TdModelSearchInfoEvent {
+  const TdModelSearchFinishedQuery({@required SearchInfo searchInfo})
       : super(searchInfo: searchInfo);
 }
 
-class BranchSearchIncompleteQuery extends SearchInfoEvent {
-  const BranchSearchIncompleteQuery({@required SearchInfo searchInfo})
+class TdModelSearchIncompleteQuery extends TdModelSearchInfoEvent {
+  const TdModelSearchIncompleteQuery({@required SearchInfo searchInfo})
       : super(searchInfo: searchInfo);
 }

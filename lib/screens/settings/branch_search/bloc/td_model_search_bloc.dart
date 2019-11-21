@@ -5,25 +5,25 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';
 
-class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
-  BranchSearchBloc(this.topdeskProvider);
+class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
+  TdModelSearchBloc(this.topdeskProvider);
   final TopdeskProvider topdeskProvider;
   final _Debouncer _debouncer = _Debouncer(
     duration: const Duration(milliseconds: 500),
   );
 
   @override
-  BranchSearchState get initialState => BranchSearchInitialState();
+  TdModelSearchState get initialState => TdModelSearchInitialState();
 
   @override
-  Stream<BranchSearchState> mapEventToState(
-    BranchSearchEvent event,
+  Stream<TdModelSearchState> mapEventToState(
+    TdModelSearchEvent event,
   ) async* {
-    if (event is BranchSearchFinishedQuery) {
-      yield BranchSearchSearching();
+    if (event is TdModelSearchFinishedQuery) {
+      yield TdModelSearching();
       yield await _queryBasedResults(searchInfo: event.searchInfo);
-    } else if (event is BranchSearchIncompleteQuery) {
-      yield BranchSearchSearching();
+    } else if (event is TdModelSearchIncompleteQuery) {
+      yield TdModelSearching();
 
       _debouncer.run(
         () => add(
@@ -37,15 +37,15 @@ class BranchSearchBloc extends Bloc<BranchSearchEvent, BranchSearchState> {
     }
   }
 
-  Future<BranchSearchState> _queryBasedResults({SearchInfo searchInfo}) async {
+  Future<TdModelSearchState> _queryBasedResults({SearchInfo searchInfo}) async {
     final Iterable<Branch> results =
         await topdeskProvider.fetchBranches(startsWith: searchInfo.query);
 
-    return BranchSearchResults(results);
+    return TdModelSearchResults(results);
   }
 }
 
-class _BranchSearchIncompleteQueryReady extends SearchInfoEvent {
+class _BranchSearchIncompleteQueryReady extends TdModelSearchInfoEvent {
   const _BranchSearchIncompleteQueryReady({@required SearchInfo searchInfo})
       : super(searchInfo: searchInfo);
 }

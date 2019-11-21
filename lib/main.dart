@@ -44,8 +44,8 @@ class TopToDoApp extends StatelessWidget {
               RepositoryProvider.of<TopdeskProvider>(context),
             ),
           ),
-          BlocProvider<BranchSearchBloc>(
-            builder: (BuildContext context) => BranchSearchBloc(
+          BlocProvider<TdModelSearchBloc>(
+            builder: (BuildContext context) => TdModelSearchBloc(
               RepositoryProvider.of<TopdeskProvider>(context),
             ),
           ),

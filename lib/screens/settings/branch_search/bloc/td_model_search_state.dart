@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-abstract class BranchSearchState extends Equatable {
-  const BranchSearchState();
+abstract class TdModelSearchState extends Equatable {
+  const TdModelSearchState();
 }
 
-class BranchSearchInitialState extends BranchSearchState {
+class TdModelSearchInitialState extends TdModelSearchState {
   @override
   List<Object> get props => <Object> [];
 }
 
- class BranchSearchSearching extends BranchSearchState {
+ class TdModelSearching extends TdModelSearchState {
   @override
   List<Object> get props => <Object> [];
  }
 
-class BranchSearchResults extends BranchSearchState {
-  const BranchSearchResults(this.results);
+class TdModelSearchResults extends TdModelSearchState {
+  const TdModelSearchResults(this.results);
   final Iterable<Branch> results;
 
   @override

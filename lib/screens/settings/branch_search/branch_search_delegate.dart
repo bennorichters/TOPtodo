@@ -49,9 +49,9 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
       return _emptyQueryText;
     }
 
-    BlocProvider.of<BranchSearchBloc>(context)
+    BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
-        BranchSearchFinishedQuery(
+        TdModelSearchFinishedQuery(
           searchInfo: SearchInfo(
             type: _type,
             linkedTo: _linkedTo,
@@ -68,9 +68,9 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
       return _emptyQueryText;
     }
 
-    BlocProvider.of<BranchSearchBloc>(context)
+    BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
-        BranchSearchIncompleteQuery(
+        TdModelSearchIncompleteQuery(
           searchInfo: SearchInfo(
             type: _type,
             linkedTo: _linkedTo,
@@ -81,18 +81,18 @@ class BranchSearchDelegate extends SearchDelegate<Branch> {
     return _stateDependendResult();
   }
 
-  BlocBuilder<BranchSearchBloc, BranchSearchState> _stateDependendResult() {
-    return BlocBuilder<BranchSearchBloc, BranchSearchState>(
-      builder: (BuildContext context, BranchSearchState state) {
-        if (state is BranchSearchInitialState) {
+  BlocBuilder<TdModelSearchBloc, TdModelSearchState> _stateDependendResult() {
+    return BlocBuilder<TdModelSearchBloc, TdModelSearchState>(
+      builder: (BuildContext context, TdModelSearchState state) {
+        if (state is TdModelSearchInitialState) {
           return _emptyQueryText;
         }
 
-        if (state is BranchSearchSearching) {
+        if (state is TdModelSearching) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state is BranchSearchResults) {
+        if (state is TdModelSearchResults) {
           return state.results.isEmpty
               ? Center(child: Text("No results for '$query'"))
               : ListView(
