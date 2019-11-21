@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () async {
                       final Branch chosenBranch = await showSearch<IdNameModel>(
                         context: context,
-                        delegate: TdModelSearchDelegate.allOf(type: Branch),
+                        delegate: TdModelSearchDelegate.allBranches(),
                       );
 
                       BlocProvider.of<SettingsBloc>(context)

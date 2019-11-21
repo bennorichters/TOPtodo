@@ -5,18 +5,17 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'bloc/bloc.dart';
 
 class TdModelSearchDelegate extends SearchDelegate<IdNameModel> {
-  TdModelSearchDelegate.allOf({@required Type type})
-      : _type = type,
+  TdModelSearchDelegate.allBranches()
+      : _type = Branch,
         _linkedTo = null;
 
-  TdModelSearchDelegate._linkedTo({
-    @required Type type,
-    @required Type linkedTo,
-  })  : _type = type,
-        _linkedTo = linkedTo;
+  TdModelSearchDelegate.personsForBranch({
+    @required Branch branch,
+  })  : _type = Person,
+        _linkedTo = branch;
 
   final Type _type;
-  final Type _linkedTo;
+  final IdNameModel _linkedTo;
 
   static const Widget _emptyQueryText =
       Center(child: Text('Start typing in the bar at the top'));
