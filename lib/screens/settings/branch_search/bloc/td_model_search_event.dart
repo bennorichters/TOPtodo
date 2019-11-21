@@ -13,7 +13,7 @@ class SearchInfo extends Equatable {
     @required this.query,
   });
   final Type type;
-  final IdNameModel linkedTo;
+  final TdModel linkedTo;
   final String query;
 
   @override

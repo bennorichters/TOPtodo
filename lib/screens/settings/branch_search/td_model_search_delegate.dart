@@ -4,7 +4,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'bloc/bloc.dart';
 
-class TdModelSearchDelegate extends SearchDelegate<IdNameModel> {
+class TdModelSearchDelegate extends SearchDelegate<TdModel> {
   TdModelSearchDelegate.allBranches()
       : _type = Branch,
         _linkedTo = null;
@@ -15,7 +15,7 @@ class TdModelSearchDelegate extends SearchDelegate<IdNameModel> {
         _linkedTo = branch;
 
   final Type _type;
-  final IdNameModel _linkedTo;
+  final TdModel _linkedTo;
 
   static const Widget _emptyQueryText =
       Center(child: Text('Start typing in the bar at the top'));
@@ -96,7 +96,7 @@ class TdModelSearchDelegate extends SearchDelegate<IdNameModel> {
               ? Center(child: Text("No results for '$query'"))
               : ListView(
                   children: state.results
-                      .map((IdNameModel model) => ListTile(
+                      .map((TdModel model) => ListTile(
                             leading: Icon(Icons.location_city),
                             title: Text(model.name),
                             onTap: () {
