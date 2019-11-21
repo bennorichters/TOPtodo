@@ -4,12 +4,12 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'bloc/bloc.dart';
 
-class BranchSearchDelegate extends SearchDelegate<Branch> {
-  BranchSearchDelegate.allOf({@required Type type})
+class TdModelSearchDelegate extends SearchDelegate<Branch> {
+  TdModelSearchDelegate.allOf({@required Type type})
       : _type = type,
         _linkedTo = null;
 
-  BranchSearchDelegate._linkedTo({
+  TdModelSearchDelegate._linkedTo({
     @required Type type,
     @required Type linkedTo,
   })  : _type = type,
