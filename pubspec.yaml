@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  equatable: ^0.6.1
+  equatable: ^1.0.0
   flutter_bloc: ^2.0.0
   toptodo_data:
     path: packages/toptodo_data
