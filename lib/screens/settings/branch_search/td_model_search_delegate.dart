@@ -4,7 +4,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'bloc/bloc.dart';
 
-class TdModelSearchDelegate extends SearchDelegate<Branch> {
+class TdModelSearchDelegate extends SearchDelegate<IdNameModel> {
   TdModelSearchDelegate.allOf({@required Type type})
       : _type = type,
         _linkedTo = null;
@@ -97,11 +97,11 @@ class TdModelSearchDelegate extends SearchDelegate<Branch> {
               ? Center(child: Text("No results for '$query'"))
               : ListView(
                   children: state.results
-                      .map((Branch branch) => ListTile(
+                      .map((IdNameModel model) => ListTile(
                             leading: Icon(Icons.location_city),
-                            title: Text(branch.name),
+                            title: Text(model.name),
                             onTap: () {
-                              close(context, branch);
+                              close(context, model);
                             },
                           ))
                       .toList());

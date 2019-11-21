@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () async {
-                      final Branch chosenBranch = await showSearch<Branch>(
+                      final Branch chosenBranch = await showSearch<IdNameModel>(
                         context: context,
                         delegate: TdModelSearchDelegate.allOf(type: Branch),
                       );
