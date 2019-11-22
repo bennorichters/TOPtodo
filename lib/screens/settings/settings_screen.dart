@@ -55,9 +55,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               if (state.durations == null)
-                const SearchList()
+                const SearchList<IncidentDuration>(
+                  name: 'Duration',
+                )
               else
-                SearchList(
+                SearchList<IncidentDuration>(
+                  name: 'Duration',
                   items: state.durations,
                   selectedItem: state.duration,
                   onChangedCallBack: (IncidentDuration newValue) {
@@ -103,24 +106,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
-class SearchList extends StatelessWidget {
+class SearchList<T extends TdModel> extends StatelessWidget {
   const SearchList({
+    @required this.name,
     this.items,
     this.selectedItem,
     this.onChangedCallBack,
   });
 
-  final Iterable<IncidentDuration> items;
-  final IncidentDuration selectedItem;
-  final ValueChanged<IncidentDuration> onChangedCallBack;
+  final String name;
+  final Iterable<T> items;
+  final T selectedItem;
+  final ValueChanged<T> onChangedCallBack;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<IncidentDuration>(
+    return DropdownButton<T>(
       isExpanded: true,
       value: selectedItem,
       disabledHint: const Text('Waiting for data'),
-      hint: const Text('Duration'),
+      hint: Text(name),
       icon: items == null
           ? const SizedBox(
               height: 20,
@@ -137,11 +142,10 @@ class SearchList extends StatelessWidget {
       ),
       onChanged: onChangedCallBack,
       items: items
-          ?.map(
-              (IncidentDuration duration) => DropdownMenuItem<IncidentDuration>(
-                    value: duration,
-                    child: Text(duration.name),
-                  ))
+          ?.map((T tdModel) => DropdownMenuItem<T>(
+                value: tdModel,
+                child: Text(tdModel.name),
+              ))
           ?.toList(),
     );
   }
