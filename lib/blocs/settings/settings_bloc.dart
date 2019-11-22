@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:toptodo/screens/settings/bloc/settings_state.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import 'bloc/bloc.dart';
 
 class TdModelSearchDelegate extends SearchDelegate<TdModel> {
   TdModelSearchDelegate.allBranches()
