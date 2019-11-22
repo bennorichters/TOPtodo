@@ -15,12 +15,12 @@ abstract class TdModel extends Equatable {
   String toString() => name;
 }
 
-class IncidentDuration extends TdModel {
-  IncidentDuration.fromJson(Map<String, dynamic> json) : super.fromJson(json);
-}
-
 class Branch extends TdModel {
   Branch.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+}
+
+class IncidentDuration extends TdModel {
+  IncidentDuration.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 class Person extends TdModel {
