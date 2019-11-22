@@ -18,7 +18,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
-      yield _updatedState();
       yield _updatedState(durations: await topdeskProvider.fetchDurations());
     } else if (event is SettingsDurationSelected) {
       yield _updatedState(duration: event.duration);
