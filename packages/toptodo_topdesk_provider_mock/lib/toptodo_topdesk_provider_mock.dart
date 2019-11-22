@@ -63,14 +63,14 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<SubCategory>> fetchSubCategories({String categoryId}) async {
+  Future<Iterable<SubCategory>> fetchSubCategories({Category category}) async {
     final List<dynamic> response = await _readJson('categories.json');
     return response
         .map(
           (dynamic e) => SubCategory.fromJson(e),
         )
         .where(
-          (SubCategory s) => s.categoryId == categoryId,
+          (SubCategory s) => s.categoryId == category.id,
         );
   }
 
