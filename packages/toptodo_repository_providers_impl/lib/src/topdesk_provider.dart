@@ -56,4 +56,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }) async {
     return null;
   }
+
+  @override
+  Future<Iterable<Category>> fetchCategories() {
+    return null;
+  }
+
+  @override
+  Future<Iterable<SubCategory>> fetchSubCategories({String categoryId}) {
+    return null;
+  }
 }

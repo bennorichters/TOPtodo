@@ -22,8 +22,14 @@ abstract class SettingsProvider {
 abstract class TopdeskProvider {
   void init(Credentials credentials);
 
-  Future<Iterable<Branch>> fetchBranches({@required String startsWith});
+  Future<Iterable<Branch>> fetchBranches({
+    @required String startsWith,
+  });
   Future<Iterable<IncidentDuration>> fetchDurations();
+  Future<Iterable<Category>> fetchCategories();
+  Future<Iterable<SubCategory>> fetchSubCategories({
+    @required String categoryId,
+  });
   Future<Iterable<Person>> fetchPersons({
     @required String startsWith,
     @required String branchId,

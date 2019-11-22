@@ -41,6 +41,18 @@ class FakeTopdeskProvider implements TopdeskProvider {
         (p.branchid == branchId) && p.name.toLowerCase().startsWith(swLower));
   }
 
+  @override
+  Future<Iterable<Category>> fetchCategories() {
+    // TODO: implement fetchCategories
+    return null;
+  }
+
+  @override
+  Future<Iterable<SubCategory>> fetchSubCategories({String categoryId}) {
+    // TODO: implement fetchSubCategories
+    return null;
+  }
+
   Future<List<dynamic>> _readJson(String file) async {
     // This explicit inclusion of the package name seems necessary.
     // Unit tests will run without (only using 'json/'), but on
