@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -20,7 +22,9 @@ void main() {
     final FakeTopdeskProvider ftp = FakeTopdeskProvider();
     final Iterable<Person> ds = await ftp.fetchPersons(
       startsWith: 'A',
-      branchId: 'x',
+      linkedTo: Branch.fromJson(
+        jsonDecode('{"id": "g", "name": "EEE Branch"}'),
+      ),
     );
     expect(ds.length, isZero);
   });
