@@ -56,20 +56,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ],
               ),
-              if (state.durations == null)
-                const SearchList<IncidentDuration>(
-                  name: 'Duration',
-                )
-              else
-                SearchList<IncidentDuration>(
-                  name: 'Duration',
-                  items: state.durations,
-                  selectedItem: state.duration,
-                  onChangedCallBack: (IncidentDuration newValue) {
-                    BlocProvider.of<SettingsBloc>(context)
-                      ..add(SettingsDurationSelected(newValue));
-                  },
-                ),
+              SearchList<IncidentDuration>(
+                name: 'Duration',
+                items: state.durations,
+                selectedItem: state.duration,
+                onChangedCallBack: (IncidentDuration newValue) {
+                  BlocProvider.of<SettingsBloc>(context)
+                    ..add(SettingsDurationSelected(newValue));
+                },
+              ),
             ],
           );
         } else {
