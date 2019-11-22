@@ -7,12 +7,16 @@ abstract class SettingsState extends Equatable {
 
 class SettingsTdData extends SettingsState {
   const SettingsTdData({
+    this.categories,
+    this.category,
     this.branch,
     this.durations,
     this.duration,
     this.person,
   });
 
+  final Iterable<Category> categories;
+  final Category category;
   final Branch branch;
   final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
@@ -20,6 +24,8 @@ class SettingsTdData extends SettingsState {
 
   @override
   List<Object> get props => <Object>[
+        categories,
+        category,
         branch,
         durations,
         duration,
@@ -28,6 +34,8 @@ class SettingsTdData extends SettingsState {
 
   @override
   String toString() => 'SettingsState {'
+      'categories: $categories, '
+      'category: $category, '
       'branch: $branch, '
       'durations: $durations, '
       'duration: $duration, '
