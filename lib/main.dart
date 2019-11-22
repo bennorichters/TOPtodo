@@ -4,7 +4,7 @@ import 'package:toptodo/screens/login/bloc/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/settings/bloc/settings_bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:toptodo/screens/settings/td_model_search/bloc/bloc.dart';
+import 'package:toptodo/screens/settings/widgets/td_model_search/bloc/td_model_search_bloc.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
