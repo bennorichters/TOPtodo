@@ -43,10 +43,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(
                 children: <Widget>[
                   Flexible(
-                    child: Text((state.person?.name) ??
-                        (state.branch == null
-                            ? 'First choose a branch'
-                            : 'Choose a person')),
+                    child: Text(
+                      (state.person?.name) ??
+                          (state.branch == null
+                              ? 'First choose a branch'
+                              : 'Choose a person'),
+                    ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.search),
