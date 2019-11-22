@@ -56,6 +56,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ],
               ),
+              SearchList<Category>(
+                name: 'Category',
+                items: state.categories,
+                selectedItem: state.category,
+                onChangedCallBack: (Category newValue) {
+                  BlocProvider.of<SettingsBloc>(context)
+                    ..add(SettingsCategorySelected(newValue));
+                },
+              ),
               SearchList<IncidentDuration>(
                 name: 'Duration',
                 items: state.durations,

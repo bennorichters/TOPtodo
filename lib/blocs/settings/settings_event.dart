@@ -18,6 +18,14 @@ class SettingsBranchSelected extends SettingsEvent {
   List<Object> get props => <Object> [branch];
 }
 
+class SettingsCategorySelected extends SettingsEvent {
+  const SettingsCategorySelected(this.category);
+  final Category category;
+
+  @override
+  List<Object> get props => <Object> [category];
+}
+
 class SettingsDurationSelected extends SettingsEvent {
   const SettingsDurationSelected(this.duration);
   final IncidentDuration duration;
