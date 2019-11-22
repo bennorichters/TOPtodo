@@ -38,7 +38,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   @override
   Future<Iterable<Person>> fetchPersons({
     @required String startsWith,
-    @required Branch linkedTo,
+    @required Branch branch,
   }) async {
     final String swLower = startsWith.toLowerCase();
 
@@ -49,7 +49,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
         )
         .where(
           (Person p) =>
-              (p.branchid == linkedTo.id) &&
+              (p.branchid == branch.id) &&
               p.name.toLowerCase().startsWith(swLower),
         );
   }

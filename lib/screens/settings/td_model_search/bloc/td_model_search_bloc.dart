@@ -48,7 +48,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
       case Person:
         return TdModelSearchResults(
           await topdeskProvider.fetchPersons(
-            linkedTo: searchInfo.linkedTo,
+            branch: searchInfo.linkedTo,
             startsWith: searchInfo.query,
           ),
         );

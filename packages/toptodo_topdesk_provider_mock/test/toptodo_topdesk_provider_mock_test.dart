@@ -22,7 +22,7 @@ void main() {
     final FakeTopdeskProvider ftp = FakeTopdeskProvider();
     final Iterable<Person> ds = await ftp.fetchPersons(
       startsWith: 'A',
-      linkedTo: Branch.fromJson(
+      branch: Branch.fromJson(
         jsonDecode('{"id": "g", "name": "EEE Branch"}'),
       ),
     );

@@ -52,7 +52,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<Person>> fetchPersons({
     @required String startsWith,
-    @required Branch linkedTo,
+    @required Branch branch,
   }) async {
     return null;
   }
