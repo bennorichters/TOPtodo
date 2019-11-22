@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:toptodo/screens/settings/bloc/settings_state.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';
@@ -8,11 +9,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc(this.topdeskProvider);
 
   final TopdeskProvider topdeskProvider;
-
-  Branch _branch;
-  Iterable<IncidentDuration> _durations;
-  IncidentDuration _duration;
-  Person _person;
 
   @override
   SettingsState get initialState => const SettingsTdData();
@@ -23,27 +19,37 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async* {
     if (event is SettingsInit) {
       yield _updatedState();
-      _durations = await topdeskProvider.fetchDurations();
-      yield _updatedState();
+      yield _updatedState(durations: await topdeskProvider.fetchDurations());
     } else if (event is SettingsDurationSelected) {
-      _duration = event.duration;
-      yield _updatedState();
+      yield _updatedState(duration: event.duration);
     } else if (event is SettingsBranchSelected) {
-      _person = (_branch == event.branch) ? _person : null;
-      _branch = event.branch;
-      yield _updatedState();
+      yield _updatedState(branch: event.branch);
     } else if (event is SettingsPersonSelected) {
-      _person = event.person;
-      yield _updatedState();
+      yield _updatedState(person: event.person);
     } else {
       throw ArgumentError('unknown event $event');
     }
   }
 
-  SettingsTdData _updatedState() => SettingsTdData(
-        branch: _branch,
-        durations: _durations,
-        duration: _duration,
-        person: _person,
+  SettingsTdData _updatedState({
+    Branch branch,
+    Iterable<IncidentDuration> durations,
+    IncidentDuration duration,
+    Person person,
+  }) {
+    final SettingsState oldState = state;
+    if (oldState is SettingsTdData) {
+      return SettingsTdData(
+        branch: branch ?? oldState.branch,
+        durations: durations ?? oldState.durations,
+        duration: duration ?? oldState.duration,
+        person: person ??
+            ((branch == null || branch == oldState.branch)
+                ? oldState.person
+                : null),
       );
+    }
+
+    throw StateError('unexpected state: $oldState');
+  }
 }
