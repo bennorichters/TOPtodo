@@ -37,8 +37,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson('persons.json');
-    return response.map((dynamic e) => Person.fromJson(e)).where((Person p) =>
-        (p.branchid == branchId) && p.name.toLowerCase().startsWith(swLower));
+    return response.map((dynamic e) => Person.fromJson(e)).where(
+          (Person p) =>
+              (p.branchid == branchId) &&
+              p.name.toLowerCase().startsWith(swLower),
+        );
   }
 
   @override
