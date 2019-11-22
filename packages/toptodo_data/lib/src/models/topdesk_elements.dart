@@ -23,6 +23,18 @@ class IncidentDuration extends TdModel {
   IncidentDuration.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
+class Category extends TdModel {
+  Category.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+}
+
+class SubCategory extends TdModel {
+  SubCategory.fromJson(Map<String, dynamic> json)
+      : categoryId = json['categoryid'],
+        super.fromJson(json);
+
+  final String categoryId;
+}
+
 class Person extends TdModel {
   Person.fromJson(Map<String, dynamic> json)
       : branchid = json['branchid'],
