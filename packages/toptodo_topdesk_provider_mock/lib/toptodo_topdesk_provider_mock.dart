@@ -16,7 +16,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
     final List<dynamic> response = await _readJson('durations.json');
-    return response.map((dynamic e) => IncidentDuration.fromJson(e));
+    return response.map(
+      (dynamic e) => IncidentDuration.fromJson(e),
+    );
   }
 
   @override
@@ -24,7 +26,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson('branches.json');
-    return response.map((dynamic e) => Branch.fromJson(e)).where(
+    return response
+        .map(
+          (dynamic e) => Branch.fromJson(e),
+        )
+        .where(
           (Branch b) => b.name.toLowerCase().startsWith(swLower),
         );
   }
@@ -37,7 +43,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson('persons.json');
-    return response.map((dynamic e) => Person.fromJson(e)).where(
+    return response
+        .map(
+          (dynamic e) => Person.fromJson(e),
+        )
+        .where(
           (Person p) =>
               (p.branchid == branchId) &&
               p.name.toLowerCase().startsWith(swLower),
@@ -45,15 +55,23 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Category>> fetchCategories() {
-    // TODO: implement fetchCategories
-    return null;
+  Future<Iterable<Category>> fetchCategories() async {
+    final List<dynamic> response = await _readJson('categories.json');
+    return response.map(
+      (dynamic e) => Category.fromJson(e),
+    );
   }
 
   @override
-  Future<Iterable<SubCategory>> fetchSubCategories({String categoryId}) {
-    // TODO: implement fetchSubCategories
-    return null;
+  Future<Iterable<SubCategory>> fetchSubCategories({String categoryId}) async {
+    final List<dynamic> response = await _readJson('categories.json');
+    return response
+        .map(
+          (dynamic e) => SubCategory.fromJson(e),
+        )
+        .where(
+          (SubCategory s) => s.categoryId == categoryId,
+        );
   }
 
   Future<List<dynamic>> _readJson(String file) async {
