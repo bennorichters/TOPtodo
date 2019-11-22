@@ -17,7 +17,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
-      yield _updatedState(durations: await topdeskProvider.fetchDurations());
+      final List<Iterable<TdModel>> searchListOptions =
+          await Future.wait(<Future<Iterable<TdModel>>>[
+        topdeskProvider.fetchDurations(),
+        topdeskProvider.fetchCategories(),
+      ]);
+
+      yield _updatedState(
+        durations: searchListOptions[0],
+        categories: searchListOptions[1],
+      );
     } else if (event is SettingsDurationSelected) {
       yield _updatedState(duration: event.duration);
     } else if (event is SettingsBranchSelected) {
@@ -31,6 +40,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   SettingsTdData _updatedState({
     Branch branch,
+    Iterable<Category> categories,
     Iterable<IncidentDuration> durations,
     IncidentDuration duration,
     Person person,
@@ -39,6 +49,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (oldState is SettingsTdData) {
       return SettingsTdData(
         branch: branch ?? oldState.branch,
+        categories: categories ?? oldState.categories,
         durations: durations ?? oldState.durations,
         duration: duration ?? oldState.duration,
         person: person ??
