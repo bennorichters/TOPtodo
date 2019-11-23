@@ -27,6 +27,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         durations: searchListOptions[0],
         categories: searchListOptions[1],
       );
+    } else if (event is SettingsCategorySelected) {
+      yield _updatedState(category: event.category);
     } else if (event is SettingsDurationSelected) {
       yield _updatedState(duration: event.duration);
     } else if (event is SettingsBranchSelected) {
@@ -41,6 +43,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsTdData _updatedState({
     Branch branch,
     Iterable<Category> categories,
+    Category category,
     Iterable<IncidentDuration> durations,
     IncidentDuration duration,
     Person person,
@@ -50,6 +53,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       return SettingsTdData(
         branch: branch ?? oldState.branch,
         categories: categories ?? oldState.categories,
+        category: category ?? oldState.category,
         durations: durations ?? oldState.durations,
         duration: duration ?? oldState.duration,
         person: person ??
