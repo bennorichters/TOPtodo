@@ -41,3 +41,11 @@ class SettingsPersonSelected extends SettingsEvent {
   @override
   List<Object> get props => <Object> [person];
 }
+
+class SettingsSubCategorySelected extends SettingsEvent {
+  const SettingsSubCategorySelected(this.subCategory);
+  final SubCategory subCategory;
+
+  @override
+  List<Object> get props => <Object> [subCategory];
+}

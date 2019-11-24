@@ -65,6 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ..add(SettingsCategorySelected(newValue));
                 },
               ),
+              _SubCategoryWidget(state: state),
               SearchList<IncidentDuration>(
                 name: 'Duration',
                 items: state.durations,
@@ -109,5 +110,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
             BlocProvider.of<SettingsBloc>(context)
               ..add(SettingsPersonSelected(chosenPerson));
           };
+  }
+}
+
+class _SubCategoryWidget extends StatelessWidget {
+  const _SubCategoryWidget({this.state});
+  final SettingsTdData state;
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.category == null) {
+      return const Text('First choose a category');
+    }
+
+    return SearchList<SubCategory>(
+      name: 'Sub category',
+      items: state.subCategories,
+      selectedItem: state.subCategory,
+      onChangedCallBack: (SubCategory newValue) {
+        BlocProvider.of<SettingsBloc>(context)
+          ..add(SettingsSubCategorySelected(newValue));
+      },
+    );
   }
 }

@@ -29,12 +29,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     } else if (event is SettingsCategorySelected) {
       yield _updatedState(category: event.category);
+      final Iterable<SubCategory> subCategories =
+          await topdeskProvider.fetchSubCategories(
+        category: event.category,
+      );
+
+      print('found subCategories: $subCategories');
+
+      yield _updatedState(
+        subCategories: subCategories,
+      );
     } else if (event is SettingsDurationSelected) {
       yield _updatedState(duration: event.duration);
     } else if (event is SettingsBranchSelected) {
       yield _updatedState(branch: event.branch);
     } else if (event is SettingsPersonSelected) {
       yield _updatedState(person: event.person);
+    } else if (event is SettingsSubCategorySelected) {
+      yield _updatedState(subCategory: event.subCategory);
     } else {
       throw ArgumentError('unknown event $event');
     }
@@ -47,6 +59,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Iterable<IncidentDuration> durations,
     IncidentDuration duration,
     Person person,
+    Iterable<SubCategory> subCategories,
+    SubCategory subCategory,
   }) {
     final SettingsState oldState = state;
     if (oldState is SettingsTdData) {
@@ -56,13 +70,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         category: category ?? oldState.category,
         durations: durations ?? oldState.durations,
         duration: duration ?? oldState.duration,
-        person: person ??
-            ((branch == null || branch == oldState.branch)
-                ? oldState.person
-                : null),
+        person: person ?? _childValue(oldState.person, branch, oldState.branch),
+        subCategories: subCategories ?? oldState.subCategories,
+        subCategory: subCategory ??
+            _childValue(oldState.subCategory, category, oldState.category),
       );
     }
 
     throw StateError('unexpected state: $oldState');
+  }
+
+  TdModel _childValue(TdModel oldChild, TdModel linkedTo, TdModel oldLinkedTo) {
+    final TdModel updated =
+        (linkedTo == null || linkedTo == oldLinkedTo) ? oldChild : null;
+
+    // print('$oldChild, $linkedTo, $oldLinkedTo, $updated');
+
+    return updated;
   }
 }

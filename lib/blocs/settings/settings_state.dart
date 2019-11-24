@@ -13,6 +13,8 @@ class SettingsTdData extends SettingsState {
     this.durations,
     this.duration,
     this.person,
+    this.subCategories,
+    this.subCategory,
   });
 
   final Iterable<Category> categories;
@@ -21,6 +23,8 @@ class SettingsTdData extends SettingsState {
   final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
   final Person person;
+  final Iterable<SubCategory> subCategories;
+  final SubCategory subCategory;
 
   @override
   List<Object> get props => <Object>[
@@ -30,15 +34,19 @@ class SettingsTdData extends SettingsState {
         durations,
         duration,
         person,
+        subCategories,
+        subCategory,
       ];
 
   @override
   String toString() => 'SettingsState {'
+      'branch: $branch, '
+      'person: $person, '
       'categories: $categories, '
       'category: $category, '
-      'branch: $branch, '
+      'category: $subCategory, '
+      'category: $subCategories, '
       'durations: $durations, '
       'duration: $duration, '
-      'person: $person, '
       '}';
 }

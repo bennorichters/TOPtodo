@@ -65,7 +65,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<SubCategory>> fetchSubCategories({Category category}) async {
-    final List<dynamic> response = await _readJson('categories.json');
+    final List<dynamic> response = await _readJson('sub_categories.json');
     return response
         .map(
           (dynamic e) => SubCategory.fromJson(e),
