@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-const Duration _latency = Duration(milliseconds: 1500);
-
 class FakeTopdeskProvider implements TopdeskProvider {
+  FakeTopdeskProvider({this.latency = const Duration(milliseconds: 1500)});
+  final Duration latency;
+
   @override
   void init(Credentials credentials) {
     print('init called with $credentials');
@@ -81,6 +82,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String content = await rootBundle
         .loadString('packages/toptodo_topdesk_provider_mock/json/' + file);
 
-    return Future<List<dynamic>>.delayed(_latency, () => json.decode(content));
+    return Future<List<dynamic>>.delayed(
+      latency,
+      () => json.decode(content),
+    );
   }
 }
