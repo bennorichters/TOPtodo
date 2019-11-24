@@ -35,8 +35,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         category: event.category,
       );
 
-      print('found subCategories: $subCategories');
-
       yield _updatedState(
         subCategories: subCategories,
       );
