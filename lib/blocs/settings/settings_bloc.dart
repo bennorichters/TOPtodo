@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';
@@ -70,22 +71,35 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         category: category ?? oldState.category,
         durations: durations ?? oldState.durations,
         duration: duration ?? oldState.duration,
-        person: person ?? _childValue(oldState.person, branch, oldState.branch),
-        subCategories: subCategories ?? oldState.subCategories,
-        subCategory: subCategory ??
-            _childValue(oldState.subCategory, category, oldState.category),
+        person: _updatedValue(
+          value: person,
+          oldValue: oldState.person,
+          linkedTo: branch,
+          oldLinkedTo: oldState.branch,
+        ),
+        subCategories: _updatedValue(
+          value: subCategories,
+          oldValue: oldState.subCategories,
+          linkedTo: category,
+          oldLinkedTo: oldState.category,
+        ),
+        subCategory: _updatedValue(
+          value: subCategory,
+          oldValue: oldState.subCategory,
+          linkedTo: category,
+          oldLinkedTo: oldState.category,
+        ),
       );
     }
 
     throw StateError('unexpected state: $oldState');
   }
 
-  TdModel _childValue(TdModel oldChild, TdModel linkedTo, TdModel oldLinkedTo) {
-    final TdModel updated =
-        (linkedTo == null || linkedTo == oldLinkedTo) ? oldChild : null;
-
-    // print('$oldChild, $linkedTo, $oldLinkedTo, $updated');
-
-    return updated;
-  }
+  dynamic _updatedValue({
+    @required dynamic value,
+    @required dynamic oldValue,
+    @required dynamic linkedTo,
+    @required dynamic oldLinkedTo,
+  }) =>
+      value ?? (linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null;
 }
