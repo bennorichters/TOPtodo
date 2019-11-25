@@ -13,6 +13,24 @@ import 'blocs/td_model_search/bloc.dart';
 
 void main() => runApp(TopToDoApp());
 
+const int _denimPrimaryValue = 0xFF0A7DA0;
+
+// TODO: Fix 50 and 900
+const Map<int, Color> _denimSwatch = <int, Color>{
+  50: Color(0xFFC7EEF7),
+  100: Color(0xFFC7EEF7),
+  200: Color(0xFF76CFE3),
+  300: Color(0xFF3EB1CC),
+  400: Color(0xFF008EAF),
+  500: Color(_denimPrimaryValue),
+  600: Color(0xFF097090),
+  700: Color(0xFF086480),
+  800: Color(0xFF064B60),
+  900: Color(0xFF064B60),
+};
+
+const MaterialColor _denim = MaterialColor(_denimPrimaryValue, _denimSwatch);
+
 class TopToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,6 +71,9 @@ class TopToDoApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'TOPtodo',
+          theme: ThemeData(
+            primarySwatch: _denim,
+          ),
           home: const LoginScreen(),
         ),
       ),
