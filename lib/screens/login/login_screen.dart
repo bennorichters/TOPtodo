@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue, width: 5.0),
                 ),
+                labelText: 'TOPdesk url',
                 hintText: 'https://your-environment.topdesk.net',
               ),
               validator: (String value) => value.isEmpty
@@ -105,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue, width: 5.0),
                 ),
-                hintText: 'login name',
+                labelText: 'login name',
               ),
             ),
             _verticalSpace,
@@ -120,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue, width: 5.0),
                 ),
-                hintText: 'application password',
+                labelText: 'application password',
               ),
             ),
             _verticalSpace,
