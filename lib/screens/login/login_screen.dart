@@ -82,12 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: urlController,
               autocorrect: false,
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.greenAccent, width: 5.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 5.0),
-                ),
                 labelText: 'TOPdesk url',
                 hintText: 'https://your-environment.topdesk.net',
               ),
@@ -100,12 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
               autocorrect: false,
               controller: loginNameController,
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.greenAccent, width: 5.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 5.0),
-                ),
                 labelText: 'login name',
               ),
             ),
@@ -115,12 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.greenAccent, width: 5.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 5.0),
-                ),
                 labelText: 'application password',
               ),
             ),
