@@ -1,7 +1,10 @@
+import 'dart:math' show min, pi;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('login'),
+          title: const Text('Welcome to TOPtodo'),
         ),
         body: BlocListener<LoginBloc, LoginState>(
           listener: (BuildContext context, LoginState state) {
@@ -71,60 +74,105 @@ class _LoginScreenState extends State<LoginScreen> {
     final TextEditingController passwordController = TextEditingController()
       ..text = savedData.password ?? '';
 
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              controller: urlController,
-              autocorrect: false,
-              decoration: InputDecoration(
-                labelText: 'TOPdesk url',
-                hintText: 'https://your-environment.topdesk.net',
-              ),
-              validator: (String value) => value.isEmpty
-                  ? 'fill in the url of your TOPdesk environment'
-                  : null,
-            ),
-            _verticalSpace,
-            TextFormField(
-              autocorrect: false,
-              controller: loginNameController,
-              decoration: InputDecoration(
-                labelText: 'login name',
-              ),
-            ),
-            _verticalSpace,
-            TextFormField(
-              autocorrect: false,
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'application password',
-              ),
-            ),
-            _verticalSpace,
-            FloatingActionButton(
-              onPressed: () => _connect(
-                context,
-                Credentials(
-                  url: urlController.text,
-                  loginName: loginNameController.text,
-                  password: passwordController.text,
-                ),
-              ),
-              child: Icon(Icons.exit_to_app),
-            ),
-          ],
+    return Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: _MyPainter(),
+          child: Container(),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  controller: urlController,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    labelText: 'TOPdesk url',
+                    hintText: 'https://your-environment.topdesk.net',
+                  ),
+                  validator: (String value) => value.isEmpty
+                      ? 'fill in the url of your TOPdesk environment'
+                      : null,
+                ),
+                _verticalSpace,
+                TextFormField(
+                  autocorrect: false,
+                  controller: loginNameController,
+                  decoration: InputDecoration(
+                    labelText: 'login name',
+                  ),
+                ),
+                _verticalSpace,
+                TextFormField(
+                  autocorrect: false,
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'application password',
+                  ),
+                ),
+                _verticalSpace,
+                Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () => _connect(
+                        context,
+                        Credentials(
+                          url: urlController.text,
+                          loginName: loginNameController.text,
+                          password: passwordController.text,
+                        ),
+                      ),
+                      child: Image.asset('assets/button_denim.png'),
+                    ),
+                    Text(
+                      'login',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   void _connect(BuildContext context, Credentials credentials) {
     BlocProvider.of<LoginBloc>(context)..add(TryLogin(credentials));
+  }
+}
+
+class _MyPainter extends CustomPainter {
+  static const int _bottomMargin = 25;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    print(size);
+    final Paint paint = Paint()
+      ..color = forest100
+      ..strokeWidth = 4;
+
+    final double radius = min(size.width, (size.height - _bottomMargin) / 3);
+    final double blockHeight = size.height - _bottomMargin - radius;
+
+    final Rect rect = Offset(-radius , blockHeight - radius) & Size(2 * radius, 2 * radius);
+    canvas.drawArc(rect, 0, pi * .5, true, paint);
+
+    canvas.drawRect(const Offset(0, 0) & Size(radius, blockHeight), paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
