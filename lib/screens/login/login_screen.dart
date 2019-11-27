@@ -158,7 +158,32 @@ class _MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = min(size.width, (size.height - _bottomMargin) / 3);
+    final double ratio = size.width / (size.height - _bottomMargin);
+    if (ratio >= 1) {
+      quarterCircle(size, canvas);
+    } else if (ratio >= .6) {
+      mediumShape(size, canvas);
+    } else {
+      longShape(size, canvas);
+    }
+  }
+
+  void quarterCircle(Size size, Canvas canvas) {
+    final double radius = size.height - _bottomMargin;
+    final Rect rect = Offset(-radius, -radius) & Size(radius * 2, radius * 2);
+    canvas.drawArc(rect, 0, pi / 2, true, _paint);
+  }
+
+  void mediumShape(Size size, Canvas canvas) {
+    final double radius = size.width - _bottomMargin;
+    final Rect rect = Offset(-radius, 0) & Size(radius * 2, radius * 2);
+
+    canvas.drawArc(rect, 0, pi / 2, true, _paint);
+    canvas.drawRect(const Offset(0, 0) & Size(radius, radius), _paint);
+  }
+
+  void longShape(Size size, Canvas canvas) {
+    final double radius = (size.height - _bottomMargin) / 3;
     final double blockHeight = size.height - _bottomMargin - radius;
 
     final Rect rect =
