@@ -12,8 +12,8 @@ void main() {
     final TdShape tdShape = TdShape();
 
     final MockCanvas mockCanvas = MockCanvas();
-    
-    final Rect rect = Offset(-400, -400) & Size(800, 800);
+
+    final Rect rect = _squaredRect(400);
 
     tdShape.paint(mockCanvas, const Size(400, 425));
 
@@ -21,3 +21,7 @@ void main() {
         mockCanvas.drawArc(rect, 0, argThat(closeTo(pi / 2, .01)), true, any));
   });
 }
+
+// Work around to get rid of "const" lint warning
+Rect _squaredRect(double radius) =>
+    Offset(-radius, -radius) & Size(2 * radius, 2 * radius);
