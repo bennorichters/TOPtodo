@@ -9,16 +9,20 @@ class MockCanvas extends Mock implements Canvas {}
 
 void main() {
   testWidgets('better name needed', (WidgetTester tester) async {
-    final TdShape tdShape = TdShape();
-
     final MockCanvas mockCanvas = MockCanvas();
-
-    final Rect rect = _squaredRect(400);
-
+    final TdShape tdShape = TdShape();
     tdShape.paint(mockCanvas, const Size(400, 425));
 
     verify(
-        mockCanvas.drawArc(rect, 0, argThat(closeTo(pi / 2, .01)), true, any));
+      mockCanvas.drawArc(
+        _squaredRect(400),
+        0,
+        argThat(closeTo(pi / 2, .01)),
+        true,
+        any,
+      ),
+    );
+    verifyNever(mockCanvas.drawRect(any, any));
   });
 }
 
