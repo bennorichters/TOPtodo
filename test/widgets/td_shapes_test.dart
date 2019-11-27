@@ -8,7 +8,7 @@ import 'package:toptodo/widgets/td_shapes.dart';
 class MockCanvas extends Mock implements Canvas {}
 
 void main() {
-  testWidgets('better name needed', (WidgetTester tester) async {
+  testWidgets('square canvas', (WidgetTester tester) async {
     final MockCanvas mockCanvas = MockCanvas();
     final TdShape tdShape = TdShape();
     tdShape.paint(mockCanvas, const Size(400, 425));
