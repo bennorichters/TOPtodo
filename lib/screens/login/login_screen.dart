@@ -154,25 +154,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
 class _MyPainter extends CustomPainter {
   static const int _bottomMargin = 25;
+  static final Paint _paint = Paint()..color = forest100;
 
   @override
   void paint(Canvas canvas, Size size) {
-    print(size);
-    final Paint paint = Paint()
-      ..color = forest100
-      ..strokeWidth = 4;
-
     final double radius = min(size.width, (size.height - _bottomMargin) / 3);
     final double blockHeight = size.height - _bottomMargin - radius;
 
-    final Rect rect = Offset(-radius , blockHeight - radius) & Size(2 * radius, 2 * radius);
-    canvas.drawArc(rect, 0, pi * .5, true, paint);
+    final Rect rect =
+        Offset(-radius, blockHeight - radius) & Size(2 * radius, 2 * radius);
+    canvas.drawArc(rect, 0, pi / 2, true, _paint);
 
-    canvas.drawRect(const Offset(0, 0) & Size(radius, blockHeight), paint);
+    canvas.drawRect(const Offset(0, 0) & Size(radius, blockHeight), _paint);
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
