@@ -26,6 +26,7 @@ dev_dependencies:
     sdk: flutter
   toptodo_topdesk_provider_mock:
     path: packages/toptodo_topdesk_provider_mock
+  image: ^2.1.9
   mockito: ^4.1.1
 
 flutter:
