@@ -12,25 +12,25 @@ class TdShape extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Size drawSize = size - _bottomMargin;
     if (drawSize.aspectRatio >= 1) {
-      quarterCircle(canvas, drawSize);
+      _small(canvas, drawSize);
     } else if (drawSize.aspectRatio >= .6) {
-      mediumShape(canvas, drawSize);
+      _medium(canvas, drawSize);
     } else {
-      longShape(canvas, drawSize);
+      _long(canvas, drawSize);
     }
   }
 
-  void quarterCircle(Canvas canvas, Size size) {
+  void _small(Canvas canvas, Size size) {
    canvas.drawCircle(Offset.zero, size.shortestSide, _paint); 
   }
 
-  void mediumShape(Canvas canvas, Size size) {
+  void _medium(Canvas canvas, Size size) {
     final double radius = min(size.width, size.height / 2);
     canvas.drawCircle(Offset(0, radius), radius, _paint);
     canvas.drawRect(Offset.zero & Size.fromRadius(radius / 2), _paint);
   }
 
-  void longShape(Canvas canvas, Size size) {
+  void _long(Canvas canvas, Size size) {
     final double radius = min(size.width, size.height / 3);
     final double circleCenter = size.height - radius;
     canvas.drawCircle(Offset(0, circleCenter), radius, _paint);
