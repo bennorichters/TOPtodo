@@ -17,7 +17,6 @@ class SearchList<T extends TdModel> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('$name, $items, $selectedItem');
     return DropdownButton<T>(
       isExpanded: true,
       value: selectedItem,

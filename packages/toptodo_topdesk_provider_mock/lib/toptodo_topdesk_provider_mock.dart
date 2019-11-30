@@ -11,7 +11,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   void init(Credentials credentials) {
-    print('init called with $credentials');
+    // Ignore
   }
 
   @override
