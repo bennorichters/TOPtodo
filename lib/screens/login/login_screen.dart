@@ -47,9 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 return buildInputFields(context, state.savedData);
               } else if (state is LoginSuccessNoSettings) {
                 return const Text('Login success!');
+              } else if (state is LoginSubmitting) {
+                return buildLoading();
               } else {
-                print('State: $state');
-                return Container();
+                throw StateError('unknown state: $state');
               }
             },
           ),
