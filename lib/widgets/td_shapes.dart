@@ -1,48 +1,40 @@
 
-import 'dart:math' show pi;
+import 'dart:math' show min;
 
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/colors.dart';
+import 'package:toptodo/utils/colors.dart' show forest100;
 
 class TdShape extends CustomPainter {
-  static const int _bottomMargin = 25;
+  static const Offset _bottomMargin = Offset(0, 25);
   static final Paint _paint = Paint()..color = forest100;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double ratio = size.width / (size.height - _bottomMargin);
-    if (ratio >= 1) {
-      quarterCircle(size, canvas);
-    } else if (ratio >= .6) {
-      mediumShape(size, canvas);
+    final Size drawSize = size - _bottomMargin;
+    if (drawSize.aspectRatio >= 1) {
+      quarterCircle(canvas, drawSize);
+    } else if (drawSize.aspectRatio >= .6) {
+      mediumShape(canvas, drawSize);
     } else {
-      longShape(size, canvas);
+      longShape(canvas, drawSize);
     }
   }
 
-  void quarterCircle(Size size, Canvas canvas) {
-    final double radius = size.height - _bottomMargin;
-    final Rect rect = Offset(-radius, -radius) & Size(radius * 2, radius * 2);
-    canvas.drawArc(rect, 0, pi / 2, true, _paint);
+  void quarterCircle(Canvas canvas, Size size) {
+   canvas.drawCircle(Offset.zero, size.shortestSide, _paint); 
   }
 
-  void mediumShape(Size size, Canvas canvas) {
-    final double radius = size.width - _bottomMargin;
-    final Rect rect = Offset(-radius, 0) & Size(radius * 2, radius * 2);
-
-    canvas.drawArc(rect, 0, pi / 2, true, _paint);
-    canvas.drawRect(const Offset(0, 0) & Size(radius, radius), _paint);
+  void mediumShape(Canvas canvas, Size size) {
+    final double radius = min(size.width, size.height / 2);
+    canvas.drawCircle(Offset(0, radius), radius, _paint);
+    canvas.drawRect(Offset.zero & Size.fromRadius(radius / 2), _paint);
   }
 
-  void longShape(Size size, Canvas canvas) {
-    final double radius = (size.height - _bottomMargin) / 3;
-    final double blockHeight = size.height - _bottomMargin - radius;
-
-    final Rect rect =
-        Offset(-radius, blockHeight - radius) & Size(2 * radius, 2 * radius);
-    canvas.drawArc(rect, 0, pi / 2, true, _paint);
-
-    canvas.drawRect(const Offset(0, 0) & Size(radius, blockHeight), _paint);
+  void longShape(Canvas canvas, Size size) {
+    final double radius = min(size.width, size.height / 3);
+    final double circleCenter = size.height - radius;
+    canvas.drawCircle(Offset(0, circleCenter), radius, _paint);
+    canvas.drawRect(Offset.zero & Size(radius, circleCenter), _paint);
   }
 
   @override
