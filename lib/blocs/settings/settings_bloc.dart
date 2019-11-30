@@ -99,5 +99,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     @required dynamic linkedTo,
     @required dynamic oldLinkedTo,
   }) =>
-      value ?? (linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null;
+      value ??
+      ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
 }
