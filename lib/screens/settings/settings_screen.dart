@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
+import 'package:toptodo/utils/colors.dart' show vermillion;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'widgets/td_model_search_delegate.dart';
@@ -47,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           style: TextStyle(
                             color: (state.branch == null)
-                                ? Colors.red
+                                ? vermillion
                                 : Colors.black,
                           ),
                         ),
@@ -73,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           style: TextStyle(
                             color: (state.person == null)
-                                ? Colors.red
+                                ? vermillion
                                 : Colors.black,
                           ),
                         ),
@@ -157,7 +158,7 @@ class _SubCategoryWidget extends StatelessWidget {
           labelText: 'Sub category',
         ),
         style: TextStyle(
-          color: Colors.red,
+          color: vermillion,
         ),
       );
     }

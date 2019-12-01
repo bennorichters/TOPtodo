@@ -20,3 +20,5 @@ const Map<int, Color> _denimSwatch = <int, Color>{
 const MaterialColor denim = MaterialColor(_denimPrimaryValue, _denimSwatch);
 
 const Color forest100 = Color(0xFFD5F0DE);
+
+const Color vermillion = Color(0xFFE65038);
