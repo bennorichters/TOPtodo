@@ -12,6 +12,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -27,55 +29,82 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (BuildContext context, SettingsState state) {
         if (state is SettingsTdData) {
-          return Column(
-            children: <Widget>[
-              Row(
+          return Padding(
+            padding: const EdgeInsets.all(15),
+            child: Form(
+              key: _formKey,
+              child: Column(
                 children: <Widget>[
-                  Flexible(
-                    child: Text((state.branch?.name) ?? 'Choose a branch'),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          controller: TextEditingController()
+                            ..text = (state.branch?.name) ?? 'Choose a branch',
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText: 'Branch',
+                          ),
+                          style: TextStyle(
+                            color: (state.branch == null)
+                                ? Colors.red
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: _searchBranch(context),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: _searchBranch(context),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: TextFormField(
+                        controller: TextEditingController()
+                          ..text = (state.person?.name) ??
+                              (state.branch == null
+                                  ? 'First choose a branch'
+                                  : 'Choose a person'),
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: 'Person',
+                        ),
+                        style: TextStyle(
+                          color: (state.person == null)
+                              ? Colors.red
+                              : Colors.black,
+                        ),
+                      )),
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: _searchPerson(context, state.branch),
+                      ),
+                    ],
+                  ),
+                  SearchList<Category>(
+                    name: 'Category',
+                    items: state.categories,
+                    selectedItem: state.category,
+                    onChangedCallBack: (Category newValue) {
+                      BlocProvider.of<SettingsBloc>(context)
+                        ..add(SettingsCategorySelected(newValue));
+                    },
+                  ),
+                  _SubCategoryWidget(state: state),
+                  SearchList<IncidentDuration>(
+                    name: 'Duration',
+                    items: state.durations,
+                    selectedItem: state.duration,
+                    onChangedCallBack: (IncidentDuration newValue) {
+                      BlocProvider.of<SettingsBloc>(context)
+                        ..add(SettingsDurationSelected(newValue));
+                    },
                   ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      (state.person?.name) ??
-                          (state.branch == null
-                              ? 'First choose a branch'
-                              : 'Choose a person'),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: _searchPerson(context, state.branch),
-                  ),
-                ],
-              ),
-              SearchList<Category>(
-                name: 'Category',
-                items: state.categories,
-                selectedItem: state.category,
-                onChangedCallBack: (Category newValue) {
-                  BlocProvider.of<SettingsBloc>(context)
-                    ..add(SettingsCategorySelected(newValue));
-                },
-              ),
-              _SubCategoryWidget(state: state),
-              SearchList<IncidentDuration>(
-                name: 'Duration',
-                items: state.durations,
-                selectedItem: state.duration,
-                onChangedCallBack: (IncidentDuration newValue) {
-                  BlocProvider.of<SettingsBloc>(context)
-                    ..add(SettingsDurationSelected(newValue));
-                },
-              ),
-            ],
+            ),
           );
         } else {
           return Text('State: $state');
