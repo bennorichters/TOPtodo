@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shapes.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -115,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 _verticalSpace,
-                InkWell(
+                TdButton(
+                  text: 'log in',
                   onTap: () => _connect(
                     context,
                     Credentials(
@@ -123,19 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       loginName: loginNameController.text,
                       password: passwordController.text,
                     ),
-                  ),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: <Widget>[
-                      Image.asset('assets/button_denim.png'),
-                      Text(
-                        'log in',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],
