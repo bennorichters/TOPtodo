@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:toptodo/blocs/settings/settings_state.dart';
+import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';
@@ -31,8 +31,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       ]);
 
       yield SettingsTdData(
-        durations: searchListOptions[0],
-        categories: searchListOptions[1],
+        formState: SettingsFormState(
+          durations: searchListOptions[0],
+          categories: searchListOptions[1],
+        ),
       );
     } else if (event is SettingsCategorySelected) {
       yield _updatedState(category: event.category);
@@ -56,13 +58,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final SettingsState oldState = state;
 
       if (oldState is SettingsTdData) {
+        final SettingsFormState sfs = oldState.formState;
         settingsProvider.save(
           Settings(
-            branchId: oldState.branch.id,
-            callerId: oldState.person.id,
-            categoryId: oldState.category.id,
-            subcategoryId: oldState.subCategory.id,
-            durationId: oldState.duration.id,
+            branchId: sfs.branch.id,
+            callerId: sfs.person.id,
+            categoryId: sfs.category.id,
+            subcategoryId: sfs.subCategory.id,
+            durationId: sfs.duration.id,
             operatorId: '',
           ),
         );
@@ -86,29 +89,32 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }) {
     final SettingsState oldState = state;
     if (oldState is SettingsTdData) {
+      final SettingsFormState sfs = oldState.formState;
       return SettingsTdData(
-        branch: branch ?? oldState.branch,
-        categories: categories ?? oldState.categories,
-        category: category ?? oldState.category,
-        durations: durations ?? oldState.durations,
-        duration: duration ?? oldState.duration,
-        person: _updatedValue(
-          value: person,
-          oldValue: oldState.person,
-          linkedTo: branch,
-          oldLinkedTo: oldState.branch,
-        ),
-        subCategories: _updatedValue(
-          value: subCategories,
-          oldValue: oldState.subCategories,
-          linkedTo: category,
-          oldLinkedTo: oldState.category,
-        ),
-        subCategory: _updatedValue(
-          value: subCategory,
-          oldValue: oldState.subCategory,
-          linkedTo: category,
-          oldLinkedTo: oldState.category,
+        formState: SettingsFormState(
+          branch: branch ?? sfs.branch,
+          categories: categories ?? sfs.categories,
+          category: category ?? sfs.category,
+          durations: durations ?? sfs.durations,
+          duration: duration ?? sfs.duration,
+          person: _updatedValue(
+            value: person,
+            oldValue: sfs.person,
+            linkedTo: branch,
+            oldLinkedTo: sfs.branch,
+          ),
+          subCategories: _updatedValue(
+            value: subCategories,
+            oldValue: sfs.subCategories,
+            linkedTo: category,
+            oldLinkedTo: sfs.category,
+          ),
+          subCategory: _updatedValue(
+            value: subCategory,
+            oldValue: sfs.subCategory,
+            linkedTo: category,
+            oldLinkedTo: sfs.category,
+          ),
         ),
       );
     }

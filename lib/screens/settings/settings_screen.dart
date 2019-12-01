@@ -57,6 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (BuildContext context, SettingsState state) {
           if (state is SettingsTdData) {
+            final SettingsFormState formState = state.formState;
             return Padding(
               padding: const EdgeInsets.all(15),
               child: Form(
@@ -68,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: TextEditingController()
-                              ..text = (state.branch?.name) ?? '',
+                              ..text = (formState.branch?.name) ?? '',
                             enabled: false,
                             decoration: InputDecoration(
                               labelText: 'Branch',
@@ -86,11 +87,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: TextEditingController()
-                              ..text = (state.person?.name) ?? '',
+                              ..text = (formState.person?.name) ?? '',
                             enabled: false,
                             decoration: InputDecoration(
                               labelText: 'Person' +
-                                  (state.branch == null
+                                  (formState.branch == null
                                       ? ' (first choose a branch)'
                                       : ''),
                             ),
@@ -98,14 +99,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.search),
-                          onPressed: _searchPerson(context, state.branch),
+                          onPressed: _searchPerson(context, formState.branch),
                         ),
                       ],
                     ),
                     SearchList<Category>(
                       name: 'Category',
-                      items: state.categories,
-                      selectedItem: state.category,
+                      items: formState.categories,
+                      selectedItem: formState.category,
                       onChangedCallBack: (Category newValue) {
                         BlocProvider.of<SettingsBloc>(context)
                           ..add(SettingsCategorySelected(newValue));
@@ -114,8 +115,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _SubCategoryWidget(state: state),
                     SearchList<IncidentDuration>(
                       name: 'Duration',
-                      items: state.durations,
-                      selectedItem: state.duration,
+                      items: formState.durations,
+                      selectedItem: formState.duration,
                       onChangedCallBack: (IncidentDuration newValue) {
                         BlocProvider.of<SettingsBloc>(context)
                           ..add(SettingsDurationSelected(newValue));
@@ -123,8 +124,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SearchList<IncidentDuration>(
                       name: 'Operator',
-                      items: state.durations,
-                      selectedItem: state.duration,
+                      items: formState.durations,
+                      selectedItem: formState.duration,
                       onChangedCallBack: (IncidentDuration newValue) {
                         BlocProvider.of<SettingsBloc>(context)
                           ..add(SettingsDurationSelected(newValue));
@@ -184,7 +185,8 @@ class _SubCategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.category == null) {
+    final SettingsFormState formState = state.formState;
+    if (formState.category == null) {
       return TextFormField(
         enabled: false,
         decoration: InputDecoration(
@@ -195,8 +197,8 @@ class _SubCategoryWidget extends StatelessWidget {
 
     return SearchList<SubCategory>(
       name: 'Sub category',
-      items: state.subCategories,
-      selectedItem: state.subCategory,
+      items: formState.subCategories,
+      selectedItem: formState.subCategory,
       onChangedCallBack: (SubCategory newValue) {
         BlocProvider.of<SettingsBloc>(context)
           ..add(SettingsSubCategorySelected(newValue));
