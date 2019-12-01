@@ -61,22 +61,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Row(
                     children: <Widget>[
                       Expanded(
-                          child: TextFormField(
-                        controller: TextEditingController()
-                          ..text = (state.person?.name) ??
-                              (state.branch == null
-                                  ? 'First choose a branch'
-                                  : 'Choose a person'),
-                        enabled: false,
-                        decoration: InputDecoration(
-                          labelText: 'Person',
+                        child: TextFormField(
+                          controller: TextEditingController()
+                            ..text = (state.person?.name) ??
+                                (state.branch == null
+                                    ? 'First choose a branch'
+                                    : 'Choose a person'),
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText: 'Person',
+                          ),
+                          style: TextStyle(
+                            color: (state.person == null)
+                                ? Colors.red
+                                : Colors.black,
+                          ),
                         ),
-                        style: TextStyle(
-                          color: (state.person == null)
-                              ? Colors.red
-                              : Colors.black,
-                        ),
-                      )),
+                      ),
                       IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: _searchPerson(context, state.branch),
@@ -149,7 +150,16 @@ class _SubCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.category == null) {
-      return const Text('First choose a category');
+      return TextFormField(
+        controller: TextEditingController()..text = 'First choose a category',
+        enabled: false,
+        decoration: InputDecoration(
+          labelText: 'Sub category',
+        ),
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      );
     }
 
     return SearchList<SubCategory>(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -17,26 +16,19 @@ class SearchList<T extends TdModel> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<T>(
-      isExpanded: true,
+    return DropdownButtonFormField<T>(
+      decoration: InputDecoration(
+        labelText: (items == null) ? '' : name,
+      ),
       value: selectedItem,
-      disabledHint: const Text('Waiting for data'),
-      hint: Text(name),
-      icon: items == null
+      onChanged: onChangedCallBack,
+      hint: (items == null)
           ? const SizedBox(
               height: 20,
               width: 20,
               child: CircularProgressIndicator(),
             )
-          : const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: onChangedCallBack,
+          : Container(),
       items: items
           ?.map((T tdModel) => DropdownMenuItem<T>(
                 value: tdModel,
