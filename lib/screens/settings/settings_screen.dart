@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
-import 'package:toptodo/utils/colors.dart' show vermillion;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'widgets/td_model_search_delegate.dart';
@@ -41,15 +40,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: TextEditingController()
-                            ..text = (state.branch?.name) ?? 'Choose a branch',
+                            ..text = (state.branch?.name) ?? '',
                           enabled: false,
                           decoration: InputDecoration(
                             labelText: 'Branch',
-                          ),
-                          style: TextStyle(
-                            color: (state.branch == null)
-                                ? vermillion
-                                : Colors.black,
                           ),
                         ),
                       ),
@@ -64,18 +58,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: TextEditingController()
-                            ..text = (state.person?.name) ??
-                                (state.branch == null
-                                    ? 'First choose a branch'
-                                    : 'Choose a person'),
+                            ..text = (state.person?.name) ?? '',
                           enabled: false,
                           decoration: InputDecoration(
-                            labelText: 'Person',
-                          ),
-                          style: TextStyle(
-                            color: (state.person == null)
-                                ? vermillion
-                                : Colors.black,
+                            labelText: 'Person' +
+                                (state.branch == null
+                                    ? ' (first choose a branch)'
+                                    : ''),
                           ),
                         ),
                       ),
@@ -152,13 +141,9 @@ class _SubCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (state.category == null) {
       return TextFormField(
-        controller: TextEditingController()..text = 'First choose a category',
         enabled: false,
         decoration: InputDecoration(
-          labelText: 'Sub category',
-        ),
-        style: TextStyle(
-          color: vermillion,
+          labelText: 'Sub category (first choose a category)',
         ),
       );
     }
