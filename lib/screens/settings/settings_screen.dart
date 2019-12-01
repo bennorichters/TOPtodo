@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
-import 'package:toptodo/blocs/settings/settings_bloc.dart';
-import 'package:toptodo/blocs/settings/settings_state.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo_data/toptodo_data.dart';
@@ -116,6 +114,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _SubCategoryWidget(state: state),
                     SearchList<IncidentDuration>(
                       name: 'Duration',
+                      items: state.durations,
+                      selectedItem: state.duration,
+                      onChangedCallBack: (IncidentDuration newValue) {
+                        BlocProvider.of<SettingsBloc>(context)
+                          ..add(SettingsDurationSelected(newValue));
+                      },
+                    ),
+                    SearchList<IncidentDuration>(
+                      name: 'Operator',
                       items: state.durations,
                       selectedItem: state.duration,
                       onChangedCallBack: (IncidentDuration newValue) {
