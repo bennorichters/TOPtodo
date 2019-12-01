@@ -4,6 +4,7 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/settings/settings_bloc.dart';
 import 'package:toptodo/blocs/settings/settings_state.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
+import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import '../login/login_screen.dart';
@@ -31,7 +32,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: (_) {
-              BlocProvider.of<SettingsBloc>(context)..add(SettingsUserLoggedOut());
+              BlocProvider.of<SettingsBloc>(context)
+                ..add(SettingsUserLoggedOut());
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
@@ -119,6 +121,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onChangedCallBack: (IncidentDuration newValue) {
                         BlocProvider.of<SettingsBloc>(context)
                           ..add(SettingsDurationSelected(newValue));
+                      },
+                    ),
+                    TdButton(
+                      text: 'save',
+                      onTap: () {
+                        BlocProvider.of<SettingsBloc>(context)
+                          ..add(SettingsSave());
                       },
                     ),
                   ],

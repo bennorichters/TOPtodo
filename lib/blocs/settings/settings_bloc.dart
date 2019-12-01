@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:toptodo/blocs/settings/settings_state.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc(this.topdeskProvider);
-
+  SettingsBloc({
+    @required this.topdeskProvider,
+    @required this.settingsProvider,
+  });
   final TopdeskProvider topdeskProvider;
+  final SettingsProvider settingsProvider;
 
   @override
   SettingsState get initialState => const SettingsTdData();
@@ -19,7 +23,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async* {
     if (event is SettingsInit) {
       yield const SettingsTdData();
-      
+
       final List<Iterable<TdModel>> searchListOptions =
           await Future.wait(<Future<Iterable<TdModel>>>[
         topdeskProvider.fetchDurations(),
@@ -48,6 +52,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield _updatedState(person: event.person);
     } else if (event is SettingsSubCategorySelected) {
       yield _updatedState(subCategory: event.subCategory);
+    } else if (event is SettingsSave) {
+      final SettingsState oldState = state;
+
+      if (oldState is SettingsTdData) {
+        settingsProvider.save(
+          Settings(
+            branchId: oldState.branch.id,
+            callerId: oldState.person.id,
+            categoryId: oldState.category.id,
+            subcategoryId: oldState.subCategory.id,
+            durationId: oldState.duration.id,
+            operatorId: '',
+          ),
+        );
+      }
     } else if (event is SettingsUserLoggedOut) {
       yield SettingsLogout();
     } else {

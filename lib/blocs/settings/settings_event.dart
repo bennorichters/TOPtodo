@@ -50,6 +50,11 @@ class SettingsSubCategorySelected extends SettingsEvent {
   List<Object> get props => <Object> [subCategory];
 }
 
+class SettingsSave extends SettingsEvent {
+  @override
+  List<Object> get props => <Object> [];
+}
+
 class SettingsUserLoggedOut extends SettingsEvent {
   @override
   List<Object> get props => <Object> [];
