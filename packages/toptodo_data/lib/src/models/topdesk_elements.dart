@@ -35,6 +35,10 @@ class SubCategory extends TdModel {
   final String categoryId;
 }
 
+class Operator extends TdModel {
+  Operator.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+}
+
 class Person extends TdModel {
   Person.fromJson(Map<String, dynamic> json)
       : branchid = json['branchid'],

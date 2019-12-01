@@ -66,4 +66,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<Iterable<SubCategory>> fetchSubCategories({Category category}) {
     return null;
   }
+
+  @override
+  Future<Iterable<Operator>> fetchOperators() {
+    return null;
+  }
 }

@@ -75,6 +75,14 @@ class FakeTopdeskProvider implements TopdeskProvider {
         );
   }
 
+  @override
+  Future<Iterable<Operator>> fetchOperators() async {
+    final List<dynamic> response = await _readJson('operators.json');
+    return response.map(
+      (dynamic e) => Operator.fromJson(e),
+    );
+  }
+
   Future<List<dynamic>> _readJson(String file) async {
     // This explicit inclusion of the package name seems necessary.
     // Unit tests will run without (only using 'json/'), but on
