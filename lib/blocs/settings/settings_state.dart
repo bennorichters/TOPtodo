@@ -12,6 +12,8 @@ class SettingsTdData extends SettingsState {
     this.branch,
     this.durations,
     this.duration,
+    this.incidentOperators,
+    this.incidentOperator,
     this.person,
     this.subCategories,
     this.subCategory,
@@ -22,6 +24,8 @@ class SettingsTdData extends SettingsState {
   final Branch branch;
   final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
+  final Iterable<Operator> incidentOperators;
+  final Operator incidentOperator;
   final Person person;
   final Iterable<SubCategory> subCategories;
   final SubCategory subCategory;
@@ -33,6 +37,8 @@ class SettingsTdData extends SettingsState {
         branch,
         durations,
         duration,
+        incidentOperators,
+        incidentOperator,
         person,
         subCategories,
         subCategory,
@@ -48,6 +54,8 @@ class SettingsTdData extends SettingsState {
       'category: $subCategories, '
       'durations: $durations, '
       'duration: $duration, '
+      'operators: $incidentOperators, '
+      'operator: $incidentOperator, '
       '}';
 }
 
