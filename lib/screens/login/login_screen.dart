@@ -115,28 +115,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 _verticalSpace,
-                Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () => _connect(
-                        context,
-                        Credentials(
-                          url: urlController.text,
-                          loginName: loginNameController.text,
-                          password: passwordController.text,
+                InkWell(
+                  onTap: () => _connect(
+                    context,
+                    Credentials(
+                      url: urlController.text,
+                      loginName: loginNameController.text,
+                      password: passwordController.text,
+                    ),
+                  ),
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: <Widget>[
+                      Image.asset('assets/button_denim.png'),
+                      Text(
+                        'login',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
                         ),
                       ),
-                      child: Image.asset('assets/button_denim.png'),
-                    ),
-                    Text(
-                      'login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
