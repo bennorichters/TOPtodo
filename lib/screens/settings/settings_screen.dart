@@ -25,6 +25,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: (_) {
+              print(_);
+            },
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: '1',
+                  child: const Text('Log out'),
+                )
+              ];
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (BuildContext context, SettingsState state) {
