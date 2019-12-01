@@ -21,20 +21,20 @@ class TopToDoApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: <RepositoryProvider<dynamic>>[
         RepositoryProvider<CredentialsProvider>(
-          builder: (BuildContext context) => SecureStorageCredentials(),
+          create: (BuildContext context) => SecureStorageCredentials(),
         ),
         RepositoryProvider<SettingsProviderFactory>(
-          builder: (BuildContext context) => (String url, String loginName) =>
+          create: (BuildContext context) => (String url, String loginName) =>
               SharedPreferencesSettingsProvider(url, loginName),
         ),
         RepositoryProvider<TopdeskProvider>(
-          builder: (BuildContext context) => FakeTopdeskProvider(),
+          create: (BuildContext context) => FakeTopdeskProvider(),
         )
       ],
       child: MultiBlocProvider(
         providers: <BlocProvider<Bloc<dynamic, dynamic>>>[
           BlocProvider<LoginBloc>(
-            builder: (BuildContext context) => LoginBloc(
+            create: (BuildContext context) => LoginBloc(
               credentialsProvider:
                   RepositoryProvider.of<CredentialsProvider>(context),
               settingsProviderFactory:
@@ -43,12 +43,12 @@ class TopToDoApp extends StatelessWidget {
             ),
           ),
           BlocProvider<SettingsBloc>(
-            builder: (BuildContext context) => SettingsBloc(
+            create: (BuildContext context) => SettingsBloc(
               RepositoryProvider.of<TopdeskProvider>(context),
             ),
           ),
           BlocProvider<TdModelSearchBloc>(
-            builder: (BuildContext context) => TdModelSearchBloc(
+            create: (BuildContext context) => TdModelSearchBloc(
               RepositoryProvider.of<TopdeskProvider>(context),
             ),
           ),
