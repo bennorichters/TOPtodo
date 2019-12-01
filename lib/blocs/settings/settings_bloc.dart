@@ -18,13 +18,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
+      yield const SettingsTdData();
+      
       final List<Iterable<TdModel>> searchListOptions =
           await Future.wait(<Future<Iterable<TdModel>>>[
         topdeskProvider.fetchDurations(),
         topdeskProvider.fetchCategories(),
       ]);
 
-      yield _updatedState(
+      yield SettingsTdData(
         durations: searchListOptions[0],
         categories: searchListOptions[1],
       );
@@ -46,6 +48,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield _updatedState(person: event.person);
     } else if (event is SettingsSubCategorySelected) {
       yield _updatedState(subCategory: event.subCategory);
+    } else if (event is SettingsUserLoggedOut) {
+      yield SettingsLogout();
     } else {
       throw ArgumentError('unknown event $event');
     }

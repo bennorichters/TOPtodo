@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
+import 'package:toptodo/blocs/settings/settings_bloc.dart';
+import 'package:toptodo/blocs/settings/settings_state.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+import '../login/login_screen.dart';
 import 'widgets/td_model_search_delegate.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -28,94 +31,105 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: (_) {
-              print(_);
+              BlocProvider.of<SettingsBloc>(context)..add(SettingsUserLoggedOut());
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
                   value: '1',
-                  child: const Text('Log out'),
+                  child: const Text('log out'),
                 )
               ];
             },
           ),
         ],
       ),
-      body: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (BuildContext context, SettingsState state) {
-        if (state is SettingsTdData) {
-          return Padding(
-            padding: const EdgeInsets.all(15),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextFormField(
-                          controller: TextEditingController()
-                            ..text = (state.branch?.name) ?? '',
-                          enabled: false,
-                          decoration: InputDecoration(
-                            labelText: 'Branch',
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: _searchBranch(context),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextFormField(
-                          controller: TextEditingController()
-                            ..text = (state.person?.name) ?? '',
-                          enabled: false,
-                          decoration: InputDecoration(
-                            labelText: 'Person' +
-                                (state.branch == null
-                                    ? ' (first choose a branch)'
-                                    : ''),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: _searchPerson(context, state.branch),
-                      ),
-                    ],
-                  ),
-                  SearchList<Category>(
-                    name: 'Category',
-                    items: state.categories,
-                    selectedItem: state.category,
-                    onChangedCallBack: (Category newValue) {
-                      BlocProvider.of<SettingsBloc>(context)
-                        ..add(SettingsCategorySelected(newValue));
-                    },
-                  ),
-                  _SubCategoryWidget(state: state),
-                  SearchList<IncidentDuration>(
-                    name: 'Duration',
-                    items: state.durations,
-                    selectedItem: state.duration,
-                    onChangedCallBack: (IncidentDuration newValue) {
-                      BlocProvider.of<SettingsBloc>(context)
-                        ..add(SettingsDurationSelected(newValue));
-                    },
-                  ),
-                ],
+      body: BlocListener<SettingsBloc, SettingsState>(
+        listener: (BuildContext context, SettingsState state) {
+          if (state is SettingsLogout) {
+            Navigator.of(context).pushReplacement<dynamic, LoginScreen>(
+              MaterialPageRoute<LoginScreen>(
+                builder: (_) => const LoginScreen(),
               ),
-            ),
-          );
-        } else {
-          return Text('State: $state');
-        }
-      }),
+            );
+          }
+        },
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (BuildContext context, SettingsState state) {
+          if (state is SettingsTdData) {
+            return Padding(
+              padding: const EdgeInsets.all(15),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            controller: TextEditingController()
+                              ..text = (state.branch?.name) ?? '',
+                            enabled: false,
+                            decoration: InputDecoration(
+                              labelText: 'Branch',
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: _searchBranch(context),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            controller: TextEditingController()
+                              ..text = (state.person?.name) ?? '',
+                            enabled: false,
+                            decoration: InputDecoration(
+                              labelText: 'Person' +
+                                  (state.branch == null
+                                      ? ' (first choose a branch)'
+                                      : ''),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: _searchPerson(context, state.branch),
+                        ),
+                      ],
+                    ),
+                    SearchList<Category>(
+                      name: 'Category',
+                      items: state.categories,
+                      selectedItem: state.category,
+                      onChangedCallBack: (Category newValue) {
+                        BlocProvider.of<SettingsBloc>(context)
+                          ..add(SettingsCategorySelected(newValue));
+                      },
+                    ),
+                    _SubCategoryWidget(state: state),
+                    SearchList<IncidentDuration>(
+                      name: 'Duration',
+                      items: state.durations,
+                      selectedItem: state.duration,
+                      onChangedCallBack: (IncidentDuration newValue) {
+                        BlocProvider.of<SettingsBloc>(context)
+                          ..add(SettingsDurationSelected(newValue));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Container();
+          }
+        }),
+      ),
     );
   }
 

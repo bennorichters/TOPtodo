@@ -50,3 +50,8 @@ class SettingsTdData extends SettingsState {
       'duration: $duration, '
       '}';
 }
+
+class SettingsLogout extends SettingsState {
+  @override
+  List<Object> get props => <Object>[];
+}

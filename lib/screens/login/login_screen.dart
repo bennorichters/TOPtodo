@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               } else if (state is RetrievedSavedData) {
                 return buildInputFields(context, state.savedData);
               } else if (state is LoginSuccessNoSettings) {
-                return const Text('Login success!');
+                return buildLoading();
               } else if (state is LoginSubmitting) {
                 return buildLoading();
               } else {
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Image.asset('assets/button_denim.png'),
                       Text(
-                        'login',
+                        'log in',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
