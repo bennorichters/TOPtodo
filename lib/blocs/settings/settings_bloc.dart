@@ -50,6 +50,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield _updatedState(duration: event.duration);
     } else if (event is SettingsBranchSelected) {
       yield _updatedState(branch: event.branch);
+    } else if (event is SettingsOperatorSelected) {
+      yield _updatedState(incidentOperator: event.incidentOperator);
     } else if (event is SettingsPersonSelected) {
       yield _updatedState(person: event.person);
     } else if (event is SettingsSubCategorySelected) {
@@ -83,6 +85,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Category category,
     Iterable<IncidentDuration> durations,
     IncidentDuration duration,
+    Iterable<Operator> incidentOperators,
+    Operator incidentOperator,
     Person person,
     Iterable<SubCategory> subCategories,
     SubCategory subCategory,
@@ -97,6 +101,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           category: category ?? sfs.category,
           durations: durations ?? sfs.durations,
           duration: duration ?? sfs.duration,
+          incidentOperators: incidentOperators ?? sfs.incidentOperators,
+          incidentOperator: incidentOperator ?? sfs.incidentOperator,
           person: _updatedValue(
             value: person,
             oldValue: sfs.person,

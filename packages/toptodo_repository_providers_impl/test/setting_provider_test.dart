@@ -11,10 +11,8 @@ void main() {
 
   test('first nothing then retrieve same as saved', () async {
     final SharedPreferencesSettingsProvider p =
-        SharedPreferencesSettingsProvider(
-      'url',
-      'loginName',
-    );
+        SharedPreferencesSettingsProvider();
+    p.init('url', 'loginName');
 
     expect(await p.provide(), null);
 
@@ -39,10 +37,9 @@ void main() {
   });
 
   test('different url does not contain the same settings', () async {
-    final SharedPreferencesSettingsProvider p1 = SharedPreferencesSettingsProvider(
-      'url1',
-      'loginName',
-    );
+    final SharedPreferencesSettingsProvider p1 =
+        SharedPreferencesSettingsProvider();
+    p1.init('url1', 'loginName');
 
     const Settings s = Settings(
       branchId: 'b',
@@ -55,10 +52,9 @@ void main() {
 
     await p1.save(s);
 
-    final SharedPreferencesSettingsProvider p2 = SharedPreferencesSettingsProvider(
-      'url2',
-      'loginName',
-    );
+    final SharedPreferencesSettingsProvider p2 =
+        SharedPreferencesSettingsProvider();
+    p2.init('url2', 'loginName');
 
     expect(await p2.provide(), null);
   });

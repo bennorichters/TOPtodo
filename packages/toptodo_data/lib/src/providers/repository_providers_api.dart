@@ -9,12 +9,8 @@ abstract class CredentialsProvider {
   Future<void> save(Credentials credentials);
 }
 
-typedef SettingsProviderFactory = SettingsProvider Function(
-  String url,
-  String loginName,
-);
-
 abstract class SettingsProvider {
+  void init(String url, String loginName);
   Future<Settings> provide();
   Future<void> save(Settings settings);
 }

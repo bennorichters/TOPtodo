@@ -122,13 +122,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ..add(SettingsDurationSelected(newValue));
                       },
                     ),
-                    SearchList<IncidentDuration>(
+                    SearchList<Operator>(
                       name: 'Operator',
-                      items: formState.durations,
-                      selectedItem: formState.duration,
-                      onChangedCallBack: (IncidentDuration newValue) {
+                      items: formState.incidentOperators,
+                      selectedItem: formState.incidentOperator,
+                      onChangedCallBack: (Operator newValue) {
                         BlocProvider.of<SettingsBloc>(context)
-                          ..add(SettingsDurationSelected(newValue));
+                          ..add(SettingsOperatorSelected(newValue));
                       },
                     ),
                     TdButton(

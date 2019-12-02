@@ -23,9 +23,8 @@ class TopToDoApp extends StatelessWidget {
         RepositoryProvider<CredentialsProvider>(
           create: (BuildContext context) => SecureStorageCredentials(),
         ),
-        RepositoryProvider<SettingsProviderFactory>(
-          create: (BuildContext context) => (String url, String loginName) =>
-              SharedPreferencesSettingsProvider(url, loginName),
+        RepositoryProvider<SettingsProvider>(
+          create: (BuildContext context) => SharedPreferencesSettingsProvider(),
         ),
         RepositoryProvider<TopdeskProvider>(
           create: (BuildContext context) => FakeTopdeskProvider(),
@@ -37,8 +36,8 @@ class TopToDoApp extends StatelessWidget {
             create: (BuildContext context) => LoginBloc(
               credentialsProvider:
                   RepositoryProvider.of<CredentialsProvider>(context),
-              settingsProviderFactory:
-                  RepositoryProvider.of<SettingsProviderFactory>(context),
+              settingsProvider:
+                  RepositoryProvider.of<SettingsProvider>(context),
               topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
             ),
           ),

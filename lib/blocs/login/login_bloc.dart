@@ -9,13 +9,13 @@ import './bloc.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     @required this.credentialsProvider,
-    @required this.settingsProviderFactory,
     @required this.topdeskProvider,
+    @required this.settingsProvider,
   });
 
   final CredentialsProvider credentialsProvider;
-  final SettingsProviderFactory settingsProviderFactory;
   final TopdeskProvider topdeskProvider;
+  final SettingsProvider settingsProvider;
 
   @override
   LoginState get initialState => const LoginWaitingForSavedData();
@@ -34,10 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       topdeskProvider.init(event.credentials);
 
-      final SettingsProvider settingsProvider = settingsProviderFactory(
-        event.credentials.url,
-        event.credentials.loginName,
-      );
+      settingsProvider.init(event.credentials.url, event.credentials.loginName);
       final Settings settings = await settingsProvider.provide();
 
       if (settings == null) {

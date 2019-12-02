@@ -34,6 +34,14 @@ class SettingsDurationSelected extends SettingsEvent {
   List<Object> get props => <Object> [duration];
 }
 
+class SettingsOperatorSelected extends SettingsEvent {
+  const SettingsOperatorSelected(this.incidentOperator);
+  final Operator incidentOperator;
+
+  @override
+  List<Object> get props => <Object> [incidentOperator];
+}
+
 class SettingsPersonSelected extends SettingsEvent {
   const SettingsPersonSelected(this.person);
   final Person person;
