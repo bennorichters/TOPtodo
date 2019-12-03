@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+@immutable
 class SettingsFormState extends Equatable {
   const SettingsFormState({
     this.categories,
@@ -62,12 +64,12 @@ class SettingsFormState extends Equatable {
         subCategory: _updatedValue(
           value: updatedSubCategory,
           oldValue: subCategory,
-          linkedTo: updatedSubCategory,
+          linkedTo: updatedCategory,
           oldLinkedTo: category,
         ),
       );
 
-  dynamic _updatedValue({
+   static dynamic _updatedValue({
     @required dynamic value,
     @required dynamic oldValue,
     @required dynamic linkedTo,
@@ -105,8 +107,8 @@ class SettingsFormState extends Equatable {
       'person: $person, '
       'categories: $categories, '
       'category: $category, '
-      'category: $subCategory, '
-      'category: $subCategories, '
+      'subCategory: $subCategory, '
+      'subCategories: $subCategories, '
       'durations: $durations, '
       'duration: $duration, '
       'operators: $incidentOperators, '

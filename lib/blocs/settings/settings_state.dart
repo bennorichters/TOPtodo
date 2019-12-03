@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:toptodo/blocs/settings/settings_form_state.dart';
 
 abstract class SettingsState extends Equatable {
@@ -6,7 +7,7 @@ abstract class SettingsState extends Equatable {
 }
 
 class SettingsTdData extends SettingsState {
-  const SettingsTdData({this.formState});
+  const SettingsTdData({@required this.formState});
   final SettingsFormState formState;
 
   @override
@@ -14,6 +15,9 @@ class SettingsTdData extends SettingsState {
 }
 
 class SettingsLogout extends SettingsState {
+  const SettingsLogout({@required this.formState});
+  final SettingsFormState formState;
+
   @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => <Object>[formState];
 }
