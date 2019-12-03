@@ -16,6 +16,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   equatable: ^1.0.1
   flutter_bloc: ^2.1.1
+  meta: ^1.1.7
   toptodo_data:
     path: packages/toptodo_data
   toptodo_repository_providers_impl:
