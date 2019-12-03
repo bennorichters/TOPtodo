@@ -26,6 +26,15 @@ class SettingsFormState extends Equatable {
   final Iterable<SubCategory> subCategories;
   final SubCategory subCategory;
 
+  Settings toSettings() => Settings(
+    branchId: branch.id,
+    callerId: person.id,
+    categoryId: category.id,
+    subcategoryId: subCategory.id,
+    durationId: duration.id,
+    operatorId: incidentOperator.id,
+  );
+
   @override
   List<Object> get props => <Object>[
         categories,
