@@ -15,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Widget _verticalSpace = const SizedBox(height: 10);
 
   @override
   void initState() {
@@ -131,6 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ..add(SettingsOperatorSelected(newValue));
                       },
                     ),
+                    _verticalSpace,
                     TdButton(
                       text: 'save',
                       onTap: () {
