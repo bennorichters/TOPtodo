@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class SettingsFormState extends Equatable {
@@ -26,14 +27,63 @@ class SettingsFormState extends Equatable {
   final Iterable<SubCategory> subCategories;
   final SubCategory subCategory;
 
+  SettingsFormState update({
+    Branch updatedBranch,
+    Iterable<Category> updatedCategories,
+    Category updatedCategory,
+    Iterable<IncidentDuration> updatedDurations,
+    IncidentDuration updatedDuration,
+    Iterable<Operator> updatedIncidentOperators,
+    Operator updatedIncidentOperator,
+    Person updatedPerson,
+    Iterable<SubCategory> updatedSubCategories,
+    SubCategory updatedSubCategory,
+  }) =>
+      SettingsFormState(
+        branch: updatedBranch ?? branch,
+        categories: updatedCategories ?? categories,
+        category: updatedCategory ?? category,
+        durations: updatedDurations ?? durations,
+        duration: updatedDuration ?? duration,
+        incidentOperators: updatedIncidentOperators ?? incidentOperators,
+        incidentOperator: updatedIncidentOperator ?? incidentOperator,
+        person: _updatedValue(
+          value: updatedPerson,
+          oldValue: person,
+          linkedTo: updatedPerson,
+          oldLinkedTo: branch,
+        ),
+        subCategories: _updatedValue(
+          value: updatedSubCategories,
+          oldValue: subCategories,
+          linkedTo: updatedCategory,
+          oldLinkedTo: category,
+        ),
+        subCategory: _updatedValue(
+          value: updatedSubCategory,
+          oldValue: subCategory,
+          linkedTo: updatedSubCategory,
+          oldLinkedTo: category,
+        ),
+      );
+
+  dynamic _updatedValue({
+    @required dynamic value,
+    @required dynamic oldValue,
+    @required dynamic linkedTo,
+    @required dynamic oldLinkedTo,
+  }) =>
+      value ??
+      ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
+
   Settings toSettings() => Settings(
-    branchId: branch.id,
-    callerId: person.id,
-    categoryId: category.id,
-    subcategoryId: subCategory.id,
-    durationId: duration.id,
-    operatorId: incidentOperator.id,
-  );
+        branchId: branch.id,
+        callerId: person.id,
+        categoryId: category.id,
+        subcategoryId: subCategory.id,
+        durationId: duration.id,
+        operatorId: incidentOperator.id,
+      );
 
   @override
   List<Object> get props => <Object>[
