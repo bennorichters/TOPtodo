@@ -40,32 +40,48 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       yield SettingsTdData(formState: _formState);
     } else if (event is SettingsCategorySelected) {
-      _formState = _formState.update(updatedCategory: event.category);
-      yield SettingsTdData(formState: _formState);
-
-      final Iterable<SubCategory> subCategories =
-          await topdeskProvider.fetchSubCategories(
-        category: event.category,
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedCategory: event.category,
+        ),
       );
-
-      _formState = _formState.update(updatedSubCategories: subCategories);
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedSubCategories: await topdeskProvider.fetchSubCategories(
+            category: event.category,
+          ),
+        ),
+      );
     } else if (event is SettingsDurationSelected) {
-      _formState = _formState.update(updatedDuration: event.duration);
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedDuration: event.duration,
+        ),
+      );
     } else if (event is SettingsBranchSelected) {
-      _formState = _formState.update(updatedBranch: event.branch);
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedBranch: event.branch,
+        ),
+      );
     } else if (event is SettingsOperatorSelected) {
-      _formState =
-          _formState.update(updatedIncidentOperator: event.incidentOperator);
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedIncidentOperator: event.incidentOperator,
+        ),
+      );
     } else if (event is SettingsPersonSelected) {
-      _formState = _formState.update(updatedPerson: event.person);
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedPerson: event.person,
+        ),
+      );
     } else if (event is SettingsSubCategorySelected) {
-      _formState = _formState.update(updatedSubCategory: event.subCategory);
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        formState: _formState = _formState.update(
+          updatedSubCategory: event.subCategory,
+        ),
+      );
     } else if (event is SettingsSave) {
       settingsProvider.save(_formState.toSettings());
     } else if (event is SettingsUserLoggedOut) {
