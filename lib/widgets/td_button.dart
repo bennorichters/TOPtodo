@@ -7,21 +7,30 @@ class TdButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: <Widget>[
-          Image.asset('assets/button_denim.png'),
-          Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: <Widget>[
+        Image.asset('assets/button_denim.png'),
+        Container(
+          width: 230,
+          height: 53,
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: onTap,
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
