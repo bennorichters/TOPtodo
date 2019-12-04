@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/widgets/td_button.dart';
@@ -48,6 +49,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocListener<SettingsBloc, SettingsState>(
         listener: (BuildContext context, SettingsState state) {
           if (state is SettingsLogout) {
+            BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
+
             Navigator.of(context).pushReplacement<dynamic, LoginScreen>(
               MaterialPageRoute<LoginScreen>(
                 builder: (_) => const LoginScreen(),
