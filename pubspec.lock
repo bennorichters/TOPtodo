@@ -70,7 +70,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.3"
   equatable:
     dependency: "direct main"
     description:
@@ -185,7 +185,14 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.4+5"
+    version: "0.5.4+8"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -238,7 +245,7 @@ packages:
     description:
       path: "packages/toptodo_data"
       ref: HEAD
-      resolved-ref: "518133a0a7b365cca7312cd6a2c67ccbc666ba0d"
+      resolved-ref: "2b28157b629d1233ca6acc7063acfdb0e0194840"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -247,7 +254,7 @@ packages:
     description:
       path: "packages/toptodo_repository_providers_impl"
       ref: HEAD
-      resolved-ref: "518133a0a7b365cca7312cd6a2c67ccbc666ba0d"
+      resolved-ref: "2b28157b629d1233ca6acc7063acfdb0e0194840"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -256,7 +263,7 @@ packages:
     description:
       path: "packages/toptodo_topdesk_provider_mock"
       ref: HEAD
-      resolved-ref: "518133a0a7b365cca7312cd6a2c67ccbc666ba0d"
+      resolved-ref: "2b28157b629d1233ca6acc7063acfdb0e0194840"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
