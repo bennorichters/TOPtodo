@@ -13,7 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   toptodo_data:
-    path: ../toptodo_data
+    git: 
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_data
   flutter_secure_storage: ^3.3.1+1
   shared_preferences: ^0.5.4+3
   crypto: ^2.1.3

@@ -131,9 +131,11 @@ packages:
   toptodo_data:
     dependency: "direct main"
     description:
-      path: "../toptodo_data"
-      relative: true
-    source: path
+      path: "packages/toptodo_data"
+      ref: HEAD
+      resolved-ref: "0eda935abe9a5dbfe75aa8f8629af96b30d15fa6"
+      url: "git://github.com/bennorichters/toptodo"
+    source: git
     version: "0.0.1"
   typed_data:
     dependency: transitive

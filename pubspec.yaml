@@ -18,15 +18,21 @@ dependencies:
   flutter_bloc: ^2.1.1
   meta: ^1.1.7
   toptodo_data:
-    path: packages/toptodo_data
+    git: 
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_data
   toptodo_repository_providers_impl:
-    path: packages/toptodo_repository_providers_impl
+    git: 
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_repository_providers_impl
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   toptodo_topdesk_provider_mock:
-    path: packages/toptodo_topdesk_provider_mock
+    git: 
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_topdesk_provider_mock
   image: ^2.1.9
 
 flutter:

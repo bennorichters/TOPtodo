@@ -13,7 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   toptodo_data:
-    path: ../toptodo_data
+    git: 
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_data
 
 dev_dependencies:
   flutter_test:
