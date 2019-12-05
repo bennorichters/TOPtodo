@@ -116,6 +116,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 _verticalSpace,
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      value: true,
+                      onChanged: (bool value) {
+                        print(value);
+                      },
+                    ),
+                    const Text('remember'),
+                  ],
+                ),
+                _verticalSpace,
                 TdButton(
                   text: 'log in',
                   onTap: () => _connect(
