@@ -63,7 +63,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.4"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -244,8 +244,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: HEAD
-      resolved-ref: "2b28157b629d1233ca6acc7063acfdb0e0194840"
+      ref: "30950d3ab2c0aabe72242f6ea9892ea28e163519"
+      resolved-ref: "30950d3ab2c0aabe72242f6ea9892ea28e163519"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -253,8 +253,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_repository_providers_impl"
-      ref: HEAD
-      resolved-ref: "2b28157b629d1233ca6acc7063acfdb0e0194840"
+      ref: "1dfdae1bacfb25173286098dc8d628a45fd3ada6"
+      resolved-ref: "1dfdae1bacfb25173286098dc8d628a45fd3ada6"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -262,8 +262,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/toptodo_topdesk_provider_mock"
-      ref: HEAD
-      resolved-ref: "2b28157b629d1233ca6acc7063acfdb0e0194840"
+      ref: "1dfdae1bacfb25173286098dc8d628a45fd3ada6"
+      resolved-ref: "1dfdae1bacfb25173286098dc8d628a45fd3ada6"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
