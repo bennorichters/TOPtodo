@@ -14,11 +14,12 @@ class LoginWaitingForSavedData extends LoginState {
 }
 
 class RetrievedSavedData extends LoginState {
-  const RetrievedSavedData(this.savedData);
+  const RetrievedSavedData(this.savedData, this.remember);
   final Credentials savedData;
+  final bool remember;
 
   @override
-  List<Object> get props => <Object>[savedData];
+  List<Object> get props => <Object>[remember, savedData];
 }
 
 class LoginSubmitting extends LoginState {

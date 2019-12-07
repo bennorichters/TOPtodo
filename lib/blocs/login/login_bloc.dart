@@ -16,6 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final CredentialsProvider credentialsProvider;
   final TopdeskProvider topdeskProvider;
   final SettingsProvider settingsProvider;
+  bool remember;
 
   @override
   LoginState get initialState => const LoginWaitingForSavedData();
@@ -27,7 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is AppStarted) {
       yield const LoginWaitingForSavedData();
       final Credentials credentials = await credentialsProvider.provide();
-      yield RetrievedSavedData(credentials);
+
+      yield RetrievedSavedData(credentials, true);
+    } else if (event is RememberToggle) {
+      yield RetrievedSavedData(event.credentials, event.remember);
     } else if (event is TryLogin) {
       yield const LoginSubmitting();
       await credentialsProvider.save(event.credentials);

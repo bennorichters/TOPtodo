@@ -14,9 +14,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Widget _verticalSpace = const SizedBox(height: 10);
-
   @override
   void initState() {
     super.initState();
@@ -45,7 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is LoginWaitingForSavedData) {
                 return buildLoading();
               } else if (state is RetrievedSavedData) {
-                return buildInputFields(context, state.savedData);
+                return _CredentialsForm.withSavedDate(
+                  state.savedData,
+                  state.remember,
+                );
               } else if (state is LoginSuccessNoSettings) {
                 return buildLoading();
               } else if (state is LoginSubmitting) {
@@ -65,15 +65,27 @@ class _LoginScreenState extends State<LoginScreen> {
       child: CircularProgressIndicator(),
     );
   }
+}
 
-  Widget buildInputFields(BuildContext context, Credentials savedData) {
-    final TextEditingController urlController = TextEditingController()
-      ..text = savedData.url ?? '';
-    final TextEditingController loginNameController = TextEditingController()
-      ..text = savedData.loginName ?? '';
-    final TextEditingController passwordController = TextEditingController()
-      ..text = savedData.password ?? '';
+class _CredentialsForm extends StatelessWidget {
+  _CredentialsForm.withSavedDate(Credentials savedData, bool remember)
+      : _urlController = TextEditingController()..text = savedData.url ?? '',
+        _loginNameController = TextEditingController()
+          ..text = savedData.loginName ?? '',
+        _passwordController = TextEditingController()
+          ..text = savedData.password ?? '',
+        _remember = remember;
 
+  final TextEditingController _urlController;
+  final TextEditingController _loginNameController;
+  final TextEditingController _passwordController;
+  final bool _remember;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Widget _verticalSpace = const SizedBox(height: 10);
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         CustomPaint(
@@ -85,10 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
             key: _formKey,
             child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
-                  controller: urlController,
+                  controller: _urlController,
                   autocorrect: false,
                   decoration: InputDecoration(
                     labelText: 'TOPdesk url',
@@ -101,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _verticalSpace,
                 TextFormField(
                   autocorrect: false,
-                  controller: loginNameController,
+                  controller: _loginNameController,
                   decoration: InputDecoration(
                     labelText: 'login name',
                   ),
@@ -111,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _verticalSpace,
                 TextFormField(
                   autocorrect: false,
-                  controller: passwordController,
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'application password',
@@ -124,9 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   children: <Widget>[
                     Checkbox(
-                      value: true,
+                      value: _remember,
                       onChanged: (bool value) {
-                        print(value);
+                        BlocProvider.of<LoginBloc>(context)
+                          ..add(RememberToggle(_createCredentials(), value));
                       },
                     ),
                     const Text('remember'),
@@ -137,11 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: 'log in',
                   onTap: () => _connect(
                     context,
-                    Credentials(
-                      url: urlController.text,
-                      loginName: loginNameController.text,
-                      password: passwordController.text,
-                    ),
+                    _createCredentials(),
                   ),
                 ),
               ],
@@ -151,6 +159,12 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
+
+  Credentials _createCredentials() => Credentials(
+        url: _urlController.text,
+        loginName: _loginNameController.text,
+        password: _passwordController.text,
+      );
 
   void _connect(BuildContext context, Credentials credentials) {
     if (_formKey.currentState.validate()) {
