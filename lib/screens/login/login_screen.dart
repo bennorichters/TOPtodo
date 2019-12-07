@@ -105,6 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'login name',
                   ),
+                  validator: (String value) =>
+                      value.isEmpty ? 'fill in your login name' : null,
                 ),
                 _verticalSpace,
                 TextFormField(
@@ -114,6 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'application password',
                   ),
+                  validator: (String value) => value.isEmpty
+                      ? 'fill in your application password'
+                      : null,
                 ),
                 _verticalSpace,
                 Row(
@@ -148,6 +153,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _connect(BuildContext context, Credentials credentials) {
-    BlocProvider.of<LoginBloc>(context)..add(TryLogin(credentials));
+    if (_formKey.currentState.validate()) {
+      BlocProvider.of<LoginBloc>(context)..add(TryLogin(credentials));
+    }
   }
 }
