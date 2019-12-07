@@ -66,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: const EdgeInsets.all(15),
               child: Form(
                 key: _formKey,
-                child: Column(
+                child: ListView(
                   children: <Widget>[
                     Row(
                       children: <Widget>[

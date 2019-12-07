@@ -84,8 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(15),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: ListView(
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
                   controller: urlController,
