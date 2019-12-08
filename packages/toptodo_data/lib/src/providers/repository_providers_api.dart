@@ -18,6 +18,8 @@ abstract class SettingsProvider {
 abstract class TopdeskProvider {
   void init(Credentials credentials);
 
+  Future<Operator> fetchCurrentOperator();
+
   Future<Iterable<Branch>> fetchBranches({
     @required String startsWith,
   });
