@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart' as prefix0;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
@@ -47,6 +48,18 @@ void main() {
       await t.pump(const Duration(milliseconds: 10));
 
       expect(ds.length, isZero);
+    });
+  });
+
+  testWidgets('fetch current operator', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Operator op = await ftp.fetchCurrentOperator();
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(op, isNotNull);
     });
   });
 }

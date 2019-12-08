@@ -83,6 +83,10 @@ class FakeTopdeskProvider implements TopdeskProvider {
     );
   }
 
+  @override
+  Future<Operator> fetchCurrentOperator() async =>
+      (await fetchOperators()).first;
+
   Future<List<dynamic>> _readJson(String file) async {
     // This explicit inclusion of the package name seems necessary.
     // Unit tests will run without (only using 'json/'), but on
