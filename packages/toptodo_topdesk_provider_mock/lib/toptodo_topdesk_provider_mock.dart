@@ -15,7 +15,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentDuration>> fetchDurations() async {
+  Future<Iterable<IncidentDuration>> durations() async {
     final List<dynamic> response = await _readJson('durations.json');
     return response.map(
       (dynamic e) => IncidentDuration.fromJson(e),
@@ -23,7 +23,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Branch>> fetchBranches({@required String startsWith}) async {
+  Future<Iterable<Branch>> branches({@required String startsWith}) async {
     final String swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson('branches.json');
@@ -37,7 +37,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Person>> fetchPersons({
+  Future<Iterable<Caller>> callers({
     @required String startsWith,
     @required Branch branch,
   }) async {
@@ -46,17 +46,17 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('persons.json');
     return response
         .map(
-          (dynamic e) => Person.fromJson(e),
+          (dynamic e) => Caller.fromJson(e),
         )
         .where(
-          (Person p) =>
+          (Caller p) =>
               (p.branchid == branch.id) &&
               p.name.toLowerCase().startsWith(swLower),
         );
   }
 
   @override
-  Future<Iterable<Category>> fetchCategories() async {
+  Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _readJson('categories.json');
     return response.map(
       (dynamic e) => Category.fromJson(e),
@@ -64,7 +64,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<SubCategory>> fetchSubCategories({Category category}) async {
+  Future<Iterable<SubCategory>> subCategories({Category category}) async {
     final List<dynamic> response = await _readJson('sub_categories.json');
     return response
         .map(
@@ -76,7 +76,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Operator>> fetchOperators({
+  Future<Iterable<Operator>> operators({
     @required String startsWith,
   }) async {
     final String swLower = startsWith.toLowerCase();
@@ -92,8 +92,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Operator> fetchCurrentOperator() async =>
-      (await fetchOperators(startsWith: '')).first;
+  Future<Operator> currentOperator() async =>
+      (await operators(startsWith: '')).first;
 
   Future<List<dynamic>> _readJson(String file) async {
     // This explicit inclusion of the package name seems necessary.

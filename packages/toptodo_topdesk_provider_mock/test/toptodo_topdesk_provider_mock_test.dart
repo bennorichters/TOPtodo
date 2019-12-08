@@ -11,7 +11,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 1),
       );
-      final Iterable<IncidentDuration> ds = await ftp.fetchDurations();
+      final Iterable<IncidentDuration> ds = await ftp.durations();
 
       await t.pump(const Duration(milliseconds: 1));
 
@@ -24,7 +24,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Iterable<Branch> ds = await ftp.fetchBranches(startsWith: 'E');
+      final Iterable<Branch> ds = await ftp.branches(startsWith: 'E');
 
       await t.pump(const Duration(milliseconds: 10));
 
@@ -37,7 +37,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Iterable<Person> ds = await ftp.fetchPersons(
+      final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
         branch: Branch.fromJson(
           jsonDecode('{"id": "g", "name": "EEE Branch"}'),
@@ -55,7 +55,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Operator op = await ftp.fetchCurrentOperator();
+      final Operator op = await ftp.currentOperator();
       await t.pump(const Duration(milliseconds: 10));
 
       expect(op, isNotNull);

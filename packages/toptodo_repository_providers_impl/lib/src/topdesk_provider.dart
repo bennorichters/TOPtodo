@@ -26,13 +26,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentDuration>> fetchDurations() async {
+  Future<Iterable<IncidentDuration>> durations() async {
     final List<dynamic> response = await _callApi('incidents/durations');
     return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
 
   @override
-  Future<Iterable<Branch>> fetchBranches({@required String startsWith}) {
+  Future<Iterable<Branch>> branches({@required String startsWith}) {
     return null;
   }
 
@@ -52,7 +52,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Person>> fetchPersons({
+  Future<Iterable<Caller>> callers({
     @required String startsWith,
     @required Branch branch,
   }) async {
@@ -60,13 +60,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Category>> fetchCategories() async {
+  Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _callApi('incidents/categories');
     return response.map((dynamic e) => Category.fromJson(e));
   }
 
   @override
-  Future<Iterable<SubCategory>> fetchSubCategories({Category category}) async {
+  Future<Iterable<SubCategory>> subCategories({Category category}) async {
     final List<dynamic> response = await _callApi('incidents/subcategories');
     return response
         .where((dynamic json) => json['category']['id'] == category.id)
@@ -74,7 +74,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Operator>> fetchOperators({
+  Future<Iterable<Operator>> operators({
     @required String startsWith,
   }) async {
     final List<dynamic> response = await _callApi(
@@ -89,7 +89,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Operator> fetchCurrentOperator() async {
+  Future<Operator> currentOperator() async {
     final dynamic response = await _callApi('operators/current');
     response['name'] = response['dynamicName'];
     return Operator.fromJson(response);
