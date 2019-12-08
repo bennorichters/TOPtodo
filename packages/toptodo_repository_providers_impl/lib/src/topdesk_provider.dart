@@ -27,7 +27,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
-    final List<dynamic> response = await _callApi();
+    final List<dynamic> response = await _callApi('incident/durations');
     return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
 
@@ -36,13 +36,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return null;
   }
 
-  dynamic _callApi() async {
+  dynamic _callApi(String endPoint) async {
     if (_url == null) {
       throw StateError('call init first');
     }
 
     final http.Response res = await http.get(
-      '$_url/tas/api/incidents/durations',
+      '$_url/tas/api/$endPoint',
       headers: _authHeaders,
     );
 
@@ -58,17 +58,27 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Category>> fetchCategories() {
-    return null;
+  Future<Iterable<Category>> fetchCategories() async {
+    final List<dynamic> response = await _callApi('incident/categories');
+    return response.map((dynamic e) => Category.fromJson(e));
   }
 
   @override
-  Future<Iterable<SubCategory>> fetchSubCategories({Category category}) {
-    return null;
+  Future<Iterable<SubCategory>> fetchSubCategories({Category category}) async {
+    final List<dynamic> response = await _callApi('incident/subcategories');
+    return response
+        .where((dynamic json) => json['category']['id'] == category.id)
+        .map((dynamic json) => SubCategory.fromJson(json));
   }
 
   @override
-  Future<Iterable<Operator>> fetchOperators() {
-    return null;
+  Future<Iterable<Operator>> fetchOperators() async {
+    final List<dynamic> response = await _callApi('operators');
+    return response
+        .where((dynamic json) => json['firstLineCallOperator'])
+        .map<dynamic>((dynamic e) {
+      e.put('name', e['dynamicName']);
+      return e;
+    }).map((dynamic e) => Operator.fromJson(e));
   }
 }
