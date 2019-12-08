@@ -27,7 +27,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<IncidentDuration>> fetchDurations() async {
-    final List<dynamic> response = await _callApi('incident/durations');
+    final List<dynamic> response = await _callApi('incidents/durations');
     return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
 
@@ -46,6 +46,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       headers: _authHeaders,
     );
 
+    print(res.statusCode);
+
     return json.decode(res.body);
   }
 
@@ -59,13 +61,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<Category>> fetchCategories() async {
-    final List<dynamic> response = await _callApi('incident/categories');
+    final List<dynamic> response = await _callApi('incidents/categories');
     return response.map((dynamic e) => Category.fromJson(e));
   }
 
   @override
   Future<Iterable<SubCategory>> fetchSubCategories({Category category}) async {
-    final List<dynamic> response = await _callApi('incident/subcategories');
+    final List<dynamic> response = await _callApi('incidents/subcategories');
     return response
         .where((dynamic json) => json['category']['id'] == category.id)
         .map((dynamic json) => SubCategory.fromJson(json));
@@ -77,8 +79,15 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return response
         .where((dynamic json) => json['firstLineCallOperator'])
         .map<dynamic>((dynamic e) {
-      e.put('name', e['dynamicName']);
+      e['name'] = e['dynamicName'];
       return e;
     }).map((dynamic e) => Operator.fromJson(e));
+  }
+
+  @override
+  Future<Operator> fetchCurrentOperator() async {
+    final dynamic response = await _callApi('operators/current');
+    response['name'] = response['dynamicName'];
+    return Operator.fromJson(response);
   }
 }
