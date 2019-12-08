@@ -18,21 +18,20 @@ abstract class SettingsProvider {
 abstract class TopdeskProvider {
   void init(Credentials credentials);
 
-  Future<Operator> fetchCurrentOperator();
-
-  Future<Iterable<Branch>> fetchBranches({
+  Future<Iterable<Branch>> branches({
     @required String startsWith,
   });
-  Future<Iterable<IncidentDuration>> fetchDurations();
-  Future<Iterable<Category>> fetchCategories();
-  Future<Iterable<SubCategory>> fetchSubCategories({
-    @required Category category,
-  });
-  Future<Iterable<Operator>> fetchOperators({
-    @required String startsWith,
-  });
-  Future<Iterable<Person>> fetchPersons({
+  Future<Iterable<Caller>> callers({
     @required String startsWith,
     @required Branch branch,
+  });
+  Future<Operator> currentOperator();
+  Future<Iterable<IncidentDuration>> durations();
+  Future<Iterable<Category>> categories();
+  Future<Iterable<SubCategory>> subCategories({
+    @required Category category,
+  });
+  Future<Iterable<Operator>> operators({
+    @required String startsWith,
   });
 }

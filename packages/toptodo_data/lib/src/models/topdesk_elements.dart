@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class TdModel extends Equatable {
+  const TdModel(this.id, this.name);
   TdModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'];
@@ -35,12 +36,20 @@ class SubCategory extends TdModel {
   final String categoryId;
 }
 
-class Operator extends TdModel {
+abstract class Person extends TdModel {
+  Person.fromJson(Map<String, dynamic> json)
+      : avatar = json['avatar'],
+        super.fromJson(json);
+
+  final String avatar;
+}
+
+class Operator extends Person {
   Operator.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
-class Person extends TdModel {
-  Person.fromJson(Map<String, dynamic> json)
+class Caller extends Person {
+  Caller.fromJson(Map<String, dynamic> json)
       : branchid = json['branchid'],
         super.fromJson(json);
 
