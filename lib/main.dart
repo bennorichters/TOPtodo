@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
-import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 import 'blocs/login/bloc.dart';
 import 'blocs/settings/bloc.dart';
@@ -27,7 +26,7 @@ class TopToDoApp extends StatelessWidget {
           create: (BuildContext context) => SharedPreferencesSettingsProvider(),
         ),
         RepositoryProvider<TopdeskProvider>(
-          create: (BuildContext context) => FakeTopdeskProvider(),
+          create: (BuildContext context) => ApiTopdeskProvider(),
         )
       ],
       child: MultiBlocProvider(
