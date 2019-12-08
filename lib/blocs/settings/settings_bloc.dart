@@ -29,13 +29,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           await Future.wait(<Future<Iterable<TdModel>>>[
         topdeskProvider.fetchDurations(),
         topdeskProvider.fetchCategories(),
-        topdeskProvider.fetchOperators(),
       ]);
 
       _formState = SettingsFormState(
         durations: searchListOptions[0],
         categories: searchListOptions[1],
-        incidentOperators: searchListOptions[2],
       );
 
       yield SettingsTdData(formState: _formState);

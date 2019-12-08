@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-
 class TdModelSearchDelegate extends SearchDelegate<TdModel> {
   TdModelSearchDelegate.allBranches()
       : _type = Branch,
@@ -13,6 +12,10 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
     @required Branch branch,
   })  : _type = Person,
         _linkedTo = branch;
+
+  TdModelSearchDelegate.allOperators()
+      : _type = Operator,
+        _linkedTo = null;
 
   final Type _type;
   final TdModel _linkedTo;

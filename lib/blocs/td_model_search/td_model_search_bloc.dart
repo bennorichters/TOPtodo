@@ -52,6 +52,12 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
             startsWith: searchInfo.query,
           ),
         );
+      case Operator:
+        return TdModelSearchResults(
+          await topdeskProvider.fetchOperators(
+            startsWith: searchInfo.query,
+          ),
+        );
       default:
         throw ArgumentError('no search for ${searchInfo.type}');
     }

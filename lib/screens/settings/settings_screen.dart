@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
+import 'package:toptodo/screens/settings/widgets/search_field.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo_data/toptodo_data.dart';
@@ -68,44 +69,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 key: _formKey,
                 child: ListView(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextFormField(
-                            controller: TextEditingController()
-                              ..text = (formState.branch?.name) ?? '',
-                            enabled: false,
-                            decoration: InputDecoration(
-                              labelText: 'Branch',
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: _searchBranch(context),
-                        ),
-                      ],
+                    SearchField(
+                      value: (formState.branch?.name) ?? '',
+                      label: 'Branch',
+                      search: _searchBranch(context),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextFormField(
-                            controller: TextEditingController()
-                              ..text = (formState.person?.name) ?? '',
-                            enabled: false,
-                            decoration: InputDecoration(
-                              labelText: 'Person' +
-                                  (formState.branch == null
-                                      ? ' (first choose a branch)'
-                                      : ''),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: _searchPerson(context, formState.branch),
-                        ),
-                      ],
+                    SearchField(
+                      value: (formState.person?.name) ?? '',
+                      label: 'Person' +
+                          (formState.branch == null
+                              ? ' (first choose a branch)'
+                              : ''),
+                      search: _searchPerson(context, formState.branch),
                     ),
                     SearchList<Category>(
                       name: 'Category',
@@ -126,14 +101,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ..add(SettingsDurationSelected(newValue));
                       },
                     ),
-                    SearchList<Operator>(
-                      name: 'Operator',
-                      items: formState.incidentOperators,
-                      selectedItem: formState.incidentOperator,
-                      onChangedCallBack: (Operator newValue) {
-                        BlocProvider.of<SettingsBloc>(context)
-                          ..add(SettingsOperatorSelected(newValue));
-                      },
+                    SearchField(
+                      label: 'Operator',
+                      value: (formState.incidentOperator?.name) ?? '',
+                      search: _searchOperator(context),
                     ),
                     _verticalSpace,
                     TdButton(
@@ -181,6 +152,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
             BlocProvider.of<SettingsBloc>(context)
               ..add(SettingsPersonSelected(chosenPerson));
           };
+  }
+
+  VoidCallback _searchOperator(BuildContext context) {
+    return () async {
+      final Operator chosenOperator = await showSearch<TdModel>(
+        context: context,
+        delegate: TdModelSearchDelegate.allOperators(),
+      );
+
+      BlocProvider.of<SettingsBloc>(context)
+        ..add(SettingsOperatorSelected(chosenOperator));
+    };
   }
 }
 
