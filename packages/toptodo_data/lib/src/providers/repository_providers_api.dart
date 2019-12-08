@@ -28,7 +28,9 @@ abstract class TopdeskProvider {
   Future<Iterable<SubCategory>> fetchSubCategories({
     @required Category category,
   });
-  Future<Iterable<Operator>> fetchOperators();
+  Future<Iterable<Operator>> fetchOperators({
+    @required String startsWith,
+  });
   Future<Iterable<Person>> fetchPersons({
     @required String startsWith,
     @required Branch branch,
