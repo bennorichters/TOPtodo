@@ -94,4 +94,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
     response['name'] = response['dynamicName'];
     return Operator.fromJson(response);
   }
+
+  Future<String> avatarForPerson(String id) async {
+    final dynamic response = await _callApi('avatars/operator/$id');
+    return response['image'];
+  }
 }
