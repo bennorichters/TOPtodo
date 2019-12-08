@@ -74,8 +74,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Operator>> fetchOperators() async {
-    final List<dynamic> response = await _callApi('operators');
+  Future<Iterable<Operator>> fetchOperators({
+    @required String startsWith,
+  }) async {
+    final List<dynamic> response = await _callApi(
+      'operators?firstname=$startsWith',
+    );
     return response
         .where((dynamic json) => json['firstLineCallOperator'])
         .map<dynamic>((dynamic e) {

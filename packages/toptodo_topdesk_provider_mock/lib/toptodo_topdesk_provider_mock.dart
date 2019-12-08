@@ -76,16 +76,24 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Operator>> fetchOperators() async {
+  Future<Iterable<Operator>> fetchOperators({
+    @required String startsWith,
+  }) async {
+    final String swLower = startsWith.toLowerCase();
+
     final List<dynamic> response = await _readJson('operators.json');
-    return response.map(
-      (dynamic e) => Operator.fromJson(e),
-    );
+    return response
+        .map(
+          (dynamic e) => Operator.fromJson(e),
+        )
+        .where(
+          (Operator o) => o.name.toLowerCase().startsWith(swLower),
+        );
   }
 
   @override
   Future<Operator> fetchCurrentOperator() async =>
-      (await fetchOperators()).first;
+      (await fetchOperators(startsWith: '')).first;
 
   Future<List<dynamic>> _readJson(String file) async {
     // This explicit inclusion of the package name seems necessary.
