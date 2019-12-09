@@ -46,9 +46,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
       headers: _authHeaders,
     );
 
-    print(res.statusCode);
+    if (res.statusCode == 204) {
+      return json.decode('[]');
+    }
 
-    return json.decode(res.body);
+    if (res.statusCode == 200 || res.statusCode == 206)  {
+      return json.decode(res.body);
+    }
   }
 
   @override
