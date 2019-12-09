@@ -81,21 +81,23 @@ class ApiTopdeskProvider extends TopdeskProvider {
       'operators?firstname=$startsWith',
     );
 
-    final List<dynamic> ops = await Future.wait<List<dynamic>>(
-      response
-          .where(
-        (dynamic json) => json['firstLineCallOperator'],
-      )
-          .map(
-        (dynamic json) async {
-          json['name'] = json['dynamicName'];
-          json['avatar'] = await avatarForPerson(json['id']);
-          return json;
-        },
+    final Iterable<dynamic> filtered = response.where(
+      (dynamic json) => json['firstLineCallOperator'],
+    );
+
+    final List<dynamic> fixed = await Future.wait<dynamic>(
+      filtered.map(
+        (dynamic json) => _fixOperator(json),
       ),
     );
 
-    return ops.map((dynamic json) => Operator.fromJson(json));
+    return fixed.map((dynamic json) => Operator.fromJson(json));
+  }
+
+  Future<dynamic> _fixOperator(dynamic json) async {
+    json['name'] = json['dynamicName'];
+    json['avatar'] = await avatarForPerson(json['id']);
+    return json;
   }
 
   @override
