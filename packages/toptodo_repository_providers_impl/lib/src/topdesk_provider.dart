@@ -32,8 +32,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Branch>> branches({@required String startsWith}) {
-    return null;
+  Future<Iterable<Branch>> branches({@required String startsWith}) async {
+    return const Iterable<Branch>.empty();
   }
 
   dynamic _callApi(String endPoint) async {
@@ -56,7 +56,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required String startsWith,
     @required Branch branch,
   }) async {
-    return null;
+    return const Iterable<Caller>.empty();
   }
 
   @override
