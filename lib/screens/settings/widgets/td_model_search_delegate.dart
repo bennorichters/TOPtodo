@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
+
+import 'package:toptodo/utils/colors.dart' show squash;
 
 class TdModelSearchDelegate extends SearchDelegate<TdModel> {
   TdModelSearchDelegate.allBranches()
@@ -97,23 +100,50 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
         if (state is TdModelSearchResults) {
           return state.results.isEmpty
               ? Center(child: Text("No results for '$query'"))
-              : ListView(
-                  children: state.results
-                      .map(
-                        (TdModel model) => ListTile(
-                          leading: Icon(Icons.location_city),
-                          title: Text(model.name),
-                          onTap: () {
-                            close(context, model);
-                          },
-                        ),
-                      )
-                      .toList(),
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: ListView(
+                    children: state.results
+                        .map(
+                          (TdModel model) => ListTile(
+                            leading: _Avatar(model),
+                            title: Text(model.name),
+                            onTap: () {
+                              close(context, model);
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
                 );
         }
 
         throw StateError('unexpected state: $state');
       },
+    );
+  }
+}
+
+class _Avatar extends StatelessWidget {
+  const _Avatar(this.model);
+  final TdModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    final TdModel item = model;
+    if (item is Person) {
+      return ClipOval(
+        child: Image.memory(
+          base64.decode(
+            item.avatar,
+          ),
+        ),
+      );
+    }
+
+    return CircleAvatar(
+      backgroundColor: squash,
+      child: Text(model.name.substring(0, 1).toUpperCase()),
     );
   }
 }
