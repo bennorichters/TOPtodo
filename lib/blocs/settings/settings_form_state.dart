@@ -6,38 +6,38 @@ import 'package:toptodo_data/toptodo_data.dart';
 @immutable
 class SettingsFormState extends Equatable {
   const SettingsFormState({
+    this.branch,
+    this.caller,
     this.categories,
     this.category,
-    this.branch,
     this.durations,
     this.duration,
     this.incidentOperators,
     this.incidentOperator,
-    this.person,
     this.subCategories,
     this.subCategory,
   });
 
+  final Branch branch;
+  final Caller caller;
   final Iterable<Category> categories;
   final Category category;
-  final Branch branch;
   final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
   final Iterable<Operator> incidentOperators;
   final Operator incidentOperator;
-  final Person person;
   final Iterable<SubCategory> subCategories;
   final SubCategory subCategory;
 
   SettingsFormState update({
     Branch updatedBranch,
+    Caller updatedCaller,
     Iterable<Category> updatedCategories,
     Category updatedCategory,
     Iterable<IncidentDuration> updatedDurations,
     IncidentDuration updatedDuration,
     Iterable<Operator> updatedIncidentOperators,
     Operator updatedIncidentOperator,
-    Person updatedPerson,
     Iterable<SubCategory> updatedSubCategories,
     SubCategory updatedSubCategory,
   }) =>
@@ -49,10 +49,10 @@ class SettingsFormState extends Equatable {
         duration: updatedDuration ?? duration,
         incidentOperators: updatedIncidentOperators ?? incidentOperators,
         incidentOperator: updatedIncidentOperator ?? incidentOperator,
-        person: _updatedValue(
-          value: updatedPerson,
-          oldValue: person,
-          linkedTo: updatedPerson,
+        caller: _updatedValue(
+          value: updatedCaller,
+          oldValue: caller,
+          linkedTo: updatedCaller,
           oldLinkedTo: branch,
         ),
         subCategories: _updatedValue(
@@ -80,7 +80,7 @@ class SettingsFormState extends Equatable {
 
   Settings toSettings() => Settings(
         branchId: branch.id,
-        callerId: person.id,
+        callerId: caller.id,
         categoryId: category.id,
         subcategoryId: subCategory.id,
         durationId: duration.id,
@@ -89,14 +89,14 @@ class SettingsFormState extends Equatable {
 
   @override
   List<Object> get props => <Object>[
+        branch,
+        caller,
         categories,
         category,
-        branch,
         durations,
         duration,
         incidentOperators,
         incidentOperator,
-        person,
         subCategories,
         subCategory,
       ];
@@ -104,7 +104,7 @@ class SettingsFormState extends Equatable {
   @override
   String toString() => 'SettingsState {'
       'branch: $branch, '
-      'person: $person, '
+      'caller: $caller, '
       'categories: $categories, '
       'category: $category, '
       'subCategory: $subCategory, '

@@ -41,20 +41,20 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
     switch (searchInfo.type) {
       case Branch:
         return TdModelSearchResults(
-          await topdeskProvider.fetchBranches(
+          await topdeskProvider.branches(
             startsWith: searchInfo.query,
           ),
         );
-      case Person:
+      case Caller:
         return TdModelSearchResults(
-          await topdeskProvider.fetchPersons(
+          await topdeskProvider.callers(
             branch: searchInfo.linkedTo,
             startsWith: searchInfo.query,
           ),
         );
       case Operator:
         return TdModelSearchResults(
-          await topdeskProvider.fetchOperators(
+          await topdeskProvider.operators(
             startsWith: searchInfo.query,
           ),
         );

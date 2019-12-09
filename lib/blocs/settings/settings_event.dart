@@ -42,12 +42,12 @@ class SettingsOperatorSelected extends SettingsEvent {
   List<Object> get props => <Object> [incidentOperator];
 }
 
-class SettingsPersonSelected extends SettingsEvent {
-  const SettingsPersonSelected(this.person);
-  final Person person;
+class SettingsCallerSelected extends SettingsEvent {
+  const SettingsCallerSelected(this.caller);
+  final Caller caller;
 
   @override
-  List<Object> get props => <Object> [person];
+  List<Object> get props => <Object> [caller];
 }
 
 class SettingsSubCategorySelected extends SettingsEvent {

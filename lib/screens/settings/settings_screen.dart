@@ -75,12 +75,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       search: _searchBranch(context),
                     ),
                     SearchField(
-                      value: (formState.person?.name) ?? '',
-                      label: 'Person' +
+                      value: (formState.caller?.name) ?? '',
+                      label: 'Caller' +
                           (formState.branch == null
                               ? ' (first choose a branch)'
                               : ''),
-                      search: _searchPerson(context, formState.branch),
+                      search: _searchCaller(context, formState.branch),
                     ),
                     SearchList<Category>(
                       name: 'Category',
@@ -138,19 +138,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
     };
   }
 
-  VoidCallback _searchPerson(BuildContext context, Branch branch) {
+  VoidCallback _searchCaller(BuildContext context, Branch branch) {
     return (branch == null)
         ? null
         : () async {
-            final Person chosenPerson = await showSearch<TdModel>(
+            final Caller chosenCaller = await showSearch<TdModel>(
               context: context,
-              delegate: TdModelSearchDelegate.personsForBranch(
+              delegate: TdModelSearchDelegate.callersForBranch(
                 branch: branch,
               ),
             );
 
             BlocProvider.of<SettingsBloc>(context)
-              ..add(SettingsPersonSelected(chosenPerson));
+              ..add(SettingsCallerSelected(chosenCaller));
           };
   }
 

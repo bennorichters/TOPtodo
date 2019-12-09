@@ -8,9 +8,9 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
       : _type = Branch,
         _linkedTo = null;
 
-  TdModelSearchDelegate.personsForBranch({
+  TdModelSearchDelegate.callersForBranch({
     @required Branch branch,
-  })  : _type = Person,
+  })  : _type = Caller,
         _linkedTo = branch;
 
   TdModelSearchDelegate.allOperators()
