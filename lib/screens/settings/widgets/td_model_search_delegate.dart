@@ -99,9 +99,9 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
                         .map<Widget>(
                           (TdModel model) => ListTile(
                             leading: Container(
-                              height: 40,
+                              height: 45,
                               child: CircleAvatar(
-                                radius: 30,
+                                radius: 20,
                                 backgroundColor: squash,
                                 child: _avatar(model),
                               ),
