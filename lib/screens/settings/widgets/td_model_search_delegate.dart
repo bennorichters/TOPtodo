@@ -98,7 +98,14 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
                     children: state.results
                         .map<Widget>(
                           (TdModel model) => ListTile(
-                            leading: _Avatar(model),
+                            leading: Container(
+                              height: 40,
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: squash,
+                                child: _avatar(model),
+                              ),
+                            ),
                             title: Text(model.name),
                             onTap: () {
                               close(context, model);
@@ -114,28 +121,34 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
       },
     );
   }
+
+  Widget _avatar(TdModel model) => (model is Person)
+      ? ((model.avatar == null) ? _AvatarText(model) : _AvatarImage(model))
+      : _AvatarText(model);
 }
 
-class _Avatar extends StatelessWidget {
-  const _Avatar(this.model);
+class _AvatarImage extends StatelessWidget {
+  const _AvatarImage(this.model);
+  final Person model;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Image.memory(
+        base64.decode(
+          model.avatar,
+        ),
+      ),
+    );
+  }
+}
+
+class _AvatarText extends StatelessWidget {
+  const _AvatarText(this.model);
   final TdModel model;
 
   @override
   Widget build(BuildContext context) {
-    final TdModel item = model;
-    if (item is Person) {
-      return ClipOval(
-        child: Image.memory(
-          base64.decode(
-            item.avatar,
-          ),
-        ),
-      );
-    }
-
-    return CircleAvatar(
-      backgroundColor: squash,
-      child: Text(model.name.substring(0, 1).toUpperCase()),
-    );
+    return Text(model.name.substring(0, 1).toUpperCase());
   }
 }
