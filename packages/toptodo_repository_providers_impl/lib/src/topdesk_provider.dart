@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
 
 class ApiTopdeskProvider extends TopdeskProvider {
+  final HtmlEscape _sanitizer = const HtmlEscape();
   String _url;
   Map<String, String> _authHeaders;
 
@@ -50,7 +51,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
       return json.decode('[]');
     }
 
-    if (res.statusCode == 200 || res.statusCode == 206)  {
+    if (res.statusCode == 200 || res.statusCode == 206) {
       return json.decode(res.body);
     }
   }
@@ -81,8 +82,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<Iterable<Operator>> operators({
     @required String startsWith,
   }) async {
+    final String sanitized = _sanitizer.convert(startsWith);
     final List<dynamic> response = await _callApi(
-      'operators?firstname=$startsWith',
+      'operators?firstname=$sanitized',
     );
 
     final Iterable<dynamic> filtered = response.where(
