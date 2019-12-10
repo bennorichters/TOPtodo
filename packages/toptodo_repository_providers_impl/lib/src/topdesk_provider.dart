@@ -5,6 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
 
 class ApiTopdeskProvider extends TopdeskProvider {
+  static const String _subPathOperator = 'operator';
+  static const String _subPathCaller = 'person';
+
   String _url;
   Map<String, String> _authHeaders;
 
@@ -33,7 +36,11 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
-    return const Iterable<Branch>.empty();
+    final String sanitized = Uri.encodeFull(startsWith);
+    final List<dynamic> response =
+        await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
+
+    return response.map((dynamic e) => Branch.fromJson(e));
   }
 
   dynamic _callApi(String endPoint) async {
@@ -56,14 +63,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Caller>> callers({
-    @required String startsWith,
-    @required Branch branch,
-  }) async {
-    return const Iterable<Caller>.empty();
-  }
-
-  @override
   Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _callApi('incidents/categories');
     return response.map((dynamic e) => Category.fromJson(e));
@@ -78,12 +77,31 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
+  Future<Iterable<Caller>> callers({
+    @required String startsWith,
+    @required Branch branch,
+  }) async {
+    final String sanitized = Uri.encodeFull(startsWith);
+    final List<dynamic> response = await _callApi(
+      'persons?lastname=$sanitized&\$fields=id,dynamicName',
+    );
+
+    final List<dynamic> fixed = await Future.wait<dynamic>(
+      response.map(
+        (dynamic json) => _fixPerson(_subPathCaller, json),
+      ),
+    );
+
+    return fixed.map((dynamic json) => Caller.fromJson(json));
+  }
+
+  @override
   Future<Iterable<Operator>> operators({
     @required String startsWith,
   }) async {
     final String sanitized = Uri.encodeFull(startsWith);
     final List<dynamic> response = await _callApi(
-      'operators?firstname=$sanitized',
+      'operators?lastname=$sanitized',
     );
 
     final Iterable<dynamic> filtered = response.where(
@@ -92,28 +110,28 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     final List<dynamic> fixed = await Future.wait<dynamic>(
       filtered.map(
-        (dynamic json) => _fixOperator(json),
+        (dynamic json) => _fixPerson(_subPathOperator, json),
       ),
     );
 
     return fixed.map((dynamic json) => Operator.fromJson(json));
   }
 
-  Future<dynamic> _fixOperator(dynamic json) async {
-    json['name'] = json['dynamicName'];
-    json['avatar'] = await avatarForPerson(json['id']);
-    return json;
-  }
-
   @override
   Future<Operator> currentOperator() async {
     final dynamic response = await _callApi('operators/current');
-    response['name'] = response['dynamicName'];
-    return Operator.fromJson(response);
+    final dynamic fixed = await _fixPerson(_subPathOperator, response);
+    return Operator.fromJson(fixed);
   }
 
-  Future<String> avatarForPerson(String id) async {
-    final dynamic response = await _callApi('avatars/operator/$id');
+  Future<dynamic> _fixPerson(String subPath, dynamic json) async {
+    json['name'] = json['dynamicName'];
+    json['avatar'] = await avatarForPerson(subPath, json['id']);
+    return json;
+  }
+
+  Future<String> avatarForPerson(String subPath, String id) async {
+    final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
   }
 }
