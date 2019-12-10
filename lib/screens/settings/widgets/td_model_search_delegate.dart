@@ -6,21 +6,15 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo/utils/colors.dart' show squash;
 
-class TdModelSearchDelegate extends SearchDelegate<TdModel> {
-  TdModelSearchDelegate.allBranches()
-      : _type = Branch,
-        _linkedTo = null;
+class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
+  TdModelSearchDelegate.allBranches() : _linkedTo = null;
 
   TdModelSearchDelegate.callersForBranch({
     @required Branch branch,
-  })  : _type = Caller,
-        _linkedTo = branch;
+  }) : _linkedTo = branch;
 
-  TdModelSearchDelegate.allOperators()
-      : _type = Operator,
-        _linkedTo = null;
+  TdModelSearchDelegate.allOperators() : _linkedTo = null;
 
-  final Type _type;
   final TdModel _linkedTo;
 
   static const Widget _emptyQueryText =
@@ -56,9 +50,8 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
 
     BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
-        TdModelSearchFinishedQuery(
-          searchInfo: SearchInfo(
-            type: _type,
+        TdModelSearchFinishedQuery<T>(
+          searchInfo: SearchInfo<T>(
             linkedTo: _linkedTo,
             query: query,
           ),
@@ -75,9 +68,8 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
 
     BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
-        TdModelSearchIncompleteQuery(
-          searchInfo: SearchInfo(
-            type: _type,
+        TdModelSearchIncompleteQuery<T>(
+          searchInfo: SearchInfo<T>(
             linkedTo: _linkedTo,
             query: query,
           ),
@@ -104,7 +96,7 @@ class TdModelSearchDelegate extends SearchDelegate<TdModel> {
                   padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: ListView(
                     children: state.results
-                        .map(
+                        .map<Widget>(
                           (TdModel model) => ListTile(
                             leading: _Avatar(model),
                             title: Text(model.name),

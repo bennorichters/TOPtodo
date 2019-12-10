@@ -128,9 +128,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchBranch(BuildContext context) {
     return () async {
-      final Branch chosenBranch = await showSearch<TdModel>(
+      final Branch chosenBranch = await showSearch<Branch>(
         context: context,
-        delegate: TdModelSearchDelegate.allBranches(),
+        delegate: TdModelSearchDelegate<Branch>.allBranches(),
       );
 
       BlocProvider.of<SettingsBloc>(context)
@@ -142,9 +142,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return (branch == null)
         ? null
         : () async {
-            final Caller chosenCaller = await showSearch<TdModel>(
+            final Caller chosenCaller = await showSearch<Caller>(
               context: context,
-              delegate: TdModelSearchDelegate.callersForBranch(
+              delegate: TdModelSearchDelegate<Caller>.callersForBranch(
                 branch: branch,
               ),
             );
@@ -156,9 +156,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchOperator(BuildContext context) {
     return () async {
-      final Operator chosenOperator = await showSearch<TdModel>(
+      final Operator chosenOperator = await showSearch<Operator>(
         context: context,
-        delegate: TdModelSearchDelegate.allOperators(),
+        delegate: TdModelSearchDelegate<Operator>.allOperators(),
       );
 
       BlocProvider.of<SettingsBloc>(context)

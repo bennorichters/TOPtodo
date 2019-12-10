@@ -27,7 +27,8 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
 
       _debouncer.run(
         () => add(
-          _BranchSearchIncompleteQueryReady(searchInfo: event.searchInfo),
+          _BranchSearchIncompleteQueryReady<TdModel>(
+              searchInfo: event.searchInfo),
         ),
       );
     } else if (event is _BranchSearchIncompleteQueryReady) {
@@ -37,35 +38,36 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
     }
   }
 
-  Future<TdModelSearchState> _queryBasedResults({SearchInfo searchInfo}) async {
-    switch (searchInfo.type) {
-      case Branch:
-        return TdModelSearchResults(
-          await topdeskProvider.branches(
-            startsWith: searchInfo.query,
-          ),
-        );
-      case Caller:
-        return TdModelSearchResults(
-          await topdeskProvider.callers(
-            branch: searchInfo.linkedTo,
-            startsWith: searchInfo.query,
-          ),
-        );
-      case Operator:
-        return TdModelSearchResults(
-          await topdeskProvider.operators(
-            startsWith: searchInfo.query,
-          ),
-        );
-      default:
-        throw ArgumentError('no search for ${searchInfo.type}');
+  Future<TdModelSearchResults<TdModel>> _queryBasedResults<T extends TdModel>(
+      {SearchInfo<T> searchInfo}) async {
+    if (searchInfo is SearchInfo<Branch>) {
+      return TdModelSearchResults<Branch>(
+        await topdeskProvider.branches(
+          startsWith: searchInfo.query,
+        ),
+      );
+    } else if (searchInfo is SearchInfo<Caller>) {
+      return TdModelSearchResults<Caller>(
+        await topdeskProvider.callers(
+          branch: searchInfo.linkedTo,
+          startsWith: searchInfo.query,
+        ),
+      );
+    } else if (searchInfo is SearchInfo<Operator>) {
+      return TdModelSearchResults<Operator>(
+        await topdeskProvider.operators(
+          startsWith: searchInfo.query,
+        ),
+      );
+    } else {
+      throw ArgumentError('no search for $searchInfo');
     }
   }
 }
 
-class _BranchSearchIncompleteQueryReady extends TdModelSearchInfoEvent {
-  const _BranchSearchIncompleteQueryReady({@required SearchInfo searchInfo})
+class _BranchSearchIncompleteQueryReady<T extends TdModel>
+    extends TdModelSearchInfoEvent<T> {
+  const _BranchSearchIncompleteQueryReady({@required SearchInfo<T> searchInfo})
       : super(searchInfo: searchInfo);
 }
 
