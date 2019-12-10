@@ -26,7 +26,7 @@ dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_repository_providers_impl
-      ref: 724ee1b9ad947c7240cd7d8d7f3064c74b0fa39c
+      ref: c5441e92484fe7993a2b968502449af287e1ecfe
 
 dev_dependencies:
   flutter_test:
