@@ -83,11 +83,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
     final List<dynamic> response = await _readJson('operators.json');
     return response
+        .where(
+          (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
+        )
         .map(
           (dynamic e) => Operator.fromJson(e),
-        )
-        .where(
-          (Operator o) => o.name.toLowerCase().startsWith(swLower),
         );
   }
 
