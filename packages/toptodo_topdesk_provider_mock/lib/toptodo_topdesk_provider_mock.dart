@@ -15,7 +15,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentDuration>> durations() async {
+  Future<Iterable<IncidentDuration>> incidentDurations() async {
     final List<dynamic> response = await _readJson('durations.json');
     return response.map(
       (dynamic e) => IncidentDuration.fromJson(e),
@@ -80,7 +80,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Operator>> operators({
+  Future<Iterable<IncidentOperator>> operators({
     @required String startsWith,
   }) async {
     final String swLower = startsWith.toLowerCase();
@@ -94,13 +94,13 @@ class FakeTopdeskProvider implements TopdeskProvider {
         .map(
       (dynamic e) {
         e['avatar'] = avatar;
-        return Operator.fromJson(e);
+        return IncidentOperator.fromJson(e);
       },
     );
   }
 
   @override
-  Future<Operator> currentOperator() async =>
+  Future<IncidentOperator> currentIncidentOperator() async =>
       (await operators(startsWith: '')).first;
 
   Future<String> _avatar() async {
@@ -118,5 +118,35 @@ class FakeTopdeskProvider implements TopdeskProvider {
       latency,
       () => json.decode(content),
     );
+  }
+
+  @override
+  Future<Branch> branch({String id}) {
+    return null;
+  }
+
+  @override
+  Future<Caller> caller({String id}) {
+    return null;
+  }
+
+  @override
+  Future<Category> category({String id}) {
+    return null;
+  }
+
+  @override
+  Future<IncidentDuration> incidentDuration({String id}) {
+    return null;
+  }
+
+  @override
+  Future<IncidentOperator> incidentOperator({String id}) {
+    return null;
+  }
+
+  @override
+  Future<SubCategory> subCategory({String id}) {
+    return null;
   }
 }

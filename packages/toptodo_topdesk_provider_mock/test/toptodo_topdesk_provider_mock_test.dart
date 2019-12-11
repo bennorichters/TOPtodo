@@ -12,7 +12,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 1),
       );
-      final Iterable<IncidentDuration> ds = await ftp.durations();
+      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
 
       await t.pump(const Duration(milliseconds: 1));
 
@@ -93,7 +93,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Iterable<Operator> ds = await ftp.operators(
+      final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'Q',
       );
 
@@ -108,7 +108,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Iterable<Operator> ds = await ftp.operators(
+      final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'b',
       );
 
@@ -142,7 +142,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Iterable<Operator> ds = await ftp.operators(
+      final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'Eduard',
       );
 
@@ -158,7 +158,7 @@ void main() {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
-      final Operator op = await ftp.currentOperator();
+      final IncidentOperator op = await ftp.currentIncidentOperator();
 
       await t.pump(const Duration(milliseconds: 10));
 
