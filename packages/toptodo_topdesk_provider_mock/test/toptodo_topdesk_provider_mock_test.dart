@@ -68,6 +68,36 @@ void main() {
     });
   });
 
+  testWidgets('fetch zero operators', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Iterable<Operator> ds = await ftp.operators(
+        startsWith: 'Q',
+      );
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ds.length, isZero);
+    });
+  });
+
+  testWidgets('fetch one operators', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Iterable<Operator> ds = await ftp.operators(
+        startsWith: 'b',
+      );
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ds.length, 1);
+    });
+  });
+
   testWidgets('fetch current operator', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
