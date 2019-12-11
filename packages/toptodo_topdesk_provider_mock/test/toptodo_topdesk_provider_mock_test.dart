@@ -40,16 +40,7 @@ void main() {
     });
   });
 
-  testWidgets('durations', (WidgetTester t) async {
-    await t.runAsync(() async {
-      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
-
-      await t.pump(const Duration(milliseconds: 1));
-
-      expect(ds.length, isNonZero);
-    });
-  });
-  testWidgets('zero persons', (WidgetTester t) async {
+  testWidgets('zero callers', (WidgetTester t) async {
     await t.runAsync(() async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
@@ -64,7 +55,7 @@ void main() {
     });
   });
 
-  testWidgets('two persons', (WidgetTester t) async {
+  testWidgets('two callers', (WidgetTester t) async {
     await t.runAsync(() async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'b',
@@ -79,7 +70,7 @@ void main() {
     });
   });
 
-  testWidgets('person has avatar', (WidgetTester t) async {
+  testWidgets('caller has avatar', (WidgetTester t) async {
     await t.runAsync(() async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
@@ -92,6 +83,16 @@ void main() {
 
       expect(ds.length, 1);
       expect(ds.first.avatar.length, isNonZero);
+    });
+  });
+
+  testWidgets('durations', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
+
+      await t.pump(const Duration(milliseconds: 1));
+
+      expect(ds.length, isNonZero);
     });
   });
 

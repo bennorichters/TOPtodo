@@ -36,6 +36,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
+  Future<Caller> caller({String id}) {
+    return null;
+  }
+
+  @override
   Future<Iterable<Caller>> callers({
     @required String startsWith,
     @required Branch branch,
@@ -125,11 +130,6 @@ class FakeTopdeskProvider implements TopdeskProvider {
       latency,
       () => json.decode(content),
     );
-  }
-
-  @override
-  Future<Caller> caller({String id}) {
-    return null;
   }
 
   @override
