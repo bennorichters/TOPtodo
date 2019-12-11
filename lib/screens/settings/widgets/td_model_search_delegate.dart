@@ -4,8 +4,6 @@ import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/td_model_avatar.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import 'package:toptodo/utils/colors.dart' show squash;
-
 class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
   TdModelSearchDelegate.allBranches() : _linkedTo = null;
 
