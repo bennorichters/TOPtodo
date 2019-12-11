@@ -20,13 +20,23 @@ void main() {
     });
   });
 
-  testWidgets('branch by id', (WidgetTester t) async {
+  testWidgets('branch by id find one', (WidgetTester t) async {
     await t.runAsync(() async {
       final Branch ba = await ftp.branch(id: 'a');
 
       await t.pump(const Duration(milliseconds: 10));
 
       expect(ba.id, 'a');
+    });
+  });
+
+  testWidgets('branch by id find null', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final Branch ba = await ftp.branch(id: 'doesnotexist');
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ba, isNull);
     });
   });
 
