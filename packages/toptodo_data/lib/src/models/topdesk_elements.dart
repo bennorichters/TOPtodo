@@ -44,8 +44,8 @@ abstract class Person extends TdModel {
   final String avatar;
 }
 
-class Operator extends Person {
-  Operator.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+class IncidentOperator extends Person {
+  IncidentOperator.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 class Caller extends Person {

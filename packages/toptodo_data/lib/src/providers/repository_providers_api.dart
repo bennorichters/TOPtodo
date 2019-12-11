@@ -18,20 +18,43 @@ abstract class SettingsProvider {
 abstract class TopdeskProvider {
   void init(Credentials credentials);
 
+  Future<Branch> branch({
+    @required String id,
+  });
   Future<Iterable<Branch>> branches({
     @required String startsWith,
+  });
+
+  Future<Caller> caller({
+    @required String id,
   });
   Future<Iterable<Caller>> callers({
     @required String startsWith,
     @required Branch branch,
   });
-  Future<Operator> currentOperator();
-  Future<Iterable<IncidentDuration>> durations();
+
+  Future<Category> category({
+    @required String id,
+  });
   Future<Iterable<Category>> categories();
+
+  Future<SubCategory> subCategory({
+    @required String id,
+  });
   Future<Iterable<SubCategory>> subCategories({
     @required Category category,
   });
-  Future<Iterable<Operator>> operators({
+
+  Future<IncidentDuration> incidentDuration({
+    @required String id,
+  });
+  Future<Iterable<IncidentDuration>> incidentDurations();
+
+  Future<IncidentOperator> incidentOperator({
+    @required String id,
+  });
+  Future<IncidentOperator> currentIncidentOperator();
+  Future<Iterable<IncidentOperator>> operators({
     @required String startsWith,
   });
 }
