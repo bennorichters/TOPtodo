@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart' as prefix0;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() {
-  testWidgets('fetch durations', (WidgetTester t) async {
+  testWidgets('durations', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 1),
@@ -19,7 +20,7 @@ void main() {
     });
   });
 
-  testWidgets('fetch branches', (WidgetTester t) async {
+  testWidgets('branches', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
@@ -32,7 +33,7 @@ void main() {
     });
   });
 
-  testWidgets('fetch zero persons', (WidgetTester t) async {
+  testWidgets('zero persons', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
@@ -50,7 +51,7 @@ void main() {
     });
   });
 
-  testWidgets('fetch two persons', (WidgetTester t) async {
+  testWidgets('two persons', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
@@ -68,7 +69,26 @@ void main() {
     });
   });
 
-  testWidgets('fetch zero operators', (WidgetTester t) async {
+  testWidgets('person has avatar', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Iterable<Caller> ds = await ftp.callers(
+        startsWith: 'Augustin Sheryll',
+        branch: Branch.fromJson(
+          jsonDecode('{"id": "a", "name": ""}'),
+        ),
+      );
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ds.length, 1);
+      expect(ds.first.avatar.length, prefix0.isNonZero);
+    });
+  });
+
+  testWidgets('zero operators', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
@@ -83,7 +103,7 @@ void main() {
     });
   });
 
-  testWidgets('fetch one operators', (WidgetTester t) async {
+  testWidgets('one operators', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
@@ -98,15 +118,51 @@ void main() {
     });
   });
 
-  testWidgets('fetch current operator', (WidgetTester t) async {
+  testWidgets('operator has avatar', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Iterable<Caller> ds = await ftp.callers(
+        startsWith: 'Augustin Sheryll',
+        branch: Branch.fromJson(
+          jsonDecode('{"id": "a", "name": ""}'),
+        ),
+      );
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ds.length, 1);
+      expect(ds.first.avatar.length, prefix0.isNonZero);
+    });
+  });
+
+  testWidgets('operator has avatar', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Iterable<Operator> ds = await ftp.operators(
+        startsWith: 'Eduard',
+      );
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ds.length, 1);
+      expect(ds.first.avatar.length, prefix0.isNonZero);
+    });
+  });
+
+  testWidgets('current operator has avatar', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
       );
       final Operator op = await ftp.currentOperator();
+
       await t.pump(const Duration(milliseconds: 10));
 
-      expect(op, isNotNull);
+      expect(op.avatar.length, prefix0.isNonZero);
     });
   });
 }

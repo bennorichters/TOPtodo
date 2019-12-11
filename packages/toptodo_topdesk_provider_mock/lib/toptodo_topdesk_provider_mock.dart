@@ -43,16 +43,20 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }) async {
     final String swLower = startsWith.toLowerCase();
 
+    final String avatar = await _avatar();
     final List<dynamic> response = await _readJson('persons.json');
     return response
         .where(
-          (dynamic e) =>
-              (e['branchid'] == branch.id) &&
-              e['name'].toLowerCase().startsWith(swLower),
-        )
+      (dynamic e) =>
+          (e['branchid'] == branch.id) &&
+          e['name'].toLowerCase().startsWith(swLower),
+    )
         .map(
-          (dynamic e) => Caller.fromJson(e),
-        );
+      (dynamic e) {
+        e['avatar'] = avatar;
+        return Caller.fromJson(e);
+      },
+    );
   }
 
   @override
@@ -81,28 +85,36 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }) async {
     final String swLower = startsWith.toLowerCase();
 
+    final String avatar = await _avatar();
     final List<dynamic> response = await _readJson('operators.json');
     return response
         .where(
-          (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
-        )
+      (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
+    )
         .map(
-          (dynamic e) => Operator.fromJson(e),
-        );
+      (dynamic e) {
+        e['avatar'] = avatar;
+        return Operator.fromJson(e);
+      },
+    );
   }
 
   @override
   Future<Operator> currentOperator() async =>
       (await operators(startsWith: '')).first;
 
-  Future<List<dynamic>> _readJson(String file) async {
+  Future<String> _avatar() async {
+    return (await _readJson('avatar.json'))['black'];
+  }
+
+  Future<dynamic> _readJson(String file) async {
     // This explicit inclusion of the package name seems necessary.
     // Unit tests will run without (only using 'json/'), but on
     // a device that fails.
     final String content = await rootBundle
         .loadString('packages/toptodo_topdesk_provider_mock/json/' + file);
 
-    return Future<List<dynamic>>.delayed(
+    return Future<dynamic>.delayed(
       latency,
       () => json.decode(content),
     );
