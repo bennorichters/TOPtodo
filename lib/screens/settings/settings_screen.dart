@@ -69,13 +69,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 key: _formKey,
                 child: ListView(
                   children: <Widget>[
-                    SearchField(
-                      value: (formState.branch?.name) ?? '',
+                    SearchField<Branch>(
+                      value: formState.branch,
                       label: 'Branch',
                       search: _searchBranch(context),
                     ),
-                    SearchField(
-                      value: (formState.caller?.name) ?? '',
+                    SearchField<Caller>(
+                      value: formState.caller,
                       label: 'Caller' +
                           (formState.branch == null
                               ? ' (first choose a branch)'
@@ -101,9 +101,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ..add(SettingsDurationSelected(newValue));
                       },
                     ),
-                    SearchField(
+                    SearchField<Operator>(
                       label: 'Operator',
-                      value: (formState.incidentOperator?.name) ?? '',
+                      value: formState.incidentOperator,
                       search: _searchOperator(context),
                     ),
                     _verticalSpace,

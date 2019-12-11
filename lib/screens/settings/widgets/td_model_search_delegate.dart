@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
+import 'package:toptodo/screens/settings/widgets/td_model_avatar.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo/utils/colors.dart' show squash;
@@ -98,14 +98,7 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
                     children: state.results
                         .map<Widget>(
                           (TdModel model) => ListTile(
-                            leading: Container(
-                              height: 45,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: squash,
-                                child: _avatar(model),
-                              ),
-                            ),
+                            leading: TdModelAvatar(model),
                             title: Text(model.name),
                             onTap: () {
                               close(context, model);
@@ -120,35 +113,5 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
         throw StateError('unexpected state: $state');
       },
     );
-  }
-
-  Widget _avatar(TdModel model) => (model is Person)
-      ? ((model.avatar == null) ? _AvatarText(model) : _AvatarImage(model))
-      : _AvatarText(model);
-}
-
-class _AvatarImage extends StatelessWidget {
-  const _AvatarImage(this.model);
-  final Person model;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipOval(
-      child: Image.memory(
-        base64.decode(
-          model.avatar,
-        ),
-      ),
-    );
-  }
-}
-
-class _AvatarText extends StatelessWidget {
-  const _AvatarText(this.model);
-  final TdModel model;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(model.name.substring(0, 1).toUpperCase());
   }
 }

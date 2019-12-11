@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:toptodo/screens/settings/widgets/td_model_avatar.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
-class SearchField extends StatelessWidget {
+class SearchField<T extends TdModel> extends StatelessWidget {
   const SearchField({
     @required this.value,
     @required this.label,
     @required this.search,
   });
 
-  final String value;
+  final T value;
   final String label;
   final VoidCallback search;
 
@@ -17,7 +19,7 @@ class SearchField extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: TextFormField(
-            controller: TextEditingController()..text = value,
+            controller: TextEditingController()..text = (value?.name) ?? '',
             enabled: false,
             decoration: InputDecoration(
               labelText: label,
