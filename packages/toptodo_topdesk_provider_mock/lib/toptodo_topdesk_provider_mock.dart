@@ -15,12 +15,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentDuration>> incidentDurations() async {
-    final List<dynamic> response = await _readJson('durations.json');
-    return response.map(
-      (dynamic e) => IncidentDuration.fromJson(e),
-    );
-  }
+  Future<Branch> branch({String id}) async =>
+      (await branches(startsWith: '')).firstWhere(
+        (Branch b) => b.id == id,
+        orElse: null,
+      );
 
   @override
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
@@ -80,6 +79,14 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
+  Future<Iterable<IncidentDuration>> incidentDurations() async {
+    final List<dynamic> response = await _readJson('durations.json');
+    return response.map(
+      (dynamic e) => IncidentDuration.fromJson(e),
+    );
+  }
+
+  @override
   Future<Iterable<IncidentOperator>> operators({
     @required String startsWith,
   }) async {
@@ -118,11 +125,6 @@ class FakeTopdeskProvider implements TopdeskProvider {
       latency,
       () => json.decode(content),
     );
-  }
-
-  @override
-  Future<Branch> branch({String id}) {
-    return null;
   }
 
   @override

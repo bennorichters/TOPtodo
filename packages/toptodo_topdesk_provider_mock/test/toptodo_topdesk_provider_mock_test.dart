@@ -1,24 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_test/flutter_test.dart' as prefix0;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() {
-  testWidgets('durations', (WidgetTester t) async {
-    await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 1),
-      );
-      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
-
-      await t.pump(const Duration(milliseconds: 1));
-
-      expect(ds.length, isNonZero);
-    });
-  });
 
   testWidgets('branches', (WidgetTester t) async {
     await t.runAsync(() async {
@@ -33,6 +20,31 @@ void main() {
     });
   });
 
+  testWidgets('branch by id', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Branch ba = await ftp.branch(id: 'a');
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ba.id, 'a');
+    });
+  });
+
+  testWidgets('durations', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 1),
+      );
+      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
+
+      await t.pump(const Duration(milliseconds: 1));
+
+      expect(ds.length, isNonZero);
+    });
+  });
   testWidgets('zero persons', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
@@ -84,7 +96,7 @@ void main() {
       await t.pump(const Duration(milliseconds: 10));
 
       expect(ds.length, 1);
-      expect(ds.first.avatar.length, prefix0.isNonZero);
+      expect(ds.first.avatar.length, isNonZero);
     });
   });
 
@@ -133,7 +145,7 @@ void main() {
       await t.pump(const Duration(milliseconds: 10));
 
       expect(ds.length, 1);
-      expect(ds.first.avatar.length, prefix0.isNonZero);
+      expect(ds.first.avatar.length, isNonZero);
     });
   });
 
@@ -149,7 +161,7 @@ void main() {
       await t.pump(const Duration(milliseconds: 10));
 
       expect(ds.length, 1);
-      expect(ds.first.avatar.length, prefix0.isNonZero);
+      expect(ds.first.avatar.length, isNonZero);
     });
   });
 
@@ -162,7 +174,7 @@ void main() {
 
       await t.pump(const Duration(milliseconds: 10));
 
-      expect(op.avatar.length, prefix0.isNonZero);
+      expect(op.avatar.length, isNonZero);
     });
   });
 }
