@@ -6,12 +6,12 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() {
+  final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+    latency: const Duration(microseconds: 0),
+  );
 
   testWidgets('branches', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<Branch> ds = await ftp.branches(startsWith: 'E');
 
       await t.pump(const Duration(milliseconds: 10));
@@ -22,9 +22,6 @@ void main() {
 
   testWidgets('branch by id', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Branch ba = await ftp.branch(id: 'a');
 
       await t.pump(const Duration(milliseconds: 10));
@@ -35,9 +32,6 @@ void main() {
 
   testWidgets('durations', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 1),
-      );
       final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
 
       await t.pump(const Duration(milliseconds: 1));
@@ -47,9 +41,6 @@ void main() {
   });
   testWidgets('zero persons', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
         branch: Branch.fromJson(
@@ -65,9 +56,6 @@ void main() {
 
   testWidgets('two persons', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'b',
         branch: Branch.fromJson(
@@ -83,9 +71,6 @@ void main() {
 
   testWidgets('person has avatar', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
         branch: Branch.fromJson(
@@ -102,9 +87,6 @@ void main() {
 
   testWidgets('zero operators', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'Q',
       );
@@ -117,9 +99,6 @@ void main() {
 
   testWidgets('one operators', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'b',
       );
@@ -132,9 +111,6 @@ void main() {
 
   testWidgets('operator has avatar', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
         branch: Branch.fromJson(
@@ -151,9 +127,6 @@ void main() {
 
   testWidgets('operator has avatar', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'Eduard',
       );
@@ -167,9 +140,6 @@ void main() {
 
   testWidgets('current operator has avatar', (WidgetTester t) async {
     await t.runAsync(() async {
-      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
-        latency: const Duration(microseconds: 0),
-      );
       final IncidentOperator op = await ftp.currentIncidentOperator();
 
       await t.pump(const Duration(milliseconds: 10));
