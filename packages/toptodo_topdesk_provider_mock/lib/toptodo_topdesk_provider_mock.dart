@@ -18,7 +18,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Branch> branch({String id}) async =>
       (await branches(startsWith: '',)).firstWhere(
         (Branch b) => b.id == id,
-        orElse: () => null,
+        orElse: () => throw ArgumentError('no branch found with id $id'),
       );
 
   @override
