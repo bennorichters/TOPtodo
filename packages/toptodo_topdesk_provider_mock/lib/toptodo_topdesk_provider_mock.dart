@@ -16,7 +16,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Branch> branch({String id}) async =>
-      (await branches(startsWith: '')).firstWhere(
+      (await branches(startsWith: '',)).firstWhere(
         (Branch b) => b.id == id,
         orElse: null,
       );
