@@ -32,7 +32,7 @@ void main() {
     });
   });
 
-  testWidgets('fetch persons', (WidgetTester t) async {
+  testWidgets('fetch zero persons', (WidgetTester t) async {
     await t.runAsync(() async {
       final FakeTopdeskProvider ftp = FakeTopdeskProvider(
         latency: const Duration(microseconds: 0),
@@ -47,6 +47,24 @@ void main() {
       await t.pump(const Duration(milliseconds: 10));
 
       expect(ds.length, isZero);
+    });
+  });
+
+  testWidgets('fetch two persons', (WidgetTester t) async {
+    await t.runAsync(() async {
+      final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+        latency: const Duration(microseconds: 0),
+      );
+      final Iterable<Caller> ds = await ftp.callers(
+        startsWith: 'b',
+        branch: Branch.fromJson(
+          jsonDecode('{"id": "b", "name": ""}'),
+        ),
+      );
+
+      await t.pump(const Duration(milliseconds: 10));
+
+      expect(ds.length, 2);
     });
   });
 
