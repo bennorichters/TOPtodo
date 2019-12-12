@@ -122,15 +122,14 @@ void main() {
 
   group('operator', () {
     test('find zero', () async {
-      final Iterable<IncidentOperator> ds = await ftp.operators(
-        startsWith: 'Q'
-      );
+      final Iterable<IncidentOperator> ds =
+          await ftp.incidentOperators(startsWith: 'Q');
 
       expect(ds.length, isZero);
     });
 
     test('find one', () async {
-      final Iterable<IncidentOperator> ds = await ftp.operators(
+      final Iterable<IncidentOperator> ds = await ftp.incidentOperators(
         startsWith: 'b',
       );
 
@@ -138,7 +137,7 @@ void main() {
     });
 
     test('has avatar', () async {
-      final Iterable<IncidentOperator> ds = await ftp.operators(
+      final Iterable<IncidentOperator> ds = await ftp.incidentOperators(
         startsWith: 'Eduard',
       );
 

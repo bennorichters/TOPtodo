@@ -133,14 +133,14 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<IncidentOperator> incidentOperator({String id}) async {
-    return (await operators(startsWith: '')).firstWhere(
+    return (await incidentOperators(startsWith: '')).firstWhere(
       (IncidentOperator e) => e.id == id,
       orElse: () => throw ArgumentError('no operator for id: $id'),
     );
   }
 
   @override
-  Future<Iterable<IncidentOperator>> operators({
+  Future<Iterable<IncidentOperator>> incidentOperators({
     @required String startsWith,
   }) async {
     final String swLower = startsWith.toLowerCase();
@@ -161,7 +161,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<IncidentOperator> currentIncidentOperator() async =>
-      (await operators(startsWith: '')).first;
+      (await incidentOperators(startsWith: '')).first;
 
   Future<String> _avatar() async {
     return (await _readJson('avatar.json'))['black'];

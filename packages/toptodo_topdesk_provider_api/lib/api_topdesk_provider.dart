@@ -97,7 +97,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentOperator>> operators({
+  Future<Iterable<IncidentOperator>> incidentOperators({
     @required String startsWith,
   }) async {
     final String sanitized = Uri.encodeFull(startsWith);
