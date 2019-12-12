@@ -38,9 +38,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: '1',
-                  child: const Text('log out'),
+                  child: Text('log out'),
                 )
               ];
             },
@@ -178,7 +178,7 @@ class _SubCategoryWidget extends StatelessWidget {
     if (formState.category == null) {
       return TextFormField(
         enabled: false,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Sub category (first choose a category)',
         ),
       );

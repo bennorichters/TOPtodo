@@ -101,7 +101,7 @@ class _CredentialsForm extends StatelessWidget {
                 TextFormField(
                   controller: _urlController,
                   autocorrect: false,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'TOPdesk url',
                     hintText: 'https://your-environment.topdesk.net',
                   ),
@@ -113,7 +113,7 @@ class _CredentialsForm extends StatelessWidget {
                 TextFormField(
                   autocorrect: false,
                   controller: _loginNameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'login name',
                   ),
                   validator: (String value) =>
@@ -124,7 +124,7 @@ class _CredentialsForm extends StatelessWidget {
                   autocorrect: false,
                   controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'application password',
                   ),
                   validator: (String value) => value.isEmpty
