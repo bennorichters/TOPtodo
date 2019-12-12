@@ -14,6 +14,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
     // Ignore
   }
 
+  @override 
+  void dispose() {
+    // Ignore
+  }
+
   @override
   Future<Branch> branch({String id}) async => (await branches(
         startsWith: '',

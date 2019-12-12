@@ -11,11 +11,18 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   String _url;
   Map<String, String> _authHeaders;
+  http.Client _client;
 
   @override
-  void init(Credentials credentials) {
+  void init(Credentials credentials, {http.Client client}) {
     _url = credentials.url;
     _authHeaders = _createAuthHeaders(credentials);
+    _client = client ?? http.Client();
+  }
+
+  @override
+  void dispose() {
+    _client?.close();
   }
 
   Map<String, String> _createAuthHeaders(Credentials credentials) {
