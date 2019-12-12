@@ -55,7 +55,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
       );
     } else if (searchInfo is SearchInfo<IncidentOperator>) {
       return TdModelSearchResults<IncidentOperator>(
-        await topdeskProvider.operators(
+        await topdeskProvider.incidentOperators(
           startsWith: searchInfo.query,
         ),
       );
