@@ -15,7 +15,27 @@ import 'utils/colors.dart';
 
 void main() => runApp(TopToDoApp());
 
-class TopToDoApp extends StatelessWidget {
+class TopToDoApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _TopToDoAppState();
+}
+
+class _TopToDoAppState extends State<TopToDoApp> {
+
+  TopdeskProvider _topdeskProvider;
+
+  @override
+  void initState() {
+    _topdeskProvider = ApiTopdeskProvider();
+    super.initState();
+  }
+
+  @override
+  void dispose () {
+    _topdeskProvider.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -27,7 +47,7 @@ class TopToDoApp extends StatelessWidget {
           create: (BuildContext context) => SharedPreferencesSettingsProvider(),
         ),
         RepositoryProvider<TopdeskProvider>(
-          create: (BuildContext context) => ApiTopdeskProvider(),
+          create: (BuildContext context) => _topdeskProvider,
         )
       ],
       child: MultiBlocProvider(
