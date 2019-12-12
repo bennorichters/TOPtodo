@@ -41,7 +41,6 @@ dev_dependencies:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_mock
       ref: 9496fb03ff839f80153bab57bd01be5b4812edcc
-  image: ^2.1.9
 
 flutter:
   uses-material-design: true
