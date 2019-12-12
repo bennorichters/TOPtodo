@@ -62,9 +62,10 @@ void main() {
     });
 
     test('by id find one', () async {
-      final Caller ba = await ftp.caller(id: 'a');
+      final Caller caa = await ftp.caller(id: 'aa');
 
-      expect(ba.id, 'a');
+      expect(caa.id, 'aa');
+      expect(caa.avatar.length, isNonZero);
     });
 
     test('by non-existent id throws', () async {

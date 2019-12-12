@@ -20,7 +20,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
       ))
           .firstWhere(
         (Branch b) => b.id == id,
-        orElse: () => throw ArgumentError('no branch found with id $id'),
+        orElse: () => throw ArgumentError('no branch found with id: $id'),
       );
 
   @override
@@ -38,8 +38,19 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Caller> caller({String id}) {
-    return null;
+  Future<Caller> caller({String id}) async {
+    final String avatar = await _avatar();
+
+    final List<dynamic> response = await _readJson('persons.json');
+    final dynamic found = response.firstWhere(
+      (dynamic e) => e['id'] == id,
+      orElse: () => throw ArgumentError(
+        'no caller for id: $id',
+      ),
+    );
+
+    found['avatar'] = avatar;
+    return Caller.fromJson(found);
   }
 
   @override
