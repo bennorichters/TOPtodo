@@ -23,6 +23,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   void dispose() {
     _client?.close();
+    
+    _url = null;
+    _authHeaders = null;
+    _client = null;
   }
 
   Map<String, String> _createAuthHeaders(Credentials credentials) {
