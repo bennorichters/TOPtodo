@@ -17,6 +17,7 @@ abstract class SettingsProvider {
 
 abstract class TopdeskProvider {
   void init(Credentials credentials);
+  void dispose();
 
   Future<Branch> branch({
     @required String id,
