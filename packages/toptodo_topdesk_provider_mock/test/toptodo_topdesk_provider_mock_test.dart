@@ -21,7 +21,7 @@ void main() {
       expect(ba.id, 'a');
     });
 
-    test('branch by id find null', () async {
+    test('branch by non-existent id throws ArgumentError', () async {
       expect(ftp.branch(id: 'doesnotexist'), throwsArgumentError);
     });
   });
