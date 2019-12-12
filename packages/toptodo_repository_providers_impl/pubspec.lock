@@ -129,7 +129,7 @@ packages:
       name: shared_preferences_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -181,8 +181,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "92b16bfeed8f7ef921c126b59b1ab342f0f53e14"
-      resolved-ref: "92b16bfeed8f7ef921c126b59b1ab342f0f53e14"
+      ref: "28a3fbd0683af7f228dec268c72e4601ee949c3e"
+      resolved-ref: "28a3fbd0683af7f228dec268c72e4601ee949c3e"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
