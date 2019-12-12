@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() {
@@ -10,34 +9,25 @@ void main() {
     latency: const Duration(microseconds: 0),
   );
 
-  testWidgets('branches', (WidgetTester t) async {
-    await t.runAsync(() async {
+  group('branches', () {
+    test('find some', () async {
       final Iterable<Branch> ds = await ftp.branches(startsWith: 'E');
-
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, 3);
     });
-  });
 
-  testWidgets('branch by id find one', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('branch by id find one', () async {
       final Branch ba = await ftp.branch(id: 'a');
-
-      await t.pump(const Duration(milliseconds: 10));
 
       expect(ba.id, 'a');
     });
-  });
 
-  testWidgets('branch by id find null', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('branch by id find null', () async {
       expect(ftp.branch(id: 'doesnotexist'), throwsArgumentError);
     });
   });
 
-  testWidgets('zero callers', (WidgetTester t) async {
-    await t.runAsync(() async {
+  group('callers', () {
+    test('zero callers', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
         branch: Branch.fromJson(
@@ -45,14 +35,10 @@ void main() {
         ),
       );
 
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, isZero);
     });
-  });
 
-  testWidgets('two callers', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('two callers', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'b',
         branch: Branch.fromJson(
@@ -60,14 +46,10 @@ void main() {
         ),
       );
 
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, 2);
     });
-  });
 
-  testWidgets('caller has avatar', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('caller has avatar', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
         branch: Branch.fromJson(
@@ -75,49 +57,37 @@ void main() {
         ),
       );
 
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, 1);
       expect(ds.first.avatar.length, isNonZero);
     });
   });
 
-  testWidgets('durations', (WidgetTester t) async {
-    await t.runAsync(() async {
+  group('durations', () {
+    test('find some', () async {
       final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
-
-      await t.pump(const Duration(milliseconds: 1));
 
       expect(ds.length, isNonZero);
     });
   });
 
-  testWidgets('zero operators', (WidgetTester t) async {
-    await t.runAsync(() async {
-      final Iterable<IncidentOperator> ds = await ftp.operators(
-        startsWith: 'Q',
-      );
+  test('zero operators', () async {
+    final Iterable<IncidentOperator> ds = await ftp.operators(
+      startsWith: 'Q',
+    );
 
-      await t.pump(const Duration(milliseconds: 10));
-
-      expect(ds.length, isZero);
-    });
+    expect(ds.length, isZero);
   });
 
-  testWidgets('one operators', (WidgetTester t) async {
-    await t.runAsync(() async {
+  group('operators', () {
+    test('one operators', () async {
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'b',
       );
 
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, 1);
     });
-  });
 
-  testWidgets('operator has avatar', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('operator has avatar', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
         branch: Branch.fromJson(
@@ -125,31 +95,21 @@ void main() {
         ),
       );
 
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, 1);
       expect(ds.first.avatar.length, isNonZero);
     });
-  });
 
-  testWidgets('operator has avatar', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('operator has avatar', () async {
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'Eduard',
       );
 
-      await t.pump(const Duration(milliseconds: 10));
-
       expect(ds.length, 1);
       expect(ds.first.avatar.length, isNonZero);
     });
-  });
 
-  testWidgets('current operator has avatar', (WidgetTester t) async {
-    await t.runAsync(() async {
+    test('current operator has avatar', () async {
       final IncidentOperator op = await ftp.currentIncidentOperator();
-
-      await t.pump(const Duration(milliseconds: 10));
 
       expect(op.avatar.length, isNonZero);
     });

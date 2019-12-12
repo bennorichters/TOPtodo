@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class FakeTopdeskProvider implements TopdeskProvider {
@@ -15,8 +15,10 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Branch> branch({String id}) async =>
-      (await branches(startsWith: '',)).firstWhere(
+  Future<Branch> branch({String id}) async => (await branches(
+        startsWith: '',
+      ))
+          .firstWhere(
         (Branch b) => b.id == id,
         orElse: () => throw ArgumentError('no branch found with id $id'),
       );
@@ -119,12 +121,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return (await _readJson('avatar.json'))['black'];
   }
 
-  Future<dynamic> _readJson(String file) async {
-    // This explicit inclusion of the package name seems necessary.
-    // Unit tests will run without (only using 'json/'), but on
-    // a device that fails.
-    final String content = await rootBundle
-        .loadString('packages/toptodo_topdesk_provider_mock/json/' + file);
+  Future<dynamic> _readJson(String fileName) async {
+    final File file = File('./json/$fileName');
+    final String content = await file.readAsString();
 
     return Future<dynamic>.delayed(
       latency,

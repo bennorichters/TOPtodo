@@ -10,18 +10,12 @@ environment:
   sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   toptodo_data:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: e7c1829ba20877827080f68ff3a2b2edd9bcd730
+      ref: 28a3fbd0683af7f228dec268c72e4601ee949c3e
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ">=1.3.0 <2.0.0"
 
-flutter:
-  assets:
-    - json/
