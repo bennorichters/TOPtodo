@@ -45,7 +45,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
       throw StateError('call init first');
     }
 
-    final http.Response res = await http.get(
+    final http.Response res = await _client.get(
       '$_url/tas/api/$endPoint',
       headers: _authHeaders,
     );
