@@ -12,9 +12,12 @@ void main() {
     });
   });
 
-  test('...', () async {
+  test('two durations', () async {
     final MockClient mc = MockClient((Request req) async {
-      return Response('[]', 200);
+      return Response(
+          '[{"id": "a", "name": "15 minutes"},'
+          '{"id": "b", "name": "30 minutes"}]',
+          200);
     });
 
     final ApiTopdeskProvider atp = ApiTopdeskProvider();
@@ -26,6 +29,7 @@ void main() {
 
     atp.init(c, client: mc);
     final Iterable<IncidentDuration> ids = await atp.incidentDurations();
-    print(ids);
+    expect(ids.length, 2);
+    expect(ids.first.id, 'a');
   });
 }
