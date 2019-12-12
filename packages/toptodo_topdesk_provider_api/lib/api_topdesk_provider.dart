@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
+
+import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -29,7 +30,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentDuration>> durations() async {
+  Future<Iterable<IncidentDuration>> incidentDurations() async {
     final List<dynamic> response = await _callApi('incidents/durations');
     return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
@@ -96,7 +97,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Operator>> operators({
+  Future<Iterable<IncidentOperator>> operators({
     @required String startsWith,
   }) async {
     final String sanitized = Uri.encodeFull(startsWith);
@@ -114,14 +115,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ),
     );
 
-    return fixed.map((dynamic json) => Operator.fromJson(json));
+    return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
   }
 
   @override
-  Future<Operator> currentOperator() async {
+  Future<IncidentOperator> currentOperator() async {
     final dynamic response = await _callApi('operators/current');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
-    return Operator.fromJson(fixed);
+    return IncidentOperator.fromJson(fixed);
   }
 
   Future<dynamic> _fixPerson(String subPath, dynamic json) async {
@@ -133,5 +134,40 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<String> avatarForPerson(String subPath, String id) async {
     final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
+  }
+
+  @override
+  Future<Branch> branch({String id}) {
+    return null;
+  }
+
+  @override
+  Future<Caller> caller({String id}) {
+    return null;
+  }
+
+  @override
+  Future<Category> category({String id}) {
+    return null;
+  }
+
+  @override
+  Future<IncidentOperator> currentIncidentOperator() {
+    return null;
+  }
+
+  @override
+  Future<IncidentDuration> incidentDuration({String id}) {
+    return null;
+  }
+
+  @override
+  Future<IncidentOperator> incidentOperator({String id}) {
+    return null;
+  }
+
+  @override
+  Future<SubCategory> subCategory({String id}) {
+    return null;
   }
 }
