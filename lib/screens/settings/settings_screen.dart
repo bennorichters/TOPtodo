@@ -101,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ..add(SettingsDurationSelected(newValue));
                       },
                     ),
-                    SearchField<Operator>(
+                    SearchField<IncidentOperator>(
                       label: 'Operator',
                       value: formState.incidentOperator,
                       search: _searchOperator(context),
@@ -156,9 +156,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchOperator(BuildContext context) {
     return () async {
-      final Operator chosenOperator = await showSearch<Operator>(
+      final IncidentOperator chosenOperator =
+          await showSearch<IncidentOperator>(
         context: context,
-        delegate: TdModelSearchDelegate<Operator>.allOperators(),
+        delegate: TdModelSearchDelegate<IncidentOperator>.allOperators(),
       );
 
       BlocProvider.of<SettingsBloc>(context)

@@ -53,8 +53,8 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
           startsWith: searchInfo.query,
         ),
       );
-    } else if (searchInfo is SearchInfo<Operator>) {
-      return TdModelSearchResults<Operator>(
+    } else if (searchInfo is SearchInfo<IncidentOperator>) {
+      return TdModelSearchResults<IncidentOperator>(
         await topdeskProvider.operators(
           startsWith: searchInfo.query,
         ),

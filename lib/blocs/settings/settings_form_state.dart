@@ -24,8 +24,8 @@ class SettingsFormState extends Equatable {
   final Category category;
   final Iterable<IncidentDuration> durations;
   final IncidentDuration duration;
-  final Iterable<Operator> incidentOperators;
-  final Operator incidentOperator;
+  final Iterable<IncidentOperator> incidentOperators;
+  final IncidentOperator incidentOperator;
   final Iterable<SubCategory> subCategories;
   final SubCategory subCategory;
 
@@ -36,8 +36,8 @@ class SettingsFormState extends Equatable {
     Category updatedCategory,
     Iterable<IncidentDuration> updatedDurations,
     IncidentDuration updatedDuration,
-    Iterable<Operator> updatedIncidentOperators,
-    Operator updatedIncidentOperator,
+    Iterable<IncidentOperator> updatedIncidentOperators,
+    IncidentOperator updatedIncidentOperator,
     Iterable<SubCategory> updatedSubCategories,
     SubCategory updatedSubCategory,
   }) =>
@@ -69,7 +69,7 @@ class SettingsFormState extends Equatable {
         ),
       );
 
-   static dynamic _updatedValue({
+  static dynamic _updatedValue({
     @required dynamic value,
     @required dynamic oldValue,
     @required dynamic linkedTo,

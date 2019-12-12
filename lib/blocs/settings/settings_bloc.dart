@@ -27,7 +27,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       final List<Iterable<TdModel>> searchListOptions =
           await Future.wait(<Future<Iterable<TdModel>>>[
-        topdeskProvider.durations(),
+        topdeskProvider.incidentDurations(),
         topdeskProvider.categories(),
       ]);
 

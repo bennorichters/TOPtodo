@@ -7,7 +7,7 @@ abstract class SettingsEvent extends Equatable {
 
 class SettingsInit extends SettingsEvent {
   @override
-  List<Object> get props => <Object> [];
+  List<Object> get props => <Object>[];
 }
 
 class SettingsBranchSelected extends SettingsEvent {
@@ -15,7 +15,7 @@ class SettingsBranchSelected extends SettingsEvent {
   final Branch branch;
 
   @override
-  List<Object> get props => <Object> [branch];
+  List<Object> get props => <Object>[branch];
 }
 
 class SettingsCategorySelected extends SettingsEvent {
@@ -23,7 +23,7 @@ class SettingsCategorySelected extends SettingsEvent {
   final Category category;
 
   @override
-  List<Object> get props => <Object> [category];
+  List<Object> get props => <Object>[category];
 }
 
 class SettingsDurationSelected extends SettingsEvent {
@@ -31,15 +31,15 @@ class SettingsDurationSelected extends SettingsEvent {
   final IncidentDuration duration;
 
   @override
-  List<Object> get props => <Object> [duration];
+  List<Object> get props => <Object>[duration];
 }
 
 class SettingsOperatorSelected extends SettingsEvent {
   const SettingsOperatorSelected(this.incidentOperator);
-  final Operator incidentOperator;
+  final IncidentOperator incidentOperator;
 
   @override
-  List<Object> get props => <Object> [incidentOperator];
+  List<Object> get props => <Object>[incidentOperator];
 }
 
 class SettingsCallerSelected extends SettingsEvent {
@@ -47,7 +47,7 @@ class SettingsCallerSelected extends SettingsEvent {
   final Caller caller;
 
   @override
-  List<Object> get props => <Object> [caller];
+  List<Object> get props => <Object>[caller];
 }
 
 class SettingsSubCategorySelected extends SettingsEvent {
@@ -55,15 +55,15 @@ class SettingsSubCategorySelected extends SettingsEvent {
   final SubCategory subCategory;
 
   @override
-  List<Object> get props => <Object> [subCategory];
+  List<Object> get props => <Object>[subCategory];
 }
 
 class SettingsSave extends SettingsEvent {
   @override
-  List<Object> get props => <Object> [];
+  List<Object> get props => <Object>[];
 }
 
 class SettingsUserLoggedOut extends SettingsEvent {
   @override
-  List<Object> get props => <Object> [];
+  List<Object> get props => <Object>[];
 }
