@@ -41,7 +41,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Caller> caller({String id}) async {
     final String avatar = await _avatar();
 
-    final List<dynamic> response = await _readJson('persons.json');
+    final List<dynamic> response = await _readJson('callers.json');
     final dynamic found = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () => throw ArgumentError(
@@ -61,7 +61,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final String avatar = await _avatar();
-    final List<dynamic> response = await _readJson('persons.json');
+    final List<dynamic> response = await _readJson('callers.json');
     return response
         .where(
       (dynamic e) =>
