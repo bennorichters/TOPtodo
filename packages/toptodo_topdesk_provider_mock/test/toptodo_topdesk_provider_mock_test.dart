@@ -15,19 +15,19 @@ void main() {
       expect(ds.length, 3);
     });
 
-    test('branch by id find one', () async {
+    test('by id find one', () async {
       final Branch ba = await ftp.branch(id: 'a');
 
       expect(ba.id, 'a');
     });
 
-    test('branch by non-existent id throws ArgumentError', () async {
+    test('by non-existent id throws', () async {
       expect(ftp.branch(id: 'doesnotexist'), throwsArgumentError);
     });
   });
 
   group('callers', () {
-    test('zero callers', () async {
+    test('find zero', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
         branch: Branch.fromJson(
@@ -38,7 +38,7 @@ void main() {
       expect(ds.length, isZero);
     });
 
-    test('two callers', () async {
+    test('find two', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'b',
         branch: Branch.fromJson(
@@ -49,7 +49,7 @@ void main() {
       expect(ds.length, 2);
     });
 
-    test('caller has avatar', () async {
+    test('has avatar', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
         branch: Branch.fromJson(
@@ -59,6 +59,16 @@ void main() {
 
       expect(ds.length, 1);
       expect(ds.first.avatar.length, isNonZero);
+    });
+
+    test('by id find one', () async {
+      final Caller ba = await ftp.caller(id: 'a');
+
+      expect(ba.id, 'a');
+    });
+
+    test('by non-existent id throws', () async {
+      expect(ftp.caller(id: 'doesnotexist'), throwsArgumentError);
     });
   });
 
@@ -70,16 +80,16 @@ void main() {
     });
   });
 
-  test('zero operators', () async {
-    final Iterable<IncidentOperator> ds = await ftp.operators(
-      startsWith: 'Q',
-    );
-
-    expect(ds.length, isZero);
-  });
-
   group('operators', () {
-    test('one operators', () async {
+    test('find zero', () async {
+      final Iterable<IncidentOperator> ds = await ftp.operators(
+        startsWith: 'Q',
+      );
+
+      expect(ds.length, isZero);
+    });
+
+    test('find one', () async {
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'b',
       );
@@ -87,19 +97,7 @@ void main() {
       expect(ds.length, 1);
     });
 
-    test('operator has avatar', () async {
-      final Iterable<Caller> ds = await ftp.callers(
-        startsWith: 'Augustin Sheryll',
-        branch: Branch.fromJson(
-          jsonDecode('{"id": "a", "name": ""}'),
-        ),
-      );
-
-      expect(ds.length, 1);
-      expect(ds.first.avatar.length, isNonZero);
-    });
-
-    test('operator has avatar', () async {
+    test('has avatar', () async {
       final Iterable<IncidentOperator> ds = await ftp.operators(
         startsWith: 'Eduard',
       );
