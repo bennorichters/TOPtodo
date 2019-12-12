@@ -9,7 +9,7 @@ void main() {
     latency: const Duration(microseconds: 0),
   );
 
-  group('branches', () {
+  group('branch', () {
     test('find some', () async {
       final Iterable<Branch> ds = await ftp.branches(startsWith: 'E');
       expect(ds.length, 3);
@@ -26,7 +26,7 @@ void main() {
     });
   });
 
-  group('callers', () {
+  group('caller', () {
     test('find zero', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
@@ -73,18 +73,57 @@ void main() {
     });
   });
 
-  group('durations', () {
-    test('find some', () async {
-      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
+  group('category', () {
+    test('find all', () async {
+      expect((await ftp.categories()).length, 3);
+    });
 
-      expect(ds.length, isNonZero);
+    test('by id find one', () async {
+      final Category ca = await ftp.category(id: 'a');
+      expect(ca.id, 'a');
+    });
+
+    test('by non-existent id throws', () async {
+      expect(ftp.category(id: 'doesnotexist'), throwsArgumentError);
     });
   });
 
-  group('operators', () {
+  group('sub category', () {
+    test('find all for one category', () async {
+      final Category ca = await ftp.category(id: 'a');
+      expect((await ftp.subCategories(category: ca)).length, 4);
+    });
+
+    test('by id find one', () async {
+      final SubCategory scaa = await ftp.subCategory(id: 'aa');
+      expect(scaa.id, 'aa');
+    });
+
+    test('by non-existent id throws', () async {
+      expect(ftp.subCategory(id: 'doesnotexist'), throwsArgumentError);
+    });
+  });
+
+  group('duration', () {
+    test('find all', () async {
+      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
+      expect(ds.length, 7);
+    });
+
+    test('by id find one', () async {
+      final IncidentDuration ida = await ftp.incidentDuration(id: 'a');
+      expect(ida.id, 'a');
+    });
+
+    test('by non-existent id throws', () async {
+      expect(ftp.incidentDuration(id: 'doesnotexist'), throwsArgumentError);
+    });
+  });
+
+  group('operator', () {
     test('find zero', () async {
       final Iterable<IncidentOperator> ds = await ftp.operators(
-        startsWith: 'Q',
+        startsWith: 'Q'
       );
 
       expect(ds.length, isZero);
@@ -111,6 +150,15 @@ void main() {
       final IncidentOperator op = await ftp.currentIncidentOperator();
 
       expect(op.avatar.length, isNonZero);
+    });
+
+    test('by id find one', () async {
+      final IncidentOperator oa = await ftp.incidentOperator(id: 'a');
+      expect(oa.id, 'a');
+    });
+
+    test('by non-existent id throws', () async {
+      expect(ftp.incidentOperator(id: 'doesnotexist'), throwsArgumentError);
     });
   });
 }

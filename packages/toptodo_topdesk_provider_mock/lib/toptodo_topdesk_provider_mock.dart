@@ -77,11 +77,30 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
+  Future<Category> category({String id}) async {
+    return (await categories()).firstWhere(
+      (Category c) => c.id == id,
+      orElse: () => throw ArgumentError('no category for id: $id'),
+    );
+  }
+
+  @override
   Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _readJson('categories.json');
     return response.map(
       (dynamic e) => Category.fromJson(e),
     );
+  }
+
+  @override
+  Future<SubCategory> subCategory({String id}) async {
+    final List<dynamic> response = await _readJson('sub_categories.json');
+    final dynamic json = response.firstWhere(
+      (dynamic e) => e['id'] == id,
+      orElse: () => throw ArgumentError('no sub category for id: $id'),
+    );
+
+    return SubCategory.fromJson(json);
   }
 
   @override
@@ -101,6 +120,22 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('durations.json');
     return response.map(
       (dynamic e) => IncidentDuration.fromJson(e),
+    );
+  }
+
+  @override
+  Future<IncidentDuration> incidentDuration({String id}) async {
+    return (await incidentDurations()).firstWhere(
+      (IncidentDuration e) => e.id == id,
+      orElse: () => throw ArgumentError('no incident duration for id: $id'),
+    );
+  }
+
+  @override
+  Future<IncidentOperator> incidentOperator({String id}) async {
+    return (await operators(startsWith: '')).firstWhere(
+      (IncidentOperator e) => e.id == id,
+      orElse: () => throw ArgumentError('no operator for id: $id'),
     );
   }
 
@@ -140,25 +175,5 @@ class FakeTopdeskProvider implements TopdeskProvider {
       latency,
       () => json.decode(content),
     );
-  }
-
-  @override
-  Future<Category> category({String id}) {
-    return null;
-  }
-
-  @override
-  Future<IncidentDuration> incidentDuration({String id}) {
-    return null;
-  }
-
-  @override
-  Future<IncidentOperator> incidentOperator({String id}) {
-    return null;
-  }
-
-  @override
-  Future<SubCategory> subCategory({String id}) {
-    return null;
   }
 }
