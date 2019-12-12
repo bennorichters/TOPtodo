@@ -23,7 +23,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   void dispose() {
     _client?.close();
-    
+
     _url = null;
     _authHeaders = null;
     _client = null;
@@ -38,21 +38,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
       HttpHeaders.authorizationHeader: 'Basic ' + encoded,
       HttpHeaders.acceptHeader: 'application/json',
     };
-  }
-
-  @override
-  Future<Iterable<IncidentDuration>> incidentDurations() async {
-    final List<dynamic> response = await _callApi('incidents/durations');
-    return response.map((dynamic e) => IncidentDuration.fromJson(e));
-  }
-
-  @override
-  Future<Iterable<Branch>> branches({@required String startsWith}) async {
-    final String sanitized = Uri.encodeFull(startsWith);
-    final List<dynamic> response =
-        await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
-
-    return response.map((dynamic e) => Branch.fromJson(e));
   }
 
   dynamic _callApi(String endPoint) async {
@@ -72,6 +57,21 @@ class ApiTopdeskProvider extends TopdeskProvider {
     if (res.statusCode == 200 || res.statusCode == 206) {
       return json.decode(res.body);
     }
+  }
+
+  @override
+  Future<Iterable<IncidentDuration>> incidentDurations() async {
+    final List<dynamic> response = await _callApi('incidents/durations');
+    return response.map((dynamic e) => IncidentDuration.fromJson(e));
+  }
+
+  @override
+  Future<Iterable<Branch>> branches({@required String startsWith}) async {
+    final String sanitized = Uri.encodeFull(startsWith);
+    final List<dynamic> response =
+        await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
+
+    return response.map((dynamic e) => Branch.fromJson(e));
   }
 
   @override
