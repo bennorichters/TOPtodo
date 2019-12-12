@@ -54,7 +54,7 @@ abstract class TopdeskProvider {
     @required String id,
   });
   Future<IncidentOperator> currentIncidentOperator();
-  Future<Iterable<IncidentOperator>> operators({
+  Future<Iterable<IncidentOperator>> incdentOperators({
     @required String startsWith,
   });
 }
