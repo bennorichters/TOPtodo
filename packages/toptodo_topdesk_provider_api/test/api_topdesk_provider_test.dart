@@ -20,8 +20,8 @@ void main() {
     });
   });
 
-  group('headers', () {
-    test('auth', () async {
+  group('meta', () {
+    test('headers', () async {
       Map<String, String> headers;
       final MockClient mc = MockClient((Request req) async {
         headers = req.headers;
@@ -32,8 +32,9 @@ void main() {
       atp.init(credentials, client: mc);
       await atp.incidentDurations();
 
-      expect(headers['authorization'].startsWith('Basic '), isTrue);
+      expect(headers['accept'], 'application/json');
 
+      expect(headers['authorization'].startsWith('Basic '), isTrue);
       final String decoded = utf8
           .fuse(base64)
           .decode(headers['authorization'].substring('Basic '.length));
