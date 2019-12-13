@@ -13,7 +13,9 @@ void main() {
   });
 
   test('two durations', () async {
+    Uri url;
     final MockClient mc = MockClient((Request req) async {
+     url = req.url;
       return Response(
           '[{"id": "a", "name": "15 minutes"},'
           '{"id": "b", "name": "30 minutes"}]',
@@ -29,6 +31,8 @@ void main() {
 
     atp.init(c, client: mc);
     final Iterable<IncidentDuration> ids = await atp.incidentDurations();
+
+    expect(url.path, 'a/tas/api/incidents/durations');
     expect(ids.length, 2);
     expect(ids.first.id, 'a');
   });
