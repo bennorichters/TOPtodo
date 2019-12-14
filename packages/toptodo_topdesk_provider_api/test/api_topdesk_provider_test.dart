@@ -72,7 +72,12 @@ void main() {
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
       atp.init(credentials, client: mc);
-      expect(await atp.incidentDuration(id: 'a'), throwsArgumentError);
+      expect(
+        await atp.incidentDuration(id: 'a'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
 
     test('find two', () async {
