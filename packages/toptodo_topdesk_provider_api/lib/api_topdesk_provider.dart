@@ -30,6 +30,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
+  Future<Branch> branch({String id}) async {
+    final dynamic response = await _callApi('branches/id/$id');
+    return Branch.fromJson(response);
+  }
+
+  @override
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
     final String sanitized = Uri.encodeFull(startsWith);
     final List<dynamic> response =
@@ -151,6 +157,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
     if (res.statusCode == 200 || res.statusCode == 206) {
       return json.decode(res.body);
     }
+
+    if (res.statusCode == 404) {
+      throw TdModelNotFoundException('404 for $endPoint');
+    }
   }
 
   Future<dynamic> _fixPerson(String subPath, dynamic json) async {
@@ -162,11 +172,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<String> _avatarForPerson(String subPath, String id) async {
     final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
-  }
-
-  @override
-  Future<Branch> branch({String id}) {
-    return null;
   }
 
   @override

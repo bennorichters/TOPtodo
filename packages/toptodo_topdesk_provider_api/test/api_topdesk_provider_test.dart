@@ -50,6 +50,7 @@ void main() {
     ApiTopdeskProvider apiTopdeskProvider({
       String expectedPath,
       Map<String, String> expectedQueryParameters,
+      int responseCode,
       String responseJson,
     }) {
       final Client client = MockClient((Request request) async {
@@ -63,7 +64,7 @@ void main() {
 
         return Response(
           responseJson ?? defaultJson,
-          200,
+          responseCode ?? 200,
         );
       });
 
@@ -80,6 +81,7 @@ void main() {
       test('find by id', () async {
         final ApiTopdeskProvider atp = apiTopdeskProvider(
           expectedPath: 'tas/api/branches/id/a',
+          responseJson: '{"id": "a", "name": "ABA"}',
         );
         final Branch b = await atp.branch(id: 'a');
 
@@ -87,7 +89,10 @@ void main() {
       });
 
       test('find by nonexisting id throws', () async {
-        final ApiTopdeskProvider atp = apiTopdeskProvider();
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          responseCode: 404,
+          responseJson: '',
+        );
         expect(
           atp.branch(id: 'doesnotexist'),
           throwsA(
