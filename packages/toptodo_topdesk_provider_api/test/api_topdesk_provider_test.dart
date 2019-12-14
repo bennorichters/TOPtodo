@@ -116,6 +116,88 @@ void main() {
       });
     });
 
+    group('caller', () {
+      test('find by id', () async {
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          expectedPath: 'tas/api/persons/id/a',
+          responseJson: '{"id": "a", "name": "ABA"}',
+        );
+        final Caller c = await atp.caller(id: 'a');
+
+        expect(c.id, 'a');
+      });
+
+      test('find by nonexisting id throws', () async {
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          responseCode: 404,
+          responseJson: '',
+        );
+        expect(
+          atp.caller(id: 'doesnotexist'),
+          throwsA(
+            const TypeMatcher<TdModelNotFoundException>(),
+          ),
+        );
+      });
+
+      test('starts with find two', () async {
+        int endpointPersonCount = 0;
+        final Map<String, int> endpointAvatarCount = <String, int>{
+          'aa': 0,
+          'ac': 0,
+        };
+        final Client client = MockClient((Request req) async {
+          final String path = req.url.path.substring(
+            credentials.url.length + 1,
+          );
+          if (path == 'tas/api/persons') {
+            endpointPersonCount++;
+            expect(
+              req.url.queryParameters,
+              <String, String>{
+                '\$fields': 'id,dynamicName',
+                'lastname': 'ab',
+              },
+            );
+            return Response(
+              '[{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"},'
+              '{"id": "ac", "name": "Bazile Tonette", "branchid": "a"}]',
+              200,
+            );
+          } else if (path.startsWith('tas/api/avatars/person/')) {
+            final String id = path.substring('tas/api/avatars/person/'.length);
+            expect(
+              endpointAvatarCount.containsKey(id),
+              isTrue,
+              reason: 'unexpected request for avatar with caller id $id',
+            );
+
+            endpointAvatarCount[id]++;
+
+            return Response('{"image": "someBase64EncodedImage"}', 200);
+          } else {
+            fail('unexpected call to endpoint $path');
+          }
+        });
+
+        final Branch b = Branch.fromJson(const <String, String>{
+          'id': 'a',
+          'name': 'branchA',
+        });
+
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: client);
+
+        final Iterable<Caller> cs =
+            await atp.callers(branch: b, startsWith: 'ab');
+        expect(endpointPersonCount, 1);
+        expect(endpointAvatarCount['aa'], 1);
+        expect(endpointAvatarCount['ac'], 1);
+        expect(cs.length, 2);
+        expect(cs.first.id, 'aa');
+      });
+    });
+
     group('category', () {
       test('find by id', () async {
         final ApiTopdeskProvider atp = apiTopdeskProvider(
