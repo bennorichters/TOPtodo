@@ -14,7 +14,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     // Ignore
   }
 
-  @override 
+  @override
   void dispose() {
     // Ignore
   }
@@ -25,7 +25,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
       ))
           .firstWhere(
         (Branch b) => b.id == id,
-        orElse: () => throw ArgumentError('no branch found with id: $id'),
+        orElse: () =>
+            throw TdModelNotFoundException('no branch found with id: $id'),
       );
 
   @override
@@ -49,7 +50,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('callers.json');
     final dynamic found = response.firstWhere(
       (dynamic e) => e['id'] == id,
-      orElse: () => throw ArgumentError(
+      orElse: () => throw TdModelNotFoundException(
         'no caller for id: $id',
       ),
     );
@@ -85,7 +86,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Category> category({String id}) async {
     return (await categories()).firstWhere(
       (Category c) => c.id == id,
-      orElse: () => throw ArgumentError('no category for id: $id'),
+      orElse: () => throw TdModelNotFoundException('no category for id: $id'),
     );
   }
 
@@ -102,7 +103,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('sub_categories.json');
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
-      orElse: () => throw ArgumentError('no sub category for id: $id'),
+      orElse: () =>
+          throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
     return SubCategory.fromJson(json);
@@ -132,7 +134,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<IncidentDuration> incidentDuration({String id}) async {
     return (await incidentDurations()).firstWhere(
       (IncidentDuration e) => e.id == id,
-      orElse: () => throw ArgumentError('no incident duration for id: $id'),
+      orElse: () =>
+          throw TdModelNotFoundException('no incident duration for id: $id'),
     );
   }
 
@@ -140,7 +143,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<IncidentOperator> incidentOperator({String id}) async {
     return (await incidentOperators(startsWith: '')).firstWhere(
       (IncidentOperator e) => e.id == id,
-      orElse: () => throw ArgumentError('no operator for id: $id'),
+      orElse: () => throw TdModelNotFoundException('no operator for id: $id'),
     );
   }
 

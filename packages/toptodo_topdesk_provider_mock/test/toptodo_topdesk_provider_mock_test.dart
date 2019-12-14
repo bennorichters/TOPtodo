@@ -22,7 +22,12 @@ void main() {
     });
 
     test('by non-existent id throws', () async {
-      expect(ftp.branch(id: 'doesnotexist'), throwsArgumentError);
+      expect(
+        ftp.branch(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
   });
 
@@ -69,7 +74,12 @@ void main() {
     });
 
     test('by non-existent id throws', () async {
-      expect(ftp.caller(id: 'doesnotexist'), throwsArgumentError);
+      expect(
+        ftp.caller(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
   });
 
@@ -84,7 +94,12 @@ void main() {
     });
 
     test('by non-existent id throws', () async {
-      expect(ftp.category(id: 'doesnotexist'), throwsArgumentError);
+      expect(
+        ftp.category(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
   });
 
@@ -100,7 +115,12 @@ void main() {
     });
 
     test('by non-existent id throws', () async {
-      expect(ftp.subCategory(id: 'doesnotexist'), throwsArgumentError);
+      expect(
+        ftp.subCategory(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
   });
 
@@ -116,7 +136,12 @@ void main() {
     });
 
     test('by non-existent id throws', () async {
-      expect(ftp.incidentDuration(id: 'doesnotexist'), throwsArgumentError);
+      expect(
+        ftp.incidentDuration(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
   });
 
@@ -157,7 +182,12 @@ void main() {
     });
 
     test('by non-existent id throws', () async {
-      expect(ftp.incidentOperator(id: 'doesnotexist'), throwsArgumentError);
+      expect(
+        ftp.incidentOperator(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
     });
   });
 }
