@@ -162,7 +162,7 @@ packages:
       name: shared_preferences_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.1+3"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
@@ -176,7 +176,7 @@ packages:
       name: shared_preferences_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.2+2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -228,8 +228,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "3226a77d7019745fbe2c93a3c3a0fb30cb1e803c"
-      resolved-ref: "3226a77d7019745fbe2c93a3c3a0fb30cb1e803c"
+      ref: "3e98e625c958edd2c5377ed0f48487bf0e72e271"
+      resolved-ref: "3e98e625c958edd2c5377ed0f48487bf0e72e271"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
