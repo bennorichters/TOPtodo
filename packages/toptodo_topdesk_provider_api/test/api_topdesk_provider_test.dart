@@ -42,112 +42,110 @@ void main() {
     });
   });
 
-  group('category', () {
+  group('api call', () {
     final Response resp = Response(
-      '[{"id": "a", "name": "Network"},'
-      '{"id": "b", "name": "Software"},'
-      '{"id": "c", "name": "Telecom"}]',
+      '[{"id": "a", "name": "ABC"},'
+      '{"id": "b", "name": "DEF"},'
+      '{"id": "c", "name": "GHI"}]',
       200,
     );
 
-    test('find by id', () async {
-      Uri url;
-      final MockClient mc = MockClient((Request req) async {
-        url = req.url;
-        return resp;
+    group('branch', () {});
+
+    group('category', () {
+      test('find by id', () async {
+        Uri url;
+        final MockClient mc = MockClient((Request req) async {
+          url = req.url;
+          return resp;
+        });
+
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: mc);
+        final Category c = await atp.category(id: 'a');
+
+        expect(url.path, 'a/tas/api/incidents/categories');
+        expect(c.id, 'a');
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
-      final Category c = await atp.category(id: 'a');
+      test('find by nonexisting id throws', () async {
+        final MockClient mc = MockClient((Request req) async {
+          return resp;
+        });
 
-      expect(url.path, 'a/tas/api/incidents/categories');
-      expect(c.id, 'a');
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: mc);
+        expect(
+          atp.category(id: 'doesnotexist'),
+          throwsA(
+            const TypeMatcher<TdModelNotFoundException>(),
+          ),
+        );
+      });
+
+      test('find three', () async {
+        Uri url;
+        final MockClient mc = MockClient((Request req) async {
+          url = req.url;
+          return resp;
+        });
+
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: mc);
+        final Iterable<Category> cs = await atp.categories();
+
+        expect(url.path, 'a/tas/api/incidents/categories');
+        expect(cs.length, 3);
+        expect(cs.first.id, 'a');
+      });
     });
 
-    test('find by nonexisting id throws', () async {
-      final MockClient mc = MockClient((Request req) async {
-        return resp;
+    group('duration', () {
+      test('find by id', () async {
+        Uri url;
+        final MockClient mc = MockClient((Request req) async {
+          url = req.url;
+          return resp;
+        });
+
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: mc);
+        final IncidentDuration id = await atp.incidentDuration(id: 'a');
+
+        expect(url.path, 'a/tas/api/incidents/durations');
+        expect(id.id, 'a');
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
-      expect(
-        atp.category(id: 'doesnotexist'),
-        throwsA(
-          const TypeMatcher<TdModelNotFoundException>(),
-        ),
-      );
-    });
+      test('find by nonexisting id throws', () async {
+        final MockClient mc = MockClient((Request req) async {
+          return resp;
+        });
 
-    test('find three', () async {
-      Uri url;
-      final MockClient mc = MockClient((Request req) async {
-        url = req.url;
-        return resp;
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: mc);
+        expect(
+          atp.incidentDuration(id: 'doesnotexist'),
+          throwsA(
+            const TypeMatcher<TdModelNotFoundException>(),
+          ),
+        );
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
-      final Iterable<Category> cs = await atp.categories();
+      test('find three', () async {
+        Uri url;
+        final MockClient mc = MockClient((Request req) async {
+          url = req.url;
+          return resp;
+        });
 
-      expect(url.path, 'a/tas/api/incidents/categories');
-      expect(cs.length, 3);
-      expect(cs.first.id, 'a');
-    });
-  });
+        final ApiTopdeskProvider atp = ApiTopdeskProvider();
+        atp.init(credentials, client: mc);
+        final Iterable<IncidentDuration> ids = await atp.incidentDurations();
 
-  group('duration', () {
-    final Response resp = Response(
-      '[{"id": "a", "name": "15 minutes"},'
-      '{"id": "b", "name": "30 minutes"}]',
-      200,
-    );
-
-    test('find by id', () async {
-      Uri url;
-      final MockClient mc = MockClient((Request req) async {
-        url = req.url;
-        return resp;
+        expect(url.path, 'a/tas/api/incidents/durations');
+        expect(ids.length, 3);
+        expect(ids.first.id, 'a');
       });
-
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
-      final IncidentDuration id = await atp.incidentDuration(id: 'a');
-
-      expect(url.path, 'a/tas/api/incidents/durations');
-      expect(id.id, 'a');
-    });
-
-    test('find by nonexisting id throws', () async {
-      final MockClient mc = MockClient((Request req) async {
-        return resp;
-      });
-
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
-      expect(
-        atp.incidentDuration(id: 'doesnotexist'),
-        throwsA(
-          const TypeMatcher<TdModelNotFoundException>(),
-        ),
-      );
-    });
-
-    test('find two', () async {
-      Uri url;
-      final MockClient mc = MockClient((Request req) async {
-        url = req.url;
-        return resp;
-      });
-
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
-      final Iterable<IncidentDuration> ids = await atp.incidentDurations();
-
-      expect(url.path, 'a/tas/api/incidents/durations');
-      expect(ids.length, 2);
-      expect(ids.first.id, 'a');
     });
   });
 }
