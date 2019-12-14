@@ -29,6 +29,83 @@ class ApiTopdeskProvider extends TopdeskProvider {
     _client = null;
   }
 
+  @override
+  Future<Iterable<Branch>> branches({@required String startsWith}) async {
+    final String sanitized = Uri.encodeFull(startsWith);
+    final List<dynamic> response =
+        await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
+
+    return response.map((dynamic e) => Branch.fromJson(e));
+  }
+
+  @override
+  Future<Iterable<Caller>> callers({
+    @required String startsWith,
+    @required Branch branch,
+  }) async {
+    final String sanitized = Uri.encodeFull(startsWith);
+    final List<dynamic> response = await _callApi(
+      'persons?lastname=$sanitized&\$fields=id,dynamicName',
+    );
+
+    final List<dynamic> fixed = await Future.wait<dynamic>(
+      response.map(
+        (dynamic json) => _fixPerson(_subPathCaller, json),
+      ),
+    );
+
+    return fixed.map((dynamic json) => Caller.fromJson(json));
+  }
+
+  @override
+  Future<Iterable<Category>> categories() async {
+    final List<dynamic> response = await _callApi('incidents/categories');
+    return response.map((dynamic e) => Category.fromJson(e));
+  }
+
+  @override
+  Future<Iterable<SubCategory>> subCategories({Category category}) async {
+    final List<dynamic> response = await _callApi('incidents/subcategories');
+    return response
+        .where((dynamic json) => json['category']['id'] == category.id)
+        .map((dynamic json) => SubCategory.fromJson(json));
+  }
+
+  @override
+  Future<Iterable<IncidentDuration>> incidentDurations() async {
+    final List<dynamic> response = await _callApi('incidents/durations');
+    return response.map((dynamic e) => IncidentDuration.fromJson(e));
+  }
+
+  @override
+  Future<IncidentOperator> currentIncidentOperator() async {
+    final dynamic response = await _callApi('operators/current');
+    final dynamic fixed = await _fixPerson(_subPathOperator, response);
+    return IncidentOperator.fromJson(fixed);
+  }
+
+  @override
+  Future<Iterable<IncidentOperator>> incidentOperators({
+    @required String startsWith,
+  }) async {
+    final String sanitized = Uri.encodeFull(startsWith);
+    final List<dynamic> response = await _callApi(
+      'operators?lastname=$sanitized',
+    );
+
+    final Iterable<dynamic> filtered = response.where(
+      (dynamic json) => json['firstLineCallOperator'],
+    );
+
+    final List<dynamic> fixed = await Future.wait<dynamic>(
+      filtered.map(
+        (dynamic json) => _fixPerson(_subPathOperator, json),
+      ),
+    );
+
+    return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
+  }
+
   Map<String, String> _createAuthHeaders(Credentials credentials) {
     final String encoded = utf8
         .fuse(base64)
@@ -59,90 +136,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
     }
   }
 
-  @override
-  Future<Iterable<IncidentDuration>> incidentDurations() async {
-    final List<dynamic> response = await _callApi('incidents/durations');
-    return response.map((dynamic e) => IncidentDuration.fromJson(e));
-  }
-
-  @override
-  Future<Iterable<Branch>> branches({@required String startsWith}) async {
-    final String sanitized = Uri.encodeFull(startsWith);
-    final List<dynamic> response =
-        await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
-
-    return response.map((dynamic e) => Branch.fromJson(e));
-  }
-
-  @override
-  Future<Iterable<Category>> categories() async {
-    final List<dynamic> response = await _callApi('incidents/categories');
-    return response.map((dynamic e) => Category.fromJson(e));
-  }
-
-  @override
-  Future<Iterable<SubCategory>> subCategories({Category category}) async {
-    final List<dynamic> response = await _callApi('incidents/subcategories');
-    return response
-        .where((dynamic json) => json['category']['id'] == category.id)
-        .map((dynamic json) => SubCategory.fromJson(json));
-  }
-
-  @override
-  Future<Iterable<Caller>> callers({
-    @required String startsWith,
-    @required Branch branch,
-  }) async {
-    final String sanitized = Uri.encodeFull(startsWith);
-    final List<dynamic> response = await _callApi(
-      'persons?lastname=$sanitized&\$fields=id,dynamicName',
-    );
-
-    final List<dynamic> fixed = await Future.wait<dynamic>(
-      response.map(
-        (dynamic json) => _fixPerson(_subPathCaller, json),
-      ),
-    );
-
-    return fixed.map((dynamic json) => Caller.fromJson(json));
-  }
-
-  @override
-  Future<Iterable<IncidentOperator>> incidentOperators({
-    @required String startsWith,
-  }) async {
-    final String sanitized = Uri.encodeFull(startsWith);
-    final List<dynamic> response = await _callApi(
-      'operators?lastname=$sanitized',
-    );
-
-    final Iterable<dynamic> filtered = response.where(
-      (dynamic json) => json['firstLineCallOperator'],
-    );
-
-    final List<dynamic> fixed = await Future.wait<dynamic>(
-      filtered.map(
-        (dynamic json) => _fixPerson(_subPathOperator, json),
-      ),
-    );
-
-    return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
-  }
-
-  @override
-  Future<IncidentOperator> currentIncidentOperator() async {
-    final dynamic response = await _callApi('operators/current');
-    final dynamic fixed = await _fixPerson(_subPathOperator, response);
-    return IncidentOperator.fromJson(fixed);
-  }
-
   Future<dynamic> _fixPerson(String subPath, dynamic json) async {
     json['name'] = json['dynamicName'];
-    json['avatar'] = await avatarForPerson(subPath, json['id']);
+    json['avatar'] = await _avatarForPerson(subPath, json['id']);
     return json;
   }
 
-  Future<String> avatarForPerson(String subPath, String id) async {
+  Future<String> _avatarForPerson(String subPath, String id) async {
     final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
   }
