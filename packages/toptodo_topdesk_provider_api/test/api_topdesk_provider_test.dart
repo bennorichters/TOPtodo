@@ -43,16 +43,18 @@ void main() {
   });
 
   group('category', () {
+    final Response resp = Response(
+      '[{"id": "a", "name": "Network"},'
+      '{"id": "b", "name": "Software"},'
+      '{"id": "c", "name": "Telecom"}]',
+      200,
+    );
+
     test('find by id', () async {
       Uri url;
       final MockClient mc = MockClient((Request req) async {
         url = req.url;
-
-        return Response(
-            '[{"id": "a", "name": "Network"},'
-            '{"id": "b", "name": "Software"},'
-            '{"id": "c", "name": "Telecom"}]',
-            200);
+        return resp;
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
@@ -65,11 +67,7 @@ void main() {
 
     test('find by nonexisting id throws', () async {
       final MockClient mc = MockClient((Request req) async {
-        return Response(
-            '[{"id": "a", "name": "Network"},'
-            '{"id": "b", "name": "Software"},'
-            '{"id": "c", "name": "Telecom"}]',
-            200);
+        return resp;
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
@@ -86,12 +84,7 @@ void main() {
       Uri url;
       final MockClient mc = MockClient((Request req) async {
         url = req.url;
-
-        return Response(
-            '[{"id": "a", "name": "Network"},'
-            '{"id": "b", "name": "Software"},'
-            '{"id": "c", "name": "Telecom"}]',
-            200);
+        return resp;
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
@@ -105,15 +98,17 @@ void main() {
   });
 
   group('duration', () {
+    final Response resp = Response(
+      '[{"id": "a", "name": "15 minutes"},'
+      '{"id": "b", "name": "30 minutes"}]',
+      200,
+    );
+
     test('find by id', () async {
       Uri url;
       final MockClient mc = MockClient((Request req) async {
         url = req.url;
-
-        return Response(
-            '[{"id": "a", "name": "15 minutes"},'
-            '{"id": "b", "name": "30 minutes"}]',
-            200);
+        return resp;
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
@@ -126,10 +121,7 @@ void main() {
 
     test('find by nonexisting id throws', () async {
       final MockClient mc = MockClient((Request req) async {
-        return Response(
-            '[{"id": "a", "name": "15 minutes"},'
-            '{"id": "b", "name": "30 minutes"}]',
-            200);
+        return resp;
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
@@ -146,11 +138,7 @@ void main() {
       Uri url;
       final MockClient mc = MockClient((Request req) async {
         url = req.url;
-
-        return Response(
-            '[{"id": "a", "name": "15 minutes"},'
-            '{"id": "b", "name": "30 minutes"}]',
-            200);
+        return resp;
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
