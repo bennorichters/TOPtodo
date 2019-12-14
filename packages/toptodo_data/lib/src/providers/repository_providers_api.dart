@@ -59,3 +59,11 @@ abstract class TopdeskProvider {
     @required String startsWith,
   });
 }
+
+class TdModelNotFoundException implements Exception {
+  const TdModelNotFoundException(this.message);
+  final String message;
+
+  @override
+  String toString() => 'TdModelNotFoundException: $message';
+}
