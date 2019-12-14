@@ -42,6 +42,68 @@ void main() {
     });
   });
 
+  group('category', () {
+    test('find by id', () async {
+      Uri url;
+      final MockClient mc = MockClient((Request req) async {
+        url = req.url;
+
+        return Response(
+            '[{"id": "a", "name": "Network"},'
+            '{"id": "b", "name": "Software"},'
+            '{"id": "c", "name": "Telecom"}]',
+            200);
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      atp.init(credentials, client: mc);
+      final Category c = await atp.category(id: 'a');
+
+      expect(url.path, 'a/tas/api/incidents/categories');
+      expect(c.id, 'a');
+    });
+
+    test('find by nonexisting id throws', () async {
+      final MockClient mc = MockClient((Request req) async {
+        return Response(
+            '[{"id": "a", "name": "Network"},'
+            '{"id": "b", "name": "Software"},'
+            '{"id": "c", "name": "Telecom"}]',
+            200);
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      atp.init(credentials, client: mc);
+      expect(
+        atp.category(id: 'doesnotexist'),
+        throwsA(
+          const TypeMatcher<TdModelNotFoundException>(),
+        ),
+      );
+    });
+
+    test('find three', () async {
+      Uri url;
+      final MockClient mc = MockClient((Request req) async {
+        url = req.url;
+
+        return Response(
+            '[{"id": "a", "name": "Network"},'
+            '{"id": "b", "name": "Software"},'
+            '{"id": "c", "name": "Telecom"}]',
+            200);
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      atp.init(credentials, client: mc);
+      final Iterable<Category> cs = await atp.categories();
+
+      expect(url.path, 'a/tas/api/incidents/categories');
+      expect(cs.length, 3);
+      expect(cs.first.id, 'a');
+    });
+  });
+
   group('duration', () {
     test('find by id', () async {
       Uri url;

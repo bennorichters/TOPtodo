@@ -58,6 +58,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
+  Future<Category> category({String id}) async {
+    return (await categories()).firstWhere(
+      (Category c) => c.id == id,
+      orElse: () => throw TdModelNotFoundException('no category for id: $id'),
+    );
+  }
+
+  @override
   Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _callApi('incidents/categories');
     return response.map((dynamic e) => Category.fromJson(e));
@@ -163,11 +171,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Caller> caller({String id}) {
-    return null;
-  }
-
-  @override
-  Future<Category> category({String id}) {
     return null;
   }
 
