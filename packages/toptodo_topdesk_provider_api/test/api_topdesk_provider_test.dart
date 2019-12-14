@@ -73,7 +73,7 @@ void main() {
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
       atp.init(credentials, client: mc);
       expect(
-        await atp.incidentDuration(id: 'a'),
+        atp.incidentDuration(id: 'doesnotexist'),
         throwsA(
           const TypeMatcher<TdModelNotFoundException>(),
         ),
