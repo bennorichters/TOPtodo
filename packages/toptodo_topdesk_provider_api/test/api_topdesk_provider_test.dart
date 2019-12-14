@@ -43,38 +43,43 @@ void main() {
   });
 
   group('api call', () {
-    final Response resp = Response(
-      '[{"id": "a", "name": "ABC"},'
-      '{"id": "b", "name": "DEF"},'
-      '{"id": "c", "name": "GHI"}]',
-      200,
-    );
+    ApiTopdeskProvider apiTopdeskProvider({String expectedUrl}) {
+      final Client client = MockClient((Request request) async {
+        if (expectedUrl != null) {
+          expect(request.url.path, credentials.url + '/' + expectedUrl);
+        }
 
-    group('branch', () {});
+        return Response(
+          '[{"id": "a", "name": "ABC"},'
+          '{"id": "b", "name": "DEF"},'
+          '{"id": "c", "name": "GHI"}]',
+          200,
+        );
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      atp.init(
+        credentials,
+        client: client,
+      );
+
+      return atp;
+    }
+
+    // group('branch', () {});
 
     group('category', () {
       test('find by id', () async {
-        Uri url;
-        final MockClient mc = MockClient((Request req) async {
-          url = req.url;
-          return resp;
-        });
-
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: mc);
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          expectedUrl: 'tas/api/incidents/categories',
+        );
         final Category c = await atp.category(id: 'a');
 
-        expect(url.path, 'a/tas/api/incidents/categories');
         expect(c.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final MockClient mc = MockClient((Request req) async {
-          return resp;
-        });
-
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: mc);
+        final ApiTopdeskProvider atp = apiTopdeskProvider();
         expect(
           atp.category(id: 'doesnotexist'),
           throwsA(
@@ -84,17 +89,11 @@ void main() {
       });
 
       test('find three', () async {
-        Uri url;
-        final MockClient mc = MockClient((Request req) async {
-          url = req.url;
-          return resp;
-        });
-
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: mc);
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          expectedUrl: 'tas/api/incidents/categories',
+        );
         final Iterable<Category> cs = await atp.categories();
 
-        expect(url.path, 'a/tas/api/incidents/categories');
         expect(cs.length, 3);
         expect(cs.first.id, 'a');
       });
@@ -102,27 +101,16 @@ void main() {
 
     group('duration', () {
       test('find by id', () async {
-        Uri url;
-        final MockClient mc = MockClient((Request req) async {
-          url = req.url;
-          return resp;
-        });
-
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: mc);
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          expectedUrl: 'tas/api/incidents/durations',
+        );
         final IncidentDuration id = await atp.incidentDuration(id: 'a');
 
-        expect(url.path, 'a/tas/api/incidents/durations');
         expect(id.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final MockClient mc = MockClient((Request req) async {
-          return resp;
-        });
-
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: mc);
+        final ApiTopdeskProvider atp = apiTopdeskProvider();
         expect(
           atp.incidentDuration(id: 'doesnotexist'),
           throwsA(
@@ -132,17 +120,11 @@ void main() {
       });
 
       test('find three', () async {
-        Uri url;
-        final MockClient mc = MockClient((Request req) async {
-          url = req.url;
-          return resp;
-        });
-
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: mc);
+        final ApiTopdeskProvider atp = apiTopdeskProvider(
+          expectedUrl: 'tas/api/incidents/durations',
+        );
         final Iterable<IncidentDuration> ids = await atp.incidentDurations();
 
-        expect(url.path, 'a/tas/api/incidents/durations');
         expect(ids.length, 3);
         expect(ids.first.id, 'a');
       });
