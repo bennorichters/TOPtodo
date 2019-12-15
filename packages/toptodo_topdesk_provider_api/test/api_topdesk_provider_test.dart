@@ -18,6 +18,20 @@ void main() {
       final ApiTopdeskProvider atp = ApiTopdeskProvider();
       expect(atp.branches(startsWith: ''), throwsStateError);
     });
+
+    test('StateError after dispose', () async {
+      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      atp.init(credentials);
+      atp.dispose();
+      expect(atp.branches(startsWith: ''), throwsStateError);
+    });
+
+    test('call init twice throws', () {
+      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      atp.init(credentials);
+
+      expect(() => atp.init(credentials), throwsStateError);
+    });
   });
 
   group('meta', () {

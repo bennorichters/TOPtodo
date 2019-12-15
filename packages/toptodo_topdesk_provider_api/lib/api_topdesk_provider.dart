@@ -15,6 +15,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   void init(Credentials credentials, {http.Client client}) {
+    if (_url != null) {
+      throw StateError('init has already been called');
+    }
+
     _url = credentials.url;
     _authHeaders = _createAuthHeaders(credentials);
     _client = client ?? http.Client();
