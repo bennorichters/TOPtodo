@@ -8,7 +8,7 @@ homepage: https://github.com/bennorichters/toptodo/
 version: 0.0.1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.6.1 <3.0.0"
 
 dependencies:
   flutter:
@@ -21,17 +21,17 @@ dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: 3226a77d7019745fbe2c93a3c3a0fb30cb1e803c
+      ref: e159e06b680341b915ace7e81c68f106311cb40a
   toptodo_repository_providers_impl:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_repository_providers_impl
-      ref: 9496fb03ff839f80153bab57bd01be5b4812edcc
+      ref: 3af41a03fbec25d850811e1fffbd4d622194ec81
   toptodo_topdesk_provider_api:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_api
-      ref: 9496fb03ff839f80153bab57bd01be5b4812edcc
+      ref: 3af41a03fbec25d850811e1fffbd4d622194ec81
 
 dev_dependencies:
   flutter_test:
@@ -40,7 +40,7 @@ dev_dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_mock
-      ref: 9496fb03ff839f80153bab57bd01be5b4812edcc
+      ref: 3af41a03fbec25d850811e1fffbd4d622194ec81
 
 flutter:
   uses-material-design: true

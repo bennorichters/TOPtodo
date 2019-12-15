@@ -197,7 +197,7 @@ packages:
       name: shared_preferences_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.1+3"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
@@ -211,7 +211,7 @@ packages:
       name: shared_preferences_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.2+2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -263,8 +263,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "3226a77d7019745fbe2c93a3c3a0fb30cb1e803c"
-      resolved-ref: "3226a77d7019745fbe2c93a3c3a0fb30cb1e803c"
+      ref: e159e06b680341b915ace7e81c68f106311cb40a
+      resolved-ref: e159e06b680341b915ace7e81c68f106311cb40a
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -272,8 +272,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_repository_providers_impl"
-      ref: "9496fb03ff839f80153bab57bd01be5b4812edcc"
-      resolved-ref: "9496fb03ff839f80153bab57bd01be5b4812edcc"
+      ref: "3af41a03fbec25d850811e1fffbd4d622194ec81"
+      resolved-ref: "3af41a03fbec25d850811e1fffbd4d622194ec81"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -281,8 +281,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_topdesk_provider_api"
-      ref: "9496fb03ff839f80153bab57bd01be5b4812edcc"
-      resolved-ref: "9496fb03ff839f80153bab57bd01be5b4812edcc"
+      ref: "3af41a03fbec25d850811e1fffbd4d622194ec81"
+      resolved-ref: "3af41a03fbec25d850811e1fffbd4d622194ec81"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -290,8 +290,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/toptodo_topdesk_provider_mock"
-      ref: "9496fb03ff839f80153bab57bd01be5b4812edcc"
-      resolved-ref: "9496fb03ff839f80153bab57bd01be5b4812edcc"
+      ref: "3af41a03fbec25d850811e1fffbd4d622194ec81"
+      resolved-ref: "3af41a03fbec25d850811e1fffbd4d622194ec81"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -317,5 +317,5 @@ packages:
     source: hosted
     version: "3.5.0"
 sdks:
-  dart: ">=2.4.0 <3.0.0"
+  dart: ">=2.6.1 <3.0.0"
   flutter: ">=1.12.13+hotfix.4 <2.0.0"
