@@ -335,15 +335,39 @@ void main() {
         expect(ids.first.id, 'a');
       });
     });
-  });
 
-  group('operator', () {
-    test('find by id', () {});
-    
-    test('find by non existing id throws', () {});
-    
-    test('find by starts with', () {});
-    
-    test('current operator', () {});
+    group('operator', () {
+      test('find by id', () {});
+
+      test('find by non existing id throws', () {});
+
+      test('find by starts with', () async {
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/operators',
+          expectedPersonQueryParameters: const <String, String>{
+            'lastname': 'a',
+          },
+          personResponseJson: '['
+              '{"id": "a", "name": "Aagje", '
+              '  "firstLineCallOperator": true},'
+              '{"id": "b", "name": "Ad", '
+              '  "firstLineCallOperator": false},'
+              '{"id": "c", "name": "Albert", '
+              '  "firstLineCallOperator": true}'
+              ']',
+          avatarPath: 'tas/api/avatars/operator/',
+          personIds: <String>{'a', 'c'},
+        );
+
+        final Iterable<IncidentOperator> os =
+            await atp.incidentOperators(startsWith: 'a');
+
+        expect(os.length, 2);
+        expect(os.first.id, 'a');
+        expect(os.last.id, 'c');
+      });
+
+      test('current operator', () {});
+    });
   });
 }
