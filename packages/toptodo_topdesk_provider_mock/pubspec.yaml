@@ -7,14 +7,14 @@ issue_tracker: https://github.com/bennorichters/toptodo/issues
 homepage: https://github.com/bennorichters/toptodo/
 
 environment:
-  sdk: ">=2.0.0 <3.0.0"
+  sdk: ">=2.6.1 <3.0.0"
 
 dependencies:
   toptodo_data:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: 3e98e625c958edd2c5377ed0f48487bf0e72e271
+      ref: babb9c95e45080d554abd60387d37d956054b0be
 
 dev_dependencies:
   test: ">=1.3.0 <2.0.0"
