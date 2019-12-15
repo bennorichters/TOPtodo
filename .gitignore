@@ -76,3 +76,8 @@
 # TOPtodo
 sandbox.dart
 sandbox_test.dart
+
+# Test Coverage
+**/coverage/
+**/coverage_badge.svg
+**/.test_coverage.dart
