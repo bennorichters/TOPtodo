@@ -121,6 +121,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
+  Future<IncidentOperator> incidentOperator({String id}) async {
+    final dynamic response = await _callApi('operators/id/$id');
+    final dynamic fixed = await _fixPerson(_subPathOperator, response);
+    return IncidentOperator.fromJson(fixed);
+  }
+
+  @override
   Future<IncidentOperator> currentIncidentOperator() async {
     final dynamic response = await _callApi('operators/current');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
@@ -192,10 +199,5 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<String> _avatarForPerson(String subPath, String id) async {
     final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
-  }
-
-  @override
-  Future<IncidentOperator> incidentOperator({String id}) {
-    return null;
   }
 }

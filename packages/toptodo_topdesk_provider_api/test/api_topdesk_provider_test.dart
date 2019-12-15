@@ -337,9 +337,33 @@ void main() {
     });
 
     group('operator', () {
-      test('find by id', () {});
+      test('find by id', () async {
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/operators/id/a',
+          expectedPersonQueryParameters: <String, String>{},
+          personResponseJson: '{"id": "a", "name": "Augustin Sheryll"}',
+          avatarPath: 'tas/api/avatars/operator/',
+          personIds: <String>{'a'},
+        );
 
-      test('find by non existing id throws', () {});
+        final IncidentOperator op = await atp.incidentOperator(id: 'a');
+
+        expect(op.id, 'a');
+        expect(op.avatar, 'avatarFora');
+      });
+
+      test('find by non existing id throws', () {
+        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+          responseCode: 404,
+          responseJson: '',
+        );
+        expect(
+          atp.incidentOperator(id: 'doesnotexist'),
+          throwsA(
+            const TypeMatcher<TdModelNotFoundException>(),
+          ),
+        );
+      });
 
       test('find by starts with', () async {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
@@ -364,10 +388,24 @@ void main() {
 
         expect(os.length, 2);
         expect(os.first.id, 'a');
+        expect(os.first.avatar, 'avatarFora');
         expect(os.last.id, 'c');
+        expect(os.last.avatar, 'avatarForc');
       });
 
-      test('current operator', () {});
+      test('current', () async {
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/operators/current',
+          expectedPersonQueryParameters: const <String, String>{},
+          personResponseJson: '{"id": "a", "name": "Aagje"}',
+          avatarPath: 'tas/api/avatars/operator/',
+          personIds: <String>{'a'},
+        );
+
+        final IncidentOperator co = await atp.currentIncidentOperator();
+        expect(co.id, 'a');
+        expect(co.avatar, 'avatarFora');
+      });
     });
   });
 }
