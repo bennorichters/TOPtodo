@@ -277,7 +277,7 @@ void main() {
         );
         expect(subCats.length, 2);
         expect(subCats.first.id, 'aa');
-        expect(subCats.last.id, 'ac');
+        expect(subCats.last.id, 'ab');
       });
     });
 
