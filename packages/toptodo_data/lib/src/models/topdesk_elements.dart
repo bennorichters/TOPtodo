@@ -29,11 +29,7 @@ class Category extends TdModel {
 }
 
 class SubCategory extends TdModel {
-  SubCategory.fromJson(Map<String, dynamic> json)
-      : categoryId = json['categoryid'],
-        super.fromJson(json);
-
-  final String categoryId;
+  SubCategory.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 abstract class Person extends TdModel {
@@ -49,9 +45,5 @@ class IncidentOperator extends Person {
 }
 
 class Caller extends Person {
-  Caller.fromJson(Map<String, dynamic> json)
-      : branchid = json['branchid'],
-        super.fromJson(json);
-
-  final String branchid;
+  Caller.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
