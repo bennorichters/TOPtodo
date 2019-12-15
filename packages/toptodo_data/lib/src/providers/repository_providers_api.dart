@@ -67,3 +67,11 @@ class TdModelNotFoundException implements Exception {
   @override
   String toString() => 'TdModelNotFoundException: $message';
 }
+
+class TdServerException implements Exception {
+  const TdServerException(this.message);
+  final String message;
+
+  @override
+  String toString() => 'TdServerException: $message';
+}
