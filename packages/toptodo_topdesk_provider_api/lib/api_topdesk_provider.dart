@@ -86,8 +86,15 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<SubCategory> subCategory({String id}) {
-    return null;
+  Future<SubCategory> subCategory({String id}) async {
+    final List<dynamic> response = await _callApi('incidents/subcategories');
+    final dynamic theOne = response.firstWhere(
+      (dynamic json) => json['id'] == id,
+      orElse: () =>
+          throw TdModelNotFoundException('no sub category for id: $id'),
+    );
+
+    return SubCategory.fromJson(theOne);
   }
 
   @override

@@ -249,23 +249,44 @@ void main() {
     });
 
     group('subcategory', () {
-      test('find by id', () {});
+      const String subCategoryJson = '[{'
+          '"id": "aa", "name": "Climate Control", '
+          '"category": {"id": "a", "name": "Building Areas"}'
+          '},'
+          '{"id": "ab", "name": "somethingelse", '
+          '"category": {"id": "b", "name": "Other"}'
+          '},'
+          '{"id": "ac", "name": "Elevators", '
+          '"category": {"id": "a", "name": "Building Areas"}'
+          '}]';
 
-      test('find by non existing id throws', () {});
+      test('find by id', () async {
+        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+          expectedPath: 'tas/api/incidents/subcategories',
+          responseJson: subCategoryJson,
+        );
+
+        final SubCategory sc = await atp.subCategory(id: 'ab');
+        expect(sc.id, 'ab');
+      });
+
+      test('find by non existing id throws', () async {
+        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+          responseJson: subCategoryJson,
+        );
+
+        expect(
+          atp.subCategory(id: 'doesnotexist'),
+          throwsA(
+            const TypeMatcher<TdModelNotFoundException>(),
+          ),
+        );
+      });
 
       test('find by category', () async {
         final ApiTopdeskProvider atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
-          responseJson: '[{'
-              '"id": "aa", "name": "Climate Control", '
-              '"category": {"id": "a", "name": "Building Areas"}'
-              '},'
-              '{"id": "ab", "name": "somethingelse", '
-              '"category": {"id": "b", "name": "Other"}'
-              '},'
-              '{"id": "ac", "name": "Elevators", '
-              '"category": {"id": "a", "name": "Building Areas"}'
-              '}]',
+          responseJson: subCategoryJson,
         );
 
         final Category cat = Category.fromJson(
