@@ -169,7 +169,6 @@ void main() {
         final Caller c = await atp.caller(id: 'aa');
 
         expect(c.id, 'aa');
-        expect(c.branchid, 'a');
         expect(c.avatar, 'avatarForaa');
       });
 
@@ -213,10 +212,8 @@ void main() {
         expect(cs.length, 2);
         expect(cs.first.id, 'aa');
         expect(cs.first.avatar, 'avatarForaa');
-        expect(cs.first.branchid, 'a');
         expect(cs.last.id, 'ac');
         expect(cs.last.avatar, 'avatarForac');
-        expect(cs.last.branchid, 'a');
       });
     });
 
@@ -280,9 +277,7 @@ void main() {
         );
         expect(subCats.length, 2);
         expect(subCats.first.id, 'aa');
-        expect(subCats.first.categoryId, 'a');
         expect(subCats.last.id, 'ac');
-        expect(subCats.last.categoryId, 'a');
       });
     });
 

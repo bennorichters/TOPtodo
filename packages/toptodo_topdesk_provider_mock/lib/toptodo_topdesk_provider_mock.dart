@@ -114,11 +114,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<SubCategory>> subCategories({Category category}) async {
     final List<dynamic> response = await _readJson('sub_categories.json');
     return response
+        .where(
+          (dynamic e) => e['categoryid'] == category.id,
+        )
         .map(
           (dynamic e) => SubCategory.fromJson(e),
-        )
-        .where(
-          (SubCategory s) => s.categoryId == category.id,
         );
   }
 
