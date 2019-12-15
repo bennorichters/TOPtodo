@@ -336,4 +336,14 @@ void main() {
       });
     });
   });
+
+  group('operator', () {
+    test('find by id', () {});
+    
+    test('find by non existing id throws', () {});
+    
+    test('find by starts with', () {});
+    
+    test('current operator', () {});
+  });
 }
