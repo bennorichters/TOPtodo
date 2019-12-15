@@ -260,7 +260,10 @@ void main() {
               '"id": "aa", "name": "Climate Control", '
               '"category": {"id": "a", "name": "Building Areas"}'
               '},'
-              '{"id": "ab", "name": "Elevators", '
+              '{"id": "ab", "name": "somethingelse", '
+              '"category": {"id": "b", "name": "Other"}'
+              '},'
+              '{"id": "ac", "name": "Elevators", '
               '"category": {"id": "a", "name": "Building Areas"}'
               '}]',
         );
@@ -277,7 +280,7 @@ void main() {
         );
         expect(subCats.length, 2);
         expect(subCats.first.id, 'aa');
-        expect(subCats.last.id, 'ab');
+        expect(subCats.last.id, 'ac');
       });
     });
 
