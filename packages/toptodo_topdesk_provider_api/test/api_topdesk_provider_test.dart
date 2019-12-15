@@ -147,6 +147,7 @@ void main() {
           responseJson: '[{"id": "a", "name": "ABA"},'
               '{"id": "c", "name": "ABB"}]',
         );
+
         final Iterable<Branch> bs = await atp.branches(startsWith: 'ab');
         expect(bs.length, 2);
       });
@@ -154,13 +155,22 @@ void main() {
 
     group('caller', () {
       test('find by id', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
-          expectedPath: 'tas/api/persons/id/a',
-          responseJson: '{"id": "a", "name": "ABA"}',
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/persons/id/aa',
+          expectedPersonQueryParameters: <String, String>{
+            '\$fields': 'id,dynamicName',
+          },
+          personResponseJson:
+              '{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"}',
+          avatarPath: 'tas/api/avatars/person/',
+          personIds: <String>{'aa'},
         );
-        final Caller c = await atp.caller(id: 'a');
 
-        expect(c.id, 'a');
+        final Caller c = await atp.caller(id: 'aa');
+
+        expect(c.id, 'aa');
+        expect(c.branchid, 'a');
+        expect(c.avatar, 'avatarForaa');
       });
 
       test('find by nonexisting id throws', () async {
@@ -189,17 +199,17 @@ void main() {
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa', 'ac'},
         );
-      
-        final Branch b = Branch.fromJson(const <String, String>{
+
+        final Branch branchForCaller = Branch.fromJson(const <String, String>{
           'id': 'a',
           'name': 'branchA',
         });
 
         final Iterable<Caller> cs = await atp.callers(
-          branch: b,
+          branch: branchForCaller,
           startsWith: 'ab',
         );
-      
+
         expect(cs.length, 2);
         expect(cs.first.id, 'aa');
         expect(cs.first.avatar, 'avatarForaa');

@@ -45,6 +45,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
+  Future<Caller> caller({String id}) async {
+    final dynamic response =
+        await _callApi('persons/id/$id?\$fields=id,dynamicName');
+    final dynamic fixed = await _fixPerson(_subPathCaller, response);
+    return Caller.fromJson(fixed);
+  }
+
+  @override
   Future<Iterable<Caller>> callers({
     @required String startsWith,
     @required Branch branch,
@@ -172,11 +180,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<String> _avatarForPerson(String subPath, String id) async {
     final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
-  }
-
-  @override
-  Future<Caller> caller({String id}) {
-    return null;
   }
 
   @override
