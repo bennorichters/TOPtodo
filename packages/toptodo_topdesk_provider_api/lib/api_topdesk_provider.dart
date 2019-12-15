@@ -37,7 +37,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
-    final String sanitized = Uri.encodeFull(startsWith);
+    final String sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response =
         await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
 
@@ -57,7 +57,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required String startsWith,
     @required Branch branch,
   }) async {
-    final String sanitized = Uri.encodeFull(startsWith);
+    final String sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response = await _callApi(
       'persons?lastname=$sanitized&\$fields=id,dynamicName',
     );
@@ -138,7 +138,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<Iterable<IncidentOperator>> incidentOperators({
     @required String startsWith,
   }) async {
-    final String sanitized = Uri.encodeFull(startsWith);
+    final String sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response = await _callApi(
       'operators?lastname=$sanitized',
     );
@@ -155,6 +155,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
   }
+
+  String _sanatizeUserInput(String input) => Uri.encodeComponent(input);
 
   Map<String, String> _createAuthHeaders(Credentials credentials) {
     final String encoded = utf8

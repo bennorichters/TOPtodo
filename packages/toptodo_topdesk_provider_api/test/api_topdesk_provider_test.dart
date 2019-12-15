@@ -151,9 +151,30 @@ void main() {
         final Iterable<Branch> bs = await atp.branches(startsWith: 'ab');
         expect(bs.length, 2);
       });
+
+      test('sanatized starts with', () async {
+        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+          expectedPath: 'tas/api/branches',
+          expectedQueryParameters: <String, String>{
+            '\$fields': 'id,name',
+            'nameFragment': 'a&hourlyRate=50',
+          },
+          responseJson: '[{"id": "a", "name": "ABA"},'
+              '{"id": "c", "name": "ABB"}]',
+        );
+
+        await atp.branches(
+          startsWith: 'a&hourlyRate=50',
+        );
+      });
     });
 
     group('caller', () {
+      final Branch branchForCaller = Branch.fromJson(const <String, String>{
+        'id': 'a',
+        'name': 'branchA',
+      });
+
       test('find by id', () async {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons/id/aa',
@@ -199,11 +220,6 @@ void main() {
           personIds: <String>{'aa', 'ac'},
         );
 
-        final Branch branchForCaller = Branch.fromJson(const <String, String>{
-          'id': 'a',
-          'name': 'branchA',
-        });
-
         final Iterable<Caller> cs = await atp.callers(
           branch: branchForCaller,
           startsWith: 'ab',
@@ -214,6 +230,25 @@ void main() {
         expect(cs.first.avatar, 'avatarForaa');
         expect(cs.last.id, 'ac');
         expect(cs.last.avatar, 'avatarForac');
+      });
+
+      test('sanatized starts with', () async {
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/persons',
+          expectedPersonQueryParameters: const <String, String>{
+            '\$fields': 'id,dynamicName',
+            'lastname': 'a&hourlyRate=50',
+          },
+          personResponseJson:
+              '[{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"}]',
+          avatarPath: 'tas/api/avatars/person/',
+          personIds: <String>{'aa'},
+        );
+
+        await atp.callers(
+          branch: branchForCaller,
+          startsWith: 'a&hourlyRate=50',
+        );
       });
     });
 
@@ -405,6 +440,23 @@ void main() {
         final IncidentOperator co = await atp.currentIncidentOperator();
         expect(co.id, 'a');
         expect(co.avatar, 'avatarFora');
+      });
+
+      test('sanatized starts with', () async {
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/operators',
+          expectedPersonQueryParameters: const <String, String>{
+            'lastname': 'a&hourlyRate=50',
+          },
+          personResponseJson: '[{"id": "a", "name": "Aagje", '
+              '"firstLineCallOperator": true}]',
+          avatarPath: 'tas/api/avatars/operator/',
+          personIds: <String>{'a'},
+        );
+
+        await atp.incidentOperators(
+          startsWith: 'a&hourlyRate=50',
+        );
       });
     });
   });
