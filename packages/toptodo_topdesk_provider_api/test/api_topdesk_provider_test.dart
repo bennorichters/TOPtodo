@@ -102,7 +102,7 @@ void main() {
 
           return Response('{"image": "avatarFor$id"}', 200);
         } else {
-          fail('unexpected call to endpoint $path');
+          fail('unexpected call to endpoint: $path');
         }
       });
 
@@ -177,61 +177,36 @@ void main() {
       });
 
       test('starts with find two', () async {
-        int endpointPersonCount = 0;
-        final Map<String, int> endpointAvatarCount = <String, int>{
-          'aa': 0,
-          'ac': 0,
-        };
-        final Client client = MockClient((Request req) async {
-          final String path = req.url.path.substring(
-            credentials.url.length + 1,
-          );
-          if (path == 'tas/api/persons') {
-            endpointPersonCount++;
-            expect(
-              req.url.queryParameters,
-              <String, String>{
-                '\$fields': 'id,dynamicName',
-                'lastname': 'ab',
-              },
-            );
-            return Response(
+        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+          personPath: 'tas/api/persons',
+          expectedPersonQueryParameters: <String, String>{
+            '\$fields': 'id,dynamicName',
+            'lastname': 'ab',
+          },
+          personResponseJson:
               '[{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"},'
               '{"id": "ac", "name": "Bazile Tonette", "branchid": "a"}]',
-              200,
-            );
-          } else if (path.startsWith('tas/api/avatars/person/')) {
-            final String id = path.substring('tas/api/avatars/person/'.length);
-            expect(
-              endpointAvatarCount.containsKey(id),
-              isTrue,
-              reason: 'unexpected request for avatar with caller id $id',
-            );
-
-            endpointAvatarCount[id]++;
-
-            return Response('{"image": "someBase64EncodedImage"}', 200);
-          } else {
-            fail('unexpected call to endpoint $path');
-          }
-        });
-
+          avatarPath: 'tas/api/avatars/person/',
+          personIds: <String>{'aa', 'ac'},
+        );
+      
         final Branch b = Branch.fromJson(const <String, String>{
           'id': 'a',
           'name': 'branchA',
         });
 
-        final ApiTopdeskProvider atp = ApiTopdeskProvider();
-        atp.init(credentials, client: client);
-
-        final Iterable<Caller> cs =
-            await atp.callers(branch: b, startsWith: 'ab');
-        expect(endpointPersonCount, 1);
-        expect(endpointAvatarCount['aa'], 1);
-        expect(endpointAvatarCount['ac'], 1);
+        final Iterable<Caller> cs = await atp.callers(
+          branch: b,
+          startsWith: 'ab',
+        );
+      
         expect(cs.length, 2);
         expect(cs.first.id, 'aa');
-        expect(cs.first.avatar, 'someBase64EncodedImage');
+        expect(cs.first.avatar, 'avatarForaa');
+        expect(cs.first.branchid, 'a');
+        expect(cs.last.id, 'ac');
+        expect(cs.last.avatar, 'avatarForac');
+        expect(cs.last.branchid, 'a');
       });
     });
 
