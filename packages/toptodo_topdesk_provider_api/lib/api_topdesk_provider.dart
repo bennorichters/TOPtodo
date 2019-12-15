@@ -160,19 +160,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
   }
 
-  String _sanatizeUserInput(String input) => Uri.encodeComponent(input);
-
-  Map<String, String> _createAuthHeaders(Credentials credentials) {
-    final String encoded = utf8
-        .fuse(base64)
-        .encode('${credentials.loginName}:${credentials.password}');
-
-    return <String, String>{
-      HttpHeaders.authorizationHeader: 'Basic ' + encoded,
-      HttpHeaders.acceptHeader: 'application/json',
-    };
-  }
-
   dynamic _callApi(String endPoint) async {
     if (_url == null) {
       throw StateError('call init first');
@@ -183,17 +170,29 @@ class ApiTopdeskProvider extends TopdeskProvider {
       headers: _authHeaders,
     );
 
-    if (res.statusCode == 204) {
-      return json.decode('[]');
-    }
-
     if (res.statusCode == 200 || res.statusCode == 206) {
       return json.decode(res.body);
     }
 
-    if (res.statusCode == 404) {
-      throw TdModelNotFoundException('404 for $endPoint');
+    if (res.statusCode == 204) {
+      return json.decode('[]');
     }
+
+    if (res.statusCode == 403) {
+      throw TdNotAuthorizedException('403 for $endPoint body: ${res.body}');
+    }
+
+    if (res.statusCode == 404) {
+      throw TdModelNotFoundException('404 for $endPoint body: ${res.body}');
+    }
+
+    if (res.statusCode == 500) {
+      throw TdServerException('500 for $endPoint body: ${res.body}');
+    }
+
+    throw ArgumentError('endpoint: $endPoint '
+        'response status code: ${res.statusCode} '
+        'response body: ${res.body}');
   }
 
   Future<dynamic> _fixPerson(String subPath, dynamic json) async {
@@ -205,5 +204,18 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<String> _avatarForPerson(String subPath, String id) async {
     final dynamic response = await _callApi('avatars/$subPath/$id');
     return response['image'];
+  }
+
+  String _sanatizeUserInput(String input) => Uri.encodeComponent(input);
+
+  Map<String, String> _createAuthHeaders(Credentials credentials) {
+    final String encoded = utf8
+        .fuse(base64)
+        .encode('${credentials.loginName}:${credentials.password}');
+
+    return <String, String>{
+      HttpHeaders.authorizationHeader: 'Basic ' + encoded,
+      HttpHeaders.acceptHeader: 'application/json',
+    };
   }
 }
