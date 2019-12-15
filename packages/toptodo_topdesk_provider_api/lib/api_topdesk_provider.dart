@@ -86,6 +86,11 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
+  Future<SubCategory> subCategory({String id}) {
+    return null;
+  }
+
+  @override
   Future<Iterable<SubCategory>> subCategories({Category category}) async {
     final List<dynamic> response = await _callApi('incidents/subcategories');
     return response
@@ -184,11 +189,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<IncidentOperator> incidentOperator({String id}) {
-    return null;
-  }
-
-  @override
-  Future<SubCategory> subCategory({String id}) {
     return null;
   }
 }
