@@ -34,6 +34,26 @@ void main() {
     });
   });
 
+  group('special', () {
+    test('no entities found', () async {
+      final Client client = MockClient((Request request) async {
+        return Response(
+          '{"message": "No entitites found"}',
+          204,
+        );
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider()
+        ..init(
+          credentials,
+          client: client,
+        );
+
+      final Iterable<Branch> branches = await atp.branches(startsWith: 'xyz');
+      expect(branches.length, isZero);
+    });
+  });
+
   group('meta', () {
     test('headers', () async {
       Map<String, String> headers;
