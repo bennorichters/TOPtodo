@@ -165,11 +165,19 @@ class ApiTopdeskProvider extends TopdeskProvider {
       throw StateError('call init first');
     }
 
-    final http.Response res = await _client.get(
-      '$_url/tas/api/$endPoint',
-      headers: _authHeaders,
-    );
+    try {
+      final http.Response res = await _client.get(
+        '$_url/tas/api/$endPoint',
+        headers: _authHeaders,
+      );
 
+      return _processServerResponse(endPoint, res);
+    } catch (error) {
+      throw TdServerException('error get $endPoint error: $error');
+    }
+  }
+
+  dynamic _processServerResponse(String endPoint, http.Response res) {
     if (res.statusCode == 200 || res.statusCode == 206) {
       return json.decode(res.body);
     }
