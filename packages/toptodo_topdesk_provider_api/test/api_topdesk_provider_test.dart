@@ -251,6 +251,41 @@ void main() {
       });
     });
 
+    group('subcategory', () {
+      test('find by id', () {});
+
+      test('find by non existing id throws', () {});
+
+      test('find by category', () async {
+        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+          expectedPath: 'tas/api/incidents/subcategories',
+          responseJson: '[{'
+              '"id": "aa", "name": "Climate Control", '
+              '"category": {"id": "a", "name": "Building Areas"}'
+              '},'
+              '{"id": "ab", "name": "Elevators", '
+              '"category": {"id": "a", "name": "Building Areas"}'
+              '}]',
+        );
+
+        final Category cat = Category.fromJson(
+          const <String, String>{
+            'id': 'a',
+            'name': 'catA',
+          },
+        );
+
+        final Iterable<SubCategory> subCats = await atp.subCategories(
+          category: cat,
+        );
+        expect(subCats.length, 2);
+        expect(subCats.first.id, 'aa');
+        expect(subCats.first.categoryId, 'a');
+        expect(subCats.last.id, 'ac');
+        expect(subCats.last.categoryId, 'a');
+      });
+    });
+
     group('duration', () {
       test('find by id', () async {
         final ApiTopdeskProvider atp = basicApiTopdeskProvider(
