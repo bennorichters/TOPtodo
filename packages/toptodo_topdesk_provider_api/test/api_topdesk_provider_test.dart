@@ -34,7 +34,7 @@ void main() {
     });
 
     Future<void> testErrorCode(int code, TypeMatcher<dynamic> tm) async {
-     final Client client = MockClient((Request request) async {
+      final Client client = MockClient((Request request) async {
         return Response('', code);
       });
 
@@ -54,6 +54,14 @@ void main() {
       testErrorCode(400, const TypeMatcher<ArgumentError>());
     });
 
+    test('401', () async {
+      testErrorCode(401, const TypeMatcher<ArgumentError>());
+    });
+
+    test('402', () async {
+      testErrorCode(402, const TypeMatcher<ArgumentError>());
+    });
+
     test('403', () async {
       testErrorCode(403, const TypeMatcher<TdNotAuthorizedException>());
     });
@@ -61,7 +69,7 @@ void main() {
     test('404', () async {
       testErrorCode(404, const TypeMatcher<TdModelNotFoundException>());
     });
-    
+
     test('500', () async {
       testErrorCode(500, const TypeMatcher<TdServerException>());
     });
