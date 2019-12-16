@@ -32,6 +32,25 @@ void main() {
 
       expect(() => atp.init(credentials), throwsStateError);
     });
+
+    test('403', () async {
+      final Client client = MockClient((Request request) async {
+        return Response('', 403);
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider()
+        ..init(
+          credentials,
+          client: client,
+        );
+
+      expect(
+        atp.branches(startsWith: 'xyz'),
+        throwsA(
+          const TypeMatcher<TdNotAuthorizedException>(),
+        ),
+      );
+    });
   });
 
   group('special', () {
