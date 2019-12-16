@@ -73,6 +73,48 @@ void main() {
     test('500', () async {
       testErrorCode(500, const TypeMatcher<TdServerException>());
     });
+
+    test('client throws error', () async {
+      final Client client = MockClient((Request request) async {
+        throw StateError('just testing');
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider()
+        ..init(
+          credentials,
+          client: client,
+        );
+
+      expect(
+        atp.branch(id: 'xyz'),
+        throwsA(
+          const TypeMatcher<TdServerException>(),
+        ),
+      );
+    });
+
+    test('timeout', () async {
+      final Client client = MockClient((Request request) async {
+        return Future<Response>.delayed(
+          const Duration(milliseconds: 50),
+          () => Response('{"id": "a", "name": "ABA"}', 200),
+        );
+      });
+
+      final ApiTopdeskProvider atp = ApiTopdeskProvider(
+        timeOut: const Duration(milliseconds: 10),
+      )..init(
+          credentials,
+          client: client,
+        );
+
+      expect(
+        atp.branch(id: 'a'),
+        throwsA(
+          const TypeMatcher<TdTimeOutException>(),
+        ),
+      );
+    });
   });
 
   group('special', () {
