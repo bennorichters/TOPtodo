@@ -83,3 +83,11 @@ class TdServerException implements Exception {
   @override
   String toString() => 'TdServerException: $message';
 }
+
+class TdTimeOutException implements Exception {
+  const TdTimeOutException(this.message);
+  final String message;
+
+  @override
+  String toString() => 'TdTimeOutException: $message';
+}
