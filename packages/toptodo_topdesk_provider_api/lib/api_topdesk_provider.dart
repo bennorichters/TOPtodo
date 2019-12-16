@@ -6,6 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
 
 class ApiTopdeskProvider extends TopdeskProvider {
+  ApiTopdeskProvider({Duration timeOut})
+      : _timeOut = timeOut ?? const Duration(seconds: 5);
+  final Duration _timeOut;
+
   static const String _subPathOperator = 'operator';
   static const String _subPathCaller = 'person';
 
@@ -165,16 +169,26 @@ class ApiTopdeskProvider extends TopdeskProvider {
       throw StateError('call init first');
     }
 
+    http.Response res;
     try {
-      final http.Response res = await _client.get(
-        '$_url/tas/api/$endPoint',
-        headers: _authHeaders,
-      );
-
-      return _processServerResponse(endPoint, res);
+      res = await _client
+          .get(
+            '$_url/tas/api/$endPoint',
+            headers: _authHeaders,
+          )
+          .timeout(
+            _timeOut,
+            onTimeout: () => throw TdTimeOutException(
+              'time out for: $endPoint',
+            ),
+          );
+    } on TdTimeOutException {
+      rethrow;
     } catch (error) {
       throw TdServerException('error get $endPoint error: $error');
     }
+
+    return _processServerResponse(endPoint, res);
   }
 
   dynamic _processServerResponse(String endPoint, http.Response res) {
