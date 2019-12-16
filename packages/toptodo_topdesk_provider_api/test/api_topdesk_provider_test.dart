@@ -33,9 +33,9 @@ void main() {
       expect(() => atp.init(credentials), throwsStateError);
     });
 
-    test('403', () async {
-      final Client client = MockClient((Request request) async {
-        return Response('', 403);
+    Future<void> testErrorCode(int code, TypeMatcher<dynamic> tm) async {
+     final Client client = MockClient((Request request) async {
+        return Response('', code);
       });
 
       final ApiTopdeskProvider atp = ApiTopdeskProvider()
@@ -45,11 +45,25 @@ void main() {
         );
 
       expect(
-        atp.branches(startsWith: 'xyz'),
-        throwsA(
-          const TypeMatcher<TdNotAuthorizedException>(),
-        ),
+        atp.branch(id: 'xyz'),
+        throwsA(tm),
       );
+    }
+
+    test('400', () async {
+      testErrorCode(400, const TypeMatcher<ArgumentError>());
+    });
+
+    test('403', () async {
+      testErrorCode(403, const TypeMatcher<TdNotAuthorizedException>());
+    });
+
+    test('404', () async {
+      testErrorCode(404, const TypeMatcher<TdModelNotFoundException>());
+    });
+    
+    test('500', () async {
+      testErrorCode(500, const TypeMatcher<TdServerException>());
     });
   });
 
