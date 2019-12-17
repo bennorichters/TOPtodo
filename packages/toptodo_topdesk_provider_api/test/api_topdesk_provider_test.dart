@@ -296,7 +296,7 @@ void main() {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons/id/aa',
           expectedPersonQueryParameters: <String, String>{
-            '\$fields': 'id,dynamicName',
+            '\$fields': 'id,dynamicName,branch',
           },
           personResponseJson:
               '{"id": "aa", "name": "Augustin Sheryll", "branch": {"id": "a"}}',
@@ -327,7 +327,7 @@ void main() {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: <String, String>{
-            '\$fields': 'id,dynamicName',
+            '\$fields': 'id,dynamicName,branch',
             'lastname': 'ab',
           },
           personResponseJson:
@@ -353,7 +353,7 @@ void main() {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: const <String, String>{
-            '\$fields': 'id,dynamicName',
+            '\$fields': 'id,dynamicName,branch',
             'lastname': 'a&hourlyRate=50',
           },
           personResponseJson:

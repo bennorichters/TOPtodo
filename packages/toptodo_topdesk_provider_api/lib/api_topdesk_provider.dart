@@ -55,7 +55,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Caller> caller({String id}) async {
     final dynamic response =
-        await _callApi('persons/id/$id?\$fields=id,dynamicName');
+        await _callApi('persons/id/$id?\$fields=id,dynamicName,branch');
     final dynamic fixed = await _fixCaller(_subPathCaller, response);
     return Caller.fromJson(fixed);
   }
@@ -67,7 +67,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }) async {
     final String sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response = await _callApi(
-      'persons?lastname=$sanitized&\$fields=id,dynamicName',
+      'persons?lastname=$sanitized&\$fields=id,dynamicName,branch',
     );
 
     final List<dynamic> fixed = await Future.wait<dynamic>(
