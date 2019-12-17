@@ -47,7 +47,7 @@ void main() {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'b',
         branch: Branch.fromJson(
-          jsonDecode('{"id": "b", "name": ""}'),
+          jsonDecode('{"id": "b", "name": "a name"}'),
         ),
       );
 
@@ -58,7 +58,7 @@ void main() {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'Augustin Sheryll',
         branch: Branch.fromJson(
-          jsonDecode('{"id": "a", "name": ""}'),
+          jsonDecode('{"id": "a", "name": "a name"}'),
         ),
       );
 

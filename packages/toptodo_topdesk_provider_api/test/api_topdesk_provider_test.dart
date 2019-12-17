@@ -299,7 +299,7 @@ void main() {
             '\$fields': 'id,dynamicName',
           },
           personResponseJson:
-              '{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"}',
+              '{"id": "aa", "name": "Augustin Sheryll", "branch": {"id": "a"}}',
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa'},
         );
@@ -331,8 +331,8 @@ void main() {
             'lastname': 'ab',
           },
           personResponseJson:
-              '[{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"},'
-              '{"id": "ac", "name": "Bazile Tonette", "branchid": "a"}]',
+              '[{"id": "aa", "name": "Augustin Sheryll", "branch": {"id": "a"}},'
+              '{"id": "ac", "name": "Bazile Tonette", "branch": {"id": "a"}}]',
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa', 'ac'},
         );
@@ -357,7 +357,7 @@ void main() {
             'lastname': 'a&hourlyRate=50',
           },
           personResponseJson:
-              '[{"id": "aa", "name": "Augustin Sheryll", "branchid": "a"}]',
+              '[{"id": "aa", "name": "Augustin Sheryll", "branch": {"id": "a"}}]',
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa'},
         );
@@ -493,7 +493,7 @@ void main() {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators/id/a',
           expectedPersonQueryParameters: <String, String>{},
-          personResponseJson: '{"id": "a", "name": "Augustin Sheryll"}',
+          personResponseJson: '{"id": "a", "dynamicName": "Augustin Sheryll"}',
           avatarPath: 'tas/api/avatars/operator/',
           personIds: <String>{'a'},
         );
@@ -524,11 +524,11 @@ void main() {
             'lastname': 'a',
           },
           personResponseJson: '['
-              '{"id": "a", "name": "Aagje", '
+              '{"id": "a", "dynamicName": "Aagje", '
               '  "firstLineCallOperator": true},'
-              '{"id": "b", "name": "Ad", '
+              '{"id": "b", "dynamicName": "Ad", '
               '  "firstLineCallOperator": false},'
-              '{"id": "c", "name": "Albert", '
+              '{"id": "c", "dynamicName": "Albert", '
               '  "firstLineCallOperator": true}'
               ']',
           avatarPath: 'tas/api/avatars/operator/',
@@ -549,7 +549,7 @@ void main() {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators/current',
           expectedPersonQueryParameters: const <String, String>{},
-          personResponseJson: '{"id": "a", "name": "Aagje"}',
+          personResponseJson: '{"id": "a", "dynamicName": "Aagje"}',
           avatarPath: 'tas/api/avatars/operator/',
           personIds: <String>{'a'},
         );
@@ -565,7 +565,7 @@ void main() {
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a&hourlyRate=50',
           },
-          personResponseJson: '[{"id": "a", "name": "Aagje", '
+          personResponseJson: '[{"id": "a", "dynamicName": "Aagje", '
               '"firstLineCallOperator": true}]',
           avatarPath: 'tas/api/avatars/operator/',
           personIds: <String>{'a'},

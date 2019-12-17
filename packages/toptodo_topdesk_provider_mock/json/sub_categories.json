@@ -1,12 +1,12 @@
 [
-    { "id": "aa", "name": "Aap", "categoryid": "a" },
-    { "id": "ab", "name": "Noot", "categoryid": "b" },
-    { "id": "ac", "name": "Mies", "categoryid": "a" },
-    { "id": "ad", "name": "Wim", "categoryid": "b" },
-    { "id": "ae", "name": "Zus", "categoryid": "c" },
-    { "id": "af", "name": "Jet", "categoryid": "c" },
-    { "id": "bv", "name": "Teun", "categoryid": "a" },
-    { "id": "bw", "name": "Vuur", "categoryid": "b" },
-    { "id": "bx", "name": "Gijs", "categoryid": "a" }
+    { "id": "aa", "name": "Aap", "categoryId": "a" },
+    { "id": "ab", "name": "Noot", "categoryId": "b" },
+    { "id": "ac", "name": "Mies", "categoryId": "a" },
+    { "id": "ad", "name": "Wim", "categoryId": "b" },
+    { "id": "ae", "name": "Zus", "categoryId": "c" },
+    { "id": "af", "name": "Jet", "categoryId": "c" },
+    { "id": "bv", "name": "Teun", "categoryId": "a" },
+    { "id": "bw", "name": "Vuur", "categoryId": "b" },
+    { "id": "bx", "name": "Gijs", "categoryId": "a" }
   ]
   

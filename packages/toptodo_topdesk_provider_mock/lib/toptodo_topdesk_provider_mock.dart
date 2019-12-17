@@ -71,7 +71,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return response
         .where(
       (dynamic e) =>
-          (e['branchid'] == branch.id) &&
+          (e['branchId'] == branch.id) &&
           e['name'].toLowerCase().startsWith(swLower),
     )
         .map(
@@ -115,7 +115,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('sub_categories.json');
     return response
         .where(
-          (dynamic e) => e['categoryid'] == category.id,
+          (dynamic e) => e['categoryId'] == category.id,
         )
         .map(
           (dynamic e) => SubCategory.fromJson(e),
