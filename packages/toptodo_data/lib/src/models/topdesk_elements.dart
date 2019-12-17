@@ -4,7 +4,12 @@ abstract class TdModel extends Equatable {
   const TdModel(this.id, this.name);
   TdModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        name = json['name'];
+        name = json['name'] {
+    assert(id != null);
+    assert(id.isNotEmpty);
+    assert(name != null);
+    assert(name.isNotEmpty);
+  }
 
   final String id;
   final String name;
@@ -31,7 +36,10 @@ class Category extends TdModel {
 class SubCategory extends TdModel {
   SubCategory.fromJson(Map<String, dynamic> json)
       : categoryId = json['categoryId'],
-        super.fromJson(json);
+        super.fromJson(json) {
+    assert(categoryId != null);
+    assert(categoryId.isNotEmpty);
+  }
 
   final String categoryId;
 }
@@ -40,7 +48,10 @@ abstract class Person extends TdModel {
   Person.fromJson(Map<String, dynamic> json)
       : branchId = json['branchId'],
         avatar = json['avatar'],
-        super.fromJson(json);
+        super.fromJson(json) {
+    assert(branchId != null);
+    assert(branchId.isNotEmpty);
+  }
 
   final String branchId;
   final String avatar;
