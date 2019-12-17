@@ -21,8 +21,8 @@ void main() {
       callerId: 'c',
       categoryId: 'cat',
       subcategoryId: 'sub',
-      durationId: 'd',
-      operatorId: 'o',
+      incidentDurationId: 'd',
+      incidentOperatorId: 'o',
     );
 
     await p.save(s);
@@ -32,8 +32,8 @@ void main() {
     expect(provided.callerId, 'c');
     expect(provided.categoryId, 'cat');
     expect(provided.subcategoryId, 'sub');
-    expect(provided.durationId, 'd');
-    expect(provided.operatorId, 'o');
+    expect(provided.incidentDurationId, 'd');
+    expect(provided.incidentOperatorId, 'o');
   });
 
   test('different url does not contain the same settings', () async {
@@ -46,8 +46,8 @@ void main() {
       callerId: 'c',
       categoryId: 'cat',
       subcategoryId: 'sub',
-      durationId: 'd',
-      operatorId: 'o',
+      incidentDurationId: 'd',
+      incidentOperatorId: 'o',
     );
 
     await p1.save(s);
