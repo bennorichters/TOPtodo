@@ -24,5 +24,19 @@ void main() {
       ),
       expect: <LoginState>[const LoginWaitingForSavedData()],
     );
+
+    blocTest<LoginBloc, LoginEvent, LoginState>(
+      '...',
+      build: () => LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: MockSettingsProvider(),
+        topdeskProvider: MockTopdeskProvider(),
+      ),
+      act: (LoginBloc bloc) async => bloc.add(const RememberToggle(null, true)),
+      expect: <LoginState>[
+        const LoginWaitingForSavedData(),
+        const RetrievedSavedData(null, true),
+      ],
+    );
   });
 }
