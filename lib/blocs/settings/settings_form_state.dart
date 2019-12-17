@@ -83,8 +83,8 @@ class SettingsFormState extends Equatable {
         callerId: caller.id,
         categoryId: category.id,
         subcategoryId: subCategory.id,
-        durationId: duration.id,
-        operatorId: incidentOperator.id,
+        incidentDurationId: duration.id,
+        incidentOperatorId: incidentOperator.id,
       );
 
   @override
