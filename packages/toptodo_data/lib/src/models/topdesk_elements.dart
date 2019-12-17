@@ -46,21 +46,23 @@ class SubCategory extends TdModel {
 
 abstract class Person extends TdModel {
   Person.fromJson(Map<String, dynamic> json)
+      : avatar = json['avatar'],
+        super.fromJson(json);
+
+  final String avatar;
+}
+
+class Caller extends Person {
+  Caller.fromJson(Map<String, dynamic> json)
       : branchId = json['branchId'],
-        avatar = json['avatar'],
         super.fromJson(json) {
     assert(branchId != null);
     assert(branchId.isNotEmpty);
   }
 
   final String branchId;
-  final String avatar;
 }
 
 class IncidentOperator extends Person {
   IncidentOperator.fromJson(Map<String, dynamic> json) : super.fromJson(json);
-}
-
-class Caller extends Person {
-  Caller.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
