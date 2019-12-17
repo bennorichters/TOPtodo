@@ -40,6 +40,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       settingsProvider.init(event.credentials.url, event.credentials.loginName);
       final Settings settings = await settingsProvider.provide();
+      final bool settingsValid = _areSettingsValid(settings);
 
       if (settings == null) {
         yield LoginSuccessNoSettings(
@@ -52,5 +53,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
       }
     }
+  }
+
+  bool _areSettingsValid(Settings settings) {
+    if (settings == null ||
+        settings.branchId == null ||
+        settings.callerId == null ||
+        settings.categoryId == null ||
+        settings.subcategoryId == null ||
+        settings.incidentDurationId == null ||
+        settings.incidentOperatorId == null) {
+      return false;
+    }
+
+    
   }
 }
