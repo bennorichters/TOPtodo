@@ -29,14 +29,20 @@ class Category extends TdModel {
 }
 
 class SubCategory extends TdModel {
-  SubCategory.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  SubCategory.fromJson(Map<String, dynamic> json)
+      : categoryId = json['categoryId'],
+        super.fromJson(json);
+
+  final String categoryId;
 }
 
 abstract class Person extends TdModel {
   Person.fromJson(Map<String, dynamic> json)
-      : avatar = json['avatar'],
+      : branchId = json['branchId'],
+        avatar = json['avatar'],
         super.fromJson(json);
 
+  final String branchId;
   final String avatar;
 }
 
