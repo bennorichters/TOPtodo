@@ -137,14 +137,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<IncidentOperator> incidentOperator({String id}) async {
     final dynamic response = await _callApi('operators/id/$id');
-    final dynamic fixed = await _fixOperator(_subPathOperator, response);
+    final dynamic fixed = await _fixPerson(_subPathOperator, response);
     return IncidentOperator.fromJson(fixed);
   }
 
   @override
   Future<IncidentOperator> currentIncidentOperator() async {
     final dynamic response = await _callApi('operators/current');
-    final dynamic fixed = await _fixOperator(_subPathOperator, response);
+    final dynamic fixed = await _fixPerson(_subPathOperator, response);
     return IncidentOperator.fromJson(fixed);
   }
 
@@ -163,7 +163,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     final List<dynamic> fixed = await Future.wait<dynamic>(
       filtered.map(
-        (dynamic json) => _fixOperator(_subPathOperator, json),
+        (dynamic json) => _fixPerson(_subPathOperator, json),
       ),
     );
 
@@ -223,17 +223,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
         'response body: ${res.body}');
   }
 
-  Future<dynamic> _fixOperator(String subPath, dynamic json) async {
-    json['name'] = json['dynamicName'];
-    return _fixPerson(subPath, json);
-  }
-
   Future<dynamic> _fixCaller(String subPath, dynamic json) async {
     json['branchId'] = json['branch']['id'];
     return _fixPerson(subPath, json);
   }
 
   Future<dynamic> _fixPerson(String subPath, dynamic json) async {
+    json['name'] = json['dynamicName'];
     json['avatar'] = await _avatarForPerson(subPath, json['id']);
     return json;
   }
