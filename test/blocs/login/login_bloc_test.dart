@@ -5,8 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-// class MockLoginBloc extends MockBloc<LoginEvent, LoginState> implements LoginBloc {}
-
 class MockCredentialsProvider extends Mock implements CredentialsProvider {}
 
 class MockSettingsProvider extends Mock implements SettingsProvider {}
@@ -93,6 +91,26 @@ void main() {
       password: 'S3CrEt!',
     );
 
+    loginInvalidSettings(Settings saved, Settings incomplete) async {
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(saved),
+      );
+
+      bloc.add(TryLogin(credentials));
+
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        <LoginState>[
+          const LoginWaitingForSavedData(),
+          const LoginSubmitting(),
+          LoginSuccessIncompleteSettings(
+            topdeskProvider: tdp,
+            settings: incomplete,
+          ),
+        ],
+      );
+    }
+
     test('valid settings', () async {
       const Settings settings = Settings(
         branchId: 'a',
@@ -121,73 +139,87 @@ void main() {
       );
     });
 
+    test('incomplete settings', () async {
+      loginInvalidSettings(
+        const Settings(
+          branchId: 'a',
+          callerId: 'a',
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'a',
+          incidentOperatorId: null,
+        ),
+        const Settings(
+          branchId: 'a',
+          callerId: 'a',
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'a',
+          incidentOperatorId: null,
+        ),
+      );
+    });
+
     test('invalid settings caller belongs to other branch', () async {
-      const Settings settings = Settings(
-        branchId: 'a',
-        callerId: 'b',
-        categoryId: 'a',
-        subcategoryId: 'a',
-        incidentDurationId: 'a',
-        incidentOperatorId: 'a',
-      );
-      when(settingsProvider.provide()).thenAnswer(
-        (_) => Future<Settings>.value(settings),
-      );
-
-      bloc.add(TryLogin(credentials));
-
-      await emitsExactly<LoginBloc, LoginState>(
-        bloc,
-        <LoginState>[
-          const LoginWaitingForSavedData(),
-          const LoginSubmitting(),
-          LoginSuccessIncompleteSettings(
-            topdeskProvider: tdp,
-            settings: const Settings(
-              branchId: 'a',
-              callerId: null,
-              categoryId: 'a',
-              subcategoryId: 'a',
-              incidentDurationId: 'a',
-              incidentOperatorId: 'a',
-            ),
-          ),
-        ],
+      loginInvalidSettings(
+        const Settings(
+          branchId: 'a',
+          callerId: 'b',
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'a',
+          incidentOperatorId: 'a',
+        ),
+        const Settings(
+          branchId: 'a',
+          callerId: null,
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'a',
+          incidentOperatorId: 'a',
+        ),
       );
     });
 
     test('invalid settings sub category belongs to other category', () async {
-      const Settings settings = Settings(
-        branchId: 'a',
-        callerId: 'a',
-        categoryId: 'a',
-        subcategoryId: 'b',
-        incidentDurationId: 'a',
-        incidentOperatorId: 'a',
+      loginInvalidSettings(
+        const Settings(
+          branchId: 'a',
+          callerId: 'a',
+          categoryId: 'a',
+          subcategoryId: 'b',
+          incidentDurationId: 'a',
+          incidentOperatorId: 'a',
+        ),
+        const Settings(
+          branchId: 'a',
+          callerId: 'a',
+          categoryId: 'a',
+          subcategoryId: null,
+          incidentDurationId: 'a',
+          incidentOperatorId: 'a',
+        ),
       );
-      when(settingsProvider.provide()).thenAnswer(
-        (_) => Future<Settings>.value(settings),
-      );
+    });
 
-      bloc.add(TryLogin(credentials));
-
-      await emitsExactly<LoginBloc, LoginState>(
-        bloc,
-        <LoginState>[
-          const LoginWaitingForSavedData(),
-          const LoginSubmitting(),
-          LoginSuccessIncompleteSettings(
-            topdeskProvider: tdp,
-            settings: const Settings(
-              branchId: 'a',
-              callerId: 'a',
-              categoryId: 'a',
-              subcategoryId: null,
-              incidentDurationId: 'a',
-              incidentOperatorId: 'a',
-            ),
-          ),
-        ],
+    test('incomplete and invalid settings', () async {
+      loginInvalidSettings(
+        const Settings(
+          branchId: 'a',
+          callerId: 'b',
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'a',
+          incidentOperatorId: null,
+        ),
+        const Settings(
+          branchId: 'a',
+          callerId: null,
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'a',
+          incidentOperatorId: null,
+        ),
       );
     });
   });
