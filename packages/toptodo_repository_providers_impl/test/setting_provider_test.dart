@@ -9,53 +9,43 @@ void main() {
     SharedPreferences.setMockInitialValues(<String, dynamic>{});
   });
 
-  test('first nothing then retrieve same as saved', () async {
-    final SharedPreferencesSettingsProvider p =
-        SharedPreferencesSettingsProvider();
-    p.init('url', 'loginName');
-
-    expect(await p.provide(), null);
-
-    const Settings s = Settings(
-      branchId: 'b',
-      callerId: 'c',
-      categoryId: 'cat',
-      subcategoryId: 'sub',
-      incidentDurationId: 'd',
-      incidentOperatorId: 'o',
+  group('basics', () {
+    const Branch branchA = Branch(id: 'a', name: 'BranchA');
+    const Category catA = Category(id: 'a', name: 'catA');
+    const Settings settingsToSave = Settings(
+      branch: branchA,
+      caller: Caller(id: 'a', name: 'CallerA', avatar: '', branch: branchA),
+      category: catA,
+      subCategory: SubCategory(id: 'a', name: 'subCatA', category: catA),
+      incidentDuration: IncidentDuration(id: 'a', name: 'durationA'),
+      incidentOperator: IncidentOperator(id: 'a', name: 'opA', avatar: ''),
     );
 
-    await p.save(s);
+    test('first nothing then retrieve same as saved', () async {
+      final SharedPreferencesSettingsProvider p =
+          SharedPreferencesSettingsProvider();
+      p.init('url', 'loginName');
 
-    final Settings provided = await p.provide();
-    expect(provided.branchId, 'b');
-    expect(provided.callerId, 'c');
-    expect(provided.categoryId, 'cat');
-    expect(provided.subcategoryId, 'sub');
-    expect(provided.incidentDurationId, 'd');
-    expect(provided.incidentOperatorId, 'o');
-  });
+      expect(await p.provide(), null);
 
-  test('different url does not contain the same settings', () async {
-    final SharedPreferencesSettingsProvider p1 =
-        SharedPreferencesSettingsProvider();
-    p1.init('url1', 'loginName');
+      await p.save(settingsToSave);
 
-    const Settings s = Settings(
-      branchId: 'b',
-      callerId: 'c',
-      categoryId: 'cat',
-      subcategoryId: 'sub',
-      incidentDurationId: 'd',
-      incidentOperatorId: 'o',
-    );
+      final Settings provided = await p.provide();
+      expect(provided, settingsToSave);
+    });
 
-    await p1.save(s);
+    test('different url does not contain the same settings', () async {
+      final SharedPreferencesSettingsProvider p1 =
+          SharedPreferencesSettingsProvider();
+      p1.init('url1', 'loginName');
 
-    final SharedPreferencesSettingsProvider p2 =
-        SharedPreferencesSettingsProvider();
-    p2.init('url2', 'loginName');
+      await p1.save(settingsToSave);
 
-    expect(await p2.provide(), null);
+      final SharedPreferencesSettingsProvider p2 =
+          SharedPreferencesSettingsProvider();
+      p2.init('url2', 'loginName');
+
+      expect(await p2.provide(), null);
+    });
   });
 }
