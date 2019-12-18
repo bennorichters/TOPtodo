@@ -1,9 +1,10 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
+import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 // class MockLoginBloc extends MockBloc<LoginEvent, LoginState> implements LoginBloc {}
 
@@ -66,7 +67,18 @@ void main() {
     });
 
     test('Login with settings', () async {
-      final TopdeskProvider tdp = MockTopdeskProvider();
+      // final TopdeskProvider tdp = MockTopdeskProvider();
+      // when(tdp.branch(id: 'a')).thenAnswer(
+      //   (_) => Future<Branch>.value(
+      //     Branch.fromJson(const <String, String>{
+      //       'id': 'a',
+      //       'name': 'branchA',
+      //     }),
+      //   ),
+      // );
+
+      final TopdeskProvider tdp = FakeTopdeskProvider(latency: Duration.zero);
+
       const Settings settings = Settings(
         branchId: 'a',
         callerId: 'a',
@@ -76,7 +88,7 @@ void main() {
         incidentOperatorId: 'a',
       );
       final SettingsProvider settingsProvider = MockSettingsProvider();
-      when(settingsProvider.provide()).thenAnswer(
+      when(settingsProvider.provide(),).thenAnswer(
         (_) => Future<Settings>.value(settings),
       );
 
@@ -93,6 +105,8 @@ void main() {
       );
 
       bloc.add(TryLogin(credentials));
+
+      print(await tdp.branch(id:'a'));
 
       await emitsExactly<LoginBloc, LoginState>(
         bloc,
