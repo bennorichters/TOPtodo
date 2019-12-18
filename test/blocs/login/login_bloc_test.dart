@@ -14,7 +14,7 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
-  group('CounterBloc', () {
+  group('basic flow', () {
     blocTest<LoginBloc, LoginEvent, LoginState>(
       'emits [LoginWaitingForSavedDate] for initial state',
       build: () => LoginBloc(
@@ -38,5 +38,31 @@ void main() {
         const RetrievedSavedData(null, true),
       ],
     );
+
+    test('Login without settings', () async {
+      final TopdeskProvider tdp = MockTopdeskProvider();
+      final LoginBloc bloc = LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: MockSettingsProvider(),
+        topdeskProvider: tdp,
+      );
+
+      final Credentials credentials = Credentials(
+        url: 'a',
+        loginName: 'userA',
+        password: 'S3CrEt!',
+      );
+
+      bloc.add(TryLogin(credentials));
+
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        <LoginState>[
+          const LoginWaitingForSavedData(),
+          const LoginSubmitting(),
+          LoginSuccessNoSettings(topdeskProvider: tdp),
+        ],
+      );
+    });
   });
 }
