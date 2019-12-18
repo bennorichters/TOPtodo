@@ -91,7 +91,7 @@ void main() {
       password: 'S3CrEt!',
     );
 
-    loginInvalidSettings(Settings saved, Settings incomplete) async {
+    Future<void> loginInvalidSettings(Settings saved, Settings incomplete) async {
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(saved),
       );
@@ -219,6 +219,27 @@ void main() {
           subcategoryId: 'a',
           incidentDurationId: 'a',
           incidentOperatorId: null,
+        ),
+      );
+    });
+
+    test('non existing duration', () async {
+      loginInvalidSettings(
+        const Settings(
+          branchId: 'a',
+          callerId: 'a',
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: 'doesnotexist',
+          incidentOperatorId: 'a',
+        ),
+        const Settings(
+          branchId: 'a',
+          callerId: 's',
+          categoryId: 'a',
+          subcategoryId: 'a',
+          incidentDurationId: null,
+          incidentOperatorId: 'a',
         ),
       );
     });
