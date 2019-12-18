@@ -1,15 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 abstract class TdModel extends Equatable {
-  const TdModel(this.id, this.name);
-  TdModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'] {
-    assert(id != null);
-    assert(id.isNotEmpty);
-    assert(name != null);
-    assert(name.isNotEmpty);
-  }
+  const TdModel(this.id, this.name)
+      : assert(id != null),
+        assert(name != null);
 
   final String id;
   final String name;
@@ -22,47 +16,42 @@ abstract class TdModel extends Equatable {
 }
 
 class Branch extends TdModel {
-  Branch.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  const Branch(String id, String name) : super(id, name);
 }
 
 class IncidentDuration extends TdModel {
-  IncidentDuration.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  const IncidentDuration(String id, String name) : super(id, name);
 }
 
 class Category extends TdModel {
-  Category.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  const Category(String id, String name) : super(id, name);
 }
 
 class SubCategory extends TdModel {
-  SubCategory.fromJson(Map<String, dynamic> json)
-      : categoryId = json['categoryId'],
-        super.fromJson(json) {
-    assert(categoryId != null);
-    assert(categoryId.isNotEmpty);
-  }
+  const SubCategory(String id, String name, this.category)
+      : assert(category != null),
+        super(id, name);
 
-  final String categoryId;
+  final Category category;
 }
 
 abstract class Person extends TdModel {
-  Person.fromJson(Map<String, dynamic> json)
-      : avatar = json['avatar'],
-        super.fromJson(json);
+  const Person(String id, String name, this.avatar)
+      : assert(avatar != null),
+        super(id, name);
 
   final String avatar;
 }
 
 class Caller extends Person {
-  Caller.fromJson(Map<String, dynamic> json)
-      : branchId = json['branchId'],
-        super.fromJson(json) {
-    assert(branchId != null);
-    assert(branchId.isNotEmpty);
-  }
+  const Caller(String id, String name, String avatar, this.branch)
+      : assert(branch != null),
+        super(id, name, avatar);
 
-  final String branchId;
+  final Branch branch;
 }
 
 class IncidentOperator extends Person {
-  IncidentOperator.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  const IncidentOperator(String id, String name, String avatar)
+      : super(id, name, avatar);
 }

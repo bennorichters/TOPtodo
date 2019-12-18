@@ -1,40 +1,28 @@
-import 'dart:convert';
 import 'package:meta/meta.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 class Settings {
   const Settings({
-    @required this.branchId,
-    @required this.callerId,
-    @required this.categoryId,
-    @required this.subcategoryId,
-    @required this.incidentDurationId,
-    @required this.incidentOperatorId,
+    @required this.branch,
+    @required this.caller,
+    @required this.category,
+    @required this.subCategory,
+    @required this.incidentDuration,
+    @required this.incidentOperator,
   });
 
-  Settings.fromJson(Map<String, dynamic> json)
-      : branchId = json['branchId'],
-        callerId = json['callerId'],
-        categoryId = json['categoryId'],
-        subcategoryId = json['subcategoryId'],
-        incidentDurationId = json['incidentDurationId'],
-        incidentOperatorId = json['incidentOperatorId'];
-
-  final String branchId;
-  final String callerId;
-  final String categoryId;
-  final String subcategoryId;
-  final String incidentDurationId;
-  final String incidentOperatorId;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'branchId': branchId,
-        'callerId': callerId,
-        'categoryId': categoryId,
-        'subcategoryId': subcategoryId,
-        'incidentDurationId': incidentDurationId,
-        'incidentOperatorId': incidentOperatorId,
-      };
+  final Branch branch;
+  final Caller caller;
+  final Category category;
+  final SubCategory subCategory;
+  final IncidentDuration incidentDuration;
+  final IncidentOperator incidentOperator;
 
   @override
-  String toString() => jsonEncode(toJson());
+  String toString() => 'branch: $branch, '
+      'caller: $caller, '
+      'category: $category, '
+      'subCategory: $subCategory, '
+      'incidentDuration: $incidentDuration, '
+      'incidentOperator: $incidentOperator';
 }
