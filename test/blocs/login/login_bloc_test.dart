@@ -64,5 +64,47 @@ void main() {
         ],
       );
     });
+
+    test('Login with settings', () async {
+      final TopdeskProvider tdp = MockTopdeskProvider();
+      const Settings settings = Settings(
+        branchId: 'a',
+        callerId: 'a',
+        categoryId: 'a',
+        subcategoryId: 'b',
+        incidentDurationId: 'a',
+        incidentOperatorId: 'a',
+      );
+      final SettingsProvider settingsProvider = MockSettingsProvider();
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(settings),
+      );
+
+      final LoginBloc bloc = LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: settingsProvider,
+        topdeskProvider: tdp,
+      );
+
+      final Credentials credentials = Credentials(
+        url: 'a',
+        loginName: 'userA',
+        password: 'S3CrEt!',
+      );
+
+      bloc.add(TryLogin(credentials));
+
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        <LoginState>[
+          const LoginWaitingForSavedData(),
+          const LoginSubmitting(),
+          LoginSuccessWithSettings(
+            topdeskProvider: tdp,
+            settings: settings,
+          ),
+        ],
+      );
+    });
   });
 }
