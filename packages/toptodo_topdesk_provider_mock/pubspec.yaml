@@ -10,6 +10,7 @@ environment:
   sdk: ">=2.6.1 <3.0.0"
 
 dependencies:
+  resource: ^2.1.6
   toptodo_data:
     git: 
       url: git://github.com/bennorichters/toptodo

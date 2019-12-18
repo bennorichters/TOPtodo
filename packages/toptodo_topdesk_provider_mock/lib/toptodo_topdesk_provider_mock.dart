@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:meta/meta.dart';
+import 'package:resource/resource.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class FakeTopdeskProvider implements TopdeskProvider {
@@ -33,7 +33,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
     final String swLower = startsWith.toLowerCase();
 
-    final List<dynamic> response = await _readJson('branches.json');
+    final List<dynamic> response = await _readJson('branches');
     return response
         .map(
           (dynamic e) => Branch.fromJson(e),
@@ -47,7 +47,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Caller> caller({String id}) async {
     final String avatar = await _avatar();
 
-    final List<dynamic> response = await _readJson('callers.json');
+    final List<dynamic> response = await _readJson('callers');
     final dynamic found = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () => throw TdModelNotFoundException(
@@ -67,7 +67,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final String avatar = await _avatar();
-    final List<dynamic> response = await _readJson('callers.json');
+    final List<dynamic> response = await _readJson('callers');
     return response
         .where(
       (dynamic e) =>
@@ -92,7 +92,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<Category>> categories() async {
-    final List<dynamic> response = await _readJson('categories.json');
+    final List<dynamic> response = await _readJson('categories');
     return response.map(
       (dynamic e) => Category.fromJson(e),
     );
@@ -100,7 +100,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<SubCategory> subCategory({String id}) async {
-    final List<dynamic> response = await _readJson('sub_categories.json');
+    final List<dynamic> response = await _readJson('sub_categories');
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () =>
@@ -112,7 +112,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<SubCategory>> subCategories({Category category}) async {
-    final List<dynamic> response = await _readJson('sub_categories.json');
+    final List<dynamic> response = await _readJson('sub_categories');
     return response
         .where(
           (dynamic e) => e['categoryId'] == category.id,
@@ -124,7 +124,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<IncidentDuration>> incidentDurations() async {
-    final List<dynamic> response = await _readJson('durations.json');
+    final List<dynamic> response = await _readJson('durations');
     return response.map(
       (dynamic e) => IncidentDuration.fromJson(e),
     );
@@ -154,7 +154,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final String avatar = await _avatar();
-    final List<dynamic> response = await _readJson('operators.json');
+    final List<dynamic> response = await _readJson('operators');
     return response
         .where(
       (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
@@ -172,12 +172,14 @@ class FakeTopdeskProvider implements TopdeskProvider {
       (await incidentOperators(startsWith: '')).first;
 
   Future<String> _avatar() async {
-    return (await _readJson('avatar.json'))['black'];
+    return (await _readJson('avatar'))['black'];
   }
 
   Future<dynamic> _readJson(String fileName) async {
-    final File file = File('./json/$fileName');
-    final String content = await file.readAsString();
+    final Resource resource = Resource(
+      'package:toptodo_topdesk_provider_mock/json/$fileName.json',
+    );
+    final String content = await resource.readAsString(encoding: utf8);
 
     return Future<dynamic>.delayed(
       latency,
