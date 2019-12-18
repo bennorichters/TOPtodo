@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class Credentials {
-  Credentials({
+class Credentials extends Equatable {
+  const Credentials({
     @required this.url,
     @required this.loginName,
     @required this.password,
@@ -12,8 +13,10 @@ class Credentials {
   final String password;
 
   @override
-  String toString() =>
-      'Credentials: ['
+  List<Object> get props => <Object>[url, loginName, password];
+
+  @override
+  String toString() => 'Credentials: ['
       '$url, '
       '$loginName, '
       '${password == null ? "no" : "with"} password]';

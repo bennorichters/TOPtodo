@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-class Settings {
+class Settings extends Equatable {
   const Settings({
     @required this.branch,
     @required this.caller,
@@ -17,6 +18,16 @@ class Settings {
   final SubCategory subCategory;
   final IncidentDuration incidentDuration;
   final IncidentOperator incidentOperator;
+
+  @override
+  List<Object> get props => <Object>[
+        branch,
+        caller,
+        category,
+        subCategory,
+        incidentDuration,
+        incidentOperator,
+      ];
 
   @override
   String toString() => 'branch: $branch, '
