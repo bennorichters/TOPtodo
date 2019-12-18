@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         body: BlocListener<LoginBloc, LoginState>(
           listener: (BuildContext context, LoginState state) {
-            if (state is LoginSuccessNoSettings) {
+            if (state is LoginSuccessIncompleteSettings) {
               Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
                 MaterialPageRoute<SettingsScreen>(
                   builder: (_) => SettingsScreen(),
@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   state.savedData,
                   state.remember,
                 );
-              } else if (state is LoginSuccessNoSettings) {
+              } else if (state is LoginSuccessIncompleteSettings) {
                 return buildLoading();
               } else if (state is LoginSubmitting) {
                 return buildLoading();

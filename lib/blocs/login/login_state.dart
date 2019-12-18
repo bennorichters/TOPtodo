@@ -29,16 +29,8 @@ class LoginSubmitting extends LoginState {
   List<Object> get props => <Object>[];
 }
 
-class LoginSuccessNoSettings extends LoginState {
-  const LoginSuccessNoSettings({@required this.topdeskProvider});
-  final TopdeskProvider topdeskProvider;
-
-  @override
-  List<Object> get props => <Object>[topdeskProvider];
-}
-
-class LoginSuccessWithSettings extends LoginState {
-  const LoginSuccessWithSettings({
+class LoginSuccessIncompleteSettings extends LoginState {
+  const LoginSuccessIncompleteSettings({
     @required this.topdeskProvider,
     @required this.settings,
   });
@@ -47,7 +39,20 @@ class LoginSuccessWithSettings extends LoginState {
   final Settings settings;
 
   @override
-  List<Object> get props => <Object> [topdeskProvider, settings];
+  List<Object> get props => <Object>[topdeskProvider, settings];
+}
+
+class LoginSuccessValidSettings extends LoginState {
+  const LoginSuccessValidSettings({
+    @required this.topdeskProvider,
+    @required this.settings,
+  });
+
+  final TopdeskProvider topdeskProvider;
+  final Settings settings;
+
+  @override
+  List<Object> get props => <Object>[topdeskProvider, settings];
 }
 
 // class LoginFailed extends LoginState {

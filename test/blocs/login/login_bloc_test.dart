@@ -4,7 +4,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 // class MockLoginBloc extends MockBloc<LoginEvent, LoginState> implements LoginBloc {}
 
@@ -39,19 +38,72 @@ void main() {
         const RetrievedSavedData(null, true),
       ],
     );
+  });
 
-    test('Login without settings', () async {
-      final TopdeskProvider tdp = MockTopdeskProvider();
-      final LoginBloc bloc = LoginBloc(
-        credentialsProvider: MockCredentialsProvider(),
-        settingsProvider: MockSettingsProvider(),
-        topdeskProvider: tdp,
+  group('TryLogin', () {
+    final TopdeskProvider tdp = MockTopdeskProvider();
+    when(tdp.caller(id: 'a')).thenAnswer(
+      (_) => Future<Caller>.value(
+        Caller.fromJson(const <String, String>{
+          'id': 'a',
+          'name': 'CallerA',
+          'branchId': 'a',
+        }),
+      ),
+    );
+    when(tdp.caller(id: 'b')).thenAnswer(
+      (_) => Future<Caller>.value(
+        Caller.fromJson(const <String, String>{
+          'id': 'b',
+          'name': 'CallerB',
+          'branchId': 'b',
+        }),
+      ),
+    );
+    when(tdp.subCategory(id: 'a')).thenAnswer(
+      (_) => Future<SubCategory>.value(
+        SubCategory.fromJson(const <String, String>{
+          'id': 'a',
+          'name': 'SubCatA',
+          'categoryId': 'a',
+        }),
+      ),
+    );
+    when(tdp.subCategory(id: 'b')).thenAnswer(
+      (_) => Future<SubCategory>.value(
+        SubCategory.fromJson(const <String, String>{
+          'id': 'b',
+          'name': 'SubCatB',
+          'categoryId': 'b',
+        }),
+      ),
+    );
+
+    final SettingsProvider settingsProvider = MockSettingsProvider();
+
+    final LoginBloc bloc = LoginBloc(
+      credentialsProvider: MockCredentialsProvider(),
+      settingsProvider: settingsProvider,
+      topdeskProvider: tdp,
+    );
+
+    final Credentials credentials = Credentials(
+      url: 'a',
+      loginName: 'userA',
+      password: 'S3CrEt!',
+    );
+
+    test('valid settings', () async {
+      const Settings settings = Settings(
+        branchId: 'a',
+        callerId: 'a',
+        categoryId: 'a',
+        subcategoryId: 'a',
+        incidentDurationId: 'a',
+        incidentOperatorId: 'a',
       );
-
-      final Credentials credentials = Credentials(
-        url: 'a',
-        loginName: 'userA',
-        password: 'S3CrEt!',
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(settings),
       );
 
       bloc.add(TryLogin(credentials));
@@ -61,24 +113,50 @@ void main() {
         <LoginState>[
           const LoginWaitingForSavedData(),
           const LoginSubmitting(),
-          LoginSuccessNoSettings(topdeskProvider: tdp),
+          LoginSuccessValidSettings(
+            topdeskProvider: tdp,
+            settings: settings,
+          ),
         ],
       );
     });
 
-    test('Login with settings', () async {
-      // final TopdeskProvider tdp = MockTopdeskProvider();
-      // when(tdp.branch(id: 'a')).thenAnswer(
-      //   (_) => Future<Branch>.value(
-      //     Branch.fromJson(const <String, String>{
-      //       'id': 'a',
-      //       'name': 'branchA',
-      //     }),
-      //   ),
-      // );
+    test('invalid settings caller belongs to other branch', () async {
+      const Settings settings = Settings(
+        branchId: 'a',
+        callerId: 'b',
+        categoryId: 'a',
+        subcategoryId: 'a',
+        incidentDurationId: 'a',
+        incidentOperatorId: 'a',
+      );
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(settings),
+      );
 
-      final TopdeskProvider tdp = FakeTopdeskProvider(latency: Duration.zero);
+      bloc.add(TryLogin(credentials));
 
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        <LoginState>[
+          const LoginWaitingForSavedData(),
+          const LoginSubmitting(),
+          LoginSuccessIncompleteSettings(
+            topdeskProvider: tdp,
+            settings: const Settings(
+              branchId: 'a',
+              callerId: null,
+              categoryId: 'a',
+              subcategoryId: 'a',
+              incidentDurationId: 'a',
+              incidentOperatorId: 'a',
+            ),
+          ),
+        ],
+      );
+    });
+
+    test('invalid settings sub category belongs to other category', () async {
       const Settings settings = Settings(
         branchId: 'a',
         callerId: 'a',
@@ -87,35 +165,27 @@ void main() {
         incidentDurationId: 'a',
         incidentOperatorId: 'a',
       );
-      final SettingsProvider settingsProvider = MockSettingsProvider();
-      when(settingsProvider.provide(),).thenAnswer(
+      when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(settings),
       );
 
-      final LoginBloc bloc = LoginBloc(
-        credentialsProvider: MockCredentialsProvider(),
-        settingsProvider: settingsProvider,
-        topdeskProvider: tdp,
-      );
-
-      final Credentials credentials = Credentials(
-        url: 'a',
-        loginName: 'userA',
-        password: 'S3CrEt!',
-      );
-
       bloc.add(TryLogin(credentials));
-
-      print(await tdp.branch(id:'a'));
 
       await emitsExactly<LoginBloc, LoginState>(
         bloc,
         <LoginState>[
           const LoginWaitingForSavedData(),
           const LoginSubmitting(),
-          LoginSuccessWithSettings(
+          LoginSuccessIncompleteSettings(
             topdeskProvider: tdp,
-            settings: settings,
+            settings: const Settings(
+              branchId: 'a',
+              callerId: 'a',
+              categoryId: 'a',
+              subcategoryId: null,
+              incidentDurationId: 'a',
+              incidentOperatorId: 'a',
+            ),
           ),
         ],
       );

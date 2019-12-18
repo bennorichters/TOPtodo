@@ -42,11 +42,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // final bool settingsValid = _areSettingsValid(settings);
 
       if (settings == null) {
-        yield LoginSuccessNoSettings(
+        yield LoginSuccessIncompleteSettings(
           topdeskProvider: topdeskProvider,
+          settings: null,
         );
       } else {
-        yield LoginSuccessWithSettings(
+        yield LoginSuccessValidSettings(
           topdeskProvider: topdeskProvider,
           settings: settings,
         );
