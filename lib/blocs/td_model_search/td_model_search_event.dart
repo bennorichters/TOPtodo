@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class TdModelSearchEvent extends Equatable {

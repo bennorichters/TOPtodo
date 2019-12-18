@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import './bloc.dart';
@@ -77,7 +77,7 @@ class _Debouncer {
   final Duration duration;
   Timer _timer;
 
-  void run(VoidCallback action) {
+  void run(void action()) {
     _timer?.cancel();
     _timer = Timer(duration, action);
   }

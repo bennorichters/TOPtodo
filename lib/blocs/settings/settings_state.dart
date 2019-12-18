@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/settings/settings_form_state.dart';
 
 abstract class SettingsState extends Equatable {
