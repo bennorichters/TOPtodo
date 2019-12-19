@@ -7,12 +7,12 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
   SharedPreferencesSettingsProvider(this.topdeskProvider);
   final TopdeskProvider topdeskProvider;
 
-  String _key;
+  String _storageKey;
 
   @override
   void init(String url, String loginName) {
-    assert(_key == null, 'init has already been called');
-    _key = _generateMd5(url + loginName);
+    assert(_storageKey == null, 'init has already been called');
+    _storageKey = _generateMd5(url + loginName);
   }
 
   static String _generateMd5(String input) {
@@ -21,45 +21,53 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
 
   @override
   Future<Settings> provide() async {
-    assert(_key != null, 'init has not been called');
+    assert(_storageKey != null, 'init has not been called');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (!prefs.containsKey(_key)) {
+    if (!prefs.containsKey(_storageKey)) {
       return null;
     }
 
-    final Map<String, dynamic> json = jsonDecode(prefs.getString(_key));
+    final Map<String, dynamic> json = jsonDecode(prefs.getString(_storageKey));
+    final Branch branch = await _tdModelFromJson(
+      json,
+      'branchId',
+      topdeskProvider.branch,
+    );
+    final Category category = await _tdModelFromJson(
+      json,
+      'categoryId',
+      topdeskProvider.category,
+    );
+
+    final Caller caller = await _tdModelFromJson(
+      json,
+      'callerId',
+      topdeskProvider.caller,
+    );
+    final SubCategory subCategory = await _tdModelFromJson(
+      json,
+      'subCategoryId',
+      topdeskProvider.subCategory,
+    );
+    final IncidentDuration incidentDuration = await _tdModelFromJson(
+      json,
+      'incidentDurationId',
+      topdeskProvider.incidentDuration,
+    );
+    final IncidentOperator incidentOperator = await _tdModelFromJson(
+      json,
+      'incidentOperatorId',
+      topdeskProvider.incidentOperator,
+    );
+
     return Settings(
-      branch: await _tdModelFromJson(
-        json,
-        'branchId',
-        topdeskProvider.branch,
-      ),
-      caller: await _tdModelFromJson(
-        json,
-        'callerId',
-        topdeskProvider.caller,
-      ),
-      category: await _tdModelFromJson(
-        json,
-        'categoryId',
-        topdeskProvider.category,
-      ),
-      subCategory: await _tdModelFromJson(
-        json,
-        'subCategoryId',
-        topdeskProvider.subCategory,
-      ),
-      incidentDuration: await _tdModelFromJson(
-        json,
-        'incidentDurationId',
-        topdeskProvider.incidentDuration,
-      ),
-      incidentOperator: await _tdModelFromJson(
-        json,
-        'incidentOperatorId',
-        topdeskProvider.incidentOperator,
-      ),
+      branch: branch,
+      caller: _paternityTest(caller, caller.branch, branch),
+      category: category,
+      subCategory: _paternityTest(subCategory, subCategory.category, category),
+      incidentDuration: incidentDuration,
+      incidentOperator: incidentOperator,
     );
   }
 
@@ -75,13 +83,20 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
     }
   }
 
+  TdModel _paternityTest(
+    TdModel child,
+    TdModel realParent,
+    TdModel chosenParent,
+  ) =>
+      (realParent == chosenParent) ? child : null;
+
   @override
   Future<void> save(Settings settings) async {
-    assert(_key != null, 'init has not been called');
+    assert(_storageKey != null, 'init has not been called');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setString(
-      _key,
+      _storageKey,
       jsonEncode(_settingsToJson(settings)),
     );
   }
