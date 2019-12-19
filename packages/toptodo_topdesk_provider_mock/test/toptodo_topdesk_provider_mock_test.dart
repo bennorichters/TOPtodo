@@ -35,9 +35,7 @@ void main() {
     test('find zero', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'A',
-        branch: Branch.fromJson(
-          jsonDecode('{"id": "g", "name": "EEE Branch"}'),
-        ),
+        branch: const Branch(id: 'g', name: 'EEE Branch'),
       );
 
       expect(ds.length, isZero);
@@ -46,8 +44,9 @@ void main() {
     test('find two', () async {
       final Iterable<Caller> ds = await ftp.callers(
         startsWith: 'b',
-        branch: Branch.fromJson(
-          jsonDecode('{"id": "b", "name": "a name"}'),
+        branch: const Branch(
+          id: 'b',
+          name: 'a name',
         ),
       );
 
@@ -56,11 +55,11 @@ void main() {
 
     test('has avatar', () async {
       final Iterable<Caller> ds = await ftp.callers(
-        startsWith: 'Augustin Sheryll',
-        branch: Branch.fromJson(
-          jsonDecode('{"id": "a", "name": "a name"}'),
-        ),
-      );
+          startsWith: 'Augustin Sheryll',
+          branch: const Branch(
+            id: 'a',
+            name: 'a name',
+          ));
 
       expect(ds.length, 1);
       expect(ds.first.avatar.length, isNonZero);

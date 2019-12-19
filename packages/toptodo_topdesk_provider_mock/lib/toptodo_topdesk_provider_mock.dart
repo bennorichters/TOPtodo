@@ -36,12 +36,17 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('branches');
     return response
         .map(
-          (dynamic e) => Branch.fromJson(e),
+          (dynamic e) => _branchFromJson(e),
         )
         .where(
           (Branch b) => b.name.toLowerCase().startsWith(swLower),
         );
   }
+
+  static Branch _branchFromJson(Map<String, dynamic> json) => Branch(
+        id: json['id'],
+        name: json['name'],
+      );
 
   @override
   Future<Caller> caller({String id}) async {
@@ -55,8 +60,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
       ),
     );
 
-    found['avatar'] = avatar;
-    return Caller.fromJson(found);
+    return _callerFromJson(
+      found,
+      avatar,
+      await branch(id: found['branchId']),
+    );
   }
 
   @override
@@ -70,17 +78,26 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('callers');
     return response
         .where(
-      (dynamic e) =>
-          (e['branchId'] == branch.id) &&
-          e['name'].toLowerCase().startsWith(swLower),
-    )
+          (dynamic e) =>
+              (e['branchId'] == branch.id) &&
+              e['name'].toLowerCase().startsWith(swLower),
+        )
         .map(
-      (dynamic e) {
-        e['avatar'] = avatar;
-        return Caller.fromJson(e);
-      },
-    );
+          (dynamic e) => _callerFromJson(e, avatar, branch),
+        );
   }
+
+  static Caller _callerFromJson(
+    Map<String, dynamic> json,
+    String avatar,
+    Branch branch,
+  ) =>
+      Caller(
+        id: json['id'],
+        name: json['name'],
+        avatar: avatar,
+        branch: branch,
+      );
 
   @override
   Future<Category> category({String id}) async {
@@ -94,9 +111,14 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _readJson('categories');
     return response.map(
-      (dynamic e) => Category.fromJson(e),
+      (dynamic e) => _categofryFromJson(e),
     );
   }
+
+  static Category _categofryFromJson(Map<String, dynamic> json) => Category(
+        id: json['id'],
+        name: json['name'],
+      );
 
   @override
   Future<SubCategory> subCategory({String id}) async {
@@ -107,7 +129,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    return SubCategory.fromJson(json);
+    return _subCategoryFromJson(json, await category(id: json['categoryId']));
   }
 
   @override
@@ -118,17 +140,35 @@ class FakeTopdeskProvider implements TopdeskProvider {
           (dynamic e) => e['categoryId'] == category.id,
         )
         .map(
-          (dynamic e) => SubCategory.fromJson(e),
+          (dynamic e) => _subCategoryFromJson(e, category),
         );
   }
+
+  SubCategory _subCategoryFromJson(
+    Map<String, dynamic> json,
+    Category category,
+  ) =>
+      SubCategory(
+        id: json['id'],
+        name: json['name'],
+        category: category,
+      );
 
   @override
   Future<Iterable<IncidentDuration>> incidentDurations() async {
     final List<dynamic> response = await _readJson('durations');
     return response.map(
-      (dynamic e) => IncidentDuration.fromJson(e),
+      (dynamic e) => _incidentDurationFromJson(e),
     );
   }
+
+  static IncidentDuration _incidentDurationFromJson(
+    Map<String, dynamic> json,
+  ) =>
+      IncidentDuration(
+        id: json['id'],
+        name: json['name'],
+      );
 
   @override
   Future<IncidentDuration> incidentDuration({String id}) async {
@@ -157,15 +197,22 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson('operators');
     return response
         .where(
-      (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
-    )
+          (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
+        )
         .map(
-      (dynamic e) {
-        e['avatar'] = avatar;
-        return IncidentOperator.fromJson(e);
-      },
-    );
+          (dynamic e) => _incidentOperatorFromJson(e, avatar),
+        );
   }
+
+  IncidentOperator _incidentOperatorFromJson(
+    Map<String, dynamic> json,
+    String avatar,
+  ) =>
+      IncidentOperator(
+        id: json['id'],
+        name: json['name'],
+        avatar: avatar,
+      );
 
   @override
   Future<IncidentOperator> currentIncidentOperator() async =>
