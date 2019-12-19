@@ -4,6 +4,9 @@ import 'package:crypto/crypto.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class SharedPreferencesSettingsProvider extends SettingsProvider {
+  SharedPreferencesSettingsProvider(this.topdeskProvider);
+  final TopdeskProvider topdeskProvider;
+
   String _key;
 
   @override
@@ -21,9 +24,55 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
     assert(_key != null, 'init has not been called');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return (prefs.containsKey(_key))
-        ? Settings.fromJson(jsonDecode(prefs.getString(_key)))
-        : null;
+    if (!prefs.containsKey(_key)) {
+      return null;
+    }
+
+    final Map<String, dynamic> json = jsonDecode(prefs.getString(_key));
+    return Settings(
+      branch: await _tdModelFromJson(
+        json,
+        'branchId',
+        topdeskProvider.branch,
+      ),
+      caller: await _tdModelFromJson(
+        json,
+        'callerId',
+        topdeskProvider.caller,
+      ),
+      category: await _tdModelFromJson(
+        json,
+        'categoryId',
+        topdeskProvider.category,
+      ),
+      subCategory: await _tdModelFromJson(
+        json,
+        'subCategoryId',
+        topdeskProvider.subCategory,
+      ),
+      incidentDuration: await _tdModelFromJson(
+        json,
+        'incidentDurationId',
+        topdeskProvider.incidentDuration,
+      ),
+      incidentOperator: await _tdModelFromJson(
+        json,
+        'incidentOperatorId',
+        topdeskProvider.incidentOperator,
+      ),
+    );
+  }
+
+  Future<TdModel> _tdModelFromJson(
+    Map<String, dynamic> json,
+    String jsonKey,
+    Function fetchModel,
+  ) async {
+    try {
+      return json.containsKey(jsonKey) ? fetchModel(id: json[jsonKey]) : null;
+    } on TdModelNotFoundException {
+      return null;
+    }
   }
 
   @override
@@ -31,6 +80,20 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
     assert(_key != null, 'init has not been called');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(_key, jsonEncode(settings.toJson()));
+    await prefs.setString(
+      _key,
+      jsonEncode(_settingsToJson(settings)),
+    );
+  }
+
+  Map<String, String> _settingsToJson(Settings settings) {
+    return <String, String>{
+      'branchId': settings.branch.id,
+      'callerId': settings.caller.id,
+      'categoryId': settings.category.id,
+      'subCategoryId': settings.subCategory.id,
+      'incidentDurationId': settings.incidentDuration.id,
+      'incidentOperatorId': settings.incidentOperator.id,
+    };
   }
 }
