@@ -39,7 +39,6 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
       'categoryId',
       topdeskProvider.category,
     );
-
     final Caller caller = await _tdModelFromJson(
       json,
       'callerId',
