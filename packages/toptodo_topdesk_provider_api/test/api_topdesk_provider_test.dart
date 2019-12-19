@@ -7,7 +7,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_api/api_topdesk_provider.dart';
 
 void main() {
-  final Credentials credentials = Credentials(
+  const Credentials credentials = Credentials(
     url: 'a',
     loginName: 'userA',
     password: 'S3CrEt!',
@@ -287,10 +287,10 @@ void main() {
     });
 
     group('caller', () {
-      final Branch branchForCaller = Branch.fromJson(const <String, String>{
-        'id': 'a',
-        'name': 'branchA',
-      });
+      const Branch branchForCaller = Branch(
+        id: 'a',
+        name: 'branchA',
+      );
 
       test('find by id', () async {
         final ApiTopdeskProvider atp = personApiTopdeskProvider(
@@ -441,11 +441,9 @@ void main() {
           responseJson: subCategoryJson,
         );
 
-        final Category cat = Category.fromJson(
-          const <String, String>{
-            'id': 'a',
-            'name': 'catA',
-          },
+        const Category cat = Category(
+          id: 'a',
+          name: 'catA',
         );
 
         final Iterable<SubCategory> subCats = await atp.subCategories(

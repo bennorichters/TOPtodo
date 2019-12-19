@@ -4,18 +4,22 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
+import 'package:toptodo_topdesk_provider_api/td_model_cache.dart';
 
 class ApiTopdeskProvider extends TopdeskProvider {
   ApiTopdeskProvider({Duration timeOut})
       : _timeOut = timeOut ?? const Duration(seconds: 5);
   final Duration _timeOut;
 
-  static const String _subPathOperator = 'operator';
-  static const String _subPathCaller = 'person';
+  final TdModelCache<Branch> _branchCache = TdModelCache<Branch>();
+  final TdModelCache<Caller> _callerCache = TdModelCache<Caller>();
 
   String _url;
   Map<String, String> _authHeaders;
   http.Client _client;
+
+  static const String _subPathOperator = 'operator';
+  static const String _subPathCaller = 'person';
 
   @override
   void init(Credentials credentials, {http.Client client}) {
@@ -38,9 +42,11 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Branch> branch({String id}) async {
-    final dynamic response = await _callApi('branches/id/$id');
-    return Branch.fromJson(response);
+  Future<Branch> branch({String id}) {
+    return _branchCache.get(id, (String id) async {
+      final dynamic response = await _callApi('branches/id/$id');
+      return _branchFromJson(response);
+    });
   }
 
   @override
@@ -49,16 +55,30 @@ class ApiTopdeskProvider extends TopdeskProvider {
     final List<dynamic> response =
         await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
 
-    return response.map((dynamic e) => Branch.fromJson(e));
+    return response.map((dynamic e) => _branchFromJson(e));
   }
 
+  static Branch _branchFromJson(Map<String, dynamic> json) => Branch(
+        id: json['id'],
+        name: json['name'],
+      );
+
   @override
-  Future<Caller> caller({String id}) async {
-    final dynamic response =
-        await _callApi('persons/id/$id?\$fields=id,dynamicName,branch');
-    final dynamic fixed = await _fixCaller(_subPathCaller, response);
-    return Caller.fromJson(fixed);
+  Future<Caller> caller({String id}) {
+    return _callerCache.get(id, (String id) async {
+      final dynamic response =
+          await _callApi('persons/id/$id?\$fields=id,dynamicName,branch');
+      final dynamic fixed = await _fixCaller(_subPathCaller, response);
+      return _callerFromJson(fixed);
+    });
   }
+
+  Future<Caller> _callerFromJson(Map<String, dynamic> json) async => Caller(
+        id: json['id'],
+        name: json['name'],
+        avatar: json['avatar'],
+        branch: await branch(id: json['branchId']),
+      );
 
   @override
   Future<Iterable<Caller>> callers({
@@ -76,7 +96,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ),
     );
 
-    return fixed.map((dynamic json) => Caller.fromJson(json));
+    return null;
+    // return fixed.map((dynamic json) => Caller.fromJson(json));
   }
 
   @override
@@ -90,7 +111,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<Category>> categories() async {
     final List<dynamic> response = await _callApi('incidents/categories');
-    return response.map((dynamic e) => Category.fromJson(e));
+    return response.map((dynamic e) => null);
+    // return response.map((dynamic e) => Category.fromJson(e));
   }
 
   @override
@@ -102,7 +124,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    return SubCategory.fromJson(_fixSubCategory(theOne));
+    return null;
+    // return SubCategory.fromJson(_fixSubCategory(theOne));
   }
 
   @override
@@ -111,7 +134,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return response
         .where((dynamic json) => json['category']['id'] == category.id)
         .map<dynamic>((dynamic json) => _fixSubCategory(json))
-        .map((dynamic json) => SubCategory.fromJson(json));
+        .map((dynamic json) => null);
+    // .map((dynamic json) => SubCategory.fromJson(json));
   }
 
   dynamic _fixSubCategory(dynamic json) {
@@ -131,21 +155,24 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<IncidentDuration>> incidentDurations() async {
     final List<dynamic> response = await _callApi('incidents/durations');
-    return response.map((dynamic e) => IncidentDuration.fromJson(e));
+    return response.map((dynamic e) => null);
+    // return response.map((dynamic e) => IncidentDuration.fromJson(e));
   }
 
   @override
   Future<IncidentOperator> incidentOperator({String id}) async {
     final dynamic response = await _callApi('operators/id/$id');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
-    return IncidentOperator.fromJson(fixed);
+    return null;
+    // return IncidentOperator.fromJson(fixed);
   }
 
   @override
   Future<IncidentOperator> currentIncidentOperator() async {
     final dynamic response = await _callApi('operators/current');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
-    return IncidentOperator.fromJson(fixed);
+    return null;
+    // return IncidentOperator.fromJson(fixed);
   }
 
   @override
@@ -167,7 +194,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ),
     );
 
-    return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
+    return null;
+    // return fixed.map((dynamic json) => IncidentOperator.fromJson(json));
   }
 
   dynamic _callApi(String endPoint) async {
