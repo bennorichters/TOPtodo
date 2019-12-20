@@ -39,7 +39,6 @@ void main() {
   });
 
   group('TryLogin', () {
-    final TopdeskProvider tdp = MockTopdeskProvider();
     const Branch branchA = Branch(id: 'a', name: 'A');
     const Branch branchB = Branch(id: 'b', name: 'B');
     const Caller callerA = Caller(
@@ -72,6 +71,8 @@ void main() {
       name: 'A',
       avatar: 'avatarOpA',
     );
+
+    final TopdeskProvider tdp = MockTopdeskProvider();
     when(tdp.caller(id: 'a')).thenAnswer(
       (_) => Future<Caller>.value(callerA),
     );
@@ -94,14 +95,6 @@ void main() {
       ),
     );
 
-    final SettingsProvider settingsProvider = MockSettingsProvider();
-
-    final LoginBloc bloc = LoginBloc(
-      credentialsProvider: MockCredentialsProvider(),
-      settingsProvider: settingsProvider,
-      topdeskProvider: tdp,
-    );
-
     const Credentials credentials = Credentials(
       url: 'a',
       loginName: 'userA',
@@ -110,6 +103,14 @@ void main() {
 
     Future<void> loginInvalidSettings(
         Settings saved, Settings incomplete) async {
+      final SettingsProvider settingsProvider = MockSettingsProvider();
+
+      final LoginBloc bloc = LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: settingsProvider,
+        topdeskProvider: tdp,
+      );
+
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(saved),
       );
@@ -130,6 +131,14 @@ void main() {
     }
 
     test('valid settings', () async {
+      final SettingsProvider settingsProvider = MockSettingsProvider();
+
+      final LoginBloc bloc = LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: settingsProvider,
+        topdeskProvider: tdp,
+      );
+
       const Settings settings = Settings(
         branch: branchA,
         caller: callerA,
@@ -158,7 +167,7 @@ void main() {
     });
 
     test('incomplete settings', () async {
-      loginInvalidSettings(
+      await loginInvalidSettings(
         const Settings(
           branch: branchA,
           caller: callerA,
@@ -178,67 +187,67 @@ void main() {
       );
     });
 
-    // test('invalid settings caller belongs to other branch', () async {
-    //   loginInvalidSettings(
-    //     const Settings(
-    //       branch: branchA,
-    //       caller: callerB,
-    //       category: categoryA,
-    //       subCategory: subCategoryA,
-    //       incidentDuration: durationA,
-    //       incidentOperator: operatorA,
-    //     ),
-    //     const Settings(
-    //       branch: branchA,
-    //       caller: null,
-    //       category: categoryA,
-    //       subCategory: subCategoryA,
-    //       incidentDuration: durationA,
-    //       incidentOperator: operatorA,
-    //     ),
-    //   );
-    // });
+    test('invalid settings caller belongs to other branch', () async {
+      await loginInvalidSettings(
+        const Settings(
+          branch: branchA,
+          caller: callerB,
+          category: categoryA,
+          subCategory: subCategoryA,
+          incidentDuration: durationA,
+          incidentOperator: operatorA,
+        ),
+        const Settings(
+          branch: branchA,
+          caller: null,
+          category: categoryA,
+          subCategory: subCategoryA,
+          incidentDuration: durationA,
+          incidentOperator: operatorA,
+        ),
+      );
+    });
 
-    // test('invalid settings sub category belongs to other category', () async {
-    //   loginInvalidSettings(
-    //     const Settings(
-    //       branch: branchA,
-    //       caller: callerA,
-    //       category: categoryA,
-    //       subCategory: subCategoryB,
-    //       incidentDuration: durationA,
-    //       incidentOperator: operatorA,
-    //     ),
-    //     const Settings(
-    //       branch: branchA,
-    //       caller: callerA,
-    //       category: categoryA,
-    //       subCategory: null,
-    //       incidentDuration: durationA,
-    //       incidentOperator: operatorA,
-    //     ),
-    //   );
-    // });
+    test('invalid settings sub category belongs to other category', () async {
+      await loginInvalidSettings(
+        const Settings(
+          branch: branchA,
+          caller: callerA,
+          category: categoryA,
+          subCategory: subCategoryB,
+          incidentDuration: durationA,
+          incidentOperator: operatorA,
+        ),
+        const Settings(
+          branch: branchA,
+          caller: callerA,
+          category: categoryA,
+          subCategory: null,
+          incidentDuration: durationA,
+          incidentOperator: operatorA,
+        ),
+      );
+    });
 
-    // test('incomplete and invalid settings', () async {
-    //   loginInvalidSettings(
-    //     const Settings(
-    //       branch: branchA,
-    //       caller: callerB,
-    //       category: categoryA,
-    //       subCategory: subCategoryA,
-    //       incidentDuration: durationA,
-    //       incidentOperator: null,
-    //     ),
-    //     const Settings(
-    //       branch: branchA,
-    //       caller: null,
-    //       category: categoryA,
-    //       subCategory: subCategoryA,
-    //       incidentDuration: durationA,
-    //       incidentOperator: null,
-    //     ),
-    //   );
-    // });
+    test('incomplete and invalid settings', () async {
+      await loginInvalidSettings(
+        const Settings(
+          branch: branchA,
+          caller: callerB,
+          category: categoryA,
+          subCategory: subCategoryA,
+          incidentDuration: durationA,
+          incidentOperator: null,
+        ),
+        const Settings(
+          branch: branchA,
+          caller: null,
+          category: categoryA,
+          subCategory: subCategoryA,
+          incidentDuration: durationA,
+          incidentOperator: null,
+        ),
+      );
+    });
   });
 }
