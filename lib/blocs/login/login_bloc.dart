@@ -55,12 +55,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  bool _settingsComplete(Settings settings) {
-    return settings.branch != null &&
-        settings.caller != null &&
-        settings.category != null &&
-        settings.subCategory != null &&
-        settings.incidentDuration != null &&
-        settings.incidentOperator != null;
-  }
+  bool _settingsComplete(Settings settings) =>
+      settings.branch != null &&
+      settings.caller != null &&
+      settings.category != null &&
+      settings.subCategory != null &&
+      settings.incidentDuration != null &&
+      settings.incidentOperator != null;
 }
