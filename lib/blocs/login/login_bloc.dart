@@ -58,6 +58,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield const LoginFailed(
           reason: 'Not enough authorization',
         );
+      
+      } on TdTimeOutException {
+        yield const LoginFailed(
+          reason: 'The TOPdesk server took too long to respond',
+        );
+      } on TdServerException {
+        yield const LoginFailed(
+          reason: 'There was a problem with the TOPdesk server',
+        );
       }
     }
   }

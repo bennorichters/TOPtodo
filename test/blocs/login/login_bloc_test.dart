@@ -180,11 +180,9 @@ void main() {
       password: 'S3CrEt!',
     );
 
-    test('not authorized', () async {
+    Future<void> testException(Exception e) async {
       final SettingsProvider sp = MockSettingsProvider();
-      when(sp.provide()).thenThrow(
-        const TdNotAuthorizedException('not authorized test'),
-      );
+      when(sp.provide()).thenThrow(e);
 
       final LoginBloc bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
@@ -202,6 +200,18 @@ void main() {
           isA<LoginFailed>(),
         ],
       );
+    }
+
+    test('not authorized', () async {
+      await testException(const TdNotAuthorizedException(''));
+    });
+
+    test('time out', () async {
+      await testException(const TdTimeOutException(''));
+    });
+
+    test('time out', () async {
+      await testException(const TdServerException(''));
     });
   });
 }
