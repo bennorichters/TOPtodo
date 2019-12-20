@@ -12,6 +12,14 @@ class Settings extends Equatable {
     @required this.incidentOperator,
   });
 
+  const Settings.empty()
+      : branch = null,
+        caller = null,
+        category = null,
+        subCategory = null,
+        incidentDuration = null,
+        incidentOperator = null;
+
   final Branch branch;
   final Caller caller;
   final Category category;
