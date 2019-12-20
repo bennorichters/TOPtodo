@@ -4,7 +4,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 void main() {
   group('Credentials', () {
     test('basics', () {
-      final Credentials c = Credentials(
+      const Credentials c = Credentials(
         url: 'a',
         loginName: 'b',
         password: 'c',
@@ -15,7 +15,7 @@ void main() {
     },);
 
     test('toString does not contain password', () {
-      final Credentials c = Credentials(
+      const Credentials c = Credentials(
         url: 'url',
         loginName: 'loginName',
         password: 'S3CrEt!',
