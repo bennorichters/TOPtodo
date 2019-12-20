@@ -38,18 +38,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       topdeskProvider.init(event.credentials);
 
       settingsProvider.init(event.credentials.url, event.credentials.loginName);
-      final Settings settings =
-          await settingsProvider.provide() ?? const Settings.empty();
 
-      if (_settingsComplete(settings)) {
-        yield LoginSuccessValidSettings(
-          topdeskProvider: topdeskProvider,
-          settings: settings,
-        );
-      } else {
-        yield LoginSuccessIncompleteSettings(
-          topdeskProvider: topdeskProvider,
-          settings: settings,
+      try {
+        final Settings settings =
+            await settingsProvider.provide() ?? const Settings.empty();
+
+        if (_settingsComplete(settings)) {
+          yield LoginSuccessValidSettings(
+            topdeskProvider: topdeskProvider,
+            settings: settings,
+          );
+        } else {
+          yield LoginSuccessIncompleteSettings(
+            topdeskProvider: topdeskProvider,
+            settings: settings,
+          );
+        }
+      } on TdNotAuthorizedException catch (e) {
+        yield const LoginFailed(
+          reason: 'Not enough authorization',
         );
       }
     }

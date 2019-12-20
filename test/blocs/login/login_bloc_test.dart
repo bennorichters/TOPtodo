@@ -174,10 +174,34 @@ void main() {
   });
 
   group('TryLogin errors', () {
-    test('not authorized', () {
-      SettingsProvider sp = MockSettingsProvider();
-      when(sp.provide()).thenThrow(const TdNotAuthorizedException(''));
-      
+    const Credentials credentials = Credentials(
+      url: 'a',
+      loginName: 'userA',
+      password: 'S3CrEt!',
+    );
+
+    test('not authorized', () async {
+      final SettingsProvider sp = MockSettingsProvider();
+      when(sp.provide()).thenThrow(
+        const TdNotAuthorizedException('not authorized test'),
+      );
+
+      final LoginBloc bloc = LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: sp,
+        topdeskProvider: MockTopdeskProvider(),
+      );
+
+      bloc.add(const TryLogin(credentials));
+
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        <dynamic>[
+          const LoginWaitingForSavedData(),
+          const LoginSubmitting(),
+          isA<LoginFailed>(),
+        ],
+      );
     });
   });
 }
