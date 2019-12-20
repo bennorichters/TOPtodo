@@ -403,14 +403,14 @@ void main() {
 
     group('subcategory', () {
       const String subCategoryJson = '[{'
-          '"id": "aa", "name": "Climate Control", '
-          '"category": {"id": "a", "name": "Building Areas"}'
+          '"id": "aa", "name": "Climate Control",'
+          ' "category": {"id": "a", "name": "Building Areas"}'
           '},'
-          '{"id": "ab", "name": "somethingelse", '
-          '"category": {"id": "b", "name": "Other"}'
+          '{"id": "ab", "name": "somethingelse",'
+          ' "category": {"id": "b", "name": "Other"}'
           '},'
-          '{"id": "ac", "name": "Elevators", '
-          '"category": {"id": "a", "name": "Building Areas"}'
+          '{"id": "ac", "name": "Elevators",'
+          ' "category": {"id": "a", "name": "Building Areas"}'
           '}]';
 
       test('find by id', () async {
