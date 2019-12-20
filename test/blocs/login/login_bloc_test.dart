@@ -172,4 +172,12 @@ void main() {
       );
     });
   });
+
+  group('TryLogin errors', () {
+    test('not authorized', () {
+      SettingsProvider sp = MockSettingsProvider();
+      when(sp.provide()).thenThrow(const TdNotAuthorizedException(''));
+      
+    });
+  });
 }

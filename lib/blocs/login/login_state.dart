@@ -55,10 +55,10 @@ class LoginSuccessValidSettings extends LoginState {
   List<Object> get props => <Object>[topdeskProvider, settings];
 }
 
-// class LoginFailed extends LoginState {
-//   final String message;
-//   const LoginFailed(this.message);
+class LoginFailed extends LoginState {
+  const LoginFailed({@required this.reason});
+  final String reason;
 
-//   @override
-//   List<Object> get props => [message];
-// }
+  @override
+  List<Object> get props => <Object>[reason];
+}
