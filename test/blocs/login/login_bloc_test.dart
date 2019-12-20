@@ -47,23 +47,12 @@ void main() {
       avatar: 'avatarA',
       branch: branchA,
     );
-    const Caller callerB = Caller(
-      id: 'b',
-      name: 'CallerB',
-      avatar: 'avatarB',
-      branch: branchB,
-    );
     const Category categoryA = Category(id: 'a', name: 'A');
     const Category categoryB = Category(id: 'b', name: 'B');
     const SubCategory subCategoryA = SubCategory(
       id: 'a',
       name: 'SubCatA',
       category: categoryA,
-    );
-    const SubCategory subCategoryB = SubCategory(
-      id: 'b',
-      name: 'SubCatB',
-      category: categoryB,
     );
     const IncidentDuration durationA = IncidentDuration(id: 'a', name: 'A');
     const IncidentOperator operatorA = IncidentOperator(
@@ -100,35 +89,6 @@ void main() {
       loginName: 'userA',
       password: 'S3CrEt!',
     );
-
-    Future<void> loginInvalidSettings(
-        Settings saved, Settings incomplete) async {
-      final SettingsProvider settingsProvider = MockSettingsProvider();
-
-      final LoginBloc bloc = LoginBloc(
-        credentialsProvider: MockCredentialsProvider(),
-        settingsProvider: settingsProvider,
-        topdeskProvider: tdp,
-      );
-
-      when(settingsProvider.provide()).thenAnswer(
-        (_) => Future<Settings>.value(saved),
-      );
-
-      bloc.add(const TryLogin(credentials));
-
-      await emitsExactly<LoginBloc, LoginState>(
-        bloc,
-        <LoginState>[
-          const LoginWaitingForSavedData(),
-          const LoginSubmitting(),
-          LoginSuccessIncompleteSettings(
-            topdeskProvider: tdp,
-            settings: incomplete,
-          ),
-        ],
-      );
-    }
 
     test('valid settings', () async {
       final SettingsProvider settingsProvider = MockSettingsProvider();
@@ -167,86 +127,48 @@ void main() {
     });
 
     test('incomplete settings', () async {
-      await loginInvalidSettings(
-        const Settings(
-          branch: branchA,
-          caller: callerA,
-          category: categoryA,
-          subCategory: subCategoryA,
-          incidentDuration: durationA,
-          incidentOperator: null,
-        ),
-        const Settings(
-          branch: branchA,
-          caller: callerA,
-          category: categoryA,
-          subCategory: subCategoryA,
-          incidentDuration: durationA,
-          incidentOperator: null,
-        ),
+      const Settings saved = Settings(
+        branch: branchA,
+        caller: callerA,
+        category: categoryA,
+        subCategory: subCategoryA,
+        incidentDuration: durationA,
+        incidentOperator: null,
       );
-    });
 
-    test('invalid settings caller belongs to other branch', () async {
-      await loginInvalidSettings(
-        const Settings(
-          branch: branchA,
-          caller: callerB,
-          category: categoryA,
-          subCategory: subCategoryA,
-          incidentDuration: durationA,
-          incidentOperator: operatorA,
-        ),
-        const Settings(
-          branch: branchA,
-          caller: null,
-          category: categoryA,
-          subCategory: subCategoryA,
-          incidentDuration: durationA,
-          incidentOperator: operatorA,
-        ),
+      const Settings incomplete = Settings(
+        branch: branchA,
+        caller: callerA,
+        category: categoryA,
+        subCategory: subCategoryA,
+        incidentDuration: durationA,
+        incidentOperator: null,
       );
-    });
 
-    test('invalid settings sub category belongs to other category', () async {
-      await loginInvalidSettings(
-        const Settings(
-          branch: branchA,
-          caller: callerA,
-          category: categoryA,
-          subCategory: subCategoryB,
-          incidentDuration: durationA,
-          incidentOperator: operatorA,
-        ),
-        const Settings(
-          branch: branchA,
-          caller: callerA,
-          category: categoryA,
-          subCategory: null,
-          incidentDuration: durationA,
-          incidentOperator: operatorA,
-        ),
+      final SettingsProvider settingsProvider = MockSettingsProvider();
+
+      final LoginBloc bloc = LoginBloc(
+        credentialsProvider: MockCredentialsProvider(),
+        settingsProvider: settingsProvider,
+        topdeskProvider: tdp,
       );
-    });
 
-    test('incomplete and invalid settings', () async {
-      await loginInvalidSettings(
-        const Settings(
-          branch: branchA,
-          caller: callerB,
-          category: categoryA,
-          subCategory: subCategoryA,
-          incidentDuration: durationA,
-          incidentOperator: null,
-        ),
-        const Settings(
-          branch: branchA,
-          caller: null,
-          category: categoryA,
-          subCategory: subCategoryA,
-          incidentDuration: durationA,
-          incidentOperator: null,
-        ),
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(saved),
+      );
+
+      bloc.add(const TryLogin(credentials));
+
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        <LoginState>[
+          const LoginWaitingForSavedData(),
+          const LoginSubmitting(),
+          LoginSuccessIncompleteSettings(
+            topdeskProvider: tdp,
+            settings: incomplete,
+          ),
+        ],
       );
     });
   });

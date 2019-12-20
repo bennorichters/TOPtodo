@@ -38,19 +38,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       topdeskProvider.init(event.credentials);
 
       settingsProvider.init(event.credentials.url, event.credentials.loginName);
-      final Settings settings = await settingsProvider.provide();
+      final Settings settings =
+          await settingsProvider.provide() ?? const Settings.empty();
 
-      if (settings == null) {
-        yield LoginSuccessIncompleteSettings(
+      if (_settingsComplete(settings)) {
+        yield LoginSuccessValidSettings(
           topdeskProvider: topdeskProvider,
-          settings: null,
+          settings: settings,
         );
       } else {
-        yield LoginSuccessValidSettings(
+        yield LoginSuccessIncompleteSettings(
           topdeskProvider: topdeskProvider,
           settings: settings,
         );
       }
     }
+  }
+
+  bool _settingsComplete(Settings settings) {
+    return settings.branch != null &&
+        settings.caller != null &&
+        settings.category != null &&
+        settings.subCategory != null &&
+        settings.incidentDuration != null &&
+        settings.incidentOperator != null;
   }
 }
