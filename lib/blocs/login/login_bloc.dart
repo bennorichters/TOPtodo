@@ -54,7 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             settings: settings,
           );
         }
-      } on TdNotAuthorizedException catch (e) {
+      } on TdNotAuthorizedException {
         yield const LoginFailed(
           reason: 'Not enough authorization',
         );
