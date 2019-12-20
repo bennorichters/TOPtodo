@@ -21,7 +21,6 @@ class TopToDoApp extends StatefulWidget {
 }
 
 class _TopToDoAppState extends State<TopToDoApp> {
-
   TopdeskProvider _topdeskProvider;
 
   @override
@@ -31,7 +30,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
   }
 
   @override
-  void dispose () {
+  void dispose() {
     _topdeskProvider.dispose();
     super.dispose();
   }
@@ -44,7 +43,9 @@ class _TopToDoAppState extends State<TopToDoApp> {
           create: (BuildContext context) => SecureStorageCredentials(),
         ),
         RepositoryProvider<SettingsProvider>(
-          create: (BuildContext context) => SharedPreferencesSettingsProvider(),
+          create: (BuildContext context) => SharedPreferencesSettingsProvider(
+            _topdeskProvider,
+          ),
         ),
         RepositoryProvider<TopdeskProvider>(
           create: (BuildContext context) => _topdeskProvider,

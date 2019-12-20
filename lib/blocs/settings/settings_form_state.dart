@@ -78,12 +78,12 @@ class SettingsFormState extends Equatable {
       ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
 
   Settings toSettings() => Settings(
-        branchId: branch.id,
-        callerId: caller.id,
-        categoryId: category.id,
-        subcategoryId: subCategory.id,
-        incidentDurationId: duration.id,
-        incidentOperatorId: incidentOperator.id,
+        branch: branch,
+        caller: caller,
+        category: category,
+        subCategory: subCategory,
+        incidentDuration: duration,
+        incidentOperator: incidentOperator,
       );
 
   @override
