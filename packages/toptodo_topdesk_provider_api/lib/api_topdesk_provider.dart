@@ -68,17 +68,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return _callerCache.get(id, (String id) async {
       final dynamic response =
           await _callApi('persons/id/$id?\$fields=id,dynamicName,branch');
-      final dynamic fixed = await _fixCaller(_subPathCaller, response);
-      return _callerFromJson(fixed);
+
+      return _fixCaller(response);
     });
   }
-
-  Future<Caller> _callerFromJson(Map<String, dynamic> json) async => Caller(
-        id: json['id'],
-        name: json['name'],
-        avatar: json['avatar'],
-        branch: await branch(id: json['branchId']),
-      );
 
   @override
   Future<Iterable<Caller>> callers({
@@ -90,16 +83,35 @@ class ApiTopdeskProvider extends TopdeskProvider {
       'persons?lastname=$sanitized&\$fields=id,dynamicName,branch',
     );
 
-    final List<dynamic> fixed = await Future.wait<dynamic>(
+    final List<Caller> fixed = await Future.wait<Caller>(
       response.map(
-        (dynamic json) => _fixCaller(_subPathCaller, json),
+        (dynamic json) async => await _fixCaller(json),
       ),
     );
 
-    return null;
-    // return fixed.map((dynamic json) => Caller.fromJson(json));
+    return fixed;
   }
 
+  Future<Caller> _fixCaller(Map<String, dynamic> json) async {
+    final dynamic fixed = await _fixPerson(_subPathCaller, json);
+    final Branch branch = await _branchCache.get(
+      json['branch']['id'],
+      (String id) => Future<Branch>.value(
+        Branch(
+          id: id,
+          name: json['branch']['name'],
+        ),
+      ),
+    );
+
+    return Caller(
+      id: fixed['id'],
+      name: fixed['name'],
+      avatar: fixed['avatar'],
+      branch: branch,
+    );
+  }
+  
   @override
   Future<Category> category({String id}) async {
     return (await categories()).firstWhere(
@@ -249,11 +261,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
     throw ArgumentError('endpoint: $endPoint '
         'response status code: ${res.statusCode} '
         'response body: ${res.body}');
-  }
-
-  Future<dynamic> _fixCaller(String subPath, dynamic json) async {
-    json['branchId'] = json['branch']['id'];
-    return _fixPerson(subPath, json);
   }
 
   Future<dynamic> _fixPerson(String subPath, dynamic json) async {

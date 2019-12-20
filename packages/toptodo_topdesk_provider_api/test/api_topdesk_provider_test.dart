@@ -298,8 +298,8 @@ void main() {
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
           },
-          personResponseJson:
-              '{"id": "aa", "dynamicName": "Augustin Sheryll", "branch": {"id": "a"}}',
+          personResponseJson: '{"id": "aa", "dynamicName": "Augustin Sheryll",'
+              ' "branch": {"id": "a", "name": "branchA"}}',
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa'},
         );
@@ -330,9 +330,10 @@ void main() {
             '\$fields': 'id,dynamicName,branch',
             'lastname': 'ab',
           },
-          personResponseJson:
-              '[{"id": "aa", "dynamicName": "Augustin Sheryll", "branch": {"id": "a"}},'
-              '{"id": "ac", "dynamicName": "Bazile Tonette", "branch": {"id": "a"}}]',
+          personResponseJson: '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
+              ' "branch": {"id": "a", "name": "branchA"}},'
+              '{"id": "ac", "dynamicName": "Bazile Tonette",'
+              ' "branch": {"id": "a", "name": "branchA"}}]',
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa', 'ac'},
         );
@@ -356,8 +357,8 @@ void main() {
             '\$fields': 'id,dynamicName,branch',
             'lastname': 'a&hourlyRate=50',
           },
-          personResponseJson:
-              '[{"id": "aa", "dynamicName": "Augustin Sheryll", "branch": {"id": "a"}}]',
+          personResponseJson: '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
+              ' "branch": {"id": "a", "name": "branchA"}}]',
           avatarPath: 'tas/api/avatars/person/',
           personIds: <String>{'aa'},
         );
