@@ -26,7 +26,7 @@ dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_repository_providers_impl
-      ref: 8c0301b132ffc155583dc9f09832490c3f4cd35e
+      ref: 88aa612fb56a3d744970e5a78d3282a1df3deb53
   toptodo_topdesk_provider_api:
     git: 
       url: git://github.com/bennorichters/toptodo
