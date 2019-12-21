@@ -16,14 +16,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsFormState _formState = const SettingsFormState();
 
   @override
-  SettingsState get initialState => SettingsTdData(formState: _formState);
+  SettingsState get initialState => SettingsLoading();
 
   @override
   Stream<SettingsState> mapEventToState(
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
-      yield SettingsTdData(formState: _formState);
+      final Settings settings = await settingsProvider.provide();
 
       final List<Iterable<TdModel>> searchListOptions =
           await Future.wait(<Future<Iterable<TdModel>>>[
@@ -32,6 +32,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       ]);
 
       _formState = SettingsFormState(
+        branch: settings?.branch,
+        caller: settings?.caller,
+        category: settings?.category,
+        subCategory: settings?.subCategory,
+        duration: settings?.incidentDuration,
+        incidentOperator: settings?.incidentOperator,
+
         durations: searchListOptions[0],
         categories: searchListOptions[1],
       );

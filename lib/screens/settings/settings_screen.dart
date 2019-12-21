@@ -118,8 +118,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             );
+          } else if (state is SettingsLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else {
-            return Container();
+            throw StateError('unexpected state $state');
           }
         }),
       ),
