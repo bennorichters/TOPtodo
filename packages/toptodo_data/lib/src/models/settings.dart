@@ -27,6 +27,14 @@ class Settings extends Equatable {
   final IncidentDuration incidentDuration;
   final IncidentOperator incidentOperator;
 
+  bool isComplete(Settings settings) =>
+      branch != null &&
+      caller != null &&
+      category != null &&
+      subCategory != null &&
+      incidentDuration != null &&
+      incidentOperator != null;
+
   @override
   List<Object> get props => <Object>[
         branch,
