@@ -14,7 +14,7 @@ dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: 8c7d41988c104c16c976f21d192513820916ae13
+      ref: 421e1e62ae9d197c6bdcd5e271d094907f49e675
 
 dev_dependencies:
   test: ">=1.3.0 <2.0.0"
