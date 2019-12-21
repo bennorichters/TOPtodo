@@ -27,7 +27,7 @@ class Settings extends Equatable {
   final IncidentDuration incidentDuration;
   final IncidentOperator incidentOperator;
 
-  bool isComplete(Settings settings) =>
+  bool isComplete() =>
       branch != null &&
       caller != null &&
       category != null &&
