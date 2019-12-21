@@ -56,9 +56,9 @@ class LoginSuccessValidSettings extends LoginState {
 }
 
 class LoginFailed extends LoginState {
-  const LoginFailed({@required this.reason});
-  final String reason;
+  const LoginFailed({@required this.cause});
+  final Exception cause;
 
   @override
-  List<Object> get props => <Object>[reason];
+  List<Object> get props => <Object>[cause];
 }

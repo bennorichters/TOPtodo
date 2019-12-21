@@ -54,17 +54,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             settings: settings,
           );
         }
-      } on TdNotAuthorizedException {
-        yield const LoginFailed(
-          reason: 'Your level of authorization does not seem to be sufficient',
+      } on TdNotAuthorizedException catch(e) {
+        yield LoginFailed(
+          cause: e,
         );
-      } on TdTimeOutException {
-        yield const LoginFailed(
-          reason: 'The TOPdesk server took too long to respond',
+      } on TdTimeOutException catch (e) {
+        yield LoginFailed(
+          cause: e,
         );
-      } on TdServerException {
-        yield const LoginFailed(
-          reason: 'There was a problem with the TOPdesk server',
+      } on TdServerException catch(e) {
+        yield LoginFailed(
+          cause: e,
         );
       }
     }
