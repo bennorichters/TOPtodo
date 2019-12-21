@@ -35,13 +35,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (_) => SettingsScreen(),
                 ),
               );
+            } else if (state is LoginFailed) {
+              showDialog<AlertDialog>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Could not login'),
+                  content: Text(state.cause.toString()),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: const Text('Ok'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ),
+              );
             }
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (BuildContext context, LoginState state) {
               if (state is LoginWaitingForSavedData) {
                 return buildLoading();
-              } else if (state is RetrievedSavedData) {
+              } else if (state is WithSavedData) {
                 return _CredentialsForm.withSavedDate(
                   state.savedData,
                   state.remember,

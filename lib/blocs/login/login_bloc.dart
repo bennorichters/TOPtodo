@@ -36,12 +36,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await credentialsProvider.save(event.credentials);
 
       topdeskProvider.init(event.credentials);
-
       settingsProvider.init(event.credentials.url, event.credentials.loginName);
 
       try {
         final Settings settings =
             await settingsProvider.provide() ?? const Settings.empty();
+
+        // throw const TdNotAuthorizedException('auth issue');
 
         if (_settingsComplete(settings)) {
           yield LoginSuccessValidSettings(
@@ -54,16 +55,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             settings: settings,
           );
         }
-      } on TdNotAuthorizedException catch(e) {
+      } on TdNotAuthorizedException catch (e) {
         yield LoginFailed(
+          savedData: event.credentials,
+          remember: true,
           cause: e,
         );
       } on TdTimeOutException catch (e) {
         yield LoginFailed(
+          savedData: event.credentials,
+          remember: true,
           cause: e,
         );
-      } on TdServerException catch(e) {
+      } on TdServerException catch (e) {
         yield LoginFailed(
+          savedData: event.credentials,
+          remember: true,
           cause: e,
         );
       }

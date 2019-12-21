@@ -13,13 +13,18 @@ class LoginWaitingForSavedData extends LoginState {
   List<Object> get props => <Object>[];
 }
 
-class RetrievedSavedData extends LoginState {
-  const RetrievedSavedData(this.savedData, this.remember);
+abstract class WithSavedData extends LoginState {
+  const WithSavedData(this.savedData, this.remember);
   final Credentials savedData;
   final bool remember;
 
   @override
   List<Object> get props => <Object>[remember, savedData];
+}
+
+class RetrievedSavedData extends WithSavedData {
+  const RetrievedSavedData(Credentials savedData, bool remember)
+      : super(savedData, remember);
 }
 
 class LoginSubmitting extends LoginState {
@@ -55,8 +60,12 @@ class LoginSuccessValidSettings extends LoginState {
   List<Object> get props => <Object>[topdeskProvider, settings];
 }
 
-class LoginFailed extends LoginState {
-  const LoginFailed({@required this.cause});
+class LoginFailed extends WithSavedData {
+  const LoginFailed({
+    @required Credentials savedData,
+    @required bool remember,
+    @required this.cause,
+  }) : super(savedData, remember);
   final Exception cause;
 
   @override
