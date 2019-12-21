@@ -64,10 +64,13 @@ class LoginFailed extends WithSavedData {
   const LoginFailed({
     @required Credentials savedData,
     @required bool remember,
+    @required this.message,
     @required this.cause,
   }) : super(savedData, remember);
+
+  final String message;
   final Exception cause;
 
   @override
-  List<Object> get props => <Object>[cause];
+  List<Object> get props => <Object>[message, cause];
 }

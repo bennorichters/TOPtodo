@@ -15,7 +15,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final CredentialsProvider credentialsProvider;
   final TopdeskProvider topdeskProvider;
   final SettingsProvider settingsProvider;
-  bool remember;
+
+  Credentials _credentials;
+  bool _remember = true;
 
   @override
   LoginState get initialState => const LoginWaitingForSavedData();
@@ -32,17 +34,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is RememberToggle) {
       yield RetrievedSavedData(event.credentials, event.remember);
     } else if (event is TryLogin) {
-      yield const LoginSubmitting();
-      await credentialsProvider.save(event.credentials);
+      _credentials = event.credentials;
 
-      topdeskProvider.init(event.credentials);
-      settingsProvider.init(event.credentials.url, event.credentials.loginName);
+      yield const LoginSubmitting();
+      await credentialsProvider.save(_credentials);
+
+      topdeskProvider.dispose();
+      topdeskProvider.init(_credentials);
+
+      settingsProvider.dispose();
+      settingsProvider.init(_credentials.url, _credentials.loginName);
 
       try {
         final Settings settings =
             await settingsProvider.provide() ?? const Settings.empty();
-
-        // throw const TdNotAuthorizedException('auth issue');
 
         if (_settingsComplete(settings)) {
           yield LoginSuccessValidSettings(
@@ -57,24 +62,33 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       } on TdNotAuthorizedException catch (e) {
         yield LoginFailed(
-          savedData: event.credentials,
-          remember: true,
+          savedData: _credentials,
+          remember: _remember,
+          message: 'You do not have sufficient authorization.\n'
+              '\n'
+              'Contact your TOPdesk application manager.',
           cause: e,
         );
       } on TdTimeOutException catch (e) {
         yield LoginFailed(
-          savedData: event.credentials,
-          remember: true,
+          savedData: _credentials,
+          remember: _remember,
+          message: 'It took the TOPdesk server too long to respond.\n'
+              '\n'
+              'Please try again later.',
           cause: e,
         );
       } on TdServerException catch (e) {
         yield LoginFailed(
-          savedData: event.credentials,
-          remember: true,
+          savedData: _credentials,
+          remember: _remember,
+          message: 'There was a problem with the TOPdesk server.'
+              '\n'
+              'Contact your TOPdesk application manager.',
           cause: e,
         );
       }
-    }
+     } 
   }
 
   bool _settingsComplete(Settings settings) =>

@@ -28,4 +28,3 @@ class TryLogin extends LoginEvent {
   @override
   List<Object> get props => <Object>[credentials];
 }
-

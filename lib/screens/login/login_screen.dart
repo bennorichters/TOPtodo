@@ -38,17 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
             } else if (state is LoginFailed) {
               showDialog<AlertDialog>(
                 context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Could not login'),
-                  content: Text(state.cause.toString()),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: const Text('Ok'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
+                builder: (BuildContext context) => _ErrorDialog(
+                  state.message,
+                  state.cause,
                 ),
               );
             }
@@ -80,6 +72,61 @@ class _LoginScreenState extends State<LoginScreen> {
     return const Center(
       child: CircularProgressIndicator(),
     );
+  }
+}
+
+class _ErrorDialog extends StatefulWidget {
+  const _ErrorDialog(this.message, this.cause);
+
+  final String message;
+  final Exception cause;
+
+  @override
+  State<StatefulWidget> createState() => _ErrorDialogState(message, cause);
+}
+
+class _ErrorDialogState extends State<_ErrorDialog> {
+  _ErrorDialogState(this.message, this.cause);
+
+  final String message;
+  final Exception cause;
+
+  bool details = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(details ? 'Login error details' : 'Could not login'),
+      content: Text(details ? cause.toString() : message),
+      actions: _actions(),
+    );
+  }
+
+  List<Widget> _actions() {
+    final List<Widget> result = <Widget>[];
+    if (!details) {
+      result.add(
+        FlatButton(
+          child: const Text('View details...'),
+          onPressed: () {
+            setState(() {
+              details = true;
+            });
+          },
+        ),
+      );
+    }
+
+    result.add(
+      FlatButton(
+        child: const Text('Ok'),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+
+    return result;
   }
 }
 
