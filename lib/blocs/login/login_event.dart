@@ -13,12 +13,10 @@ class AppStarted extends LoginEvent {
 }
 
 class RememberToggle extends LoginEvent {
-  const RememberToggle(this.credentials, this.remember);
-  final Credentials credentials;
-  final bool remember;
+  const RememberToggle();
 
   @override
-  List<Object> get props => <Object>[credentials, remember];
+  List<Object> get props => <Object>[];
 }
 
 class TryLogin extends LoginEvent {

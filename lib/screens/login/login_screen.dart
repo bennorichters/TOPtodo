@@ -201,7 +201,7 @@ class _CredentialsForm extends StatelessWidget {
                       value: _remember,
                       onChanged: (bool value) {
                         BlocProvider.of<LoginBloc>(context)
-                          ..add(RememberToggle(_createCredentials(), value));
+                          ..add(const RememberToggle());
                       },
                     ),
                     const Text('remember'),

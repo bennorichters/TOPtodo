@@ -30,7 +30,7 @@ void main() {
         settingsProvider: MockSettingsProvider(),
         topdeskProvider: MockTopdeskProvider(),
       ),
-      act: (LoginBloc bloc) async => bloc.add(const RememberToggle(null, true)),
+      act: (LoginBloc bloc) async => bloc.add(const RememberToggle()),
       expect: <LoginState>[
         const LoginWaitingForSavedData(),
         const RetrievedSavedData(null, true),

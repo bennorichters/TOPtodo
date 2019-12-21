@@ -17,7 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final SettingsProvider settingsProvider;
 
   Credentials _credentials;
-  bool _remember = true;
+  bool _remember = false;
 
   @override
   LoginState get initialState => const LoginWaitingForSavedData();
@@ -28,16 +28,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async* {
     if (event is AppStarted) {
       yield const LoginWaitingForSavedData();
-      final Credentials credentials = await credentialsProvider.provide();
+      _credentials = await credentialsProvider.provide();
 
-      yield RetrievedSavedData(credentials, true);
+      yield RetrievedSavedData(_credentials, _remember);
     } else if (event is RememberToggle) {
-      yield RetrievedSavedData(event.credentials, event.remember);
+      _remember = !_remember;
+      yield RetrievedSavedData(_credentials, _remember);
     } else if (event is TryLogin) {
       _credentials = event.credentials;
 
       yield const LoginSubmitting();
-      await credentialsProvider.save(_credentials);
+
+      if (_remember) {
+        await credentialsProvider.save(_credentials);
+      } else {
+        await credentialsProvider.delete();
+      }
 
       topdeskProvider.dispose();
       topdeskProvider.init(_credentials);
@@ -88,7 +94,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           cause: e,
         );
       }
-     } 
+    }
   }
 
   bool _settingsComplete(Settings settings) =>
