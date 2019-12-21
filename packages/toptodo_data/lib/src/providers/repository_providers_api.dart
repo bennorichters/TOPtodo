@@ -7,12 +7,15 @@ import '../models/topdesk_elements.dart';
 abstract class CredentialsProvider {
   Future<Credentials> provide();
   Future<void> save(Credentials credentials);
+  Future<void> delete();
 }
 
 abstract class SettingsProvider {
   void init(String url, String loginName);
+  void dispose();
   Future<Settings> provide();
   Future<void> save(Settings settings);
+  Future<void> delete();
 }
 
 abstract class TopdeskProvider {
