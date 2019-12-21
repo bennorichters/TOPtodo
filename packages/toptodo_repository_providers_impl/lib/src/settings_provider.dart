@@ -110,4 +110,17 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
       'incidentOperatorId': settings.incidentOperator.id,
     };
   }
+
+  @override
+  Future<void> delete() async {
+    assert(_storageKey == null, 'init has already been called');
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
+  @override
+  void dispose() {
+    _storageKey = null;
+  }
 }

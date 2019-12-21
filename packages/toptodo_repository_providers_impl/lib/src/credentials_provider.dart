@@ -50,4 +50,10 @@ class SecureStorageCredentials implements CredentialsProvider {
       password,
     ]);
   }
+
+  @override
+  Future<void> delete() {
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    return storage.deleteAll();
+  }
 }
