@@ -25,11 +25,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is SettingsInit) {
       final Settings settings = await settingsProvider.provide();
 
-      final List<Iterable<TdModel>> searchListOptions =
-          await Future.wait(<Future<Iterable<TdModel>>>[
-        topdeskProvider.incidentDurations(),
-        topdeskProvider.categories(),
-      ]);
+      final List<Iterable<TdModel>> searchListOptions = await Future.wait(
+        <Future<Iterable<TdModel>>>[
+          topdeskProvider.incidentDurations(),
+          topdeskProvider.categories(),
+        ],
+      );
 
       _formState = SettingsFormState(
         branch: settings?.branch,
@@ -38,7 +39,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         subCategory: settings?.subCategory,
         duration: settings?.incidentDuration,
         incidentOperator: settings?.incidentOperator,
-
         durations: searchListOptions[0],
         categories: searchListOptions[1],
       );
