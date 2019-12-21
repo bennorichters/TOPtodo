@@ -8,6 +8,7 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
   final TopdeskProvider topdeskProvider;
 
   String _storageKey;
+  Settings _value;
 
   @override
   void init(String url, String loginName) {
@@ -22,12 +23,17 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
   @override
   Future<Settings> provide() async {
     assert(_storageKey != null, 'init has not been called');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    return _value ??= await _retrieveValue();
+  }
+
+  Future<Settings> _retrieveValue() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    
     if (!prefs.containsKey(_storageKey)) {
       return null;
     }
-
+    
     final Map<String, dynamic> json = jsonDecode(prefs.getString(_storageKey));
     final Branch branch = await _tdModelFromJson(
       json,
@@ -59,7 +65,7 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
       'incidentOperatorId',
       topdeskProvider.incidentOperator,
     );
-
+    
     return Settings(
       branch: branch,
       caller: _paternityTest(caller, caller.branch, branch),
@@ -92,8 +98,10 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
   @override
   Future<void> save(Settings settings) async {
     assert(_storageKey != null, 'init has not been called');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    _value = settings;
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       _storageKey,
       jsonEncode(_settingsToJson(settings)),
@@ -117,10 +125,12 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
+    _value = null;
   }
 
   @override
   void dispose() {
     _storageKey = null;
+    _value = null;
   }
 }

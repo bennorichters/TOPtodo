@@ -108,6 +108,22 @@ void main() {
       expect(provided, settingsToSave);
     });
 
+    test('retrieve twice', () async {
+      final SharedPreferencesSettingsProvider p =
+          SharedPreferencesSettingsProvider(mtp);
+      p.init('url', 'loginName');
+
+      expect(await p.provide(), null);
+
+      await p.save(settingsToSave);
+
+      final Settings provided = await p.provide();
+      expect(provided, settingsToSave);
+
+      final Settings provided2 = await p.provide();
+      expect(provided2, settingsToSave);
+    });
+
     test('different url does not contain the same settings', () async {
       final SharedPreferencesSettingsProvider p1 =
           SharedPreferencesSettingsProvider(mtp);
