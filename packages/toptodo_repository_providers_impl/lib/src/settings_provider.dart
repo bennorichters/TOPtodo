@@ -31,7 +31,7 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (!prefs.containsKey(_storageKey)) {
-      return null;
+      return const Settings.empty();
     }
 
     final Map<String, dynamic> json = jsonDecode(prefs.getString(_storageKey));
