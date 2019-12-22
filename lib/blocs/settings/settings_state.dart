@@ -11,18 +11,20 @@ class SettingsLoading extends SettingsState {
   List<Object> get props => <Object>[];
 }
 
-class SettingsTdData extends SettingsState {
-  const SettingsTdData({@required this.formState});
+class SettingsWithFormState extends SettingsState {
+  const SettingsWithFormState({@required this.formState});
   final SettingsFormState formState;
 
   @override
   List<Object> get props => <Object>[formState];
 }
 
-class SettingsLogout extends SettingsState {
-  const SettingsLogout({@required this.formState});
-  final SettingsFormState formState;
+class SettingsTdData extends SettingsWithFormState {
+  const SettingsTdData({@required SettingsFormState formState})
+      : super(formState: formState);
+}
 
-  @override
-  List<Object> get props => <Object>[formState];
+class SettingsLogout extends SettingsWithFormState {
+  const SettingsLogout({@required SettingsFormState formState})
+      : super(formState: formState);
 }

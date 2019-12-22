@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
         child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (BuildContext context, SettingsState state) {
-          if (state is SettingsTdData) {
+          if (state is SettingsWithFormState) {
             final SettingsFormState formState = state.formState;
             return Padding(
               padding: const EdgeInsets.all(15),
@@ -94,7 +94,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ..add(SettingsCategorySelected(newValue));
                       },
                     ),
-                    _SubCategoryWidget(state: state),
+                    _SubCategoryWidget(formState: state.formState),
                     SearchList<IncidentDuration>(
                       name: 'Duration',
                       validationText: 'Choose a Duration',
@@ -112,15 +112,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       validationText: 'Choose an operator',
                     ),
                     _verticalSpace,
-                    TdButton(
-                      text: 'save',
-                      onTap: () {
-                        if (_formKey.currentState.validate()) {
-                          BlocProvider.of<SettingsBloc>(context)
-                            ..add(SettingsSave());
-                        }
-                      },
-                    ),
+                    if (state is SettingsLogout)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    else
+                      TdButton(
+                        text: 'save',
+                        onTap: () {
+                          if (_formKey.currentState.validate()) {
+                            BlocProvider.of<SettingsBloc>(context)
+                              ..add(SettingsSave());
+                          }
+                        },
+                      ),
                   ],
                 ),
               ),
@@ -180,12 +185,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 }
 
 class _SubCategoryWidget extends StatelessWidget {
-  const _SubCategoryWidget({this.state});
-  final SettingsTdData state;
+  const _SubCategoryWidget({this.formState});
+  final SettingsFormState formState;
 
   @override
   Widget build(BuildContext context) {
-    final SettingsFormState formState = state.formState;
     if (formState.category == null) {
       return TextFormField(
         enabled: false,
