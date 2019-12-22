@@ -10,23 +10,23 @@ class SearchField<T extends TdModel> extends FormField<T> {
   }) : super(
           validator: (T _) => value == null ? validationText : null,
           builder: (FormFieldState<T> state) {
-            return Row(
-              children: <Widget>[
-                Expanded(
-                  child: InputDecorator(
+            return InputDecorator(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
                     child: Text((value?.name) ?? ''),
-                    isEmpty: value == null,
-                    decoration: InputDecoration(
-                      labelText: label,
-                      errorText: state.errorText,
-                    ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: search,
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: search,
+                  ),
+                ],
+              ),
+              isEmpty: value == null,
+              decoration: InputDecoration(
+                labelText: label,
+                errorText: state.errorText,
+              ),
             );
           },
         );
