@@ -39,8 +39,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         subCategory: settings?.subCategory,
         duration: settings?.incidentDuration,
         incidentOperator: settings?.incidentOperator,
-        durations: searchListOptions[0],
-        categories: searchListOptions[1],
+        durations: searchListOptions[0] as Iterable<IncidentDuration>,
+        categories: searchListOptions[1] as Iterable<Category>,
       );
 
       yield SettingsTdData(formState: _formState);

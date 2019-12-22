@@ -49,7 +49,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
     } else if (searchInfo is SearchInfo<Caller>) {
       return TdModelSearchResults<Caller>(
         await topdeskProvider.callers(
-          branch: searchInfo.linkedTo,
+          branch: searchInfo.linkedTo as Branch,
           startsWith: searchInfo.query,
         ),
       );

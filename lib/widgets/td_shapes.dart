@@ -10,7 +10,7 @@ class TdShape extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Size drawSize = size - _bottomMargin;
+    final Size drawSize = size - _bottomMargin as Size;
     if (drawSize.aspectRatio >= 1) {
       _small(canvas, drawSize);
     } else if (drawSize.aspectRatio >= .6) {

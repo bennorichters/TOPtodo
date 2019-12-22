@@ -99,7 +99,7 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
                             leading: TdModelAvatar(model),
                             title: Text(model.name),
                             onTap: () {
-                              close(context, model);
+                              close(context, model as T);
                             },
                           ),
                         )
