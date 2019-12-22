@@ -324,13 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  resource:
-    dependency: transitive
-    description:
-      name: resource
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.6"
   rxdart:
     dependency: transitive
     description:
@@ -500,8 +493,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/toptodo_topdesk_provider_mock"
-      ref: "40d5916d3099f8fe208d73292b9535c14fbc8ad3"
-      resolved-ref: "40d5916d3099f8fe208d73292b9535c14fbc8ad3"
+      ref: "2f755481d5868fe32f388eda2352d5d9766f9979"
+      resolved-ref: "2f755481d5868fe32f388eda2352d5d9766f9979"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"

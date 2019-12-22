@@ -73,6 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       value: formState.branch,
                       label: 'Branch',
                       search: _searchBranch(context),
+                      validationText: 'Choose a branch',
                     ),
                     SearchField<Caller>(
                       value: formState.caller,
@@ -81,9 +82,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ? ' (first choose a branch)'
                               : ''),
                       search: _searchCaller(context, formState.branch),
+                      validationText: 'Choose a caller',
                     ),
                     SearchList<Category>(
                       name: 'Category',
+                      validationText: 'Choose a Category',
                       items: formState.categories,
                       selectedItem: formState.category,
                       onChangedCallBack: (Category newValue) {
@@ -94,6 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _SubCategoryWidget(state: state),
                     SearchList<IncidentDuration>(
                       name: 'Duration',
+                      validationText: 'Choose a Duration',
                       items: formState.durations,
                       selectedItem: formState.duration,
                       onChangedCallBack: (IncidentDuration newValue) {
@@ -105,13 +109,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       label: 'Operator',
                       value: formState.incidentOperator,
                       search: _searchOperator(context),
+                      validationText: 'Choose an operator',
                     ),
                     _verticalSpace,
                     TdButton(
                       text: 'save',
                       onTap: () {
-                        BlocProvider.of<SettingsBloc>(context)
-                          ..add(SettingsSave());
+                        if (_formKey.currentState.validate()) {
+                          BlocProvider.of<SettingsBloc>(context)
+                            ..add(SettingsSave());
+                        }
                       },
                     ),
                   ],
@@ -190,6 +197,7 @@ class _SubCategoryWidget extends StatelessWidget {
 
     return SearchList<SubCategory>(
       name: 'Sub category',
+      validationText: 'Choose a sub category',
       items: formState.subCategories,
       selectedItem: formState.subCategory,
       onChangedCallBack: (SubCategory newValue) {

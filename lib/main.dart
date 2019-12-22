@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
-import 'package:toptodo_topdesk_provider_api/api_topdesk_provider.dart';
+import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 import 'blocs/login/bloc.dart';
 import 'blocs/settings/bloc.dart';
@@ -25,7 +25,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
 
   @override
   void initState() {
-    _topdeskProvider = ApiTopdeskProvider();
+    _topdeskProvider = FakeTopdeskProvider();
     super.initState();
   }
 

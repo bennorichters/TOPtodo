@@ -4,12 +4,14 @@ import 'package:toptodo_data/toptodo_data.dart';
 class SearchList<T extends TdModel> extends StatelessWidget {
   const SearchList({
     @required this.name,
+    @required this.validationText,
     this.items,
     this.selectedItem,
     this.onChangedCallBack,
   });
 
   final String name;
+  final String validationText;
   final Iterable<T> items;
   final T selectedItem;
   final ValueChanged<T> onChangedCallBack;
@@ -21,6 +23,7 @@ class SearchList<T extends TdModel> extends StatelessWidget {
         labelText: (items == null) ? '' : name,
       ),
       value: selectedItem,
+      validator: (T _) => selectedItem == null ? validationText : null,
       onChanged: onChangedCallBack,
       hint: (items == null)
           ? const SizedBox(
