@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
+import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shapes.dart';
@@ -33,6 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
                 MaterialPageRoute<SettingsScreen>(
                   builder: (_) => SettingsScreen(),
+                ),
+              );
+            } else if (state is LoginSuccessValidSettings) {
+              Navigator.of(context).pushReplacement<dynamic, IncidentScreen>(
+                MaterialPageRoute<IncidentScreen>(
+                  builder: (_) => const IncidentScreen(),
                 ),
               );
             } else if (state is LoginFailed) {
