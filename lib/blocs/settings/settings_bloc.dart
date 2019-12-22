@@ -13,7 +13,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   });
   final TopdeskProvider topdeskProvider;
   final SettingsProvider settingsProvider;
-  SettingsFormState _formState = const SettingsFormState();
+  SettingsFormState _formState;
 
   @override
   SettingsState get initialState => SettingsLoading();
@@ -24,6 +24,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async* {
     if (event is SettingsInit) {
       final Settings settings = await settingsProvider.provide();
+      _formState = SettingsFormState(
+        branch: settings?.branch,
+        caller: settings?.caller,
+        category: settings?.category,
+        subCategory: settings?.subCategory,
+        duration: settings?.incidentDuration,
+        incidentOperator: settings?.incidentOperator,
+      );
+      yield SettingsTdData(formState: _formState);
 
       final List<Iterable<TdModel>> searchListOptions = await Future.wait(
         <Future<Iterable<TdModel>>>[
@@ -32,15 +41,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         ],
       );
 
-      _formState = SettingsFormState(
-        branch: settings?.branch,
-        caller: settings?.caller,
-        category: settings?.category,
-        subCategory: settings?.subCategory,
-        duration: settings?.incidentDuration,
-        incidentOperator: settings?.incidentOperator,
-        durations: searchListOptions[0] as Iterable<IncidentDuration>,
-        categories: searchListOptions[1] as Iterable<Category>,
+      _formState = _formState.update(
+        updatedDurations: searchListOptions[0] as Iterable<IncidentDuration>,
+        updatedCategories: searchListOptions[1] as Iterable<Category>,
       );
 
       yield SettingsTdData(formState: _formState);
