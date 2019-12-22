@@ -23,33 +23,22 @@ class _IncidentScreenState extends State<IncidentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Create todo'),
         actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: (_) {
-              BlocProvider.of<IncidentBloc>(context)
-                ..add(IncidentShowSettingsEvent());
+          PopupMenuButton<IncidentEvent>(
+            onSelected: (IncidentEvent event) {
+              BlocProvider.of<IncidentBloc>(context)..add(event);
             },
             itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: '0',
-                  child: Text('settings'),
-                )
-              ];
-            },
-          ),
-          PopupMenuButton<String>(
-            onSelected: (_) {
-              BlocProvider.of<IncidentBloc>(context)
-                ..add(IncidentLogOutEvent());
-            },
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: '1',
-                  child: Text('log out'),
-                )
+              return <PopupMenuEntry<IncidentEvent>>[
+                PopupMenuItem<IncidentEvent>(
+                  value: IncidentShowSettingsEvent(),
+                  child: const Text('settings'),
+                ),
+                PopupMenuItem<IncidentEvent>(
+                  value: IncidentLogOutEvent(),
+                  child: const Text('log out'),
+                ),
               ];
             },
           ),
@@ -75,7 +64,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
         },
         child: BlocBuilder<IncidentBloc, IncidentState>(
           builder: (BuildContext context, IncidentState state) {
-            if (state is InitialIncidentState) {
+            if (state is IncidentState) {
               return const Text('Incident Screen');
             } else {
               throw StateError('unknown state: $state');

@@ -7,7 +7,8 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
-import 'blocs/login/bloc.dart';
+import 'blocs/incident/incident_bloc.dart';
+import 'blocs/login/login_bloc.dart';
 import 'blocs/settings/bloc.dart';
 import 'blocs/td_model_search/bloc.dart';
 
@@ -53,6 +54,13 @@ class _TopToDoAppState extends State<TopToDoApp> {
       ],
       child: MultiBlocProvider(
         providers: <BlocProvider<Bloc<dynamic, dynamic>>>[
+          BlocProvider<IncidentBloc>(
+            create: (BuildContext context) => IncidentBloc(
+              topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
+              settingsProvider:
+                  RepositoryProvider.of<SettingsProvider>(context),
+            ),
+          ),
           BlocProvider<LoginBloc>(
             create: (BuildContext context) => LoginBloc(
               credentialsProvider:
