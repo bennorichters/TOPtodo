@@ -2,8 +2,25 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
-import 'package:resource/resource.dart';
 import 'package:toptodo_data/toptodo_data.dart';
+import 'package:toptodo_topdesk_provider_mock/json/avatar.dart' as json_avatar;
+import 'package:toptodo_topdesk_provider_mock/json/branches.dart'
+    as json_branches;
+import 'package:toptodo_topdesk_provider_mock/json/callers.dart'
+    as json_callers;
+import 'package:toptodo_topdesk_provider_mock/json/categories.dart'
+    as json_categories;
+import 'package:toptodo_topdesk_provider_mock/json/durations.dart'
+    as json_durations;
+import 'package:toptodo_topdesk_provider_mock/json/operators.dart'
+    as json_operators;
+import 'package:toptodo_topdesk_provider_mock/json/sub_categories.dart'
+    as json_sub_categories;
+
+// Importing all json files as Strings in dart files
+// Using File our Resource (from the Dart resource package) fails
+// as soon as this is included in a Flutter project
+// See https://stackoverflow.com/questions/59421963
 
 class FakeTopdeskProvider implements TopdeskProvider {
   FakeTopdeskProvider({this.latency = const Duration(milliseconds: 1500)});
@@ -33,7 +50,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
     final String swLower = startsWith.toLowerCase();
 
-    final List<dynamic> response = await _readJson('branches');
+    final List<dynamic> response = await _readJson(json_branches.branches);
     return response
         .map(
           (dynamic e) => _branchFromJson(e),
@@ -52,7 +69,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Caller> caller({String id}) async {
     final String avatar = await _avatar();
 
-    final List<dynamic> response = await _readJson('callers');
+    final List<dynamic> response = await _readJson(json_callers.callers);
     final dynamic found = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () => throw TdModelNotFoundException(
@@ -75,7 +92,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final String avatar = await _avatar();
-    final List<dynamic> response = await _readJson('callers');
+    final List<dynamic> response = await _readJson(json_callers.callers);
     return response
         .where(
           (dynamic e) =>
@@ -109,7 +126,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<Category>> categories() async {
-    final List<dynamic> response = await _readJson('categories');
+    final List<dynamic> response = await _readJson(json_categories.categories);
     return response.map(
       (dynamic e) => _categofryFromJson(e),
     );
@@ -122,7 +139,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<SubCategory> subCategory({String id}) async {
-    final List<dynamic> response = await _readJson('sub_categories');
+    final List<dynamic> response = await _readJson(json_sub_categories.subCategories);
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () =>
@@ -134,7 +151,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<SubCategory>> subCategories({Category category}) async {
-    final List<dynamic> response = await _readJson('sub_categories');
+    final List<dynamic> response = await _readJson(json_sub_categories.subCategories);
     return response
         .where(
           (dynamic e) => e['categoryId'] == category.id,
@@ -156,7 +173,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<IncidentDuration>> incidentDurations() async {
-    final List<dynamic> response = await _readJson('durations');
+    final List<dynamic> response = await _readJson(json_durations.durations);
     return response.map(
       (dynamic e) => _incidentDurationFromJson(e),
     );
@@ -194,7 +211,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final String swLower = startsWith.toLowerCase();
 
     final String avatar = await _avatar();
-    final List<dynamic> response = await _readJson('operators');
+    final List<dynamic> response = await _readJson(json_operators.operators);
     return response
         .where(
           (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
@@ -219,15 +236,10 @@ class FakeTopdeskProvider implements TopdeskProvider {
       (await incidentOperators(startsWith: '')).first;
 
   Future<String> _avatar() async {
-    return (await _readJson('avatar'))['black'];
+    return (await _readJson(json_avatar.avatar))['black'];
   }
 
-  Future<dynamic> _readJson(String fileName) async {
-    final Resource resource = Resource(
-      'package:toptodo_topdesk_provider_mock/json/$fileName.json',
-    );
-    final String content = await resource.readAsString(encoding: utf8);
-
+  Future<dynamic> _readJson(String content) async {
     return Future<dynamic>.delayed(
       latency,
       () => json.decode(content),

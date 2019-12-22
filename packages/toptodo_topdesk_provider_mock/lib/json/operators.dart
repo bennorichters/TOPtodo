@@ -1,3 +1,4 @@
+const String operators = '''
 [
     {"id": "a", "name": "Aagje"},
     {"id": "b", "name": "Beatrijs"},
@@ -7,3 +8,4 @@
     {"id": "f", "name": "Francisca"},
     {"id": "g", "name": "Gertruide"}
 ]
+''';

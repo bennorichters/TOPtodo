@@ -1,3 +1,4 @@
+const String subCategories = '''
 [
     { "id": "aa", "name": "Aap", "categoryId": "a" },
     { "id": "ab", "name": "Noot", "categoryId": "b" },
@@ -9,4 +10,4 @@
     { "id": "bw", "name": "Vuur", "categoryId": "b" },
     { "id": "bx", "name": "Gijs", "categoryId": "a" }
   ]
-  
+  ''';

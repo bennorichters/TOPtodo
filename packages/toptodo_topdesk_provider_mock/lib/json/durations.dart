@@ -1,3 +1,4 @@
+const String durations = '''
 [
     {"id": "a", "name": "15 minutes"},
     {"id": "b", "name": "30 minutes"},
@@ -7,3 +8,4 @@
     {"id": "f", "name": "1 week"},
     {"id": "g", "name": "1 month"}
 ]
+''';

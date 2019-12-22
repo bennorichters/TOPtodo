@@ -1,3 +1,4 @@
+const String branches = '''
 [
     {"id": "a", "name": "Branch a"},
     {"id": "b", "name": "Branch b"},
@@ -7,3 +8,4 @@
     {"id": "f", "name": "EE Branch"},
     {"id": "g", "name": "EEE Branch"}
 ]
+''';

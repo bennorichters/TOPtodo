@@ -1,3 +1,4 @@
+const String callers = '''
 [
   { "id": "aa", "name": "Augustin Sheryll", "branchId": "a" },
   { "id": "ab", "name": "Basilio Tisa", "branchId": "b" },
@@ -50,3 +51,4 @@
   { "id": "bw", "name": "Veneziano Elidia", "branchId": "a" },
   { "id": "bx", "name": "Zehnder Benito", "branchId": "a" }
 ]
+''';
