@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   state.savedData,
                   state.remember,
                 );
-              } else if (state is LoginSuccessIncompleteSettings) {
+              } else if (state is LoginSuccess) {
                 return buildLoading();
               } else if (state is LoginSubmitting) {
                 return buildLoading();
