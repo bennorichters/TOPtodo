@@ -27,11 +27,10 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
 
       _debouncer.run(
         () => add(
-          _BranchSearchIncompleteQueryReady<TdModel>(
-              searchInfo: event.searchInfo),
+          _SearchIncompleteQueryReady<TdModel>(searchInfo: event.searchInfo),
         ),
       );
-    } else if (event is _BranchSearchIncompleteQueryReady) {
+    } else if (event is _SearchIncompleteQueryReady) {
       yield await _queryBasedResults(searchInfo: event.searchInfo);
     } else {
       throw ArgumentError('unknown event $event');
@@ -65,9 +64,9 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   }
 }
 
-class _BranchSearchIncompleteQueryReady<T extends TdModel>
+class _SearchIncompleteQueryReady<T extends TdModel>
     extends TdModelSearchInfoEvent<T> {
-  const _BranchSearchIncompleteQueryReady({@required SearchInfo<T> searchInfo})
+  const _SearchIncompleteQueryReady({@required SearchInfo<T> searchInfo})
       : super(searchInfo: searchInfo);
 }
 
