@@ -160,6 +160,9 @@ void main() {
       );
       await p.save(settingsWithDurationB);
 
+      p.dispose();
+      p.init('url1', 'loginName');
+
       const Settings settingsWithoutDurationB = Settings(
         branch: branchA,
         caller: callerA,
@@ -187,6 +190,9 @@ void main() {
       );
       await p.save(settingsWithCallerB);
 
+      p.dispose();
+      p.init('url1', 'loginName');
+
       const Settings settingsWithoutCallerB = Settings(
         branch: branchA,
         caller: null,
@@ -213,6 +219,9 @@ void main() {
         incidentOperator: operatorA,
       );
       await p.save(settingsWithSubCatB);
+
+      p.dispose();
+      p.init('url1', 'loginName');
 
       const Settings settingsWithoutSubCatB = Settings(
         branch: branchA,

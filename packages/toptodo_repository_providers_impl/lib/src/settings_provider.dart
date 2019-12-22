@@ -29,43 +29,53 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
 
   Future<Settings> _retrieveValue() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     if (!prefs.containsKey(_storageKey)) {
       return null;
     }
-    
+
     final Map<String, dynamic> json = jsonDecode(prefs.getString(_storageKey));
-    final Branch branch = await _tdModelFromJson(
-      json,
-      'branchId',
-      topdeskProvider.branch,
-    );
-    final Category category = await _tdModelFromJson(
-      json,
-      'categoryId',
-      topdeskProvider.category,
-    );
-    final Caller caller = await _tdModelFromJson(
-      json,
-      'callerId',
-      topdeskProvider.caller,
-    );
-    final SubCategory subCategory = await _tdModelFromJson(
-      json,
-      'subCategoryId',
-      topdeskProvider.subCategory,
-    );
-    final IncidentDuration incidentDuration = await _tdModelFromJson(
-      json,
-      'incidentDurationId',
-      topdeskProvider.incidentDuration,
-    );
-    final IncidentOperator incidentOperator = await _tdModelFromJson(
-      json,
-      'incidentOperatorId',
-      topdeskProvider.incidentOperator,
-    );
-    
+
+    final List<TdModel> models = await Future.wait(<Future<TdModel>>[
+      _tdModelFromJson(
+        json,
+        'branchId',
+        topdeskProvider.branch,
+      ),
+      _tdModelFromJson(
+        json,
+        'categoryId',
+        topdeskProvider.category,
+      ),
+      _tdModelFromJson(
+        json,
+        'callerId',
+        topdeskProvider.caller,
+      ),
+      _tdModelFromJson(
+        json,
+        'subCategoryId',
+        topdeskProvider.subCategory,
+      ),
+      _tdModelFromJson(
+        json,
+        'incidentDurationId',
+        topdeskProvider.incidentDuration,
+      ),
+      _tdModelFromJson(
+        json,
+        'incidentOperatorId',
+        topdeskProvider.incidentOperator,
+      ),
+    ]);
+
+    final Branch branch = models[0];
+    final Category category = models[1];
+    final Caller caller = models[2];
+    final SubCategory subCategory = models[3];
+    final IncidentDuration incidentDuration = models[4];
+    final IncidentOperator incidentOperator = models[5];
+
     return Settings(
       branch: branch,
       caller: _paternityTest(caller, caller.branch, branch),
