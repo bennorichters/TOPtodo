@@ -25,26 +25,39 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is SettingsInit) {
       final Settings settings = await settingsProvider.provide();
       _formState = SettingsFormState(
-        branch: settings?.branch,
-        caller: settings?.caller,
-        category: settings?.category,
-        subCategory: settings?.subCategory,
-        duration: settings?.incidentDuration,
-        incidentOperator: settings?.incidentOperator,
+        branch: settings.branch,
+        caller: settings.caller,
+        category: settings.category,
+        subCategory: settings.subCategory,
+        duration: settings.incidentDuration,
+        incidentOperator: settings.incidentOperator,
       );
       yield SettingsTdData(formState: _formState);
 
+      final List<Future<Iterable<TdModel>>> searchLists =
+          <Future<Iterable<TdModel>>>[
+        topdeskProvider.incidentDurations(),
+        topdeskProvider.categories(),
+      ];
+
+      if (settings.category != null) {
+        searchLists.add(
+          topdeskProvider.subCategories(
+            category: settings.category,
+          ),
+        );
+      }
+
       final List<Iterable<TdModel>> searchListOptions = await Future.wait(
-        <Future<Iterable<TdModel>>>[
-          topdeskProvider.incidentDurations(),
-          topdeskProvider.categories(),
-        ],
+        searchLists,
       );
 
       _formState = _formState.update(
-        updatedDurations: searchListOptions[0] as Iterable<IncidentDuration>,
-        updatedCategories: searchListOptions[1] as Iterable<Category>,
-      );
+          updatedDurations: searchListOptions[0] as Iterable<IncidentDuration>,
+          updatedCategories: searchListOptions[1] as Iterable<Category>,
+          updatedSubCategories: settings.category == null
+              ? null
+              : searchListOptions[2] as Iterable<SubCategory>);
 
       yield SettingsTdData(formState: _formState);
     } else if (event is SettingsCategorySelected) {
