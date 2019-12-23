@@ -61,6 +61,12 @@ abstract class TopdeskProvider {
   Future<Iterable<IncidentOperator>> incidentOperators({
     @required String startsWith,
   });
+
+  Future<String> createIncident({
+    @required String briefDescription,
+    @required Settings settings,
+    String request,
+  });
 }
 
 class TdModelNotFoundException implements Exception {
