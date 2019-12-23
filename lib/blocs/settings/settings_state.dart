@@ -8,7 +8,7 @@ abstract class SettingsState extends Equatable {
 
 class SettingsLoading extends SettingsState {
   @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => [];
 }
 
 class SettingsWithFormState extends SettingsState {
@@ -16,7 +16,7 @@ class SettingsWithFormState extends SettingsState {
   final SettingsFormState formState;
 
   @override
-  List<Object> get props => <Object>[formState];
+  List<Object> get props => [formState];
 }
 
 class SettingsTdData extends SettingsWithFormState {
@@ -26,5 +26,10 @@ class SettingsTdData extends SettingsWithFormState {
 
 class SettingsLogout extends SettingsWithFormState {
   const SettingsLogout({@required SettingsFormState formState})
+      : super(formState: formState);
+}
+
+class SettingsSaved extends SettingsWithFormState {
+  const SettingsSaved({@required SettingsFormState formState})
       : super(formState: formState);
 }

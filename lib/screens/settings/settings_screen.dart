@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
+import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/widgets/td_button.dart';
@@ -53,10 +54,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (state is SettingsLogout) {
             BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
 
-            Navigator.of(context).pushReplacement<dynamic, LoginScreen>(
-              MaterialPageRoute<LoginScreen>(
-                builder: (_) => const LoginScreen(),
-              ),
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+            );
+          } else if (state is SettingsSaved) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => IncidentScreen()),
             );
           }
         },

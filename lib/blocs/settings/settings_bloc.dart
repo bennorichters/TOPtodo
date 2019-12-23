@@ -34,7 +34,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
       yield SettingsTdData(formState: _formState);
 
-      final searchLists = <Future<Iterable<TdModel>>>[
+      final searchLists = [
         topdeskProvider.incidentDurations(),
         topdeskProvider.categories(),
       ];
@@ -47,16 +47,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
       }
 
-      final searchListOptions = await Future.wait(
-        searchLists,
-      );
+      final searchListOptions = await Future.wait(searchLists);
 
       _formState = _formState.update(
-          updatedDurations: searchListOptions[0] as Iterable<IncidentDuration>,
-          updatedCategories: searchListOptions[1] as Iterable<Category>,
-          updatedSubCategories: settings.category == null
-              ? null
-              : searchListOptions[2] as Iterable<SubCategory>);
+        updatedDurations: searchListOptions[0],
+        updatedCategories: searchListOptions[1],
+        updatedSubCategories:
+            settings.category == null ? null : searchListOptions[2],
+      );
 
       yield SettingsTdData(formState: _formState);
     } else if (event is SettingsCategorySelected) {
@@ -104,6 +102,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     } else if (event is SettingsSave) {
       await settingsProvider.save(_formState.toSettings());
+      yield SettingsSaved(formState: _formState);
     } else if (event is SettingsUserLoggedOut) {
       yield SettingsLogout(formState: _formState);
     } else {
