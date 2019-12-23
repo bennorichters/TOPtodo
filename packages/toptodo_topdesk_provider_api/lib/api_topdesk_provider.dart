@@ -222,12 +222,34 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<String> createIncident({
-    String briefDescription,
-    Settings settings,
+    @required String briefDescription,
+    @required Settings settings,
     String request,
   }) {
+    final jsonElements = []
+      ..add('"callerBranch": {"id": "${settings.branch.id}"}')
+      ..add('"caller": {"id": "${settings.caller.id}"}')
+      ..add('"category": {"id": "${settings.category.id}"}')
+      ..add('"subcategory": {"id": "${settings.subCategory.id}"}')
+      ..add('"duration": {"id": "${settings.incidentDuration.id}"}')
+      ..add('"operator": {"id": "${settings.incidentOperator.id}"}');
+
+    final sBD = _escapeQuotes(briefDescription);
+    jsonElements.add('"briefDescription": "$sBD"');
+
+    if (request != null && request.isNotEmpty) {
+      final sanatizedRequest = _escapeQuotes(request);
+      jsonElements.add('"request": "$sanatizedRequest"');
+    }
+
+    final json = '{' + jsonElements.join(',') + '}';
+
+    print(json);
+
     return null;
   }
+
+  String _escapeQuotes(String userInput) => userInput.replaceAll('"', '\\\"');
 
   dynamic _callApi(String endPoint) async {
     if (_url == null) {
