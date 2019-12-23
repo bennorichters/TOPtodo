@@ -24,11 +24,6 @@ class SettingsTdData extends SettingsWithFormState {
       : super(formState: formState);
 }
 
-class SettingsLogout extends SettingsWithFormState {
-  const SettingsLogout({@required SettingsFormState formState})
-      : super(formState: formState);
-}
-
 class SettingsSaved extends SettingsWithFormState {
   const SettingsSaved({@required SettingsFormState formState})
       : super(formState: formState);

@@ -35,8 +35,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           PopupMenuButton<String>(
             onSelected: (_) {
-              BlocProvider.of<SettingsBloc>(context)
-                ..add(SettingsUserLoggedOut());
+              BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
             },
             itemBuilder: (BuildContext context) {
               return [
@@ -51,15 +55,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: BlocListener<SettingsBloc, SettingsState>(
         listener: (BuildContext context, SettingsState state) {
-          if (state is SettingsLogout) {
-            BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
-
+          if (state is SettingsSaved) {
             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            );
-          } else if (state is SettingsSaved) {
-            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => IncidentScreen()),
             );
@@ -118,20 +115,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       validationText: 'Choose an operator',
                     ),
                     _verticalSpace,
-                    if (state is SettingsLogout)
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    else
-                      TdButton(
-                        text: 'save',
-                        onTap: () {
-                          if (_formKey.currentState.validate()) {
-                            BlocProvider.of<SettingsBloc>(context)
-                              ..add(SettingsSave());
-                          }
-                        },
-                      ),
+                    TdButton(
+                      text: 'save',
+                      onTap: () {
+                        if (state is SettingsSaved) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IncidentScreen()),
+                          );
+                        } else if (_formKey.currentState.validate()) {
+                          BlocProvider.of<SettingsBloc>(context)
+                            ..add(SettingsSave());
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

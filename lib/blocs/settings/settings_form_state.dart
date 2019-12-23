@@ -87,7 +87,7 @@ class SettingsFormState extends Equatable {
       );
 
   @override
-  List<Object> get props => <Object>[
+  List<Object> get props => [
         branch,
         caller,
         categories,

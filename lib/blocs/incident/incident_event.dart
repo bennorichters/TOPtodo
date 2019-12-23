@@ -11,15 +11,5 @@ class IncidentShowForm extends IncidentEvent {
 
 class IncidentSubmit extends IncidentEvent {
   @override
-  List<Object> get props => <Object>[];
-}
-
-class IncidentShowSettingsEvent extends IncidentEvent {
-  @override
-  List<Object> get props => <Object>[];
-}
-
-class IncidentLogOutEvent extends IncidentEvent {
-  @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => [];
 }

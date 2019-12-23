@@ -4,6 +4,9 @@ import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo_data/toptodo_data.dart';
+
+typedef NavigateToScreen = Function(BuildContext context);
 
 class IncidentScreen extends StatefulWidget {
   const IncidentScreen({Key key}) : super(key: key);
@@ -24,53 +27,45 @@ class _IncidentScreenState extends State<IncidentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create todo'),
-        actions: <Widget>[
-          PopupMenuButton<IncidentEvent>(
-            onSelected: (IncidentEvent event) {
-              BlocProvider.of<IncidentBloc>(context)..add(event);
+        actions: [
+          PopupMenuButton<NavigateToScreen>(
+            onSelected: (NavigateToScreen choice) {
+              choice(context);
             },
             itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<IncidentEvent>>[
-                PopupMenuItem<IncidentEvent>(
-                  value: IncidentShowSettingsEvent(),
+              return [
+                PopupMenuItem<NavigateToScreen>(
                   child: const Text('settings'),
+                  value: (BuildContext context) => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => SettingsScreen()),
+                  ),
                 ),
-                PopupMenuItem<IncidentEvent>(
-                  value: IncidentLogOutEvent(),
+                PopupMenuItem<NavigateToScreen>(
                   child: const Text('log out'),
+                  value: (BuildContext context) {
+                    BlocProvider.of<LoginBloc>(context)
+                      ..add(const AppStarted());
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const LoginScreen()),
+                    );
+                  },
                 ),
               ];
             },
           ),
         ],
       ),
-      body: BlocListener<IncidentBloc, IncidentState>(
-        listener: (BuildContext context, IncidentState state) {
-          if (state is IncidentLogOutState) {
-            BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
-
-            Navigator.of(context).pushReplacement<dynamic, LoginScreen>(
-              MaterialPageRoute<LoginScreen>(
-                builder: (_) => const LoginScreen(),
-              ),
-            );
-          } else if (state is IncidentShowSettingsState) {
-            Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
-              MaterialPageRoute<SettingsScreen>(
-                builder: (_) => SettingsScreen(),
-              ),
-            );
+      body: BlocBuilder<IncidentBloc, IncidentState>(
+        builder: (BuildContext context, IncidentState state) {
+          if (state is IncidentState) {
+            return const Text('Incident Screen');
+          } else {
+            throw StateError('unknown state: $state');
           }
         },
-        child: BlocBuilder<IncidentBloc, IncidentState>(
-          builder: (BuildContext context, IncidentState state) {
-            if (state is IncidentState) {
-              return const Text('Incident Screen');
-            } else {
-              throw StateError('unknown state: $state');
-            }
-          },
-        ),
       ),
     );
   }

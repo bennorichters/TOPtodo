@@ -7,15 +7,5 @@ abstract class IncidentState extends Equatable {
 class InitialIncidentState extends IncidentState {
   @override
 
-  List<Object> get props => <Object>[];
-}
-
-class IncidentShowSettingsState extends IncidentState {
-  @override
-  List<Object> get props => <Object>[];
-}
-
-class IncidentLogOutState extends IncidentState {
-  @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => [];
 }

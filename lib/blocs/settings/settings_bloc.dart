@@ -103,8 +103,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else if (event is SettingsSave) {
       await settingsProvider.save(_formState.toSettings());
       yield SettingsSaved(formState: _formState);
-    } else if (event is SettingsUserLoggedOut) {
-      yield SettingsLogout(formState: _formState);
     } else {
       throw ArgumentError('unknown event $event');
     }
