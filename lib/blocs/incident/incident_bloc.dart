@@ -19,6 +19,8 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   Stream<IncidentState> mapEventToState(
     IncidentEvent event,
   ) async* {
-//
+    if (event is IncidentSubmit) {
+      
+    }
   }
 }
