@@ -31,14 +31,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        actions: <Widget>[
+        actions: [
           PopupMenuButton<String>(
             onSelected: (_) {
               BlocProvider.of<SettingsBloc>(context)
                 ..add(SettingsUserLoggedOut());
             },
             itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<String>>[
+              return [
                 const PopupMenuItem<String>(
                   value: '1',
                   child: Text('log out'),
@@ -69,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Form(
                 key: _formKey,
                 child: ListView(
-                  children: <Widget>[
+                  children: [
                     SearchField<Branch>(
                       value: formState.branch,
                       label: 'Branch',
