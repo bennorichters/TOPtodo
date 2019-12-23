@@ -33,22 +33,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text('Settings'),
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (_) {
+          FlatButton(
+            child: const Text(
+              'log out',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
               BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
 
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => const LoginScreen()),
               );
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem<String>(
-                  value: '1',
-                  child: Text('log out'),
-                )
-              ];
             },
           ),
         ],

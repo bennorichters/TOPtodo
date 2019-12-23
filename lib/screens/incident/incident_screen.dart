@@ -4,7 +4,6 @@ import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
-import 'package:toptodo_data/toptodo_data.dart';
 
 typedef NavigateToScreen = Function(BuildContext context);
 
@@ -28,32 +27,25 @@ class _IncidentScreenState extends State<IncidentScreen> {
       appBar: AppBar(
         title: const Text('Create todo'),
         actions: [
-          PopupMenuButton<NavigateToScreen>(
-            onSelected: (NavigateToScreen choice) {
-              choice(context);
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem<NavigateToScreen>(
-                  child: const Text('settings'),
-                  value: (BuildContext context) => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => SettingsScreen()),
-                  ),
-                ),
-                PopupMenuItem<NavigateToScreen>(
-                  child: const Text('log out'),
-                  value: (BuildContext context) {
-                    BlocProvider.of<LoginBloc>(context)
-                      ..add(const AppStarted());
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => SettingsScreen()),
+            ),
+          ),
+          FlatButton(
+            child: const Text(
+              'log out',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const LoginScreen()),
-                    );
-                  },
-                ),
-              ];
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
             },
           ),
         ],
