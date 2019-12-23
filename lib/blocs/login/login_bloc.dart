@@ -52,7 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       settingsProvider.init(_credentials.url, _credentials.loginName);
 
       try {
-        final Settings settings =
+        final settings =
             await settingsProvider.provide() ?? const Settings.empty();
 
         if (settings.isComplete()) {

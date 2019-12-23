@@ -1,4 +1,3 @@
-
 import 'dart:math' show min;
 
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ class TdShape extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Size drawSize = size - _bottomMargin as Size;
+    final Size drawSize = size - _bottomMargin;
     if (drawSize.aspectRatio >= 1) {
       _small(canvas, drawSize);
     } else if (drawSize.aspectRatio >= .6) {
@@ -21,18 +20,18 @@ class TdShape extends CustomPainter {
   }
 
   void _small(Canvas canvas, Size size) {
-   canvas.drawCircle(Offset.zero, size.shortestSide, _paint); 
+    canvas.drawCircle(Offset.zero, size.shortestSide, _paint);
   }
 
   void _medium(Canvas canvas, Size size) {
-    final double radius = min(size.width, size.height / 2);
+    final radius = min(size.width, size.height / 2);
     canvas.drawCircle(Offset(0, radius), radius, _paint);
     canvas.drawRect(Offset.zero & Size.fromRadius(radius / 2), _paint);
   }
 
   void _long(Canvas canvas, Size size) {
-    final double radius = min(size.width, size.height / 3);
-    final double circleCenter = size.height - radius;
+    final radius = min(size.width, size.height / 3);
+    final circleCenter = size.height - radius;
     canvas.drawCircle(Offset(0, circleCenter), radius, _paint);
     canvas.drawRect(Offset.zero & Size(radius, circleCenter), _paint);
   }

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 void main() {
-  final String currentDir = Directory.current.path;
+  final currentDir = Directory.current.path;
 
   upgrade(currentDir, 'toptodo_data');
   upgrade(currentDir, 'toptodo_repository_providers_impl');

@@ -7,7 +7,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_api/api_topdesk_provider.dart';
 
 void main() {
-  const Credentials credentials = Credentials(
+  const credentials = Credentials(
     url: 'a',
     loginName: 'userA',
     password: 'S3CrEt!',
@@ -15,19 +15,19 @@ void main() {
 
   group('errors', () {
     test('StateError without init', () async {
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      final atp = ApiTopdeskProvider();
       expect(atp.branches(startsWith: ''), throwsStateError);
     });
 
     test('StateError after dispose', () async {
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      final atp = ApiTopdeskProvider();
       atp.init(credentials);
       atp.dispose();
       expect(atp.branches(startsWith: ''), throwsStateError);
     });
 
     test('call init twice throws', () {
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      final atp = ApiTopdeskProvider();
       atp.init(credentials);
 
       expect(() => atp.init(credentials), throwsStateError);
@@ -38,7 +38,7 @@ void main() {
         return Response('', code);
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider()
+      final atp = ApiTopdeskProvider()
         ..init(
           credentials,
           client: client,
@@ -51,27 +51,27 @@ void main() {
     }
 
     test('400', () async {
-      testErrorCode(400, const TypeMatcher<ArgumentError>());
+      await testErrorCode(400, const TypeMatcher<ArgumentError>());
     });
 
     test('401', () async {
-      testErrorCode(401, const TypeMatcher<ArgumentError>());
+      await testErrorCode(401, const TypeMatcher<ArgumentError>());
     });
 
     test('402', () async {
-      testErrorCode(402, const TypeMatcher<ArgumentError>());
+      await testErrorCode(402, const TypeMatcher<ArgumentError>());
     });
 
     test('403', () async {
-      testErrorCode(403, const TypeMatcher<TdNotAuthorizedException>());
+      await testErrorCode(403, const TypeMatcher<TdNotAuthorizedException>());
     });
 
     test('404', () async {
-      testErrorCode(404, const TypeMatcher<TdModelNotFoundException>());
+      await testErrorCode(404, const TypeMatcher<TdModelNotFoundException>());
     });
 
     test('500', () async {
-      testErrorCode(500, const TypeMatcher<TdServerException>());
+      await testErrorCode(500, const TypeMatcher<TdServerException>());
     });
 
     test('client throws error', () async {
@@ -79,7 +79,7 @@ void main() {
         throw StateError('just testing');
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider()
+      final atp = ApiTopdeskProvider()
         ..init(
           credentials,
           client: client,
@@ -101,7 +101,7 @@ void main() {
         );
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider(
+      final atp = ApiTopdeskProvider(
         timeOut: const Duration(milliseconds: 10),
       )..init(
           credentials,
@@ -126,13 +126,13 @@ void main() {
         );
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider()
+      final atp = ApiTopdeskProvider()
         ..init(
           credentials,
           client: client,
         );
 
-      final Iterable<Branch> branches = await atp.branches(startsWith: 'xyz');
+      final branches = await atp.branches(startsWith: 'xyz');
       expect(branches.length, isZero);
     });
   });
@@ -140,19 +140,19 @@ void main() {
   group('meta', () {
     test('headers', () async {
       Map<String, String> headers;
-      final MockClient mc = MockClient((Request req) async {
+      final mc = MockClient((Request req) async {
         headers = req.headers;
         return Response('[]', 200);
       });
 
-      final ApiTopdeskProvider atp = ApiTopdeskProvider();
+      final atp = ApiTopdeskProvider();
       atp.init(credentials, client: mc);
       await atp.incidentDurations();
 
       expect(headers['accept'], 'application/json');
 
       expect(headers['authorization'].startsWith('Basic '), isTrue);
-      final String decoded = utf8
+      final decoded = utf8
           .fuse(base64)
           .decode(headers['authorization'].substring('Basic '.length));
       expect(decoded, credentials.loginName + ':' + credentials.password);
@@ -160,7 +160,7 @@ void main() {
   });
 
   group('api call', () {
-    const String defaultJson = '[{"id": "a", "name": "ABA"},'
+    const defaultJson = '[{"id": "a", "name": "ABA"},'
         '{"id": "b", "name": "DEF"},'
         '{"id": "c", "name": "ABB"}]';
 
@@ -200,7 +200,7 @@ void main() {
       Set<String> personIds,
     }) {
       final Client client = MockClient((Request req) async {
-        final String path = req.url.path.substring(
+        final path = req.url.path.substring(
           credentials.url.length + 1,
         );
         if (path == personPath) {
@@ -210,7 +210,7 @@ void main() {
           );
           return Response(personResponseJson, 200);
         } else if (path.startsWith(avatarPath)) {
-          final String id = path.substring(avatarPath.length);
+          final id = path.substring(avatarPath.length);
           expect(
             personIds.contains(id),
             isTrue,
@@ -232,17 +232,17 @@ void main() {
 
     group('branch', () {
       test('find by id', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches/id/a',
           responseJson: '{"id": "a", "name": "ABA"}',
         );
-        final Branch b = await atp.branch(id: 'a');
+        final b = await atp.branch(id: 'a');
 
         expect(b.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
@@ -255,7 +255,7 @@ void main() {
       });
 
       test('starts with find two', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches',
           expectedQueryParameters: <String, String>{
             '\$fields': 'id,name',
@@ -265,12 +265,12 @@ void main() {
               '{"id": "c", "name": "ABB"}]',
         );
 
-        final Iterable<Branch> bs = await atp.branches(startsWith: 'ab');
+        final bs = await atp.branches(startsWith: 'ab');
         expect(bs.length, 2);
       });
 
       test('sanatized starts with', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches',
           expectedQueryParameters: <String, String>{
             '\$fields': 'id,name',
@@ -287,13 +287,13 @@ void main() {
     });
 
     group('caller', () {
-      const Branch branchForCaller = Branch(
+      const branchForCaller = Branch(
         id: 'a',
         name: 'branchA',
       );
 
       test('find by id', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons/id/aa',
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -304,14 +304,14 @@ void main() {
           personIds: <String>{'aa'},
         );
 
-        final Caller c = await atp.caller(id: 'aa');
+        final c = await atp.caller(id: 'aa');
 
         expect(c.id, 'aa');
         expect(c.avatar, 'avatarForaa');
       });
 
       test('find by nonexisting id throws', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
@@ -324,7 +324,7 @@ void main() {
       });
 
       test('starts with find two', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -338,7 +338,7 @@ void main() {
           personIds: <String>{'aa', 'ac'},
         );
 
-        final Iterable<Caller> cs = await atp.callers(
+        final cs = await atp.callers(
           branch: branchForCaller,
           startsWith: 'ab',
         );
@@ -351,7 +351,7 @@ void main() {
       });
 
       test('sanatized starts with', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: const <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -372,16 +372,16 @@ void main() {
 
     group('category', () {
       test('find by id', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
-        final Category c = await atp.category(id: 'a');
+        final c = await atp.category(id: 'a');
 
         expect(c.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider();
+        final atp = basicApiTopdeskProvider();
         expect(
           atp.category(id: 'doesnotexist'),
           throwsA(
@@ -391,10 +391,10 @@ void main() {
       });
 
       test('find three', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
-        final Iterable<Category> cs = await atp.categories();
+        final cs = await atp.categories();
 
         expect(cs.length, 3);
         expect(cs.first.id, 'a');
@@ -402,7 +402,7 @@ void main() {
     });
 
     group('subcategory', () {
-      const String subCategoryJson = '[{'
+      const subCategoryJson = '[{'
           '"id": "aa", "name": "Climate Control",'
           ' "category": {"id": "a", "name": "Building Areas"}'
           '},'
@@ -414,17 +414,17 @@ void main() {
           '}]';
 
       test('find by id', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subCategoryJson,
         );
 
-        final SubCategory sc = await atp.subCategory(id: 'ab');
+        final sc = await atp.subCategory(id: 'ab');
         expect(sc.id, 'ab');
       });
 
       test('find by non existing id throws', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           responseJson: subCategoryJson,
         );
 
@@ -437,17 +437,17 @@ void main() {
       });
 
       test('find by category', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subCategoryJson,
         );
 
-        const Category cat = Category(
+        const cat = Category(
           id: 'a',
           name: 'catA',
         );
 
-        final Iterable<SubCategory> subCats = await atp.subCategories(
+        final subCats = await atp.subCategories(
           category: cat,
         );
         expect(subCats.length, 2);
@@ -458,16 +458,16 @@ void main() {
 
     group('duration', () {
       test('find by id', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/durations',
         );
-        final IncidentDuration id = await atp.incidentDuration(id: 'a');
+        final id = await atp.incidentDuration(id: 'a');
 
         expect(id.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider();
+        final atp = basicApiTopdeskProvider();
         expect(
           atp.incidentDuration(id: 'doesnotexist'),
           throwsA(
@@ -477,10 +477,10 @@ void main() {
       });
 
       test('find three', () async {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/durations',
         );
-        final Iterable<IncidentDuration> ids = await atp.incidentDurations();
+        final ids = await atp.incidentDurations();
 
         expect(ids.length, 3);
         expect(ids.first.id, 'a');
@@ -489,7 +489,7 @@ void main() {
 
     group('operator', () {
       test('find by id', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators/id/a',
           expectedPersonQueryParameters: <String, String>{},
           personResponseJson: '{"id": "a", "dynamicName": "Augustin Sheryll"}',
@@ -497,14 +497,14 @@ void main() {
           personIds: <String>{'a'},
         );
 
-        final IncidentOperator op = await atp.incidentOperator(id: 'a');
+        final op = await atp.incidentOperator(id: 'a');
 
         expect(op.id, 'a');
         expect(op.avatar, 'avatarFora');
       });
 
       test('find by non existing id throws', () {
-        final ApiTopdeskProvider atp = basicApiTopdeskProvider(
+        final atp = basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
@@ -517,7 +517,7 @@ void main() {
       });
 
       test('find by starts with', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators',
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a',
@@ -534,8 +534,7 @@ void main() {
           personIds: <String>{'a', 'c'},
         );
 
-        final Iterable<IncidentOperator> os =
-            await atp.incidentOperators(startsWith: 'a');
+        final os = await atp.incidentOperators(startsWith: 'a');
 
         expect(os.length, 2);
         expect(os.first.id, 'a');
@@ -545,7 +544,7 @@ void main() {
       });
 
       test('current', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators/current',
           expectedPersonQueryParameters: const <String, String>{},
           personResponseJson: '{"id": "a", "dynamicName": "Aagje"}',
@@ -553,13 +552,13 @@ void main() {
           personIds: <String>{'a'},
         );
 
-        final IncidentOperator co = await atp.currentIncidentOperator();
+        final co = await atp.currentIncidentOperator();
         expect(co.id, 'a');
         expect(co.avatar, 'avatarFora');
       });
 
       test('sanatized starts with', () async {
-        final ApiTopdeskProvider atp = personApiTopdeskProvider(
+        final atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators',
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a&hourlyRate=50',

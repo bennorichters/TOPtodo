@@ -23,7 +23,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
-      final Settings settings = await settingsProvider.provide();
+      final settings = await settingsProvider.provide();
       _formState = SettingsFormState(
         branch: settings.branch,
         caller: settings.caller,
@@ -34,8 +34,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
       yield SettingsTdData(formState: _formState);
 
-      final List<Future<Iterable<TdModel>>> searchLists =
-          <Future<Iterable<TdModel>>>[
+      final searchLists = <Future<Iterable<TdModel>>>[
         topdeskProvider.incidentDurations(),
         topdeskProvider.categories(),
       ];
@@ -48,7 +47,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
       }
 
-      final List<Iterable<TdModel>> searchListOptions = await Future.wait(
+      final searchListOptions = await Future.wait(
         searchLists,
       );
 
@@ -104,7 +103,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         ),
       );
     } else if (event is SettingsSave) {
-      settingsProvider.save(_formState.toSettings());
+      await settingsProvider.save(_formState.toSettings());
     } else if (event is SettingsUserLoggedOut) {
       yield SettingsLogout(formState: _formState);
     } else {

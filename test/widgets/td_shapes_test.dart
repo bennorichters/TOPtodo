@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
@@ -13,19 +12,19 @@ import 'package:toptodo/widgets/td_shapes.dart';
 void main() {
   testWidgets('better name needed', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      final PictureRecorder recorder = PictureRecorder();
-      final Canvas canvas = Canvas(recorder);
-      final TdShape tdShape = TdShape();
+      final recorder = PictureRecorder();
+      final canvas = Canvas(recorder);
+      final tdShape = TdShape();
 
       tdShape.paint(canvas, const Size(400, 425));
 
-      final Picture picture = recorder.endRecording();
-      final ui.Image image = await picture.toImage(400, 425);
-      final ByteData bd = await image.toByteData(
+      final picture = recorder.endRecording();
+      final image = await picture.toImage(400, 425);
+      final bd = await image.toByteData(
         format: ui.ImageByteFormat.png,
       );
-      final List<int> values = bd.buffer.asUint8List();
-      final img.Image myImage = img.decodeImage(values);
+      final values = bd.buffer.asUint8List();
+      final myImage = img.decodeImage(values);
 
       expect(_argbIsAbgr(forest100, myImage.getPixel(10, 10)), isTrue);
     });

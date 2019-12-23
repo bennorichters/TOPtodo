@@ -138,7 +138,7 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
     assert(_storageKey == null, 'init has already been called');
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    await prefs.clear();
     _value = null;
   }
 

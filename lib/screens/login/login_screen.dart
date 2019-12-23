@@ -110,7 +110,7 @@ class _ErrorDialogState extends State<_ErrorDialog> {
   }
 
   List<Widget> _actions() {
-    final List<Widget> result = <Widget>[];
+    final result = <Widget>[];
     if (!details) {
       result.add(
         FlatButton(

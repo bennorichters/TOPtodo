@@ -3,18 +3,18 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() {
-  final FakeTopdeskProvider ftp = FakeTopdeskProvider(
+  final ftp = FakeTopdeskProvider(
     latency: const Duration(microseconds: 0),
   );
 
   group('branch', () {
     test('find some', () async {
-      final Iterable<Branch> ds = await ftp.branches(startsWith: 'E');
+      final ds = await ftp.branches(startsWith: 'E');
       expect(ds.length, 3);
     });
 
     test('by id find one', () async {
-      final Branch ba = await ftp.branch(id: 'a');
+      final ba = await ftp.branch(id: 'a');
 
       expect(ba.id, 'a');
     });
@@ -31,7 +31,7 @@ void main() {
 
   group('caller', () {
     test('find zero', () async {
-      final Iterable<Caller> ds = await ftp.callers(
+      final ds = await ftp.callers(
         startsWith: 'A',
         branch: const Branch(id: 'g', name: 'EEE Branch'),
       );
@@ -40,7 +40,7 @@ void main() {
     });
 
     test('find two', () async {
-      final Iterable<Caller> ds = await ftp.callers(
+      final ds = await ftp.callers(
         startsWith: 'b',
         branch: const Branch(
           id: 'b',
@@ -52,7 +52,7 @@ void main() {
     });
 
     test('has avatar', () async {
-      final Iterable<Caller> ds = await ftp.callers(
+      final ds = await ftp.callers(
           startsWith: 'Augustin Sheryll',
           branch: const Branch(
             id: 'a',
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('by id find one', () async {
-      final Caller caa = await ftp.caller(id: 'aa');
+      final caa = await ftp.caller(id: 'aa');
 
       expect(caa.id, 'aa');
       expect(caa.avatar.length, isNonZero);
@@ -86,7 +86,7 @@ void main() {
     });
 
     test('by id find one', () async {
-      final Category ca = await ftp.category(id: 'a');
+      final ca = await ftp.category(id: 'a');
       expect(ca.id, 'a');
     });
 
@@ -102,12 +102,12 @@ void main() {
 
   group('sub category', () {
     test('find all for one category', () async {
-      final Category ca = await ftp.category(id: 'a');
+      final ca = await ftp.category(id: 'a');
       expect((await ftp.subCategories(category: ca)).length, 4);
     });
 
     test('by id find one', () async {
-      final SubCategory scaa = await ftp.subCategory(id: 'aa');
+      final scaa = await ftp.subCategory(id: 'aa');
       expect(scaa.id, 'aa');
     });
 
@@ -123,12 +123,12 @@ void main() {
 
   group('duration', () {
     test('find all', () async {
-      final Iterable<IncidentDuration> ds = await ftp.incidentDurations();
+      final ds = await ftp.incidentDurations();
       expect(ds.length, 7);
     });
 
     test('by id find one', () async {
-      final IncidentDuration ida = await ftp.incidentDuration(id: 'a');
+      final ida = await ftp.incidentDuration(id: 'a');
       expect(ida.id, 'a');
     });
 
@@ -144,14 +144,13 @@ void main() {
 
   group('operator', () {
     test('find zero', () async {
-      final Iterable<IncidentOperator> ds =
-          await ftp.incidentOperators(startsWith: 'Q');
+      final ds = await ftp.incidentOperators(startsWith: 'Q');
 
       expect(ds.length, isZero);
     });
 
     test('find one', () async {
-      final Iterable<IncidentOperator> ds = await ftp.incidentOperators(
+      final ds = await ftp.incidentOperators(
         startsWith: 'b',
       );
 
@@ -159,7 +158,7 @@ void main() {
     });
 
     test('has avatar', () async {
-      final Iterable<IncidentOperator> ds = await ftp.incidentOperators(
+      final ds = await ftp.incidentOperators(
         startsWith: 'Eduard',
       );
 
@@ -168,13 +167,13 @@ void main() {
     });
 
     test('current operator has avatar', () async {
-      final IncidentOperator op = await ftp.currentIncidentOperator();
+      final op = await ftp.currentIncidentOperator();
 
       expect(op.avatar.length, isNonZero);
     });
 
     test('by id find one', () async {
-      final IncidentOperator oa = await ftp.incidentOperator(id: 'a');
+      final oa = await ftp.incidentOperator(id: 'a');
       expect(oa.id, 'a');
     });
 

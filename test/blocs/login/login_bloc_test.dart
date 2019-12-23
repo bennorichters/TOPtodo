@@ -39,23 +39,23 @@ void main() {
   });
 
   group('TryLogin', () {
-    const Branch branchA = Branch(id: 'a', name: 'A');
-    const Branch branchB = Branch(id: 'b', name: 'B');
-    const Caller callerA = Caller(
+    const branchA = Branch(id: 'a', name: 'A');
+    const branchB = Branch(id: 'b', name: 'B');
+    const callerA = Caller(
       id: 'a',
       name: 'CallerA',
       avatar: 'avatarA',
       branch: branchA,
     );
-    const Category categoryA = Category(id: 'a', name: 'A');
-    const Category categoryB = Category(id: 'b', name: 'B');
-    const SubCategory subCategoryA = SubCategory(
+    const categoryA = Category(id: 'a', name: 'A');
+    const categoryB = Category(id: 'b', name: 'B');
+    const subCategoryA = SubCategory(
       id: 'a',
       name: 'SubCatA',
       category: categoryA,
     );
-    const IncidentDuration durationA = IncidentDuration(id: 'a', name: 'A');
-    const IncidentOperator operatorA = IncidentOperator(
+    const durationA = IncidentDuration(id: 'a', name: 'A');
+    const operatorA = IncidentOperator(
       id: 'a',
       name: 'A',
       avatar: 'avatarOpA',
@@ -84,7 +84,7 @@ void main() {
       ),
     );
 
-    const Credentials credentials = Credentials(
+    const credentials = Credentials(
       url: 'a',
       loginName: 'userA',
       password: 'S3CrEt!',
@@ -93,13 +93,13 @@ void main() {
     test('valid settings', () async {
       final SettingsProvider settingsProvider = MockSettingsProvider();
 
-      final LoginBloc bloc = LoginBloc(
+      final bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
         settingsProvider: settingsProvider,
         topdeskProvider: tdp,
       );
 
-      const Settings settings = Settings(
+      const settings = Settings(
         branch: branchA,
         caller: callerA,
         category: categoryA,
@@ -127,7 +127,7 @@ void main() {
     });
 
     test('incomplete settings', () async {
-      const Settings saved = Settings(
+      const saved = Settings(
         branch: branchA,
         caller: callerA,
         category: categoryA,
@@ -136,7 +136,7 @@ void main() {
         incidentOperator: null,
       );
 
-      const Settings incomplete = Settings(
+      const incomplete = Settings(
         branch: branchA,
         caller: callerA,
         category: categoryA,
@@ -147,7 +147,7 @@ void main() {
 
       final SettingsProvider settingsProvider = MockSettingsProvider();
 
-      final LoginBloc bloc = LoginBloc(
+      final bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
         settingsProvider: settingsProvider,
         topdeskProvider: tdp,
@@ -174,7 +174,7 @@ void main() {
   });
 
   group('TryLogin errors', () {
-    const Credentials credentials = Credentials(
+    const credentials = Credentials(
       url: 'a',
       loginName: 'userA',
       password: 'S3CrEt!',
@@ -184,7 +184,7 @@ void main() {
       final SettingsProvider sp = MockSettingsProvider();
       when(sp.provide()).thenThrow(e);
 
-      final LoginBloc bloc = LoginBloc(
+      final bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
         settingsProvider: sp,
         topdeskProvider: MockTopdeskProvider(),

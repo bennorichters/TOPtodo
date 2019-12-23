@@ -45,7 +45,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
-    final String sanitized = _sanatizeUserInput(startsWith);
+    final sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response =
         await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
 
@@ -70,12 +70,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required String startsWith,
     @required Branch branch,
   }) async {
-    final String sanitized = _sanatizeUserInput(startsWith);
+    final sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response = await _callApi(
       'persons?lastname=$sanitized&\$fields=id,dynamicName,branch',
     );
 
-    final List<Caller> fixed = await Future.wait<Caller>(
+    final fixed = await Future.wait<Caller>(
       response.map(
         (dynamic json) async => await _fixCaller(json),
       ),
@@ -86,7 +86,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   Future<Caller> _fixCaller(Map<String, dynamic> json) async {
     final dynamic fixed = await _fixPerson(_subPathCaller, json);
-    final Branch branch = Branch(
+    final branch = Branch(
       id: json['branch']['id'],
       name: json['branch']['name'],
     );
@@ -126,7 +126,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    final Category category = Category(
+    final category = Category(
       id: theOne['category']['id'],
       name: theOne['category']['name'],
     );
@@ -195,16 +195,16 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<Iterable<IncidentOperator>> incidentOperators({
     @required String startsWith,
   }) async {
-    final String sanitized = _sanatizeUserInput(startsWith);
+    final sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response = await _callApi(
       'operators?lastname=$sanitized',
     );
 
-    final Iterable<dynamic> filtered = response.where(
+    final filtered = response.where(
       (dynamic json) => json['firstLineCallOperator'],
     );
 
-    final List<dynamic> fixed = await Future.wait<dynamic>(
+    final fixed = await Future.wait<dynamic>(
       filtered.map(
         (dynamic json) => _fixPerson(_subPathOperator, json),
       ),
@@ -287,7 +287,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   String _sanatizeUserInput(String input) => Uri.encodeComponent(input);
 
   Map<String, String> _createAuthHeaders(Credentials credentials) {
-    final String encoded = utf8
+    final encoded = utf8
         .fuse(base64)
         .encode('${credentials.loginName}:${credentials.password}');
 

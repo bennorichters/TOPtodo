@@ -62,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (BuildContext context, SettingsState state) {
           if (state is SettingsWithFormState) {
-            final SettingsFormState formState = state.formState;
+            final formState = state.formState;
             return Padding(
               padding: const EdgeInsets.all(15),
               child: Form(
@@ -144,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchBranch(BuildContext context) {
     return () async {
-      final Branch chosenBranch = await showSearch<Branch>(
+      final chosenBranch = await showSearch<Branch>(
         context: context,
         delegate: TdModelSearchDelegate<Branch>.allBranches(),
       );
@@ -158,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return (branch == null)
         ? null
         : () async {
-            final Caller chosenCaller = await showSearch<Caller>(
+            final chosenCaller = await showSearch<Caller>(
               context: context,
               delegate: TdModelSearchDelegate<Caller>.callersForBranch(
                 branch: branch,
@@ -172,8 +172,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchOperator(BuildContext context) {
     return () async {
-      final IncidentOperator chosenOperator =
-          await showSearch<IncidentOperator>(
+      final chosenOperator = await showSearch<IncidentOperator>(
         context: context,
         delegate: TdModelSearchDelegate<IncidentOperator>.allOperators(),
       );

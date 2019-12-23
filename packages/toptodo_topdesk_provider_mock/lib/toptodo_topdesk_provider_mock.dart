@@ -48,7 +48,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
-    final String swLower = startsWith.toLowerCase();
+    final swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson(json_branches.branches);
     return response
@@ -67,7 +67,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Caller> caller({String id}) async {
-    final String avatar = await _avatar();
+    final avatar = await _avatar();
 
     final List<dynamic> response = await _readJson(json_callers.callers);
     final dynamic found = response.firstWhere(
@@ -89,9 +89,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
     @required String startsWith,
     @required Branch branch,
   }) async {
-    final String swLower = startsWith.toLowerCase();
+    final swLower = startsWith.toLowerCase();
 
-    final String avatar = await _avatar();
+    final avatar = await _avatar();
     final List<dynamic> response = await _readJson(json_callers.callers);
     return response
         .where(
@@ -139,7 +139,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<SubCategory> subCategory({String id}) async {
-    final List<dynamic> response = await _readJson(json_sub_categories.subCategories);
+    final List<dynamic> response =
+        await _readJson(json_sub_categories.subCategories);
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () =>
@@ -151,7 +152,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<SubCategory>> subCategories({Category category}) async {
-    final List<dynamic> response = await _readJson(json_sub_categories.subCategories);
+    final List<dynamic> response =
+        await _readJson(json_sub_categories.subCategories);
     return response
         .where(
           (dynamic e) => e['categoryId'] == category.id,
@@ -208,9 +210,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<IncidentOperator>> incidentOperators({
     @required String startsWith,
   }) async {
-    final String swLower = startsWith.toLowerCase();
+    final swLower = startsWith.toLowerCase();
 
-    final String avatar = await _avatar();
+    final avatar = await _avatar();
     final List<dynamic> response = await _readJson(json_operators.operators);
     return response
         .where(
