@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:bloc/bloc.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
@@ -39,7 +38,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: <RepositoryProvider<dynamic>>[
+      providers: [
         RepositoryProvider<CredentialsProvider>(
           create: (BuildContext context) => SecureStorageCredentials(),
         ),
@@ -53,7 +52,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
         )
       ],
       child: MultiBlocProvider(
-        providers: <BlocProvider<Bloc<dynamic, dynamic>>>[
+        providers: [
           BlocProvider<IncidentBloc>(
             create: (BuildContext context) => IncidentBloc(
               topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
