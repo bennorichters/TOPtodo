@@ -186,4 +186,15 @@ void main() {
       );
     });
   });
+
+  group('incident', () {
+    test('create', () async {
+      final number = await ftp.createIncident(
+        briefDescription: 'brief description',
+        settings: Settings.empty(),
+      );
+      
+      expect(number, isNotNull);
+    });
+  });
 }

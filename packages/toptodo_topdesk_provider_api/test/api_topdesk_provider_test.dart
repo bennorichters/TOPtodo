@@ -574,5 +574,37 @@ void main() {
         );
       });
     });
+
+    group('incident', () {
+      var branchA = Branch(id: 'a', name: 'branch a');
+      var catA = Category(id: 'a', name: 'cat a');
+      final settings = Settings(
+        branch: branchA,
+        caller: Caller(
+          id: 'a',
+          name: 'caller a',
+          avatar: 'avt',
+          branch: branchA,
+        ),
+        category: catA,
+        subCategory: SubCategory(
+          id: 'a',
+          name: 'subcatA',
+          category: catA,
+        ),
+        incidentDuration: IncidentDuration(id: 'a', name: 'durationA'),
+        incidentOperator: IncidentOperator(id: 'a', name: 'opA', avatar: 'avt'),
+      );
+
+      test('create', () async {
+        final p = ApiTopdeskProvider();
+        final number = await p.createIncident(
+          briefDescription: 'my todo',
+          settings: settings,
+        );
+
+        expect(number.length, isNonZero);
+      });
+    });
   });
 }

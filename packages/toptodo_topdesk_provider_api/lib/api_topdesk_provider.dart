@@ -220,6 +220,15 @@ class ApiTopdeskProvider extends TopdeskProvider {
         avatar: json['avatar'],
       );
 
+  @override
+  Future<String> createIncident({
+    String briefDescription,
+    Settings settings,
+    String request,
+  }) {
+    return null;
+  }
+
   dynamic _callApi(String endPoint) async {
     if (_url == null) {
       throw StateError('call init first');

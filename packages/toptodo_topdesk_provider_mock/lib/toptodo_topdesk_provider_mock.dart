@@ -26,6 +26,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
   FakeTopdeskProvider({this.latency = const Duration(milliseconds: 1500)});
   final Duration latency;
 
+  int _incidentNumber = 0;
+
   @override
   void init(Credentials credentials) {
     // Ignore
@@ -239,6 +241,15 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   Future<String> _avatar() async {
     return (await _readJson(json_avatar.avatar))['black'];
+  }
+
+  @override
+  Future<String> createIncident({
+    @required String briefDescription,
+    @required Settings settings,
+    String request,
+  }) {
+    return Future.delayed(latency, () => (++_incidentNumber).toString());
   }
 
   Future<dynamic> _readJson(String content) async {
