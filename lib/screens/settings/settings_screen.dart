@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
+import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/widgets/td_button.dart';
@@ -143,6 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   VoidCallback _searchBranch(BuildContext context) {
+    initNewSearch();
     return () async {
       final chosenBranch = await showSearch<Branch>(
         context: context,
@@ -155,6 +157,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   VoidCallback _searchCaller(BuildContext context, Branch branch) {
+    initNewSearch();
     return (branch == null)
         ? null
         : () async {
@@ -171,6 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   VoidCallback _searchOperator(BuildContext context) {
+    initNewSearch();
     return () async {
       final chosenOperator = await showSearch<IncidentOperator>(
         context: context,
@@ -180,6 +184,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       BlocProvider.of<SettingsBloc>(context)
         ..add(SettingsOperatorSelected(chosenOperator));
     };
+  }
+
+  void initNewSearch() {
+    BlocProvider.of<TdModelSearchBloc>(context)..add(TdModelNewSearch());
   }
 }
 

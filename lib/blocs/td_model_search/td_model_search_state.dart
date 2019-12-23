@@ -7,12 +7,12 @@ abstract class TdModelSearchState extends Equatable {
 
 class TdModelSearchInitialState extends TdModelSearchState {
   @override
-  List<Object> get props => <Object> [];
+  List<Object> get props => [];
 }
 
  class TdModelSearching extends TdModelSearchState {
   @override
-  List<Object> get props => <Object> [];
+  List<Object> get props => [];
  }
 
 class TdModelSearchResults<T extends TdModel> extends TdModelSearchState {
@@ -20,5 +20,5 @@ class TdModelSearchResults<T extends TdModel> extends TdModelSearchState {
   final Iterable<T> results;
 
   @override
-  List<Object> get props => <Object> [results];
+  List<Object> get props => [results];
 }

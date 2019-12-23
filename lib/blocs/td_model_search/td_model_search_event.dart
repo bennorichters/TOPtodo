@@ -6,6 +6,11 @@ abstract class TdModelSearchEvent extends Equatable {
   const TdModelSearchEvent();
 }
 
+class TdModelNewSearch extends TdModelSearchEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class SearchInfo<T extends TdModel> extends Equatable {
   const SearchInfo({
     @required this.linkedTo,
@@ -15,7 +20,7 @@ class SearchInfo<T extends TdModel> extends Equatable {
   final String query;
 
   @override
-  List<Object> get props => <Object>[linkedTo, query];
+  List<Object> get props => [linkedTo, query];
 }
 
 abstract class TdModelSearchInfoEvent<T extends TdModel>
@@ -24,7 +29,7 @@ abstract class TdModelSearchInfoEvent<T extends TdModel>
   final SearchInfo<T> searchInfo;
 
   @override
-  List<Object> get props => <Object>[searchInfo];
+  List<Object> get props => [searchInfo];
 }
 
 class TdModelSearchFinishedQuery<T extends TdModel>

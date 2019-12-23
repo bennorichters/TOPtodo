@@ -19,7 +19,9 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   Stream<TdModelSearchState> mapEventToState(
     TdModelSearchEvent event,
   ) async* {
-    if (event is TdModelSearchFinishedQuery) {
+    if (event is TdModelNewSearch) {
+      yield initialState;
+    } else if (event is TdModelSearchFinishedQuery) {
       yield TdModelSearching();
       yield await _queryBasedResults(searchInfo: event.searchInfo);
     } else if (event is TdModelSearchIncompleteQuery) {
