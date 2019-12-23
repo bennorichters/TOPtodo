@@ -34,7 +34,8 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
       return const Settings.empty();
     }
 
-    final Map<String, dynamic> json = jsonDecode(prefs.getString(_storageKey));
+    final Map<String, dynamic> json =
+        jsonDecode(prefs.getString(_storageKey)) as Map<String, dynamic>;
 
     final List<TdModel> models = await Future.wait(<Future<TdModel>>[
       _tdModelFromJson(
@@ -69,18 +70,19 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
       ),
     ]);
 
-    final Branch branch = models[0];
-    final Category category = models[1];
-    final Caller caller = models[2];
-    final SubCategory subCategory = models[3];
-    final IncidentDuration incidentDuration = models[4];
-    final IncidentOperator incidentOperator = models[5];
+    final Branch branch = models[0] as Branch;
+    final Category category = models[1] as Category;
+    final Caller caller = models[2] as Caller;
+    final SubCategory subCategory = models[3] as SubCategory;
+    final IncidentDuration incidentDuration = models[4] as IncidentDuration;
+    final IncidentOperator incidentOperator = models[5] as IncidentOperator;
 
     return Settings(
       branch: branch,
-      caller: _paternityTest(caller, caller.branch, branch),
+      caller: _paternityTest(caller, caller.branch, branch) as Caller,
       category: category,
-      subCategory: _paternityTest(subCategory, subCategory.category, category),
+      subCategory: _paternityTest(subCategory, subCategory.category, category)
+          as SubCategory,
       incidentDuration: incidentDuration,
       incidentOperator: incidentOperator,
     );
@@ -92,7 +94,9 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
     Function fetchModel,
   ) async {
     try {
-      return json.containsKey(jsonKey) ? fetchModel(id: json[jsonKey]) : null;
+      return json.containsKey(jsonKey)
+          ? fetchModel(id: json[jsonKey]) as Future<TdModel>
+          : null;
     } on TdModelNotFoundException {
       return null;
     }

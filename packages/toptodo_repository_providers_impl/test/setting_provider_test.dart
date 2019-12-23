@@ -95,12 +95,12 @@ void main() {
       (_) => Future<IncidentOperator>.value(operatorA),
     );
 
-    test('first nothing then retrieve same as saved', () async {
+    test('first empty settings then retrieve same as saved', () async {
       final SharedPreferencesSettingsProvider p =
           SharedPreferencesSettingsProvider(mtp);
       p.init('url', 'loginName');
 
-      expect(await p.provide(), null);
+      expect(await p.provide(), const Settings.empty());
 
       await p.save(settingsToSave);
 
@@ -113,7 +113,7 @@ void main() {
           SharedPreferencesSettingsProvider(mtp);
       p.init('url', 'loginName');
 
-      expect(await p.provide(), null);
+      expect(await p.provide(), const Settings.empty());
 
       await p.save(settingsToSave);
 
@@ -135,7 +135,7 @@ void main() {
           SharedPreferencesSettingsProvider(mtp);
       p2.init('url2', 'loginName');
 
-      expect(await p2.provide(), null);
+      expect(await p2.provide(), const Settings.empty());
     });
 
     test('deleted duration', () async {
