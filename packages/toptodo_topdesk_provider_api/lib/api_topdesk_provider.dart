@@ -5,13 +5,24 @@ import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
 
+typedef _HttpMethod = Future<http.Response> Function(String endPoint);
+
 class ApiTopdeskProvider extends TopdeskProvider {
   ApiTopdeskProvider({Duration timeOut})
       : _timeOut = timeOut ?? const Duration(seconds: 5);
   final Duration _timeOut;
 
+  static final _acceptHeaders = {
+    HttpHeaders.acceptHeader: 'application/json',
+  };
+
+  static final _contentHeaders = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+  };
+
   String _url;
-  Map<String, String> _authHeaders;
+  Map<String, String> _getHeaders;
+  Map<String, String> _postHeaders;
   http.Client _client;
 
   static const String _subPathOperator = 'operator';
@@ -24,7 +35,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
     }
 
     _url = credentials.url;
-    _authHeaders = _createAuthHeaders(credentials);
+    _getHeaders = {}
+      ..addAll(_createAuthHeaders(credentials))
+      ..addAll(_acceptHeaders);
+
+    _postHeaders = {}..addAll(_getHeaders)..addAll(_contentHeaders);
+
     _client = client ?? http.Client();
   }
 
@@ -33,13 +49,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
     _client?.close();
 
     _url = null;
-    _authHeaders = null;
+    _getHeaders = null;
     _client = null;
   }
 
   @override
   Future<Branch> branch({String id}) async {
-    final dynamic response = await _callApi('branches/id/$id');
+    final dynamic response = await _apiGet('branches/id/$id');
     return _branchFromJson(response);
   }
 
@@ -47,7 +63,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<Iterable<Branch>> branches({@required String startsWith}) async {
     final sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response =
-        await _callApi('branches?nameFragment=$sanitized&\$fields=id,name');
+        await _apiGet('branches?nameFragment=$sanitized&\$fields=id,name');
 
     return response.map((dynamic e) => _branchFromJson(e));
   }
@@ -60,7 +76,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Caller> caller({String id}) async {
     final dynamic response =
-        await _callApi('persons/id/$id?\$fields=id,dynamicName,branch');
+        await _apiGet('persons/id/$id?\$fields=id,dynamicName,branch');
 
     return _fixCaller(response);
   }
@@ -71,7 +87,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required Branch branch,
   }) async {
     final sanitized = _sanatizeUserInput(startsWith);
-    final List<dynamic> response = await _callApi(
+    final List<dynamic> response = await _apiGet(
       'persons?lastname=$sanitized&\$fields=id,dynamicName,branch',
     );
 
@@ -108,7 +124,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<Category>> categories() async {
-    final List<dynamic> response = await _callApi('incidents/categories');
+    final List<dynamic> response = await _apiGet('incidents/categories');
     return response.map((dynamic e) => _categoryFromJson(e));
   }
 
@@ -119,7 +135,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<SubCategory> subCategory({String id}) async {
-    final List<dynamic> response = await _callApi('incidents/subcategories');
+    final List<dynamic> response = await _apiGet('incidents/subcategories');
     final dynamic theOne = response.firstWhere(
       (dynamic json) => json['id'] == id,
       orElse: () =>
@@ -135,7 +151,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<SubCategory>> subCategories({Category category}) async {
-    final List<dynamic> response = await _callApi('incidents/subcategories');
+    final List<dynamic> response = await _apiGet('incidents/subcategories');
 
     return response
         .where((dynamic json) => json['category']['id'] == category.id)
@@ -163,7 +179,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<Iterable<IncidentDuration>> incidentDurations() async {
-    final List<dynamic> response = await _callApi('incidents/durations');
+    final List<dynamic> response = await _apiGet('incidents/durations');
     return response.map((dynamic e) => _incidentDurationFromJson(e));
   }
 
@@ -177,7 +193,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<IncidentOperator> incidentOperator({String id}) async {
-    final dynamic response = await _callApi('operators/id/$id');
+    final dynamic response = await _apiGet('operators/id/$id');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
 
     return _incidentOperatorFromJson(fixed);
@@ -185,7 +201,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<IncidentOperator> currentIncidentOperator() async {
-    final dynamic response = await _callApi('operators/current');
+    final dynamic response = await _apiGet('operators/current');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
 
     return _incidentOperatorFromJson(fixed);
@@ -196,7 +212,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required String startsWith,
   }) async {
     final sanitized = _sanatizeUserInput(startsWith);
-    final List<dynamic> response = await _callApi(
+    final List<dynamic> response = await _apiGet(
       'operators?lastname=$sanitized',
     );
 
@@ -225,8 +241,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required String briefDescription,
     @required Settings settings,
     String request,
-  }) {
+  }) async {
     final jsonElements = []
+      ..add('"status": "firstLine"')
       ..add('"callerBranch": {"id": "${settings.branch.id}"}')
       ..add('"caller": {"id": "${settings.caller.id}"}')
       ..add('"category": {"id": "${settings.category.id}"}')
@@ -234,52 +251,65 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ..add('"duration": {"id": "${settings.incidentDuration.id}"}')
       ..add('"operator": {"id": "${settings.incidentOperator.id}"}');
 
-    final sBD = _escapeQuotes(briefDescription);
-    jsonElements.add('"briefDescription": "$sBD"');
+    final escapedDesc = _escapeQuotes(briefDescription);
+    jsonElements.add('"briefDescription": "$escapedDesc"');
 
     if (request != null && request.isNotEmpty) {
-      final sanatizedRequest = _escapeQuotes(request);
-      jsonElements.add('"request": "$sanatizedRequest"');
+      final escapedRequest = _escapeQuotes(request);
+      jsonElements.add('"request": "$escapedRequest"');
     }
 
     final json = '{' + jsonElements.join(',') + '}';
 
-    print(json);
-
-    return null;
+    final response = await _apiPost('incidents', json);
+    return response['number'];
   }
 
   String _escapeQuotes(String userInput) => userInput.replaceAll('"', '\\\"');
 
-  dynamic _callApi(String endPoint) async {
+  dynamic _apiGet(String endPoint) async => _apiCall(
+        endPoint,
+        (String endPoint) => _client.get(
+          '$_url/tas/api/$endPoint',
+          headers: _getHeaders,
+        ),
+      );
+
+  dynamic _apiPost(String endPoint, String body) async => _apiCall(
+        endPoint,
+        (String endPoint) => _client.post(
+          '$_url/tas/api/$endPoint',
+          headers: _postHeaders,
+          body: body,
+        ),
+      );
+
+  dynamic _apiCall(String endPoint, _HttpMethod method) async {
     if (_url == null) {
       throw StateError('call init first');
     }
 
     http.Response res;
     try {
-      res = await _client
-          .get(
-            '$_url/tas/api/$endPoint',
-            headers: _authHeaders,
-          )
-          .timeout(
-            _timeOut,
-            onTimeout: () => throw TdTimeOutException(
-              'time out for: $endPoint',
-            ),
-          );
+      res = await method(endPoint).timeout(
+        _timeOut,
+        onTimeout: () => throw TdTimeOutException(
+          'time out for: $method',
+        ),
+      );
     } on TdTimeOutException {
       rethrow;
     } catch (error) {
-      throw TdServerException('error get $endPoint error: $error');
+      throw TdServerException('error get $method error: $error');
     }
 
     return _processServerResponse(endPoint, res);
   }
 
   dynamic _processServerResponse(String endPoint, http.Response res) {
-    if (res.statusCode == 200 || res.statusCode == 206) {
+    if (res.statusCode == 200 ||
+        res.statusCode == 201 ||
+        res.statusCode == 206) {
       return json.decode(res.body);
     }
 
@@ -311,7 +341,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   Future<String> _avatarForPerson(String subPath, String id) async {
-    final dynamic response = await _callApi('avatars/$subPath/$id');
+    final dynamic response = await _apiGet('avatars/$subPath/$id');
     return response['image'];
   }
 
@@ -322,9 +352,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
         .fuse(base64)
         .encode('${credentials.loginName}:${credentials.password}');
 
-    return <String, String>{
+    return {
       HttpHeaders.authorizationHeader: 'Basic ' + encoded,
-      HttpHeaders.acceptHeader: 'application/json',
     };
   }
 }

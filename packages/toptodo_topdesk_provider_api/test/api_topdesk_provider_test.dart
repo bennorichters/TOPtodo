@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -576,34 +577,119 @@ void main() {
     });
 
     group('incident', () {
-      var branchA = Branch(id: 'a', name: 'branch a');
-      var catA = Category(id: 'a', name: 'cat a');
-      final settings = Settings(
+      final branchA = Branch(
+        id: 'a',
+        name: 'branch a',
+      );
+      final callerA = Caller(
+        id: 'a',
+        name: 'caller a',
+        avatar: 'avt',
         branch: branchA,
-        caller: Caller(
-          id: 'a',
-          name: 'caller a',
-          avatar: 'avt',
-          branch: branchA,
-        ),
+      );
+      final catA = Category(
+        id: 'a',
+        name: 'cat a',
+      );
+      final subCategoryA = SubCategory(
+        id: 'a',
+        name: 'subcatA',
         category: catA,
-        subCategory: SubCategory(
-          id: 'a',
-          name: 'subcatA',
-          category: catA,
-        ),
-        incidentDuration: IncidentDuration(id: 'a', name: 'durationA'),
-        incidentOperator: IncidentOperator(id: 'a', name: 'opA', avatar: 'avt'),
+      );
+      final incidentDurationA = IncidentDuration(
+        id: 'a',
+        name: 'durationA',
+      );
+      final incidentOperatorA = IncidentOperator(
+        id: 'a',
+        name: 'opA',
+        avatar: 'avt',
       );
 
-      test('create', () async {
-        final p = ApiTopdeskProvider();
+      final settings = Settings(
+        branch: branchA,
+        caller: callerA,
+        category: catA,
+        subCategory: subCategoryA,
+        incidentDuration: incidentDurationA,
+        incidentOperator: incidentOperatorA,
+      );
+
+      test('create without request', () async {
+        final Client client = MockClient((Request request) async {
+          expect(request.url.path, credentials.url + '/tas/api/incidents');
+          expect(
+            request.headers[HttpHeaders.contentTypeHeader],
+            'application/json; charset=utf-8',
+          );
+
+          final body = json.decode(request.body);
+          expect(body['status'], 'firstLine');
+          expect(body['briefDescription'], 'my "todo"');
+          expect(body.containsKey('request'), isFalse);
+          expect(body['callerBranch'], {'id': branchA.id});
+          expect(body['caller'], {'id': callerA.id});
+          expect(body['category'], {'id': catA.id});
+          expect(body['subcategory'], {'id': subCategoryA.id});
+          expect(body['duration'], {'id': incidentDurationA.id});
+          expect(body['operator'], {'id': incidentOperatorA.id});
+
+          return Response(
+            '{"number": "19 12 002"}',
+            201,
+          );
+        });
+
+        final p = ApiTopdeskProvider()
+          ..init(
+            credentials,
+            client: client,
+          );
         final number = await p.createIncident(
-          briefDescription: 'my todo',
+          briefDescription: 'my "todo"',
           settings: settings,
         );
 
-        expect(number.length, isNonZero);
+        expect(number, '19 12 002');
+      });
+
+      test('create with request', () async {
+        final Client client = MockClient((Request request) async {
+          expect(request.url.path, credentials.url + '/tas/api/incidents');
+          expect(
+            request.headers[HttpHeaders.contentTypeHeader],
+            'application/json; charset=utf-8',
+          );
+
+          final body = json.decode(request.body);
+          expect(body['status'], 'firstLine');
+          expect(body['briefDescription'], 'my "todo"');
+          expect(body['request'], 'my request');
+          expect(body['callerBranch'], {'id': branchA.id});
+          expect(body['caller'], {'id': callerA.id});
+          expect(body['category'], {'id': catA.id});
+          expect(body['subcategory'], {'id': subCategoryA.id});
+          expect(body['duration'], {'id': incidentDurationA.id});
+          expect(body['operator'], {'id': incidentOperatorA.id});
+
+          return Response(
+            '{"number": "19 12 002"}',
+            201,
+          );
+        });
+
+        final p = ApiTopdeskProvider()
+          ..init(
+            credentials,
+            client: client,
+          );
+        final number = await p.createIncident(
+          briefDescription: 'my "todo"',
+          request: 'my request',
+          settings: settings,
+        );
+
+        expect(number, '19 12 002');
       });
     });
   });
