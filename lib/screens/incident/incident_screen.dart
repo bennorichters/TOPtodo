@@ -4,6 +4,7 @@ import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/td_button.dart';
 
 typedef NavigateToScreen = Function(BuildContext context);
@@ -51,20 +52,29 @@ class _IncidentScreenState extends State<IncidentScreen> {
           ),
         ],
       ),
-      body: BlocBuilder<IncidentBloc, IncidentState>(
-        builder: (BuildContext context, IncidentState state) {
-          if (state is IncidentState) {
-            return _IncidentForm();
-          } else {
-            throw StateError('unknown state: $state');
+      body: BlocListener<IncidentBloc, IncidentState>(
+        listener: (context, state) {
+          if (state is IncidentCreated) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: moss,
+                content: Text('Incdent created with number ${state.number}'),
+              ),
+            );
           }
         },
+        child: BlocBuilder<IncidentBloc, IncidentState>(
+          builder: (context, state) => _IncidentForm(state),
+        ),
       ),
     );
   }
 }
 
 class _IncidentForm extends StatelessWidget {
+  _IncidentForm(this.state);
+  final IncidentState state;
+
   final _formKey = GlobalKey<FormState>();
 
   final _verticalSpace = const SizedBox(height: 10);
@@ -93,18 +103,22 @@ class _IncidentForm extends StatelessWidget {
               maxLines: null,
             ),
             _verticalSpace,
-            TdButton(
-              text: 'submit',
-              onTap: () {
-                if (_formKey.currentState.validate()) {
-                  BlocProvider.of<IncidentBloc>(context)
-                    ..add(IncidentSubmit(
-                      briefDescription: _briefDescription.text,
-                      request: _request.text,
-                    ));
-                }
-              },
-            ),
+            (state is SubmittingIncident)
+                ? CircularProgressIndicator()
+                : TdButton(
+                    text: 'submit',
+                    onTap: () {
+                      if (_formKey.currentState.validate()) {
+                        BlocProvider.of<IncidentBloc>(context)
+                          ..add(
+                            IncidentSubmit(
+                              briefDescription: _briefDescription.text,
+                              request: _request.text,
+                            ),
+                          );
+                      }
+                    },
+                  ),
           ],
         ),
       ),

@@ -24,3 +24,5 @@ const Color forest100 = Color(0xFFD5F0DE);
 const Color squash = Color(0xFFFFD9A3);
 
 const Color vermillion = Color(0xFFE65038);
+
+const Color moss = Color(0xFF19A064);

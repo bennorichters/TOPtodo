@@ -6,6 +6,18 @@ abstract class IncidentState extends Equatable {
 
 class InitialIncidentState extends IncidentState {
   @override
-
   List<Object> get props => [];
+}
+
+class SubmittingIncident extends IncidentState {
+  @override
+  List<Object> get props => [];
+}
+
+class IncidentCreated extends IncidentState {
+  IncidentCreated(this.number);
+  final String number;
+
+  @override
+  List<Object> get props => [number];
 }
