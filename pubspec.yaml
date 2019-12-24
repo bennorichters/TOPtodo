@@ -21,17 +21,17 @@ dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: e979f7bee9ad619e33a97dd4579d895b66a6e647
+      ref: 4b11505bc62b67ae6a453fd13fbb669b9b2d23b2
   toptodo_repository_providers_impl:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_repository_providers_impl
-      ref: f86db547ec2acf76b85d3a82cc16045e3c9c1da3
+      ref: 95d985645e85fa62fecdb53f9eaf2efd07e7c4a8
   toptodo_topdesk_provider_api:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_api
-      ref: f86db547ec2acf76b85d3a82cc16045e3c9c1da3
+      ref: 95d985645e85fa62fecdb53f9eaf2efd07e7c4a8
 
 dev_dependencies:
   flutter_test:
@@ -40,7 +40,7 @@ dev_dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_mock
-      ref: f86db547ec2acf76b85d3a82cc16045e3c9c1da3
+      ref: 95d985645e85fa62fecdb53f9eaf2efd07e7c4a8
   bloc_test: ^2.2.2
   mockito: ^4.1.1
 
