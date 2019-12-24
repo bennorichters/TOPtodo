@@ -24,16 +24,31 @@ void main() {
     );
 
     blocTest<LoginBloc, LoginEvent, LoginState>(
-      '...',
+      'toggle remember',
       build: () => LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
         settingsProvider: MockSettingsProvider(),
         topdeskProvider: MockTopdeskProvider(),
       ),
-      act: (LoginBloc bloc) async => bloc.add(const RememberToggle()),
+      act: (LoginBloc bloc) async => bloc.add(
+        const RememberToggle(
+          Credentials(
+            url: 'a',
+            loginName: 'b',
+            password: 'c',
+          ),
+        ),
+      ),
       expect: <LoginState>[
         const LoginWaitingForSavedData(),
-        const RetrievedSavedData(null, true),
+        const RetrievedSavedData(
+          Credentials(
+            url: 'a',
+            loginName: 'b',
+            password: 'c',
+          ),
+          true,
+        ),
       ],
     );
   });
