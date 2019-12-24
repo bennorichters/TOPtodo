@@ -31,8 +31,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       _credentials = await credentialsProvider.provide();
 
       yield RetrievedSavedData(_credentials, _remember);
+    } else if (event is LogOut) {
+      yield const LoginWaitingForSavedData();
+      await credentialsProvider.delete();
+      _credentials = Credentials.empty();
+      _remember = false;
+      yield RetrievedSavedData(_credentials, _remember);
     } else if (event is RememberToggle) {
+      _credentials = event.credentials;
       _remember = !_remember;
+
+      if (!_remember) {
+        await credentialsProvider.delete();
+      }
+
       yield RetrievedSavedData(_credentials, _remember);
     } else if (event is TryLogin) {
       _credentials = event.credentials;
@@ -41,8 +53,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       if (_remember) {
         await credentialsProvider.save(_credentials);
-      } else {
-        await credentialsProvider.delete();
       }
 
       topdeskProvider.dispose();

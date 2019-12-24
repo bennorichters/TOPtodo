@@ -42,7 +42,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
+              BlocProvider.of<LoginBloc>(context)..add(const LogOut());
 
               Navigator.pushReplacement(
                 context,

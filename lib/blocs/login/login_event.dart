@@ -9,14 +9,23 @@ class AppStarted extends LoginEvent {
   const AppStarted();
 
   @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => [];
+}
+
+class LogOut extends LoginEvent {
+  const LogOut();
+
+  @override
+  List<Object> get props => [];
 }
 
 class RememberToggle extends LoginEvent {
-  const RememberToggle();
+  const RememberToggle(this.credentials);
+  final Credentials credentials;
 
   @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => [credentials];
+
 }
 
 class TryLogin extends LoginEvent {
@@ -24,5 +33,5 @@ class TryLogin extends LoginEvent {
   final Credentials credentials;
 
   @override
-  List<Object> get props => <Object>[credentials];
+  List<Object> get props => [credentials];
 }
