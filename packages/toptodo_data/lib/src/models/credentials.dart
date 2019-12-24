@@ -8,6 +8,11 @@ class Credentials extends Equatable {
     @required this.password,
   });
 
+  const Credentials.empty()
+      : url = null,
+        loginName = null,
+        password = null;
+
   final String url;
   final String loginName;
   final String password;
