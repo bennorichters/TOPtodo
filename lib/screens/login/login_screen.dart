@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state is LoginSuccessIncompleteSettings) {
               Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
                 MaterialPageRoute<SettingsScreen>(
-                  builder: (_) => SettingsScreen(),
+                  builder: (_) => const SettingsScreen(),
                 ),
               );
             } else if (state is LoginSuccessValidSettings) {

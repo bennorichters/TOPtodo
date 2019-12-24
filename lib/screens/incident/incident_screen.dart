@@ -33,7 +33,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
             icon: Icon(Icons.settings),
             onPressed: () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => SettingsScreen()),
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
             ),
           ),
           FlatButton(

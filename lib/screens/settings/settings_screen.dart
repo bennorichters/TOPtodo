@@ -13,6 +13,8 @@ import '../login/login_screen.dart';
 import 'widgets/td_model_search_delegate.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key key}) : super(key: key);
+  
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
