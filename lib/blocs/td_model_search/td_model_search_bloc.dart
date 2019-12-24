@@ -6,7 +6,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 import './bloc.dart';
 
 class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
-  TdModelSearchBloc(this.topdeskProvider);
+  TdModelSearchBloc({this.topdeskProvider});
   final TopdeskProvider topdeskProvider;
   final _Debouncer _debouncer = _Debouncer(
     duration: const Duration(milliseconds: 500),

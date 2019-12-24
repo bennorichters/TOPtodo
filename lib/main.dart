@@ -45,95 +45,77 @@ class _TopToDoAppState extends State<TopToDoApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
+    return MultiBlocProvider(
       providers: [
-        RepositoryProvider<CredentialsProvider>(
-          create: (BuildContext context) => _credentialsProvider,
+        BlocProvider<IncidentBloc>(
+          create: (BuildContext context) => IncidentBloc(
+            topdeskProvider: _topdeskProvider,
+            settingsProvider: _settingsProvider,
+          ),
         ),
-        RepositoryProvider<SettingsProvider>(
-          create: (BuildContext context) => _settingsProvider,
+        BlocProvider<LoginBloc>(
+          create: (BuildContext context) => LoginBloc(
+            topdeskProvider: _topdeskProvider,
+            credentialsProvider: _credentialsProvider,
+            settingsProvider: _settingsProvider,
+          ),
         ),
-        RepositoryProvider<TopdeskProvider>(
-          create: (BuildContext context) => _topdeskProvider,
-        )
+        BlocProvider<SettingsBloc>(
+          create: (BuildContext context) => SettingsBloc(
+            topdeskProvider: _topdeskProvider,
+            settingsProvider: _settingsProvider,
+          ),
+        ),
+        BlocProvider<TdModelSearchBloc>(
+          create: (BuildContext context) => TdModelSearchBloc(
+            topdeskProvider: _topdeskProvider,
+          ),
+        ),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<IncidentBloc>(
-            create: (BuildContext context) => IncidentBloc(
-              topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
-              settingsProvider:
-                  RepositoryProvider.of<SettingsProvider>(context),
-            ),
-          ),
-          BlocProvider<LoginBloc>(
-            create: (BuildContext context) => LoginBloc(
-              credentialsProvider:
-                  RepositoryProvider.of<CredentialsProvider>(context),
-              settingsProvider:
-                  RepositoryProvider.of<SettingsProvider>(context),
-              topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
-            ),
-          ),
-          BlocProvider<SettingsBloc>(
-            create: (BuildContext context) => SettingsBloc(
-              topdeskProvider: RepositoryProvider.of<TopdeskProvider>(context),
-              settingsProvider:
-                  RepositoryProvider.of<SettingsProvider>(context),
-            ),
-          ),
-          BlocProvider<TdModelSearchBloc>(
-            create: (BuildContext context) => TdModelSearchBloc(
-              RepositoryProvider.of<TopdeskProvider>(context),
-            ),
-          ),
-        ],
-        child: MaterialApp(
-          title: 'TOPtodo',
-          theme: ThemeData(
-            primarySwatch: denim,
-          ),
-          home: FutureBuilder<_SavedData>(
-            future: _retrieveSavedData(),
-            builder: (
-              BuildContext context,
-              AsyncSnapshot<_SavedData> snapshot,
-            ) {
-              if (snapshot.hasData) {
-                if (!snapshot.data.credentials.isComplete()) {
-                  return const LoginScreen();
-                } else if (snapshot.data.settings.isComplete()) {
-                  return const IncidentScreen();
-                } else {
-                  return const SettingsScreen();
-                }
-              } else if (snapshot.hasError) {
-                return PreLoginScreen(
-                  [
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Error: ${snapshot.error}'),
-                    ),
-                  ],
-                );
+      child: MaterialApp(
+        title: 'TOPtodo',
+        theme: ThemeData(
+          primarySwatch: denim,
+        ),
+        home: FutureBuilder<_SavedData>(
+          future: _retrieveSavedData(),
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<_SavedData> snapshot,
+          ) {
+            if (snapshot.hasData) {
+              if (!snapshot.data.credentials.isComplete()) {
+                return const LoginScreen();
+              } else if (snapshot.data.settings.isComplete()) {
+                return const IncidentScreen();
               } else {
-                print('HERE!');
-                return PreLoginScreen(
-                  [
-                    SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 60,
-                      height: 60,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Waiting for saved data...'),
-                    ),
-                  ],
-                );
+                return const SettingsScreen();
               }
-            },
-          ),
+            } else if (snapshot.hasError) {
+              return PreLoginScreen(
+                [
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                ],
+              );
+            } else {
+              return const PreLoginScreen(
+                [
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Waiting for saved data...'),
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ),
     );

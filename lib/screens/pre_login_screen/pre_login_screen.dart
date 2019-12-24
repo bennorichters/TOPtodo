@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PreLoginScreen extends StatefulWidget {
-  PreLoginScreen(this.children);
-  final children;
-
-  @override
-  _PreLoginScreenState createState() => _PreLoginScreenState(children);
-}
-
-class _PreLoginScreenState extends State<PreLoginScreen> {
-  _PreLoginScreenState(this.children);
+class PreLoginScreen extends StatelessWidget {
+  const PreLoginScreen(this.children);
   final children;
 
   @override
