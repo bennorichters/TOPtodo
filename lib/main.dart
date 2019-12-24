@@ -86,10 +86,10 @@ class _TopToDoAppState extends State<TopToDoApp> {
             if (snapshot.hasData) {
               if (!snapshot.data.credentials.isComplete()) {
                 return const LoginScreen();
-              } else if (snapshot.data.settings.isComplete()) {
-                return const IncidentScreen();
-              } else {
+              } else if (!snapshot.data.settings.isComplete()) {
                 return const SettingsScreen();
+              } else {
+                return const IncidentScreen();
               }
             } else if (snapshot.hasError) {
               return PreLoginScreen(
