@@ -12,6 +12,9 @@ class Credentials extends Equatable {
   final String loginName;
   final String password;
 
+  bool isComplete() =>
+      (url != null) && (loginName != null) && (password != null);
+
   @override
   List<Object> get props => <Object>[url, loginName, password];
 
