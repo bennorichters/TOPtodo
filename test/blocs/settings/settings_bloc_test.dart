@@ -10,35 +10,53 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 
 void main() {
   group('SettingsInit', () {
-    test('correct settings', () async {
-      final tdp = FakeTopdeskProvider(latency: Duration.zero);
-      final branchA = await tdp.branch(id: 'a');
-      final callerAa = await tdp.caller(id: 'aa');
-      final categoryA = await tdp.category(id: 'a');
-      final subCategoryAa = await tdp.subCategory(id: 'aa');
-      final durationA = await tdp.incidentDuration(id: 'a');
-      final operatorA = await tdp.incidentOperator(id: 'a');
+    final settingsProvider = MockSettingsProvider();
+    var tdp,
+        bloc,
+        branchA,
+        callerAa,
+        categoryA,
+        subCategoryAa,
+        subCategoryAb,
+        durationA,
+        operatorA,
+        categories,
+        subCategories,
+        durations;
 
-      final categories = await tdp.categories();
-      final subCategories = await tdp.subCategories(category: categoryA);
-      final durations = await tdp.incidentDurations();
+    setUp(() async {
+      tdp = FakeTopdeskProvider(latency: Duration.zero);
 
-      final settings = Settings(
-        branchId: branchA.id,
-        callerId: callerAa.id,
-        categoryId: categoryA.id,
-        subCategoryId: subCategoryAa.id,
-        incidentDurationId: durationA.id,
-        incidentOperatorId: operatorA.id,
-      );
-      final settingsProvider = MockSettingsProvider();
-      when(settingsProvider.provide()).thenAnswer(
-        (_) => Future<Settings>.value(settings),
-      );
+      branchA = await tdp.branch(id: 'a');
+      callerAa = await tdp.caller(id: 'aa');
+      categoryA = await tdp.category(id: 'a');
+      subCategoryAa = await tdp.subCategory(id: 'aa');
+      subCategoryAb = await tdp.subCategory(id: 'ab');
+      durationA = await tdp.incidentDuration(id: 'a');
+      operatorA = await tdp.incidentOperator(id: 'a');
 
-      final bloc = SettingsBloc(
+      categories = await tdp.categories();
+      subCategories = await tdp.subCategories(category: categoryA);
+      durations = await tdp.incidentDurations();
+
+      bloc = SettingsBloc(
         settingsProvider: settingsProvider,
         topdeskProvider: tdp,
+      );
+    });
+
+    test('correct settings', () async {
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(
+          Settings(
+            branchId: branchA.id,
+            callerId: callerAa.id,
+            categoryId: categoryA.id,
+            subCategoryId: subCategoryAa.id,
+            incidentDurationId: durationA.id,
+            incidentOperatorId: operatorA.id,
+          ),
+        ),
       );
 
       bloc.add(const SettingsInit());
@@ -75,34 +93,17 @@ void main() {
     });
 
     test('sub category belongs to different category', () async {
-      final tdp = FakeTopdeskProvider(latency: Duration.zero);
-      final branchA = await tdp.branch(id: 'a');
-      final callerAa = await tdp.caller(id: 'aa');
-      final categoryA = await tdp.category(id: 'a');
-      final subCategoryAb = await tdp.subCategory(id: 'ab');
-      final durationA = await tdp.incidentDuration(id: 'a');
-      final operatorA = await tdp.incidentOperator(id: 'a');
-
-      final categories = await tdp.categories();
-      final subCategories = await tdp.subCategories(category: categoryA);
-      final durations = await tdp.incidentDurations();
-
-      final settings = Settings(
-        branchId: branchA.id,
-        callerId: callerAa.id,
-        categoryId: categoryA.id,
-        subCategoryId: subCategoryAb.id,
-        incidentDurationId: durationA.id,
-        incidentOperatorId: operatorA.id,
-      );
-      final settingsProvider = MockSettingsProvider();
       when(settingsProvider.provide()).thenAnswer(
-        (_) => Future<Settings>.value(settings),
-      );
-
-      final bloc = SettingsBloc(
-        settingsProvider: settingsProvider,
-        topdeskProvider: tdp,
+        (_) => Future<Settings>.value(
+          Settings(
+            branchId: branchA.id,
+            callerId: callerAa.id,
+            categoryId: categoryA.id,
+            subCategoryId: subCategoryAb.id,
+            incidentDurationId: durationA.id,
+            incidentOperatorId: operatorA.id,
+          ),
+        ),
       );
 
       bloc.add(const SettingsInit());
