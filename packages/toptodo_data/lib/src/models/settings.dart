@@ -1,55 +1,66 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:toptodo_data/toptodo_data.dart';
 
 class Settings extends Equatable {
   const Settings({
-    @required this.branch,
-    @required this.caller,
-    @required this.category,
-    @required this.subCategory,
-    @required this.incidentDuration,
-    @required this.incidentOperator,
+    @required this.branchId,
+    @required this.callerId,
+    @required this.categoryId,
+    @required this.subCategoryId,
+    @required this.incidentDurationId,
+    @required this.incidentOperatorId,
   });
 
-  const Settings.empty()
-      : branch = null,
-        caller = null,
-        category = null,
-        subCategory = null,
-        incidentDuration = null,
-        incidentOperator = null;
+  Settings.fromJson(Map<String, dynamic> json)
+      : branchId = json['branchId'],
+        callerId = json['callerId'],
+        categoryId = json['categoryId'],
+        subCategoryId = json['subCategoryId'],
+        incidentDurationId = json['incidentDurationId'],
+        incidentOperatorId = json['incidentOperatorId'];
 
-  final Branch branch;
-  final Caller caller;
-  final Category category;
-  final SubCategory subCategory;
-  final IncidentDuration incidentDuration;
-  final IncidentOperator incidentOperator;
+  const Settings.empty()
+      : branchId = null,
+        callerId = null,
+        categoryId = null,
+        subCategoryId = null,
+        incidentDurationId = null,
+        incidentOperatorId = null;
+
+  final String branchId;
+  final String callerId;
+  final String categoryId;
+  final String subCategoryId;
+  final String incidentDurationId;
+  final String incidentOperatorId;
 
   bool isComplete() =>
-      branch != null &&
-      caller != null &&
-      category != null &&
-      subCategory != null &&
-      incidentDuration != null &&
-      incidentOperator != null;
+      branchId != null &&
+      callerId != null &&
+      categoryId != null &&
+      subCategoryId != null &&
+      incidentDurationId != null &&
+      incidentOperatorId != null;
+
+  Map<String, dynamic> toJson() => {
+        'branchId': branchId,
+        'callerId': callerId,
+        'categoryId': categoryId,
+        'subCategoryId': subCategoryId,
+        'incidentDurationId': incidentDurationId,
+        'incidentOperatorId': incidentOperatorId,
+      };
 
   @override
   List<Object> get props => <Object>[
-        branch,
-        caller,
-        category,
-        subCategory,
-        incidentDuration,
-        incidentOperator,
+        branchId,
+        callerId,
+        categoryId,
+        subCategoryId,
+        incidentDurationId,
+        incidentOperatorId,
       ];
 
   @override
-  String toString() => 'branch: $branch, '
-      'caller: $caller, '
-      'category: $category, '
-      'subCategory: $subCategory, '
-      'incidentDuration: $incidentDuration, '
-      'incidentOperator: $incidentOperator';
+  String toString() => toJson().toString();
 }
