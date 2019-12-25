@@ -9,8 +9,8 @@ class SettingsFormState extends Equatable {
     this.caller,
     this.categories,
     this.category,
-    this.durations,
-    this.duration,
+    this.incidentDurations,
+    this.incidentDuration,
     this.incidentOperators,
     this.incidentOperator,
     this.subCategories,
@@ -21,8 +21,8 @@ class SettingsFormState extends Equatable {
   final Caller caller;
   final Iterable<Category> categories;
   final Category category;
-  final Iterable<IncidentDuration> durations;
-  final IncidentDuration duration;
+  final Iterable<IncidentDuration> incidentDurations;
+  final IncidentDuration incidentDuration;
   final Iterable<IncidentOperator> incidentOperators;
   final IncidentOperator incidentOperator;
   final Iterable<SubCategory> subCategories;
@@ -44,8 +44,8 @@ class SettingsFormState extends Equatable {
         branch: updatedBranch ?? branch,
         categories: updatedCategories ?? categories,
         category: updatedCategory ?? category,
-        durations: updatedDurations ?? durations,
-        duration: updatedDuration ?? duration,
+        incidentDurations: updatedDurations ?? incidentDurations,
+        incidentDuration: updatedDuration ?? incidentDuration,
         incidentOperators: updatedIncidentOperators ?? incidentOperators,
         incidentOperator: updatedIncidentOperator ?? incidentOperator,
         caller: _updatedValue(
@@ -78,12 +78,12 @@ class SettingsFormState extends Equatable {
       ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
 
   Settings toSettings() => Settings(
-        branch: branch,
-        caller: caller,
-        category: category,
-        subCategory: subCategory,
-        incidentDuration: duration,
-        incidentOperator: incidentOperator,
+        branchId: branch.id,
+        callerId: caller.id,
+        categoryId: category.id,
+        subCategoryId: subCategory.id,
+        incidentDurationId: incidentDuration.id,
+        incidentOperatorId: incidentOperator.id,
       );
 
   @override
@@ -92,8 +92,8 @@ class SettingsFormState extends Equatable {
         caller,
         categories,
         category,
-        durations,
-        duration,
+        incidentDurations,
+        incidentDuration,
         incidentOperators,
         incidentOperator,
         subCategories,
@@ -108,8 +108,8 @@ class SettingsFormState extends Equatable {
       'category: $category, '
       'subCategory: $subCategory, '
       'subCategories: $subCategories, '
-      'durations: $durations, '
-      'duration: $duration, '
+      'durations: $incidentDurations, '
+      'duration: $incidentDuration, '
       'operators: $incidentOperators, '
       'operator: $incidentOperator, '
       '}';

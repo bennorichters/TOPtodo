@@ -99,8 +99,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     SearchList<IncidentDuration>(
                       name: 'Duration',
                       validationText: 'Choose a Duration',
-                      items: formState.durations,
-                      selectedItem: formState.duration,
+                      items: formState.incidentDurations,
+                      selectedItem: formState.incidentDuration,
                       onChangedCallBack: (IncidentDuration newValue) {
                         BlocProvider.of<SettingsBloc>(context)
                           ..add(SettingsDurationSelected(newValue));

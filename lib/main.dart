@@ -29,7 +29,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
   void initState() {
     _credentialsProvider = SecureStorageCredentials();
     _topdeskProvider = FakeTopdeskProvider();
-    _settingsProvider = SharedPreferencesSettingsProvider(_topdeskProvider);
+    _settingsProvider = SharedPreferencesSettingsProvider();
 
     super.initState();
   }

@@ -54,50 +54,7 @@ void main() {
   });
 
   group('TryLogin', () {
-    const branchA = Branch(id: 'a', name: 'A');
-    const branchB = Branch(id: 'b', name: 'B');
-    const callerA = Caller(
-      id: 'a',
-      name: 'CallerA',
-      avatar: 'avatarA',
-      branch: branchA,
-    );
-    const categoryA = Category(id: 'a', name: 'A');
-    const categoryB = Category(id: 'b', name: 'B');
-    const subCategoryA = SubCategory(
-      id: 'a',
-      name: 'SubCatA',
-      category: categoryA,
-    );
-    const durationA = IncidentDuration(id: 'a', name: 'A');
-    const operatorA = IncidentOperator(
-      id: 'a',
-      name: 'A',
-      avatar: 'avatarOpA',
-    );
 
-    final TopdeskProvider tdp = MockTopdeskProvider();
-    when(tdp.caller(id: 'a')).thenAnswer(
-      (_) => Future<Caller>.value(callerA),
-    );
-    when(tdp.caller(id: 'b')).thenAnswer(
-      (_) => Future<Caller>.value(
-        const Caller(
-          id: 'b',
-          name: 'CallerB',
-          avatar: 'avatarB',
-          branch: branchB,
-        ),
-      ),
-    );
-    when(tdp.subCategory(id: 'a')).thenAnswer(
-      (_) => Future<SubCategory>.value(subCategoryA),
-    );
-    when(tdp.subCategory(id: 'b')).thenAnswer(
-      (_) => Future<SubCategory>.value(
-        const SubCategory(id: 'b', name: 'SubCatB', category: categoryB),
-      ),
-    );
 
     const credentials = Credentials(
       url: 'a',
@@ -106,21 +63,22 @@ void main() {
     );
 
     test('valid settings', () async {
+      final TopdeskProvider topdeskProvider = MockTopdeskProvider();
       final SettingsProvider settingsProvider = MockSettingsProvider();
 
       final bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
         settingsProvider: settingsProvider,
-        topdeskProvider: tdp,
+        topdeskProvider: topdeskProvider,
       );
 
       const settings = Settings(
-        branch: branchA,
-        caller: callerA,
-        category: categoryA,
-        subCategory: subCategoryA,
-        incidentDuration: durationA,
-        incidentOperator: operatorA,
+        branchId: 'a',
+        callerId: 'a',
+        categoryId: 'a',
+        subCategoryId: 'a',
+        incidentDurationId: 'a',
+        incidentOperatorId: 'a',
       );
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(settings),
@@ -134,7 +92,7 @@ void main() {
           const LoginWaitingForSavedData(),
           const LoginSubmitting(),
           LoginSuccessValidSettings(
-            topdeskProvider: tdp,
+            topdeskProvider: topdeskProvider,
             settings: settings,
           ),
         ],
@@ -143,29 +101,30 @@ void main() {
 
     test('incomplete settings', () async {
       const saved = Settings(
-        branch: branchA,
-        caller: callerA,
-        category: categoryA,
-        subCategory: subCategoryA,
-        incidentDuration: durationA,
-        incidentOperator: null,
+        branchId: 'a',
+        callerId: 'a',
+        categoryId: 'a',
+        subCategoryId: 'a',
+        incidentDurationId: 'a',
+        incidentOperatorId: null,
       );
 
       const incomplete = Settings(
-        branch: branchA,
-        caller: callerA,
-        category: categoryA,
-        subCategory: subCategoryA,
-        incidentDuration: durationA,
-        incidentOperator: null,
+        branchId: 'a',
+        callerId: 'a',
+        categoryId: 'a',
+        subCategoryId: 'a',
+        incidentDurationId: 'a',
+        incidentOperatorId: null,
       );
 
+      final TopdeskProvider topdeskProvider = MockTopdeskProvider();
       final SettingsProvider settingsProvider = MockSettingsProvider();
 
       final bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
         settingsProvider: settingsProvider,
-        topdeskProvider: tdp,
+        topdeskProvider: topdeskProvider,
       );
 
       when(settingsProvider.provide()).thenAnswer(
@@ -180,7 +139,7 @@ void main() {
           const LoginWaitingForSavedData(),
           const LoginSubmitting(),
           LoginSuccessIncompleteSettings(
-            topdeskProvider: tdp,
+            topdeskProvider: topdeskProvider,
             settings: incomplete,
           ),
         ],
