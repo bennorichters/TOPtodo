@@ -79,11 +79,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  Future<void> _justTesting() async {
-    return await Future.delayed(Duration(milliseconds: 5000));
-  }
-
-  Future<List<TdModel>> _fillFormWithSettings() async {
+  Future<void> _fillFormWithSettings() async {
     final settings = await settingsProvider.provide();
     final models = await Future.wait(
       [

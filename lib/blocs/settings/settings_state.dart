@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/semantics.dart';
 import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/settings/settings_form_state.dart';
 
