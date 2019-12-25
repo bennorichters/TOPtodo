@@ -103,9 +103,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     _formState = SettingsFormState(
       branch: branch,
-      caller: _paternityTest(caller, caller.branch, branch),
+      caller: _paternityTest(caller, caller?.branch, branch),
       category: category,
-      subCategory: _paternityTest(subCategory, subCategory.category, category),
+      subCategory: _paternityTest(subCategory, subCategory?.category, category),
       incidentDuration: incidentDuration,
       incidentOperator: incidentOperator,
     );

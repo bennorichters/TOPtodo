@@ -138,5 +138,27 @@ void main() {
         ],
       );
     });
+
+    test('empty settings', () async {
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(Settings.empty())
+      );
+
+      bloc.add(const SettingsInit());
+
+      await emitsExactly<SettingsBloc, SettingsState>(
+        bloc,
+        [
+          const SettingsLoading(),
+          SettingsTdData(formState: SettingsFormState()),
+          SettingsTdData(
+            formState: SettingsFormState(
+              categories: categories,
+              incidentDurations: durations,
+            ),
+          ),
+        ],
+      );
+    });
   });
 }
