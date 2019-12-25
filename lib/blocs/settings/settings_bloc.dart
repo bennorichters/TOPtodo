@@ -8,15 +8,15 @@ typedef ProvideModel = Future<TdModel> Function({String id});
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc({
-    @required this.tdProvider,
+    @required this.topdeskProvider,
     @required this.settingsProvider,
   });
-  final TopdeskProvider tdProvider;
+  final TopdeskProvider topdeskProvider;
   final SettingsProvider settingsProvider;
   SettingsFormState _formState;
 
   @override
-  SettingsState get initialState => SettingsLoading();
+  SettingsState get initialState => const SettingsLoading();
 
   @override
   Stream<SettingsState> mapEventToState(
@@ -36,7 +36,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
       yield SettingsTdData(
         formState: _formState = _formState.update(
-          updatedSubCategories: await tdProvider.subCategories(
+          updatedSubCategories: await topdeskProvider.subCategories(
             category: event.category,
           ),
         ),
@@ -79,22 +79,28 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  Future<void> _fillFormWithSettings() async {
+  Future<void> _justTesting() async {
+    return await Future.delayed(Duration(milliseconds: 5000));
+  }
+
+  Future<List<TdModel>> _fillFormWithSettings() async {
     final settings = await settingsProvider.provide();
     final models = await Future.wait(
       [
-        _modelOrNull(settings.branchId, tdProvider.branch),
-        _modelOrNull(settings.callerId, tdProvider.caller),
-        _modelOrNull(settings.categoryId, tdProvider.category),
-        _modelOrNull(settings.subCategoryId, tdProvider.subCategory),
-        _modelOrNull(settings.incidentDurationId, tdProvider.incidentDuration),
-        _modelOrNull(settings.incidentOperatorId, tdProvider.incidentOperator),
+        _modelOrNull(settings.branchId, topdeskProvider.branch),
+        _modelOrNull(settings.callerId, topdeskProvider.caller),
+        _modelOrNull(settings.categoryId, topdeskProvider.category),
+        _modelOrNull(settings.subCategoryId, topdeskProvider.subCategory),
+        _modelOrNull(
+            settings.incidentDurationId, topdeskProvider.incidentDuration),
+        _modelOrNull(
+            settings.incidentOperatorId, topdeskProvider.incidentOperator),
       ],
     );
 
     final Branch branch = models[0];
-    final Category category = models[1];
-    final Caller caller = models[2];
+    final Caller caller = models[1];
+    final Category category = models[2];
     final SubCategory subCategory = models[3];
     final IncidentDuration incidentDuration = models[4];
     final IncidentOperator incidentOperator = models[5];
@@ -111,7 +117,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   Future<TdModel> _modelOrNull(String id, ProvideModel method) async =>
       Future.value(
-        method(id: id),
+        id == null ? null : method(id: id),
       ).catchError(
         (error) {
           if (error is TdModelNotFoundException) {
@@ -129,13 +135,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   Future _fillFormWithSearchLists() async {
     final searchLists = [
-      tdProvider.incidentDurations(),
-      tdProvider.categories(),
+      topdeskProvider.incidentDurations(),
+      topdeskProvider.categories(),
     ];
 
     if (_formState.category != null) {
       searchLists.add(
-        tdProvider.subCategories(
+        topdeskProvider.subCategories(
           category: _formState.category,
         ),
       );

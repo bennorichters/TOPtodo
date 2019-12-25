@@ -6,6 +6,8 @@ abstract class SettingsEvent extends Equatable {
 }
 
 class SettingsInit extends SettingsEvent {
+  const SettingsInit();
+
   @override
   List<Object> get props => [];
 }

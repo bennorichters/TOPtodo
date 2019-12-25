@@ -20,7 +20,7 @@ void main() {
         settingsProvider: MockSettingsProvider(),
         topdeskProvider: MockTopdeskProvider(),
       ),
-      expect: <LoginState>[const LoginWaitingForSavedData()],
+      expect: [const LoginWaitingForSavedData()],
     );
 
     blocTest<LoginBloc, LoginEvent, LoginState>(
@@ -39,7 +39,7 @@ void main() {
           ),
         ),
       ),
-      expect: <LoginState>[
+      expect: [
         const LoginWaitingForSavedData(),
         const RetrievedSavedData(
           Credentials(
@@ -54,8 +54,6 @@ void main() {
   });
 
   group('TryLogin', () {
-
-
     const credentials = Credentials(
       url: 'a',
       loginName: 'userA',
@@ -88,7 +86,7 @@ void main() {
 
       await emitsExactly<LoginBloc, LoginState>(
         bloc,
-        <LoginState>[
+        [
           const LoginWaitingForSavedData(),
           const LoginSubmitting(),
           LoginSuccessValidSettings(
@@ -135,7 +133,7 @@ void main() {
 
       await emitsExactly<LoginBloc, LoginState>(
         bloc,
-        <LoginState>[
+        [
           const LoginWaitingForSavedData(),
           const LoginSubmitting(),
           LoginSuccessIncompleteSettings(

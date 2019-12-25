@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/semantics.dart';
 import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/settings/settings_form_state.dart';
 
@@ -7,16 +8,21 @@ abstract class SettingsState extends Equatable {
 }
 
 class SettingsLoading extends SettingsState {
+  const SettingsLoading();
+
   @override
   List<Object> get props => [];
 }
 
-class SettingsWithFormState extends SettingsState {
+abstract class SettingsWithFormState extends SettingsState {
   const SettingsWithFormState({@required this.formState});
   final SettingsFormState formState;
 
   @override
   List<Object> get props => [formState];
+
+  @override
+  String toString() => '${runtimeType} - $formState';
 }
 
 class SettingsTdData extends SettingsWithFormState {

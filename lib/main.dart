@@ -59,7 +59,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
         ),
         BlocProvider<SettingsBloc>(
           create: (BuildContext context) => SettingsBloc(
-            tdProvider: _topdeskProvider,
+            topdeskProvider: _topdeskProvider,
             settingsProvider: _settingsProvider,
           ),
         ),

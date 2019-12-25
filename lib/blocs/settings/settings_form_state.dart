@@ -101,7 +101,7 @@ class SettingsFormState extends Equatable {
       ];
 
   @override
-  String toString() => 'SettingsState {'
+  String toString() => 'SettingsFormState {'
       'branch: $branch, '
       'caller: $caller, '
       'categories: $categories, '
