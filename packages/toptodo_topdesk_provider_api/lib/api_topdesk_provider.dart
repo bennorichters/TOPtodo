@@ -244,12 +244,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }) async {
     final jsonElements = []
       ..add('"status": "firstLine"')
-      ..add('"callerBranch": {"id": "${settings.branch.id}"}')
-      ..add('"caller": {"id": "${settings.caller.id}"}')
-      ..add('"category": {"id": "${settings.category.id}"}')
-      ..add('"subcategory": {"id": "${settings.subCategory.id}"}')
-      ..add('"duration": {"id": "${settings.incidentDuration.id}"}')
-      ..add('"operator": {"id": "${settings.incidentOperator.id}"}');
+      ..add('"callerBranch": {"id": "${settings.branchId}"}')
+      ..add('"caller": {"id": "${settings.callerId}"}')
+      ..add('"category": {"id": "${settings.categoryId}"}')
+      ..add('"subcategory": {"id": "${settings.subCategoryId}"}')
+      ..add('"duration": {"id": "${settings.incidentDurationId}"}')
+      ..add('"operator": {"id": "${settings.incidentOperatorId}"}');
 
     final escapedDesc = _escapeQuotes(briefDescription);
     jsonElements.add('"briefDescription": "$escapedDesc"');

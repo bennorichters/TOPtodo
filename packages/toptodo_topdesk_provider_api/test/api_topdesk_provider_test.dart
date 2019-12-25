@@ -577,42 +577,13 @@ void main() {
     });
 
     group('incident', () {
-      final branchA = Branch(
-        id: 'a',
-        name: 'branch a',
-      );
-      final callerA = Caller(
-        id: 'a',
-        name: 'caller a',
-        avatar: 'avt',
-        branch: branchA,
-      );
-      final catA = Category(
-        id: 'a',
-        name: 'cat a',
-      );
-      final subCategoryA = SubCategory(
-        id: 'a',
-        name: 'subcatA',
-        category: catA,
-      );
-      final incidentDurationA = IncidentDuration(
-        id: 'a',
-        name: 'durationA',
-      );
-      final incidentOperatorA = IncidentOperator(
-        id: 'a',
-        name: 'opA',
-        avatar: 'avt',
-      );
-
       final settings = Settings(
-        branch: branchA,
-        caller: callerA,
-        category: catA,
-        subCategory: subCategoryA,
-        incidentDuration: incidentDurationA,
-        incidentOperator: incidentOperatorA,
+        branchId: 'a',
+        callerId: 'a',
+        categoryId: 'a',
+        subCategoryId: 'a',
+        incidentDurationId: 'a',
+        incidentOperatorId: 'a',
       );
 
       test('create without request', () async {
@@ -627,12 +598,12 @@ void main() {
           expect(body['status'], 'firstLine');
           expect(body['briefDescription'], 'my "todo"');
           expect(body.containsKey('request'), isFalse);
-          expect(body['callerBranch'], {'id': branchA.id});
-          expect(body['caller'], {'id': callerA.id});
-          expect(body['category'], {'id': catA.id});
-          expect(body['subcategory'], {'id': subCategoryA.id});
-          expect(body['duration'], {'id': incidentDurationA.id});
-          expect(body['operator'], {'id': incidentOperatorA.id});
+          expect(body['callerBranch'], {'id': 'a'});
+          expect(body['caller'], {'id': 'a'});
+          expect(body['category'], {'id': 'a'});
+          expect(body['subcategory'], {'id': 'a'});
+          expect(body['duration'], {'id': 'a'});
+          expect(body['operator'], {'id': 'a'});
 
           return Response(
             '{"number": "19 12 002"}',
@@ -665,12 +636,12 @@ void main() {
           expect(body['status'], 'firstLine');
           expect(body['briefDescription'], 'my "todo"');
           expect(body['request'], 'my request');
-          expect(body['callerBranch'], {'id': branchA.id});
-          expect(body['caller'], {'id': callerA.id});
-          expect(body['category'], {'id': catA.id});
-          expect(body['subcategory'], {'id': subCategoryA.id});
-          expect(body['duration'], {'id': incidentDurationA.id});
-          expect(body['operator'], {'id': incidentOperatorA.id});
+          expect(body['callerBranch'], {'id': 'a'});
+          expect(body['caller'], {'id': 'a'});
+          expect(body['category'], {'id': 'a'});
+          expect(body['subcategory'], {'id': 'a'});
+          expect(body['duration'], {'id': 'a'});
+          expect(body['operator'], {'id': 'a'});
 
           return Response(
             '{"number": "19 12 002"}',
