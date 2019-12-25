@@ -4,8 +4,6 @@ import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import './bloc.dart';
-
 typedef ProvideModel = Future<TdModel> Function({String id});
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {

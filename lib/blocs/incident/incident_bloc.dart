@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import './bloc.dart';
 
 class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   IncidentBloc({

@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-
-import './bloc.dart';
 
 class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   TdModelSearchBloc({this.topdeskProvider});
