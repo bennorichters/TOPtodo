@@ -15,6 +15,7 @@ void main() {
         bloc,
         branchA,
         callerAa,
+        callerAb,
         categoryA,
         subCategoryAa,
         subCategoryAb,
@@ -29,6 +30,7 @@ void main() {
 
       branchA = await tdp.branch(id: 'a');
       callerAa = await tdp.caller(id: 'aa');
+      callerAb = await tdp.caller(id: 'ab');
       categoryA = await tdp.category(id: 'a');
       subCategoryAa = await tdp.subCategory(id: 'aa');
       subCategoryAb = await tdp.subCategory(id: 'ab');
@@ -79,6 +81,53 @@ void main() {
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
+              category: categoryA,
+              subCategory: subCategoryAa,
+              incidentDuration: durationA,
+              incidentOperator: operatorA,
+              categories: categories,
+              subCategories: subCategories,
+              incidentDurations: durations,
+            ),
+          ),
+        ],
+      );
+    });
+
+    test('caller belongs to different branch', () async {
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future<Settings>.value(
+          Settings(
+            branchId: branchA.id,
+            callerId: callerAb.id,
+            categoryId: categoryA.id,
+            subCategoryId: subCategoryAa.id,
+            incidentDurationId: durationA.id,
+            incidentOperatorId: operatorA.id,
+          ),
+        ),
+      );
+
+      bloc.add(const SettingsInit());
+
+      await emitsExactly<SettingsBloc, SettingsState>(
+        bloc,
+        [
+          const SettingsLoading(),
+          SettingsTdData(
+            formState: SettingsFormState(
+              branch: branchA,
+              caller: null,
+              category: categoryA,
+              subCategory: subCategoryAa,
+              incidentDuration: durationA,
+              incidentOperator: operatorA,
+            ),
+          ),
+          SettingsTdData(
+            formState: SettingsFormState(
+              branch: branchA,
+              caller: null,
               category: categoryA,
               subCategory: subCategoryAa,
               incidentDuration: durationA,
