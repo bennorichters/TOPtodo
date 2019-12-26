@@ -4,12 +4,12 @@ import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/screens/incident/incident_screen.dart';
+import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../login/login_screen.dart';
 import 'widgets/td_model_search_delegate.dart';
 
 class SettingsScreen extends StatefulWidget {
