@@ -71,9 +71,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
       ],
       child: MaterialApp(
         title: 'TOPtodo',
-        theme: ThemeData(
-          primarySwatch: denim,
-        ),
+        theme: ThemeData(primarySwatch: denim),
         home: DataLoader(
           _credentialsProvider,
           _topdeskProvider,
