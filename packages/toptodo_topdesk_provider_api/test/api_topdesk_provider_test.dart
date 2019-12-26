@@ -558,6 +558,65 @@ void main() {
         expect(co.avatar, 'avatarFora');
       });
 
+      test('current cached', () async {
+        const res1 = '{"id": "a", "dynamicName": "Aagje"}';
+        const res2 = '{"id": "b", "dynamicName": "Beatrijs"}';
+        var flag = false;
+
+        final Client client = MockClient((Request req) async {
+          if (req.url.path.contains('avatar')) {
+            return Response('{"image": "avatar"}', 200);
+          }
+
+          final res = Response(
+            flag ? res2 : res1,
+            200,
+          );
+          flag = true;
+          return res;
+        });
+
+        final atp = ApiTopdeskProvider()
+          ..init(
+            credentials,
+            client: client,
+          );
+
+        expect((await atp.currentIncidentOperator()).id, 'a');
+        expect((await atp.currentIncidentOperator()).id, 'a');
+      });
+
+      test('current cached expired', () async {
+        const res1 = '{"id": "a", "dynamicName": "Aagje"}';
+        const res2 = '{"id": "b", "dynamicName": "Beatrijs"}';
+        var flag = false;
+
+        final Client client = MockClient((Request req) async {
+          if (req.url.path.contains('avatar')) {
+            return Response('{"image": "avatar"}', 200);
+          }
+
+          final res = Response(
+            flag ? res2 : res1,
+            200,
+          );
+          flag = true;
+
+          return res;
+        });
+
+        final atp = ApiTopdeskProvider(
+          currentOperatorCacheDuration: Duration.zero,
+        )..init(
+            credentials,
+            client: client,
+          );
+
+        expect((await atp.currentIncidentOperator()).id, 'a');
+        await Future.delayed(const Duration(milliseconds: 1));
+        expect((await atp.currentIncidentOperator()).id, 'b');
+      });
+
       test('sanatized starts with', () async {
         final atp = personApiTopdeskProvider(
           personPath: 'tas/api/operators',

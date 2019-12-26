@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
@@ -8,9 +9,15 @@ import 'package:toptodo_data/toptodo_data.dart';
 typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 
 class ApiTopdeskProvider extends TopdeskProvider {
-  ApiTopdeskProvider({Duration timeOut})
-      : _timeOut = timeOut ?? const Duration(seconds: 5);
-  final Duration _timeOut;
+  ApiTopdeskProvider({
+    this.timeOut = const Duration(seconds: 30),
+    currentOperatorCacheDuration = const Duration(hours: 1),
+  }) : _currentOperatorCache = AsyncCache<IncidentOperator>(
+          currentOperatorCacheDuration,
+        );
+
+  final Duration timeOut;
+  final _currentOperatorCache;
 
   static final _acceptHeaders = {
     HttpHeaders.acceptHeader: 'application/json',
@@ -201,10 +208,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
   @override
   Future<IncidentOperator> currentIncidentOperator() async {
-    final dynamic response = await _apiGet('operators/current');
-    final dynamic fixed = await _fixPerson(_subPathOperator, response);
+    return _currentOperatorCache.fetch(() async {
+      final dynamic response = await _apiGet('operators/current');
+      final dynamic fixed = await _fixPerson(_subPathOperator, response);
 
-    return _incidentOperatorFromJson(fixed);
+      return _incidentOperatorFromJson(fixed);
+    });
   }
 
   @override
@@ -292,7 +301,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     http.Response res;
     try {
       res = await method(endPoint).timeout(
-        _timeOut,
+        timeOut,
         onTimeout: () => throw TdTimeOutException(
           'time out for: $method',
         ),
