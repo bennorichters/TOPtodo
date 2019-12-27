@@ -14,7 +14,7 @@ import 'widgets/td_model_search_delegate.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key key}) : super(key: key);
-  
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -145,8 +145,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   VoidCallback _searchBranch(BuildContext context) {
-    initNewSearch();
     return () async {
+      initNewSearch();
       final chosenBranch = await showSearch<Branch>(
         context: context,
         delegate: TdModelSearchDelegate<Branch>.allBranches(),
@@ -158,10 +158,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   VoidCallback _searchCaller(BuildContext context, Branch branch) {
-    initNewSearch();
     return (branch == null)
         ? null
         : () async {
+            initNewSearch();
             final chosenCaller = await showSearch<Caller>(
               context: context,
               delegate: TdModelSearchDelegate<Caller>.callersForBranch(
@@ -175,8 +175,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   VoidCallback _searchOperator(BuildContext context) {
-    initNewSearch();
     return () async {
+      initNewSearch();
       final chosenOperator = await showSearch<IncidentOperator>(
         context: context,
         delegate: TdModelSearchDelegate<IncidentOperator>.allOperators(),
@@ -188,6 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void initNewSearch() {
+    print('initNewSearch');
     BlocProvider.of<TdModelSearchBloc>(context)..add(TdModelNewSearch());
   }
 }
