@@ -5,11 +5,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
-  TdModelSearchBloc({this.topdeskProvider});
+  TdModelSearchBloc({
+    this.topdeskProvider,
+    Duration debounceTime = const Duration(milliseconds: 500),
+  }) : _debouncer = _Debouncer(duration: debounceTime);
+
   final TopdeskProvider topdeskProvider;
-  final _Debouncer _debouncer = _Debouncer(
-    duration: const Duration(milliseconds: 500),
-  );
+  final _Debouncer _debouncer;
 
   @override
   TdModelSearchState get initialState => TdModelSearchInitialState();

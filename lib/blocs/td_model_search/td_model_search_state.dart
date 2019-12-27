@@ -21,4 +21,7 @@ class TdModelSearchResults<T extends TdModel> extends TdModelSearchState {
 
   @override
   List<Object> get props => [results];
+
+  @override
+  String toString() => 'TdModelSearchResults results: $results';
 }
