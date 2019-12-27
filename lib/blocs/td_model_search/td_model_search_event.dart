@@ -21,6 +21,9 @@ class SearchInfo<T extends TdModel> extends Equatable {
 
   @override
   List<Object> get props => [linkedTo, query];
+
+  @override
+  String toString() => 'SearchInfo - linkedTo: $linkedTo query: $query';
 }
 
 abstract class TdModelSearchInfoEvent<T extends TdModel>
@@ -30,6 +33,9 @@ abstract class TdModelSearchInfoEvent<T extends TdModel>
 
   @override
   List<Object> get props => [searchInfo];
+
+  @override
+  String toString() => '${runtimeType} - $searchInfo';
 }
 
 class TdModelSearchFinishedQuery<T extends TdModel>
