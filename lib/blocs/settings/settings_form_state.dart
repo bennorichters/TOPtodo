@@ -51,21 +51,21 @@ class SettingsFormState extends Equatable {
         caller: _updatedValue(
           value: updatedCaller,
           oldValue: caller,
-          linkedTo: updatedCaller,
+          linkedTo: updatedBranch,
           oldLinkedTo: branch,
-        ) as Caller,
+        ),
         subCategories: _updatedValue(
           value: updatedSubCategories,
           oldValue: subCategories,
           linkedTo: updatedCategory,
           oldLinkedTo: category,
-        ) as Iterable<SubCategory>,
+        ),
         subCategory: _updatedValue(
           value: updatedSubCategory,
           oldValue: subCategory,
           linkedTo: updatedCategory,
           oldLinkedTo: category,
-        ) as SubCategory,
+        ),
       );
 
   static dynamic _updatedValue({
