@@ -146,7 +146,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchBranch(BuildContext context) {
     return () async {
-      initNewSearch();
+      _initNewSearch();
       final chosenBranch = await showSearch<Branch>(
         context: context,
         delegate: TdModelSearchDelegate<Branch>.allBranches(),
@@ -161,7 +161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return (branch == null)
         ? null
         : () async {
-            initNewSearch();
+            _initNewSearch();
             final chosenCaller = await showSearch<Caller>(
               context: context,
               delegate: TdModelSearchDelegate<Caller>.callersForBranch(
@@ -176,7 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchOperator(BuildContext context) {
     return () async {
-      initNewSearch();
+      _initNewSearch();
       final chosenOperator = await showSearch<IncidentOperator>(
         context: context,
         delegate: TdModelSearchDelegate<IncidentOperator>.allOperators(),
@@ -187,7 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     };
   }
 
-  void initNewSearch() {
+  void _initNewSearch() {
     print('initNewSearch');
     BlocProvider.of<TdModelSearchBloc>(context)..add(TdModelNewSearch());
   }

@@ -15,29 +15,12 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   TdModelSearchState get initialState => TdModelSearchInitialState();
 
   @override
-  void onEvent(TdModelSearchEvent event) {
-    print('onEvent $event');
-  }
-
-  @override
-  Stream<TdModelSearchState> transformEvents(events, next) {
-    print('transformEvents - events: $events next: $next');
-    return super.transformEvents(
-      events,
-      next,
-    );
-  }
-
-  @override
   Stream<TdModelSearchState> mapEventToState(
     TdModelSearchEvent event,
   ) async* {
     BehaviorSubject<TdModelSearchState> controller;
 
-    print('mapEventToState - $event');
-
     void addToController() async {
-      print('addToController event:$event');
       if (event is TdModelNewSearch) {
         controller.add(initialState);
         await controller.close();

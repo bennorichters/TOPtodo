@@ -79,7 +79,6 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
   BlocBuilder<TdModelSearchBloc, TdModelSearchState> _stateDependendResult() {
     return BlocBuilder<TdModelSearchBloc, TdModelSearchState>(
       builder: (BuildContext context, TdModelSearchState state) {
-        print('Search Delegate - $state');
         if (state is TdModelSearchInitialState) {
           return _emptyQueryText;
         }
