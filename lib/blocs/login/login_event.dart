@@ -5,8 +5,8 @@ abstract class LoginEvent extends Equatable {
   const LoginEvent();
 }
 
-class AppStarted extends LoginEvent {
-  const AppStarted();
+class CredentialsInit extends LoginEvent {
+  const CredentialsInit();
 
   @override
   List<Object> get props => [];

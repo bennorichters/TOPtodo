@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<LoginBloc>(context)..add(const AppStarted());
+    BlocProvider.of<LoginBloc>(context)..add(const CredentialsInit());
   }
 
   @override

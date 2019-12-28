@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
-    if (event is AppStarted) {
+    if (event is CredentialsInit) {
       yield const LoginWaitingForSavedData();
       _credentials = await credentialsProvider.provide();
 
