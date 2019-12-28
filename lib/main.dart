@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptodo/widgets/data_loader.dart';
+import 'package:toptodo/screens/init_screen/init_screen.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
-import 'blocs/incident/incident_bloc.dart';
-import 'blocs/login/login_bloc.dart';
-import 'blocs/settings/bloc.dart';
-import 'blocs/td_model_search/bloc.dart';
-
+import 'blocs/all_blocs.dart';
 import 'utils/colors.dart';
 
 void main() => runApp(TopToDoApp());
@@ -50,6 +46,13 @@ class _TopToDoAppState extends State<TopToDoApp> {
             settingsProvider: _settingsProvider,
           ),
         ),
+        BlocProvider<InitBloc>(
+          create: (BuildContext context) => InitBloc(
+            credentialsProvider: _credentialsProvider,
+            settingsProvider: _settingsProvider,
+            topdeskProvider: _topdeskProvider,
+          ),
+        ),
         BlocProvider<LoginBloc>(
           create: (BuildContext context) => LoginBloc(
             topdeskProvider: _topdeskProvider,
@@ -72,11 +75,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
       child: MaterialApp(
         title: 'TOPtodo',
         theme: ThemeData(primarySwatch: denim),
-        home: DataLoader(
-          _credentialsProvider,
-          _topdeskProvider,
-          _settingsProvider,
-        ),
+        home: InitScreen(),
       ),
     );
   }
