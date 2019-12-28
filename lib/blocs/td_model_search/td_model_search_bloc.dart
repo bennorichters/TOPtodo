@@ -20,7 +20,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   Stream<TdModelSearchState> mapEventToState(
     TdModelSearchEvent event,
   ) async* {
-    BehaviorSubject<TdModelSearchState> controller;
+    StreamController<TdModelSearchState> controller;
 
     void addToController() async {
       if (event is TdModelNewSearch) {
@@ -47,7 +47,9 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
       }
     }
 
-    controller = BehaviorSubject<TdModelSearchState>(onListen: addToController);
+    controller = StreamController<TdModelSearchState>(
+      onListen: addToController,
+    );
     yield* controller.stream;
   }
 

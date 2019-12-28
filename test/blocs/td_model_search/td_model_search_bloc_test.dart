@@ -62,6 +62,50 @@ void main() {
       );
     });
 
+    test('operator starting with "a"', () async {
+      final operators = await tp.incidentOperators(startsWith: 'a');
+
+      bloc.add(
+        const TdModelSearchIncompleteQuery(
+          searchInfo: SearchInfo<IncidentOperator>(
+            linkedTo: null,
+            query: 'a',
+          ),
+        ),
+      );
+
+      await emitsExactly<TdModelSearchBloc, TdModelSearchState>(
+        bloc,
+        [
+          TdModelSearchInitialState(),
+          TdModelSearching(),
+          TdModelSearchResults<IncidentOperator>(operators),
+        ],
+      );
+    });
+
+    test('operator finished query', () async {
+      final operators = await tp.incidentOperators(startsWith: 'a');
+
+      bloc.add(
+        const TdModelSearchFinishedQuery(
+          searchInfo: SearchInfo<IncidentOperator>(
+            linkedTo: null,
+            query: 'a',
+          ),
+        ),
+      );
+
+      await emitsExactly<TdModelSearchBloc, TdModelSearchState>(
+        bloc,
+        [
+          TdModelSearchInitialState(),
+          TdModelSearching(),
+          TdModelSearchResults<IncidentOperator>(operators),
+        ],
+      );
+    });
+
     group('reusing bloc', () {
       final bloc = TdModelSearchBloc(
         topdeskProvider: tp,
