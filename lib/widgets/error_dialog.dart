@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:toptodo_data/toptodo_data.dart';
+
+typedef DialogCloser = void Function(BuildContext context);
+
+void _closeDialog(BuildContext context) => Navigator.of(context).pop();
+
+class ErrorDialog extends StatefulWidget {
+  ErrorDialog(this.cause, {this.onClose = _closeDialog});
+  final Exception cause;
+  final DialogCloser onClose;
+
+  @override
+  State<StatefulWidget> createState() => _ErrorDialogState();
+}
+
+class _ErrorDialogState extends State<ErrorDialog> {
+  bool details = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: details
+          ? const Text('Login error details')
+          : const Text('Could not login'),
+      content:
+          details ? Text(widget.cause.toString()) : _tldrMessage(widget.cause),
+      actions: _actions(),
+    );
+  }
+
+  List<Widget> _actions() {
+    final result = <Widget>[];
+    if (!details) {
+      result.add(
+        FlatButton(
+          child: const Text('View details...'),
+          onPressed: () {
+            setState(() {
+              details = true;
+            });
+          },
+        ),
+      );
+    }
+
+    result.add(
+      FlatButton(
+        child: const Text('Ok'),
+        onPressed: () {
+          widget.onClose(context);
+        },
+      ),
+    );
+
+    return result;
+  }
+
+  Widget _tldrMessage(Exception cause) {
+    if (cause is TdNotAuthorizedException) {
+      return const Text('You do not have sufficient authorization.\n'
+          '\n'
+          'Contact your TOPdesk application manager.');
+    }
+
+    if (cause is TdTimeOutException) {
+      return const Text('It took the TOPdesk server too long to respond.\n'
+          '\n'
+          'Please try again later.');
+    }
+
+    if (cause is TdServerException) {
+      return const Text('There was a problem with the TOPdesk server.'
+          '\n'
+          'Contact your TOPdesk application manager.');
+    }
+
+    return const Text('An unexpected error happened.'
+        '\n'
+        'Please try again later.');
+  }
+}

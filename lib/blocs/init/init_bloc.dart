@@ -34,7 +34,7 @@ class InitBloc extends Bloc<InitEvent, InitState> {
 
           settingsProvider.init(credentials.url, credentials.loginName);
           topdeskProvider.init(credentials);
-          
+
           _finishLoadingData(controller);
         } else {
           controller.add(IncompleteCredentials(credentials));
@@ -63,21 +63,17 @@ class InitBloc extends Bloc<InitEvent, InitState> {
       }
     });
 
-    topdeskProvider.currentIncidentOperator().then(
-      (value) async {
-        controller.add(
-          _initData = _initData.update(updatedCurrentOperator: value),
-        );
+    topdeskProvider.currentIncidentOperator().then((value) async {
+      controller.add(
+        _initData = _initData.update(updatedCurrentOperator: value),
+      );
 
-        if (_initData.isComplete()) {
-          await controller.close();
-        }
-      },
-      onError: (e) {
-        if (e is TdTimeOutException) {
-          // TODO:
-        }
-      },
-    );
+      if (_initData.isComplete()) {
+        await controller.close();
+      }
+    }).catchError((e) async {
+      controller.add(LoadingDataFailed(e));
+      await controller.close();
+    });
   }
 }

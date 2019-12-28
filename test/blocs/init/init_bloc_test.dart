@@ -12,7 +12,7 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
-  group('init normal flow', () {
+  group('init bloc', () {
     const credentials = Credentials(url: 'u', loginName: 'ln', password: 'pw');
     const settings = Settings(
       branchId: 'a',
@@ -98,6 +98,30 @@ void main() {
           IncompleteCredentials(incompleteCredentials),
         ],
       );
+    });
+
+    test('error', () async {
+      final timeOutTdProvider = MockTopdeskProvider();
+      const exc = TdTimeOutException('error test');
+      when(timeOutTdProvider.currentIncidentOperator()).thenAnswer(
+        (_) => Future.delayed(Duration.zero, () => throw exc),
+      );
+
+      final bloc = InitBloc(
+        credentialsProvider: cp,
+        settingsProvider: sp,
+        topdeskProvider: timeOutTdProvider,
+      );
+
+      final actual = <InitState>[];
+      final subsciption = bloc.listen(actual.add);
+
+      bloc.add(const RequestInitData());
+
+      await bloc.close();
+      await subsciption.cancel();
+
+      expect(actual.last, LoadingDataFailed(exc));
     });
   });
 }

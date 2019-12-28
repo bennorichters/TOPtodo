@@ -56,3 +56,11 @@ class IncompleteCredentials extends InitState {
   String toString() => 'IncompleteCredentials - '
       'credentials: $credentials';
 }
+
+class LoadingDataFailed extends InitState {
+  const LoadingDataFailed(this.cause);
+  final Exception cause;
+
+  @override
+  List<Object> get props => <Object>[cause];
+}
