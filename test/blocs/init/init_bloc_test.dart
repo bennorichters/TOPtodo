@@ -13,9 +13,25 @@ class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
   group('init normal flow', () {
+    const credentials = Credentials(url: 'u', loginName: 'ln', password: 'pw');
+    const settings = Settings(
+      branchId: 'a',
+      callerId: 'a',
+      categoryId: 'a',
+      subCategoryId: 'a',
+      incidentDurationId: 'a',
+      incidentOperatorId: 'a',
+    );
+    const currentOperator = IncidentOperator(id: 'a', name: 'a', avatar: 'a');
+
     final cp = MockCredentialsProvider();
     final sp = MockSettingsProvider();
     final tdp = MockTopdeskProvider();
+
+    when(cp.provide()).thenAnswer((_) => Future.value(credentials));
+    when(sp.provide()).thenAnswer((_) => Future.value(settings));
+    when(tdp.currentIncidentOperator())
+        .thenAnswer((_) => Future.value(currentOperator));
 
     test('initial state', () async {
       final bloc = InitBloc(
@@ -27,8 +43,36 @@ void main() {
       await emitsExactly(
         bloc,
         [
-          LoadingInitData.empty(),
+          InitData.empty(),
         ],
+      );
+    });
+
+    test('request init data', () async {
+      final bloc = InitBloc(
+        credentialsProvider: cp,
+        settingsProvider: sp,
+        topdeskProvider: tdp,
+      );
+
+      final actual = <InitState>[];
+      final subsciption = bloc.listen(actual.add);
+
+      bloc.add(const RequestInitData());
+
+      await bloc.close();
+      await subsciption.cancel();
+
+      expect(actual.length, 4);
+      expect(actual.first, InitData.empty());
+      expect(actual[1], InitData(credentials: credentials));
+      expect(
+        actual[3],
+        InitData(
+          credentials: credentials,
+          currentOperator: currentOperator,
+          settings: settings,
+        ),
       );
     });
   });

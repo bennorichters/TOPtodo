@@ -4,8 +4,8 @@ abstract class InitEvent extends Equatable {
   const InitEvent();
 }
 
-class AppStarted extends InitEvent {
-  const AppStarted();
+class RequestInitData extends InitEvent {
+  const RequestInitData();
 
   @override
   List<Object> get props => [];
