@@ -49,10 +49,8 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
     BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
         TdModelSearchFinishedQuery<T>(
-          searchInfo: SearchInfo<T>(
-            linkedTo: _linkedTo,
-            query: query,
-          ),
+          linkedTo: _linkedTo,
+          query: query,
         ),
       );
     return _stateDependendResult();
@@ -67,10 +65,8 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
     BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
         TdModelSearchIncompleteQuery<T>(
-          searchInfo: SearchInfo<T>(
-            linkedTo: _linkedTo,
-            query: query,
-          ),
+          linkedTo: _linkedTo,
+          query: query,
         ),
       );
     return _stateDependendResult();

@@ -21,11 +21,9 @@ void main() {
       final branches = await tp.branches(startsWith: 'br');
 
       bloc.add(
-        const TdModelSearchIncompleteQuery(
-          searchInfo: SearchInfo<Branch>(
-            linkedTo: null,
-            query: 'br',
-          ),
+        const TdModelSearchIncompleteQuery<Branch>(
+          linkedTo: null,
+          query: 'br',
         ),
       );
 
@@ -44,11 +42,9 @@ void main() {
       final callers = await tp.callers(startsWith: 's', branch: branchA);
 
       bloc.add(
-        TdModelSearchIncompleteQuery(
-          searchInfo: SearchInfo<Caller>(
-            linkedTo: branchA,
-            query: 's',
-          ),
+        TdModelSearchIncompleteQuery<Caller>(
+          linkedTo: branchA,
+          query: 's',
         ),
       );
 
@@ -66,11 +62,9 @@ void main() {
       final operators = await tp.incidentOperators(startsWith: 'a');
 
       bloc.add(
-        const TdModelSearchIncompleteQuery(
-          searchInfo: SearchInfo<IncidentOperator>(
-            linkedTo: null,
-            query: 'a',
-          ),
+        const TdModelSearchIncompleteQuery<IncidentOperator>(
+          linkedTo: null,
+          query: 'a',
         ),
       );
 
@@ -88,11 +82,9 @@ void main() {
       final operators = await tp.incidentOperators(startsWith: 'a');
 
       bloc.add(
-        const TdModelSearchFinishedQuery(
-          searchInfo: SearchInfo<IncidentOperator>(
-            linkedTo: null,
-            query: 'a',
-          ),
+        const TdModelSearchFinishedQuery<IncidentOperator>(
+          linkedTo: null,
+          query: 'a',
         ),
       );
 
@@ -121,21 +113,17 @@ void main() {
         final subscription = bloc.listen(actual.add);
 
         bloc.add(
-          const TdModelSearchIncompleteQuery(
-            searchInfo: SearchInfo<Branch>(
-              linkedTo: null,
-              query: 'br',
-            ),
+          const TdModelSearchIncompleteQuery<Branch>(
+            linkedTo: null,
+            query: 'br',
           ),
         );
 
         bloc.add(TdModelNewSearch());
         bloc.add(
-          TdModelSearchIncompleteQuery(
-            searchInfo: SearchInfo<Caller>(
-              linkedTo: branchA,
-              query: 's',
-            ),
+          TdModelSearchIncompleteQuery<Caller>(
+            linkedTo: branchA,
+            query: 's',
           ),
         );
 

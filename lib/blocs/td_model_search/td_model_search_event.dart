@@ -11,8 +11,9 @@ class TdModelNewSearch extends TdModelSearchEvent {
   List<Object> get props => [];
 }
 
-class SearchInfo<T extends TdModel> extends Equatable {
-  const SearchInfo({
+abstract class TdModelSearchInfoEvent<T extends TdModel>
+    extends TdModelSearchEvent {
+  const TdModelSearchInfoEvent({
     @required this.linkedTo,
     @required this.query,
   });
@@ -23,29 +24,22 @@ class SearchInfo<T extends TdModel> extends Equatable {
   List<Object> get props => [linkedTo, query];
 
   @override
-  String toString() => 'SearchInfo - linkedTo: $linkedTo query: $query';
-}
-
-abstract class TdModelSearchInfoEvent<T extends TdModel>
-    extends TdModelSearchEvent {
-  const TdModelSearchInfoEvent({@required this.searchInfo});
-  final SearchInfo<T> searchInfo;
-
-  @override
-  List<Object> get props => [searchInfo];
-
-  @override
-  String toString() => '${runtimeType} - $searchInfo';
+  String toString() =>
+      'TdModelSearchInfoEvent - linkedTo: $linkedTo query: $query';
 }
 
 class TdModelSearchFinishedQuery<T extends TdModel>
     extends TdModelSearchInfoEvent<T> {
-  const TdModelSearchFinishedQuery({@required SearchInfo<T> searchInfo})
-      : super(searchInfo: searchInfo);
+  const TdModelSearchFinishedQuery({
+    @required TdModel linkedTo,
+    @required String query,
+  }) : super(linkedTo: linkedTo, query: query);
 }
 
 class TdModelSearchIncompleteQuery<T extends TdModel>
     extends TdModelSearchInfoEvent<T> {
-  const TdModelSearchIncompleteQuery({@required SearchInfo<T> searchInfo})
-      : super(searchInfo: searchInfo);
+  const TdModelSearchIncompleteQuery({
+    @required TdModel linkedTo,
+    @required String query,
+  }) : super(linkedTo: linkedTo, query: query);
 }
