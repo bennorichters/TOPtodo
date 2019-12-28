@@ -125,9 +125,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   TdModel _paternityTest(
     TdModel child,
     TdModel realParent,
-    TdModel chosenParent,
+    TdModel parentToTest,
   ) =>
-      (realParent == chosenParent) ? child : null;
+      (realParent == parentToTest) ? child : null;
 
   Future _fillFormWithSearchLists() async {
     final searchLists = [
