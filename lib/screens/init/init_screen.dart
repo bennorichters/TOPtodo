@@ -39,34 +39,58 @@ class _InitScreenState extends State<InitScreen> {
         },
         child: BlocBuilder<InitBloc, InitState>(
           builder: (BuildContext context, InitState state) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.done),
-                      const Text('credentials'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.done),
-                      const Text('your operator profile'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.done),
-                      const Text('settings'),
-                    ],
-                  ),
-                ],
-              ),
-            );
+            if (state is InitData) {
+              return _InitDataProgress(state);
+            } else {
+              // TODO:
+              return Text('Something todo here $state');
+            }
           },
         ),
+      ),
+    );
+  }
+}
+
+class _InitDataProgress extends StatelessWidget {
+  const _InitDataProgress(this.state);
+  final InitData state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              state.credentials == null
+                  ? CircularProgressIndicator()
+                  : Icon(Icons.done),
+              const Text('credentials'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              state.currentOperator == null
+                  ? CircularProgressIndicator()
+                  : Icon(Icons.done),
+              const Text('your operator profile'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              state.settings == null
+                  ? CircularProgressIndicator()
+                  : Icon(Icons.done),
+              const Text('settings'),
+            ],
+          ),
+        ],
       ),
     );
   }
