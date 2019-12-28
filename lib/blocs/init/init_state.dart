@@ -44,3 +44,15 @@ class InitData extends InitState {
       'currentOperator: $currentOperator, '
       'settings: $settings';
 }
+
+class IncompleteCredentials extends InitState {
+  const IncompleteCredentials(this.credentials);
+  final Credentials credentials;
+
+  @override
+  List<Object> get props => [credentials];
+
+  @override
+  String toString() => 'IncompleteCredentials - '
+      'credentials: $credentials';
+}

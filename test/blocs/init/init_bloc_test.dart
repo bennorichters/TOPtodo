@@ -75,5 +75,29 @@ void main() {
         ),
       );
     });
+
+    test('incomplete credentials', () async {
+      final incompleteCredentialsProvider = MockCredentialsProvider();
+      final incompleteCredentials =
+          Credentials(url: 'a', loginName: null, password: null);
+      when(incompleteCredentialsProvider.provide())
+          .thenAnswer((_) => Future.value(incompleteCredentials));
+
+      final bloc = InitBloc(
+        credentialsProvider: incompleteCredentialsProvider,
+        settingsProvider: sp,
+        topdeskProvider: tdp,
+      );
+
+      bloc.add(const RequestInitData());
+
+      await emitsExactly(
+        bloc,
+        [
+          InitData.empty(),
+          IncompleteCredentials(incompleteCredentials),
+        ],
+      );
+    });
   });
 }

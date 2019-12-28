@@ -27,13 +27,19 @@ class InitBloc extends Bloc<InitEvent, InitState> {
 
       void addToController() async {
         final credentials = await credentialsProvider.provide();
-        _initData = InitData(credentials: credentials);
-        controller.add(_initData);
 
-        settingsProvider.init(credentials.url, credentials.loginName);
-        topdeskProvider.init(credentials);
+        if (credentials.isComplete()) {
+          _initData = InitData(credentials: credentials);
+          controller.add(_initData);
 
-        _finishLoadingData(controller);
+          settingsProvider.init(credentials.url, credentials.loginName);
+          topdeskProvider.init(credentials);
+          
+          _finishLoadingData(controller);
+        } else {
+          controller.add(IncompleteCredentials(credentials));
+          await controller.close();
+        }
       }
 
       controller = StreamController<InitState>(
@@ -42,14 +48,14 @@ class InitBloc extends Bloc<InitEvent, InitState> {
 
       yield* controller.stream;
     } else {
-      throw ArgumentError('unexpected event !event');
+      throw ArgumentError('unexpected event $event');
     }
   }
 
   void _finishLoadingData(StreamController<InitState> controller) {
-    settingsProvider.provide().then((settings) async {
+    settingsProvider.provide().then((value) async {
       controller.add(
-        _initData = _initData.update(updatedSettings: settings),
+        _initData = _initData.update(updatedSettings: value),
       );
 
       if (_initData.isComplete()) {
@@ -57,14 +63,21 @@ class InitBloc extends Bloc<InitEvent, InitState> {
       }
     });
 
-    topdeskProvider.currentIncidentOperator().then((op) async {
-      controller.add(
-        _initData = _initData.update(updatedCurrentOperator: op),
-      );
+    topdeskProvider.currentIncidentOperator().then(
+      (value) async {
+        controller.add(
+          _initData = _initData.update(updatedCurrentOperator: value),
+        );
 
-      if (_initData.isComplete()) {
-        await controller.close();
-      }
-    });
+        if (_initData.isComplete()) {
+          await controller.close();
+        }
+      },
+      onError: (e) {
+        if (e is TdTimeOutException) {
+          // TODO:
+        }
+      },
+    );
   }
 }
