@@ -61,5 +61,52 @@ void main() {
         ],
       );
     });
+
+    group('reusing bloc', () {
+      final bloc = TdModelSearchBloc(
+        topdeskProvider: tp,
+        debounceTime: Duration.zero,
+      );
+
+      test('first branch then callers', () async {
+        final branches = await tp.branches(startsWith: 'br');
+        final branchA = await tp.branch(id: 'a');
+        final callers = await tp.callers(startsWith: 's', branch: branchA);
+
+        final actual = <TdModelSearchState>[];
+        final subscription = bloc.listen(actual.add);
+
+        bloc.add(
+          const TdModelSearchIncompleteQuery(
+            searchInfo: SearchInfo<Branch>(
+              linkedTo: null,
+              query: 'br',
+            ),
+          ),
+        );
+
+        bloc.add(TdModelNewSearch());
+        bloc.add(
+          TdModelSearchIncompleteQuery(
+            searchInfo: SearchInfo<Caller>(
+              linkedTo: branchA,
+              query: 's',
+            ),
+          ),
+        );
+
+        await bloc.close();
+        await subscription.cancel();
+
+        expect(actual, [
+          TdModelSearchInitialState(),
+          TdModelSearching(),
+          TdModelSearchResults<Branch>(branches),
+          TdModelSearchInitialState(),
+          TdModelSearching(),
+          TdModelSearchResults<Caller>(callers),
+        ]);
+      });
+    });
   });
 }
