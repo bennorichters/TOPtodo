@@ -21,14 +21,18 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   ) async* {
     if (event is IncidentSubmit) {
       yield SubmittingIncident();
-      
-      final number = await topdeskProvider.createIncident(
-        briefDescription: event.briefDescription,
-        request: event.request.isEmpty ? null : event.request,
-        settings: await settingsProvider.provide(),
-      );
 
-      yield IncidentCreated(number);
+      try {
+        final number = await topdeskProvider.createIncident(
+          briefDescription: event.briefDescription,
+          request: event.request.isEmpty ? null : event.request,
+          settings: await settingsProvider.provide(),
+        );
+
+        yield IncidentCreated(number);
+      } catch (error) {
+        yield IncidentCreationError(error);
+      }
     }
   }
 }

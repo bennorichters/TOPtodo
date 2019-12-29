@@ -21,3 +21,11 @@ class IncidentCreated extends IncidentState {
   @override
   List<Object> get props => [number];
 }
+
+class IncidentCreationError extends IncidentState {
+  IncidentCreationError(this.cause);
+  final Exception cause;
+
+  @override
+  List<Object> get props => [cause];
+}

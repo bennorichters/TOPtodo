@@ -5,6 +5,7 @@ import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo/utils/colors.dart';
+import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/td_button.dart';
 
 typedef NavigateToScreen = Function(BuildContext context);
@@ -59,6 +60,14 @@ class _IncidentScreenState extends State<IncidentScreen> {
               SnackBar(
                 backgroundColor: moss,
                 content: Text('Incdent created with number ${state.number}'),
+              ),
+            );
+          } else if (state is IncidentCreationError) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => ErrorDialog(
+                state.cause,
+                onClose: _openLoginScreen,
               ),
             );
           }
@@ -124,4 +133,13 @@ class _IncidentForm extends StatelessWidget {
       ),
     );
   }
+}
+
+void _openLoginScreen(BuildContext context) {
+  BlocProvider.of<LoginBloc>(context)..add(const CredentialsInit());
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (_) => const LoginScreen()),
+  );
 }
