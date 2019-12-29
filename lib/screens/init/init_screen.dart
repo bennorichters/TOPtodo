@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
+import 'package:toptodo/blocs/login/bloc.dart';
+import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 
@@ -32,7 +34,13 @@ class _InitScreenState extends State<InitScreen> {
               builder: (BuildContext context) => ErrorDialog(
                 state.cause,
                 onClose: (BuildContext context) {
-                  // TODO: Navigate to login screen
+                  BlocProvider.of<LoginBloc>(context)
+                    ..add(const CredentialsInit());
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  );
                 },
               ),
             );
@@ -43,8 +51,7 @@ class _InitScreenState extends State<InitScreen> {
             if (state is InitData) {
               return _InitDataProgress(state);
             } else {
-              // TODO:
-              return Text('Something todo here $state');
+              return Container();
             }
           },
         ),

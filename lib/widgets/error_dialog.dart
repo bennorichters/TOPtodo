@@ -21,8 +21,8 @@ class _ErrorDialogState extends State<ErrorDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: details
-          ? const Text('Login error details')
-          : const Text('Could not login'),
+          ? const Text('Error details')
+          : const Text('Error contacting TOPdesk'),
       content:
           details ? Text(widget.cause.toString()) : _tldrMessage(widget.cause),
       actions: _actions(),
@@ -58,25 +58,21 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
   Widget _tldrMessage(Exception cause) {
     if (cause is TdNotAuthorizedException) {
-      return const Text('You do not have sufficient authorization.\n'
-          '\n'
+      return const Text('You do not have sufficient authorization. '
           'Contact your TOPdesk application manager.');
     }
 
     if (cause is TdTimeOutException) {
-      return const Text('It took the TOPdesk server too long to respond.\n'
-          '\n'
+      return const Text('It took the TOPdesk server too long to respond. '
           'Please try again later.');
     }
 
     if (cause is TdServerException) {
-      return const Text('There was a problem with the TOPdesk server.'
-          '\n'
+      return const Text('There was a problem with the TOPdesk server. '
           'Contact your TOPdesk application manager.');
     }
 
-    return const Text('An unexpected error happened.'
-        '\n'
+    return const Text('An unexpected error happened. '
         'Please try again later.');
   }
 }
