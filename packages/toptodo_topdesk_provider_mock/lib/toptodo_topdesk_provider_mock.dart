@@ -235,9 +235,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
         avatar: avatar,
       );
 
+  IncidentOperator _currentOperator;
+
   @override
   Future<IncidentOperator> currentIncidentOperator() async =>
-      (await incidentOperators(startsWith: '')).first;
+      (_currentOperator ??= (await incidentOperators(startsWith: '')).first);
 
   Future<String> _avatar() async {
     return (await _readJson(json_avatar.avatar))['black'];
