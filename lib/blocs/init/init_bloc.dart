@@ -72,7 +72,6 @@ class InitBloc extends Bloc<InitEvent, InitState> {
         await controller.close();
       }
     }).catchError((e) async {
-      print('InitBloc - catchError: $e');
       controller.add(LoadingDataFailed(e));
       await controller.close();
     });
