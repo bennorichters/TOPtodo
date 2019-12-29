@@ -8,8 +8,6 @@ import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/td_button.dart';
 
-typedef NavigateToScreen = Function(BuildContext context);
-
 class IncidentScreen extends StatefulWidget {
   const IncidentScreen({Key key}) : super(key: key);
 
