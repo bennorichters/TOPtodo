@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo/screens/settings/widgets/td_model_avatar.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
+import 'package:toptodo/widgets/menu_dialog.dart';
 import 'package:toptodo/widgets/td_button.dart';
 
 class IncidentScreen extends StatefulWidget {
@@ -24,55 +25,52 @@ class _IncidentScreenState extends State<IncidentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create todo'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const SettingsScreen()),
+    return BlocListener<IncidentBloc, IncidentState>(
+      listener: (context, state) {
+        if (state is IncidentCreated) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: moss,
+              content: Text('Incdent created with number ${state.number}'),
             ),
-          ),
-          FlatButton(
-            child: const Text(
-              'log out',
-              style: TextStyle(color: Colors.white),
+          );
+        } else if (state is IncidentCreationError) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => ErrorDialog(
+              state.cause,
+              onClose: _openLoginScreen,
             ),
-            onPressed: () {
-              BlocProvider.of<LoginBloc>(context)..add(const LogOut());
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: BlocListener<IncidentBloc, IncidentState>(
-        listener: (context, state) {
-          if (state is IncidentCreated) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: moss,
-                content: Text('Incdent created with number ${state.number}'),
-              ),
-            );
-          } else if (state is IncidentCreationError) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => ErrorDialog(
-                state.cause,
-                onClose: _openLoginScreen,
-              ),
-            );
-          }
+          );
+        }
+      },
+      child: BlocBuilder<IncidentBloc, IncidentState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Create todo'),
+              actions: [
+                if (state is WithOperatorState)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => MenuDialog(),
+                        );
+                      },
+                      child: TdModelAvatar(
+                        state.currentOperator,
+                        diameter: 25.0,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            body: _IncidentForm(state),
+          );
         },
-        child: BlocBuilder<IncidentBloc, IncidentState>(
-          builder: (context, state) => _IncidentForm(state),
-        ),
       ),
     );
   }

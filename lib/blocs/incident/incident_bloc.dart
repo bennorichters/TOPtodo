@@ -19,8 +19,14 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   Stream<IncidentState> mapEventToState(
     IncidentEvent event,
   ) async* {
-    if (event is IncidentSubmit) {
-      yield SubmittingIncident();
+    if (event is IncidentShowForm) {
+      yield OperatorLoaded(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
+      );
+    } else if (event is IncidentSubmit) {
+      yield SubmittingIncident(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
+      );
 
       try {
         final number = await topdeskProvider.createIncident(
@@ -29,9 +35,15 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
           settings: await settingsProvider.provide(),
         );
 
-        yield IncidentCreated(number);
+        yield IncidentCreated(
+          number: number,
+          currentOperator: await topdeskProvider.currentIncidentOperator(),
+        );
       } catch (error) {
-        yield IncidentCreationError(error);
+        yield IncidentCreationError(
+          cause: error,
+          currentOperator: await topdeskProvider.currentIncidentOperator(),
+        );
       }
     }
   }

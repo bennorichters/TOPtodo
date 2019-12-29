@@ -1,19 +1,18 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-
 import 'package:toptodo/utils/colors.dart' show squash;
 
 class TdModelAvatar extends StatelessWidget {
-  const TdModelAvatar(this.model);
+  const TdModelAvatar(this.model, {this.diameter = 40.0});
   final TdModel model;
+  final double diameter;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      width: 40,
+      height: diameter,
+      width: diameter,
       child: CircleAvatar(
         backgroundColor: squash,
         child: _buildTdModelAvatar(model),
@@ -25,7 +24,6 @@ class TdModelAvatar extends StatelessWidget {
 Widget _buildTdModelAvatar(TdModel model) => (model is Person)
     ? ((model.avatar == null) ? _AvatarText(model) : _AvatarImage(model))
     : _AvatarText(model);
-
 
 class _AvatarImage extends StatelessWidget {
   const _AvatarImage(this.model);
