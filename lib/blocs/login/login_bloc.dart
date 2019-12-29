@@ -75,31 +75,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             settings: settings,
           );
         }
-      } on TdNotAuthorizedException catch (e) {
+      } catch (e) {
         yield LoginFailed(
           savedData: _credentials,
           remember: _remember,
-          message: 'You do not have sufficient authorization.\n'
-              '\n'
-              'Contact your TOPdesk application manager.',
-          cause: e,
-        );
-      } on TdTimeOutException catch (e) {
-        yield LoginFailed(
-          savedData: _credentials,
-          remember: _remember,
-          message: 'It took the TOPdesk server too long to respond.\n'
-              '\n'
-              'Please try again later.',
-          cause: e,
-        );
-      } on TdServerException catch (e) {
-        yield LoginFailed(
-          savedData: _credentials,
-          remember: _remember,
-          message: 'There was a problem with the TOPdesk server.'
-              '\n'
-              'Contact your TOPdesk application manager.',
           cause: e,
         );
       }

@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               );
             } else if (state is LoginFailed) {
-              showDialog<AlertDialog>(
+              showDialog(
                 context: context,
                 builder: (BuildContext context) => ErrorDialog(state.cause),
               );
