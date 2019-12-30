@@ -17,7 +17,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
         );
 
   final Duration timeOut;
-  final _currentOperatorCache;
+  final AsyncCache<IncidentOperator> _currentOperatorCache;
 
   static final _acceptHeaders = {
     HttpHeaders.acceptHeader: 'application/json',
@@ -58,6 +58,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     _url = null;
     _getHeaders = null;
     _client = null;
+    _currentOperatorCache.invalidate();
   }
 
   @override
