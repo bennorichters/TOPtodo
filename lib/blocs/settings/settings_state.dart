@@ -1,20 +1,37 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/settings/settings_form_state.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class SettingsState extends Equatable {
   const SettingsState();
 }
 
-class SettingsLoading extends SettingsState {
-  const SettingsLoading();
-
+class InitialSettingsState extends SettingsState {
+  const InitialSettingsState();
+  
   @override
   List<Object> get props => [];
 }
 
-abstract class SettingsWithFormState extends SettingsState {
-  const SettingsWithFormState({@required this.formState});
+class SettingsWithOperator extends SettingsState {
+  const SettingsWithOperator({@required this.currentOperator});
+  final IncidentOperator currentOperator;
+
+  @override
+  List<Object> get props => [currentOperator];
+}
+
+class SettingsLoading extends SettingsWithOperator {
+  const SettingsLoading({@required IncidentOperator currentOperator})
+      : super(currentOperator: currentOperator);
+}
+
+abstract class SettingsWithFormState extends SettingsWithOperator {
+  const SettingsWithFormState({
+    @required IncidentOperator currentOperator,
+    @required this.formState,
+  }) : super(currentOperator: currentOperator);
   final SettingsFormState formState;
 
   @override
@@ -25,11 +42,21 @@ abstract class SettingsWithFormState extends SettingsState {
 }
 
 class SettingsTdData extends SettingsWithFormState {
-  const SettingsTdData({@required SettingsFormState formState})
-      : super(formState: formState);
+  const SettingsTdData({
+    @required IncidentOperator currentOperator,
+    @required SettingsFormState formState,
+  }) : super(
+          currentOperator: currentOperator,
+          formState: formState,
+        );
 }
 
 class SettingsSaved extends SettingsWithFormState {
-  const SettingsSaved({@required SettingsFormState formState})
-      : super(formState: formState);
+  const SettingsSaved({
+    @required IncidentOperator currentOperator,
+    @required SettingsFormState formState,
+  }) : super(
+          currentOperator: currentOperator,
+          formState: formState,
+        );
 }

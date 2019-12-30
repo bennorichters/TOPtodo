@@ -11,8 +11,8 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 void main() {
   group('SettingsInit', () {
     final settingsProvider = MockSettingsProvider();
-    var tdp,
-        bloc,
+    final topdeskProvider = FakeTopdeskProvider(latency: Duration.zero);
+    var bloc,
         branchA,
         callerAa,
         callerAb,
@@ -26,24 +26,22 @@ void main() {
         durations;
 
     setUp(() async {
-      tdp = FakeTopdeskProvider(latency: Duration.zero);
+      branchA = await topdeskProvider.branch(id: 'a');
+      callerAa = await topdeskProvider.caller(id: 'aa');
+      callerAb = await topdeskProvider.caller(id: 'ab');
+      categoryA = await topdeskProvider.category(id: 'a');
+      subCategoryAa = await topdeskProvider.subCategory(id: 'aa');
+      subCategoryAb = await topdeskProvider.subCategory(id: 'ab');
+      durationA = await topdeskProvider.incidentDuration(id: 'a');
+      operatorA = await topdeskProvider.incidentOperator(id: 'a');
 
-      branchA = await tdp.branch(id: 'a');
-      callerAa = await tdp.caller(id: 'aa');
-      callerAb = await tdp.caller(id: 'ab');
-      categoryA = await tdp.category(id: 'a');
-      subCategoryAa = await tdp.subCategory(id: 'aa');
-      subCategoryAb = await tdp.subCategory(id: 'ab');
-      durationA = await tdp.incidentDuration(id: 'a');
-      operatorA = await tdp.incidentOperator(id: 'a');
-
-      categories = await tdp.categories();
-      subCategories = await tdp.subCategories(category: categoryA);
-      durations = await tdp.incidentDurations();
+      categories = await topdeskProvider.categories();
+      subCategories = await topdeskProvider.subCategories(category: categoryA);
+      durations = await topdeskProvider.incidentDurations();
 
       bloc = SettingsBloc(
         settingsProvider: settingsProvider,
-        topdeskProvider: tdp,
+        topdeskProvider: topdeskProvider,
       );
     });
 
@@ -66,8 +64,12 @@ void main() {
       await emitsExactly<SettingsBloc, SettingsState>(
         bloc,
         [
-          const SettingsLoading(),
+          const InitialSettingsState(),
+          SettingsLoading(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
+          ),
           SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -78,6 +80,7 @@ void main() {
             ),
           ),
           SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -113,8 +116,12 @@ void main() {
       await emitsExactly<SettingsBloc, SettingsState>(
         bloc,
         [
-          const SettingsLoading(),
+          const InitialSettingsState(),
+          SettingsLoading(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
+          ),
           SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: null,
@@ -125,6 +132,7 @@ void main() {
             ),
           ),
           SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: null,
@@ -160,8 +168,12 @@ void main() {
       await emitsExactly<SettingsBloc, SettingsState>(
         bloc,
         [
-          const SettingsLoading(),
+          const InitialSettingsState(),
+          SettingsLoading(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
+          ),
           SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -172,6 +184,7 @@ void main() {
             ),
           ),
           SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -189,18 +202,23 @@ void main() {
     });
 
     test('empty settings', () async {
-      when(settingsProvider.provide()).thenAnswer(
-        (_) => Future<Settings>.value(Settings.empty())
-      );
+      when(settingsProvider.provide())
+          .thenAnswer((_) => Future<Settings>.value(Settings.empty()));
 
       bloc.add(const SettingsInit());
 
       await emitsExactly<SettingsBloc, SettingsState>(
         bloc,
         [
-          const SettingsLoading(),
-          SettingsTdData(formState: SettingsFormState()),
+          const InitialSettingsState(),
+          SettingsLoading(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
+          ),
           SettingsTdData(
+              currentOperator: await topdeskProvider.currentIncidentOperator(),
+              formState: SettingsFormState()),
+          SettingsTdData(
+            currentOperator: await topdeskProvider.currentIncidentOperator(),
             formState: SettingsFormState(
               categories: categories,
               incidentDurations: durations,

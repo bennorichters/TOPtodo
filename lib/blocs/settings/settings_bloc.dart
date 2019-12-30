@@ -16,25 +16,36 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsFormState _formState;
 
   @override
-  SettingsState get initialState => const SettingsLoading();
+  SettingsState get initialState => const InitialSettingsState();
 
   @override
   Stream<SettingsState> mapEventToState(
     SettingsEvent event,
   ) async* {
     if (event is SettingsInit) {
+      yield SettingsLoading(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
+      );
       await _fillFormWithSettings();
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
+        formState: _formState,
+      );
 
       await _fillFormWithSearchLists();
-      yield SettingsTdData(formState: _formState);
+      yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
+        formState: _formState,
+      );
     } else if (event is SettingsCategorySelected) {
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedCategory: event.category,
         ),
       );
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedSubCategories: await topdeskProvider.subCategories(
             category: event.category,
@@ -43,37 +54,45 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     } else if (event is SettingsDurationSelected) {
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedDuration: event.duration,
         ),
       );
     } else if (event is SettingsBranchSelected) {
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedBranch: event.branch,
         ),
       );
     } else if (event is SettingsOperatorSelected) {
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedIncidentOperator: event.incidentOperator,
         ),
       );
     } else if (event is SettingsCallerSelected) {
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedCaller: event.caller,
         ),
       );
     } else if (event is SettingsSubCategorySelected) {
       yield SettingsTdData(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
         formState: _formState = _formState.update(
           updatedSubCategory: event.subCategory,
         ),
       );
     } else if (event is SettingsSave) {
       await settingsProvider.save(_formState.toSettings());
-      yield SettingsSaved(formState: _formState);
+      yield SettingsSaved(
+        currentOperator: await topdeskProvider.currentIncidentOperator(),
+        formState: _formState,
+      );
     } else {
       throw ArgumentError('unknown event $event');
     }
