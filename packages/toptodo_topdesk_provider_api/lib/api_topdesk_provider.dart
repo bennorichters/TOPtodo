@@ -243,6 +243,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
         id: json['id'],
         name: json['name'],
         avatar: json['avatar'],
+        firstLine: json['firstLineCallOperator'],
+        secondLine: json['secondLineCallOperator'],
       );
 
   @override
