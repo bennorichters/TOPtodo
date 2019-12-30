@@ -28,45 +28,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        actions: [
-          FlatButton(
-            child: const Text(
-              'log out',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              BlocProvider.of<LoginBloc>(context)..add(const LogOut());
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: BlocListener<SettingsBloc, SettingsState>(
-        listener: (BuildContext context, SettingsState state) {
-          if (state is SettingsSaved) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => IncidentScreen()),
-            );
-          }
-        },
-        child: BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (BuildContext context, SettingsState state) {
-          if (state is SettingsWithFormState) {
-            return _SettingsForm(state);
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
+    return BlocListener<SettingsBloc, SettingsState>(
+      listener: (BuildContext context, SettingsState state) {
+        if (state is SettingsSaved) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => IncidentScreen()),
           );
-        }),
-      ),
+        }
+      },
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (BuildContext context, SettingsState state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Settings'),
+            actions: [
+              FlatButton(
+                child: const Text(
+                  'log out',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  BlocProvider.of<LoginBloc>(context)..add(const LogOut());
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  );
+                },
+              ),
+            ],
+          ),
+          body: (state is SettingsWithFormState)
+              ? _SettingsForm(state)
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
+        );
+      }),
     );
   }
 }
