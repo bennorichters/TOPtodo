@@ -78,5 +78,10 @@ class IncidentOperator extends Person {
     @required String id,
     @required String name,
     @required String avatar,
+    @required this.firstLine,
+    @required this.secondLine,
   }) : super(id: id, name: name, avatar: avatar);
+
+  final bool firstLine;
+  final bool secondLine;
 }
