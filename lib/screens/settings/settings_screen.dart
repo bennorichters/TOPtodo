@@ -20,9 +20,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Widget _verticalSpace = const SizedBox(height: 10);
-
   @override
   void initState() {
     super.initState();
@@ -63,75 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (BuildContext context, SettingsState state) {
           if (state is SettingsWithFormState) {
-            final formState = state.formState;
-            return Padding(
-              padding: const EdgeInsets.all(15),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    SearchField<Branch>(
-                      value: formState.branch,
-                      label: 'Branch',
-                      search: _searchBranch(context),
-                      validationText: 'Choose a branch',
-                    ),
-                    SearchField<Caller>(
-                      value: formState.caller,
-                      label: 'Caller' +
-                          (formState.branch == null
-                              ? ' (first choose a branch)'
-                              : ''),
-                      search: _searchCaller(context, formState.branch),
-                      validationText: 'Choose a caller',
-                    ),
-                    SearchList<Category>(
-                      name: 'Category',
-                      validationText: 'Choose a Category',
-                      items: formState.categories,
-                      selectedItem: formState.category,
-                      onChangedCallBack: (Category newValue) {
-                        BlocProvider.of<SettingsBloc>(context)
-                          ..add(SettingsCategorySelected(newValue));
-                      },
-                    ),
-                    _SubCategoryWidget(formState: state.formState),
-                    SearchList<IncidentDuration>(
-                      name: 'Duration',
-                      validationText: 'Choose a Duration',
-                      items: formState.incidentDurations,
-                      selectedItem: formState.incidentDuration,
-                      onChangedCallBack: (IncidentDuration newValue) {
-                        BlocProvider.of<SettingsBloc>(context)
-                          ..add(SettingsDurationSelected(newValue));
-                      },
-                    ),
-                    SearchField<IncidentOperator>(
-                      label: 'Operator',
-                      value: formState.incidentOperator,
-                      search: _searchOperator(context),
-                      validationText: 'Choose an operator',
-                    ),
-                    _verticalSpace,
-                    TdButton(
-                      text: 'save',
-                      onTap: () {
-                        if (state is SettingsSaved) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IncidentScreen()),
-                          );
-                        } else if (_formKey.currentState.validate()) {
-                          BlocProvider.of<SettingsBloc>(context)
-                            ..add(SettingsSave());
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return _SettingsForm(state);
           }
           return const Center(
             child: CircularProgressIndicator(),
@@ -140,10 +69,88 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
+}
+
+class _SettingsForm extends StatelessWidget {
+  _SettingsForm(this.state);
+  final SettingsWithFormState state;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Widget _verticalSpace = const SizedBox(height: 10);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: [
+            SearchField<Branch>(
+              value: state.formState.branch,
+              label: 'Branch',
+              search: _searchBranch(context),
+              validationText: 'Choose a branch',
+            ),
+            SearchField<Caller>(
+              value: state.formState.caller,
+              label: 'Caller' +
+                  (state.formState.branch == null
+                      ? ' (first choose a branch)'
+                      : ''),
+              search: _searchCaller(context, state.formState.branch),
+              validationText: 'Choose a caller',
+            ),
+            SearchList<Category>(
+              name: 'Category',
+              validationText: 'Choose a Category',
+              items: state.formState.categories,
+              selectedItem: state.formState.category,
+              onChangedCallBack: (Category newValue) {
+                BlocProvider.of<SettingsBloc>(context)
+                  ..add(SettingsCategorySelected(newValue));
+              },
+            ),
+            _SubCategoryWidget(formState: state.formState),
+            SearchList<IncidentDuration>(
+              name: 'Duration',
+              validationText: 'Choose a Duration',
+              items: state.formState.incidentDurations,
+              selectedItem: state.formState.incidentDuration,
+              onChangedCallBack: (IncidentDuration newValue) {
+                BlocProvider.of<SettingsBloc>(context)
+                  ..add(SettingsDurationSelected(newValue));
+              },
+            ),
+            SearchField<IncidentOperator>(
+              label: 'Operator',
+              value: state.formState.incidentOperator,
+              search: _searchOperator(context),
+              validationText: 'Choose an operator',
+            ),
+            _verticalSpace,
+            TdButton(
+              text: 'save',
+              onTap: () {
+                if (state is SettingsSaved) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => IncidentScreen()),
+                  );
+                } else if (_formKey.currentState.validate()) {
+                  BlocProvider.of<SettingsBloc>(context)..add(SettingsSave());
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   VoidCallback _searchBranch(BuildContext context) {
     return () async {
-      _initNewSearch();
+      _initNewSearch(context);
       final chosenBranch = await showSearch<Branch>(
         context: context,
         delegate: TdModelSearchDelegate<Branch>.allBranches(),
@@ -158,7 +165,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return (branch == null)
         ? null
         : () async {
-            _initNewSearch();
+            _initNewSearch(context);
             final chosenCaller = await showSearch<Caller>(
               context: context,
               delegate: TdModelSearchDelegate<Caller>.callersForBranch(
@@ -173,7 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   VoidCallback _searchOperator(BuildContext context) {
     return () async {
-      _initNewSearch();
+      _initNewSearch(context);
       final chosenOperator = await showSearch<IncidentOperator>(
         context: context,
         delegate: TdModelSearchDelegate<IncidentOperator>.allOperators(),
@@ -184,8 +191,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     };
   }
 
-  void _initNewSearch() {
-    print('initNewSearch');
+  void _initNewSearch(BuildContext context) {
     BlocProvider.of<TdModelSearchBloc>(context)..add(TdModelNewSearch());
   }
 }
