@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
+import 'package:toptodo/utils/colors.dart';
 
 class MenuDialog extends StatelessWidget {
   @override
@@ -13,11 +14,32 @@ class MenuDialog extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: IconButton(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close)),
+                  icon: const Icon(Icons.close),
+                  iconSize: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    'TOPtodo',
+                    style: TextStyle(
+                      color: denim.shade500,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                Container(width: 48),
+              ],
+            ),
+            Divider(
+              thickness: 1,
+              indent: 10,
+              endIndent: 10,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 20, 25, 12),
