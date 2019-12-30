@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:toptodo/utils/colors.dart';
 
 class MenuDialog extends StatelessWidget {
-  const MenuDialog({this.showSettings = true});
+  const MenuDialog({@required this.showSettings});
   final bool showSettings;
 
   @override

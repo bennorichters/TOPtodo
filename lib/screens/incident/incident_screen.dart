@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/screens/settings/widgets/td_model_avatar.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
-import 'package:toptodo/widgets/menu_dialog.dart';
+import 'package:toptodo/widgets/menu_operator_button.dart';
 import 'package:toptodo/widgets/td_button.dart';
 
 class IncidentScreen extends StatefulWidget {
@@ -51,21 +50,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
               title: const Text('Create todo'),
               actions: [
                 if (state is WithOperatorState)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => MenuDialog(),
-                        );
-                      },
-                      child: TdModelAvatar(
-                        state.currentOperator,
-                        diameter: 25.0,
-                      ),
-                    ),
-                  ),
+                  MenuOperatorButton(state.currentOperator),
               ],
             ),
             body: _IncidentForm(state),
