@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:toptodo/utils/colors.dart';
 
 class MenuDialog extends StatelessWidget {
+  const MenuDialog({this.showSettings = true});
+  final bool showSettings;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -10,8 +13,8 @@ class MenuDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        height: 200,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -42,17 +45,18 @@ class MenuDialog extends StatelessWidget {
               endIndent: 10,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(25, 20, 25, 12),
+              padding: const EdgeInsets.fromLTRB(25, 20, 25, 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const _MenuItem(
-                    iconData: Icons.settings,
-                    text: 'settings',
-                    route: 'settings',
-                  ),
-                  SizedBox(height: 20),
+                  if (showSettings)
+                    const _MenuItem(
+                      iconData: Icons.settings,
+                      text: 'settings',
+                      route: 'settings',
+                    ),
+                  if (showSettings) SizedBox(height: 20),
                   const _MenuItem(
                     iconData: Icons.person,
                     text: 'log out',
