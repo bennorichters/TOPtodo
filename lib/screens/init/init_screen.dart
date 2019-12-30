@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
-import 'package:toptodo/blocs/login/bloc.dart';
-import 'package:toptodo/screens/incident/incident_screen.dart';
-import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 
@@ -35,16 +31,17 @@ class _InitScreenState extends State<InitScreen> {
               context: context,
               builder: (BuildContext context) => ErrorDialog(
                 state.cause,
-                onClose: _openLoginScreen,
+                onClose: (context) =>
+                    Navigator.pushReplacementNamed(context, 'login'),
               ),
             );
           } else if (state is IncompleteCredentials) {
-            _openLoginScreen(context);
+            Navigator.pushReplacementNamed(context, 'login');
           } else if ((state is InitData) && state.isComplete()) {
             if (state.settings.isComplete()) {
-              _openIncidentScreen(context);
+              Navigator.pushReplacementNamed(context, 'incident');
             } else {
-              _openSettingsScreen(context);
+              Navigator.pushReplacementNamed(context, 'settings');
             }
           }
         },
@@ -126,29 +123,4 @@ class _InitDataProgress extends StatelessWidget {
       ),
     ];
   }
-}
-
-void _openLoginScreen(BuildContext context) {
-  BlocProvider.of<LoginBloc>(context)..add(const CredentialsInit());
-
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (_) => const LoginScreen()),
-  );
-}
-
-void _openIncidentScreen(BuildContext context) {
-  Navigator.of(context).pushReplacement<dynamic, IncidentScreen>(
-    MaterialPageRoute<IncidentScreen>(
-      builder: (_) => const IncidentScreen(),
-    ),
-  );
-}
-
-void _openSettingsScreen(BuildContext context) {
-  Navigator.of(context).pushReplacement<dynamic, SettingsScreen>(
-    MaterialPageRoute<SettingsScreen>(
-      builder: (_) => const SettingsScreen(),
-    ),
-  );
 }

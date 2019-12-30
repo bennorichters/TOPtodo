@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/init/init_screen.dart';
+import 'package:toptodo/screens/login/login_screen.dart';
+import 'package:toptodo/screens/settings/settings_screen.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
@@ -74,6 +77,11 @@ class _TopToDoAppState extends State<TopToDoApp> {
       ],
       child: MaterialApp(
         title: 'TOPtodo',
+        routes: {
+          'incident': (context) => const IncidentScreen(),
+          'login': (context) => const LoginScreen(),
+          'settings': (context) => const SettingsScreen(),
+        },
         theme: ThemeData(primarySwatch: denim),
         home: InitScreen(),
       ),
