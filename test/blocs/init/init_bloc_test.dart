@@ -22,7 +22,13 @@ void main() {
       incidentDurationId: 'a',
       incidentOperatorId: 'a',
     );
-    const currentOperator = IncidentOperator(id: 'a', name: 'a', avatar: 'a');
+    const currentOperator = IncidentOperator(
+      id: 'a',
+      name: 'a',
+      avatar: 'a',
+      firstLine: true,
+      secondLine: true,
+    );
 
     final cp = MockCredentialsProvider();
     final sp = MockSettingsProvider();
