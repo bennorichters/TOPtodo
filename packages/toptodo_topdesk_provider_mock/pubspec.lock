@@ -105,7 +105,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0+2"
+    version: "0.12.0+3"
   http_multi_server:
     dependency: transitive
     description:
@@ -334,8 +334,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "700b3d2585d55eb0dcfcec4e86bfb8e30a42df46"
-      resolved-ref: "700b3d2585d55eb0dcfcec4e86bfb8e30a42df46"
+      ref: b22cdeab47579f950d48091ef04deb77ec9a2f45
+      resolved-ref: b22cdeab47579f950d48091ef04deb77ec9a2f45
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -352,7 +352,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.2.0"
   watcher:
     dependency: transitive
     description:
