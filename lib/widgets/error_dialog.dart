@@ -67,6 +67,11 @@ class _ErrorDialogState extends State<ErrorDialog> {
           'Please try again later.');
     }
 
+    if (cause is TdBadRequestException) {
+      return const Text('Some of the settings are invalid. '
+          'Update the settings.');
+    }
+
     if (cause is TdServerException) {
       return const Text('There was a problem with the TOPdesk server. '
           'Contact your TOPdesk application manager.');
