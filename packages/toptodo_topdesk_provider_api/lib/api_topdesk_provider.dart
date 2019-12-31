@@ -329,6 +329,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
       return json.decode('[]');
     }
 
+    if (res.statusCode == 400) {
+      throw TdBadRequestException('400 for $endPoint body: ${res.body}');
+    }
+
     if (res.statusCode == 403) {
       throw TdNotAuthorizedException('403 for $endPoint body: ${res.body}');
     }

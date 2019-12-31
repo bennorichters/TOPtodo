@@ -52,7 +52,7 @@ void main() {
     }
 
     test('400', () async {
-      await testErrorCode(400, const TypeMatcher<ArgumentError>());
+      await testErrorCode(400, const TypeMatcher<TdBadRequestException>());
     });
 
     test('401', () async {
