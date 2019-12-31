@@ -85,6 +85,14 @@ class TdNotAuthorizedException implements Exception {
   String toString() => 'TdNotAuthorizedException: $message';
 }
 
+class TdBadRequestException implements Exception {
+  const TdBadRequestException(this.message);
+  final String message;
+
+  @override
+  String toString() => 'TdBadRequestException: $message';
+}
+
 class TdServerException implements Exception {
   const TdServerException(this.message);
   final String message;
