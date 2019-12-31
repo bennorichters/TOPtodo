@@ -233,6 +233,8 @@ class FakeTopdeskProvider implements TopdeskProvider {
         id: json['id'],
         name: json['name'],
         avatar: avatar,
+        firstLine: true,
+        secondLine: true,
       );
 
   IncidentOperator _currentOperator;
