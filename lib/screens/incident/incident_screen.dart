@@ -30,7 +30,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               backgroundColor: moss,
-              content: Text('Incdent created with number ${state.number}'),
+              content: Text('Incident created with number ${state.number}'),
             ),
           );
         } else if (state is IncidentCreationError) {
