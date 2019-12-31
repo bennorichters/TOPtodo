@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
-import 'package:toptodo/blocs/login/bloc.dart';
-import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';
@@ -37,8 +35,8 @@ class _IncidentScreenState extends State<IncidentScreen> {
           showDialog(
             context: context,
             builder: (BuildContext context) => ErrorDialog(
-              state.cause,
-              onClose: _openLoginScreen,
+              cause: state.cause,
+              activeScreenIsLogin: false,
             ),
           );
         }
@@ -114,13 +112,4 @@ class _IncidentForm extends StatelessWidget {
       ),
     );
   }
-}
-
-void _openLoginScreen(BuildContext context) {
-  BlocProvider.of<LoginBloc>(context)..add(const CredentialsInit());
-
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (_) => const LoginScreen()),
-  );
 }

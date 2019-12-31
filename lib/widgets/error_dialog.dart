@@ -3,12 +3,10 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 typedef DialogCloser = void Function(BuildContext context);
 
-void _closeDialog(BuildContext context) => Navigator.of(context).pop();
-
 class ErrorDialog extends StatefulWidget {
-  ErrorDialog(this.cause, {this.onClose = _closeDialog});
+  ErrorDialog({this.cause, this.activeScreenIsLogin});
   final Exception cause;
-  final DialogCloser onClose;
+  final bool activeScreenIsLogin;
 
   @override
   State<StatefulWidget> createState() => _ErrorDialogState();
@@ -23,8 +21,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
       title: details
           ? const Text('Error details')
           : const Text('Error contacting TOPdesk'),
-      content:
-          details ? Text(widget.cause.toString()) : _tldrMessage(widget.cause),
+      content: details ? Text(widget.cause.toString()) : _tldrMessage(),
       actions: _actions(),
     );
   }
@@ -47,32 +44,40 @@ class _ErrorDialogState extends State<ErrorDialog> {
     result.add(
       FlatButton(
         child: const Text('Ok'),
-        onPressed: () {
-          widget.onClose(context);
-        },
+        onPressed: () => _closeDialog(context),
       ),
     );
 
     return result;
   }
 
-  Widget _tldrMessage(Exception cause) {
-    if (cause is TdNotAuthorizedException) {
+  void _closeDialog(BuildContext context) {
+    if (widget.cause is TdBadRequestException) {
+      Navigator.pushReplacementNamed(context, 'settings');
+    } else if (widget.activeScreenIsLogin) {
+      Navigator.pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, 'login');
+    }
+  }
+
+  Widget _tldrMessage() {
+    if (widget.cause is TdNotAuthorizedException) {
       return const Text('You do not have sufficient authorization. '
           'Contact your TOPdesk application manager.');
     }
 
-    if (cause is TdTimeOutException) {
+    if (widget.cause is TdTimeOutException) {
       return const Text('It took the TOPdesk server too long to respond. '
           'Please try again later.');
     }
 
-    if (cause is TdBadRequestException) {
+    if (widget.cause is TdBadRequestException) {
       return const Text('Some of the settings are invalid. '
           'Update the settings.');
     }
 
-    if (cause is TdServerException) {
+    if (widget.cause is TdServerException) {
       return const Text('There was a problem with the TOPdesk server. '
           'Contact your TOPdesk application manager.');
     }

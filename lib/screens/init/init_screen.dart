@@ -30,9 +30,8 @@ class _InitScreenState extends State<InitScreen> {
             showDialog(
               context: context,
               builder: (BuildContext context) => ErrorDialog(
-                state.cause,
-                onClose: (context) =>
-                    Navigator.pushReplacementNamed(context, 'login'),
+                cause: state.cause,
+                activeScreenIsLogin: false,
               ),
             );
           } else if (state is IncompleteCredentials) {
