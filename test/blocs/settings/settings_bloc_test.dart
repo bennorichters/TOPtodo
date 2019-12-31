@@ -6,6 +6,8 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
+import '../init/init_bloc_test.dart';
+
 class MockSettingsProvider extends Mock implements SettingsProvider {}
 
 void main() {
@@ -201,24 +203,72 @@ void main() {
       );
     });
 
-    test('empty settings', () async {
+    test('empty settings fill operator', () async {
       when(settingsProvider.provide())
           .thenAnswer((_) => Future<Settings>.value(Settings.empty()));
 
+      bloc.add(const SettingsInit());
+
+      final currentOperator = await topdeskProvider.currentIncidentOperator();
+      await emitsExactly<SettingsBloc, SettingsState>(
+        bloc,
+        [
+          const InitialSettingsState(),
+          SettingsLoading(currentOperator: currentOperator),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              incidentOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              categories: categories,
+              incidentDurations: durations,
+              incidentOperator: currentOperator,
+            ),
+          ),
+        ],
+      );
+    });
+
+    test('empty settings dont fill operator', () async {
+      when(settingsProvider.provide())
+          .thenAnswer((_) => Future<Settings>.value(Settings.empty()));
+
+      final currentOperator = IncidentOperator(
+        id: 'x',
+        name: '',
+        avatar: '',
+        firstLine: false,
+        secondLine: true,
+      );
+      final tdProviderWrongOperator = MockTopdeskProvider();
+      when(tdProviderWrongOperator.currentIncidentOperator())
+          .thenAnswer((_) => Future<IncidentOperator>.value(currentOperator));
+      when(tdProviderWrongOperator.categories())
+          .thenAnswer((_) => topdeskProvider.categories());
+      when(tdProviderWrongOperator.incidentDurations())
+          .thenAnswer((_) => topdeskProvider.incidentDurations());
+
+      bloc = SettingsBloc(
+        settingsProvider: settingsProvider,
+        topdeskProvider: tdProviderWrongOperator,
+      );
       bloc.add(const SettingsInit());
 
       await emitsExactly<SettingsBloc, SettingsState>(
         bloc,
         [
           const InitialSettingsState(),
-          SettingsLoading(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+          SettingsLoading(currentOperator: currentOperator),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(),
           ),
           SettingsTdData(
-              currentOperator: await topdeskProvider.currentIncidentOperator(),
-              formState: SettingsFormState()),
-          SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: currentOperator,
             formState: SettingsFormState(
               categories: categories,
               incidentDurations: durations,

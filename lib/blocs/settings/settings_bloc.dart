@@ -100,10 +100,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  Future<SettingsTdData> _currentData() async => SettingsTdData(
-        currentOperator: await topdeskProvider.currentIncidentOperator(),
-        formState: _formState,
-      );
+  Future<SettingsTdData> _currentData() async {
+    final currentOperator = await topdeskProvider.currentIncidentOperator();
+    if (_formState.incidentOperator == null && currentOperator.firstLine) {
+      _formState = _formState.update(updatedIncidentOperator: currentOperator);
+    }
+
+    return SettingsTdData(
+      currentOperator: currentOperator,
+      formState: _formState,
+    );
+  }
 
   Future<TdModel> _modelOrNull(String id, ProvideModel method) async =>
       Future.value(
