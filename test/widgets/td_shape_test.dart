@@ -7,7 +7,7 @@ import 'package:image/image.dart' as img;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/utils/colors.dart' show forest100;
-import 'package:toptodo/widgets/td_shapes.dart';
+import 'package:toptodo/widgets/td_shape.dart';
 
 void main() {
   testWidgets('better name needed', (WidgetTester tester) async {

@@ -6,7 +6,7 @@ import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/td_button.dart';
-import 'package:toptodo/widgets/td_shapes.dart';
+import 'package:toptodo/widgets/td_shape.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class LoginScreen extends StatefulWidget {
