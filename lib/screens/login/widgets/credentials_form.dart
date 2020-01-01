@@ -20,13 +20,13 @@ class CredentialsForm extends StatelessWidget {
   final TextEditingController _passwordController;
   final bool _remember;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Widget _verticalSpace = const SizedBox(height: 10);
+  final _formKey = GlobalKey<FormState>();
+  final _verticalSpace = const SizedBox(height: 10);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[
+      children: [
         CustomPaint(
           painter: TdShape(LongSide.left, forest100),
           child: Container(),
@@ -36,7 +36,7 @@ class CredentialsForm extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: ListView(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   controller: _urlController,
                   autocorrect: false,
@@ -72,7 +72,7 @@ class CredentialsForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 Row(
-                  children: <Widget>[
+                  children: [
                     Checkbox(
                       value: _remember,
                       onChanged: (bool value) {
