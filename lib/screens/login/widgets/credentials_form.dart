@@ -25,77 +25,72 @@ class CredentialsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomPaint(
-          painter: TdShape(LongSide.left, forest100),
-          child: Container(),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                TextFormField(
-                  controller: _urlController,
-                  autocorrect: false,
-                  decoration: const InputDecoration(
-                    labelText: 'TOPdesk url',
-                    hintText: 'https://your-environment.topdesk.net',
+    return TdShapeBackground(
+      longSide: LongSide.left,
+      color: forest100,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: _urlController,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  labelText: 'TOPdesk url',
+                  hintText: 'https://your-environment.topdesk.net',
+                ),
+                validator: (String value) => value.isEmpty
+                    ? 'fill in the url of your TOPdesk environment'
+                    : null,
+              ),
+              _verticalSpace,
+              TextFormField(
+                autocorrect: false,
+                controller: _loginNameController,
+                decoration: const InputDecoration(
+                  labelText: 'login name',
+                ),
+                validator: (String value) =>
+                    value.isEmpty ? 'fill in your login name' : null,
+              ),
+              _verticalSpace,
+              TextFormField(
+                autocorrect: false,
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'application password',
+                ),
+                validator: (String value) =>
+                    value.isEmpty ? 'fill in your application password' : null,
+              ),
+              _verticalSpace,
+              Row(
+                children: [
+                  Checkbox(
+                    value: _remember,
+                    onChanged: (bool value) {
+                      BlocProvider.of<LoginBloc>(context)
+                        ..add(RememberToggle(_createCredentials()));
+                    },
                   ),
-                  validator: (String value) => value.isEmpty
-                      ? 'fill in the url of your TOPdesk environment'
-                      : null,
+                  const Text('remember'),
+                ],
+              ),
+              _verticalSpace,
+              TdButton(
+                text: 'log in',
+                onTap: () => _connect(
+                  context,
+                  _createCredentials(),
                 ),
-                _verticalSpace,
-                TextFormField(
-                  autocorrect: false,
-                  controller: _loginNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'login name',
-                  ),
-                  validator: (String value) =>
-                      value.isEmpty ? 'fill in your login name' : null,
-                ),
-                _verticalSpace,
-                TextFormField(
-                  autocorrect: false,
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'application password',
-                  ),
-                  validator: (String value) => value.isEmpty
-                      ? 'fill in your application password'
-                      : null,
-                ),
-                _verticalSpace,
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _remember,
-                      onChanged: (bool value) {
-                        BlocProvider.of<LoginBloc>(context)
-                          ..add(RememberToggle(_createCredentials()));
-                      },
-                    ),
-                    const Text('remember'),
-                  ],
-                ),
-                _verticalSpace,
-                TdButton(
-                  text: 'log in',
-                  onTap: () => _connect(
-                    context,
-                    _createCredentials(),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 

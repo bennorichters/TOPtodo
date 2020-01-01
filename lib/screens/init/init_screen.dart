@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
+import 'package:toptodo/widgets/td_shape.dart';
 
 class InitScreen extends StatefulWidget {
   const InitScreen({Key key}) : super(key: key);
@@ -68,30 +69,34 @@ class _InitDataProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Table(
-        columnWidths: {
-          0: FixedColumnWidth(_firstColumnWidth),
-          1: IntrinsicColumnWidth(),
-        },
-        children: [
-          TableRow(
-            children: _rowChildren(
-              'credentials',
-              state.credentials,
+    return TdShapeBackground(
+      color: duckEgg,
+      longSide: LongSide.top,
+      child: Center(
+        child: Table(
+          columnWidths: {
+            0: FixedColumnWidth(_firstColumnWidth),
+            1: IntrinsicColumnWidth(),
+          },
+          children: [
+            TableRow(
+              children: _rowChildren(
+                'credentials',
+                state.credentials,
+              ),
             ),
-          ),
-          TableRow(
-            children: _rowChildren(
-              'settings',
-              state.settings,
+            TableRow(
+              children: _rowChildren(
+                'settings',
+                state.settings,
+              ),
             ),
-          ),
-          TableRow(
-            children:
-                _rowChildren('your operator profile', state.currentOperator),
-          ),
-        ],
+            TableRow(
+              children:
+                  _rowChildren('your operator profile', state.currentOperator),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,30 @@ import 'package:flutter/material.dart';
 
 enum LongSide { top, right, bottom, left }
 
+class TdShapeBackground extends StatelessWidget {
+  const TdShapeBackground({
+    @required this.longSide,
+    @required this.color,
+    @required this.child,
+  });
+  final LongSide longSide;
+  final Color color;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        CustomPaint(
+          painter: TdShape(longSide, color),
+          child: Container(),
+        ),
+        child,
+      ],
+    );
+  }
+}
+
 class TdShape extends CustomPainter {
   const TdShape(this.longSide, this.color);
   final LongSide longSide;

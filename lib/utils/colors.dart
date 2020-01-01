@@ -26,3 +26,5 @@ const Color squash = Color(0xFFFFD9A3);
 const Color vermillion = Color(0xFFE65038);
 
 const Color moss = Color(0xFF19A064);
+
+const Color duckEgg = Color(0xFFE0F1E6);
