@@ -105,7 +105,7 @@ class _CredentialsForm extends StatelessWidget {
     return Stack(
       children: <Widget>[
         CustomPaint(
-          painter: TdShape(),
+          painter: TdShape(LongSide.left),
           child: Container(),
         ),
         Padding(
