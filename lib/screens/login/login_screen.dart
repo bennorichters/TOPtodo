@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shapes.dart';
@@ -105,7 +106,7 @@ class _CredentialsForm extends StatelessWidget {
     return Stack(
       children: <Widget>[
         CustomPaint(
-          painter: TdShape(LongSide.left),
+          painter: TdShape(LongSide.left, forest100),
           child: Container(),
         ),
         Padding(

@@ -14,7 +14,7 @@ void main() {
     await tester.runAsync(() async {
       final recorder = PictureRecorder();
       final canvas = Canvas(recorder);
-      final tdShape = TdShape(LongSide.left);
+      final tdShape = TdShape(LongSide.left, forest100);
 
       tdShape.paint(canvas, const Size(400, 425));
 

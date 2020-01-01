@@ -1,13 +1,12 @@
 import 'dart:math' show min, pi;
-
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/colors.dart' show forest100;
 
 enum LongSide { top, right, bottom, left }
 
 class TdShape extends CustomPainter {
-  const TdShape(this.longSide);
+  const TdShape(this.longSide, this.color);
   final LongSide longSide;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -26,7 +25,7 @@ class TdShape extends CustomPainter {
       xSize = size.flipped;
     }
 
-    _TdShapeCalculator(canvas, xSize).paint();
+    _TdShapeCalculator(canvas, xSize, color).paint();
   }
 
   @override
@@ -34,13 +33,14 @@ class TdShape extends CustomPainter {
 }
 
 class _TdShapeCalculator {
-  const _TdShapeCalculator(this.canvas, Size screenSize)
-      : size = screenSize - _bottomMargin;
+  _TdShapeCalculator(this.canvas, Size screenSize, color)
+      : size = screenSize - _bottomMargin,
+        paintWithColor = Paint()..color = color;
   final Canvas canvas;
   final Size size;
 
   static const _bottomMargin = Offset(0, 25);
-  static final _paint = Paint()..color = forest100;
+  final paintWithColor;
 
   void paint() {
     if (size.aspectRatio >= 1) {
@@ -53,19 +53,19 @@ class _TdShapeCalculator {
   }
 
   void _small() {
-    canvas.drawCircle(Offset.zero, size.shortestSide, _paint);
+    canvas.drawCircle(Offset.zero, size.shortestSide, paintWithColor);
   }
 
   void _medium() {
     final radius = min(size.width, size.height / 2);
-    canvas.drawCircle(Offset(0, radius), radius, _paint);
-    canvas.drawRect(Offset.zero & Size.fromRadius(radius / 2), _paint);
+    canvas.drawCircle(Offset(0, radius), radius, paintWithColor);
+    canvas.drawRect(Offset.zero & Size.fromRadius(radius / 2), paintWithColor);
   }
 
   void _long() {
     final radius = min(size.width, size.height / 3);
     final circleCenter = size.height - radius;
-    canvas.drawCircle(Offset(0, circleCenter), radius, _paint);
-    canvas.drawRect(Offset.zero & Size(radius, circleCenter), _paint);
+    canvas.drawCircle(Offset(0, circleCenter), radius, paintWithColor);
+    canvas.drawRect(Offset.zero & Size(radius, circleCenter), paintWithColor);
   }
 }
