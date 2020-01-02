@@ -25,11 +25,11 @@
 		fill="url(#grad1)"/>
 
 	<g id="td">
-		<g transform="rotate(135 70 80)" 
+		<g transform="rotate(-135 70 80)" 
 			fill="#C24530">
 			<path id="part" 
-				d="M 70 105 
-		a 25 25, 0, 0, 1, -25 -25
+				d="M 95 80 
+		a 25 25, 0, 0, 1, -50 0
 		l 25 0" />
 		</g>
 		<g transform="rotate(-45 70 80)" 
