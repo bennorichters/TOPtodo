@@ -26,10 +26,13 @@ class SearchList<T extends TdModel> extends StatelessWidget {
       validator: (T _) => selectedItem == null ? validationText : null,
       onChanged: onChangedCallBack,
       hint: (items == null)
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(),
+          ? Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(),
+              ),
             )
           : Container(),
       items: items
