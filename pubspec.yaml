@@ -47,7 +47,8 @@ dev_dependencies:
       ref: 8658c5ad49d944d0ded8e0a184b387e5f578f112
   bloc_test: ^3.0.0
   mockito: ^4.1.1
-  flutter_launcher_icons: "^0.7.3"
+  flutter_launcher_icons: ^0.7.3
+  flutter_native_splash: ^0.1.9
 
 # used to override flutter_test that uses an older version
 dependency_overrides:
@@ -63,3 +64,5 @@ flutter_icons:
   ios: true
   image_path: "assets/logo.png"
 
+flutter_native_splash:
+  color: "E0F1E6"
