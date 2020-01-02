@@ -5,24 +5,79 @@
 	xmlns="http://www.w3.org/2000/svg" 
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
-	<g transform="rotate(135 100 100)" 
-		fill="#C24530">
-		<path id="part" 
-			d="M 100 125 
+	<defs>
+		<linearGradient id="grad1" 
+			x1="0%" 
+			y1="0%" 
+			x2="0%" 
+			y2="100%">
+			<stop offset="0%" 
+				style="stop-color:#DCF1EF;stop-opacity:1" />
+			<stop offset="100%" 
+				style="stop-color:#BAE2DF;stop-opacity:1" />
+		</linearGradient>
+	</defs>
+
+	<rect x="0" 
+		y="0" 
+		width="300" 
+		height="300" 
+		fill="url(#grad1)"/>
+
+	<g id="td">
+		<g transform="rotate(135 70 80)" 
+			fill="#C24530">
+			<path id="part" 
+				d="M 70 105 
 		a 25 25, 0, 0, 1, -25 -25
 		l 25 0" />
+		</g>
+		<g transform="rotate(-45 70 80)" 
+			fill="#E65038">
+			<use xlink:href="#part"/>
+		</g>
+		<g transform="rotate(-45 70 80)">
+			<rect x="70" 
+				y="80" 
+				width="25" 
+				height="25" 
+				stroke="#E65038" 
+				fill="#E65038" 
+				stroke-width=".4"/>
+		</g>
 	</g>
-	<g transform="rotate(-45 100 100)" 
-		fill="#E65038">
-		<use xlink:href="#part"/>
+
+	<g transform="translate(0, 75)">
+		<use xlink:href="#td"/>
 	</g>
-	<g transform="rotate(-45 100 100)">
-		<rect x="100" 
-			y="100" 
-			width="25" 
-			height="25" 
-			stroke="#E65038" 
-			fill="#E65038" 
-			stroke-width=".4"/>
-	</g>
+
+	<rect x="58" 
+		y="210" 
+		width="40" 
+		height="40" 
+		stroke="#0A7DA0" 
+		stroke-width="5" 
+		fill="transparent" />
+
+
+	<line x1="130" 
+		y1="80" 
+		x2="250" 
+		y2="80" 
+		stroke="#19A064" 
+		stroke-width="5"/>
+
+	<line x1="130" 
+		y1="155" 
+		x2="250" 
+		y2="155" 
+		stroke="#19A064" 
+		stroke-width="5"/>
+
+	<line x1="130" 
+		y1="227" 
+		x2="250" 
+		y2="227" 
+		stroke="#0A7DA0" 
+		stroke-width="5"/>
 </svg>
