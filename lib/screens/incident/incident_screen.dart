@@ -23,39 +23,40 @@ class _IncidentScreenState extends State<IncidentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<IncidentBloc, IncidentState>(
-      listener: (context, state) {
-        if (state is IncidentCreated) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: moss,
-              content: Text('Incident created with number ${state.number}'),
-            ),
-          );
-        } else if (state is IncidentCreationError) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => ErrorDialog(
-              cause: state.cause,
-              activeScreenIsLogin: false,
-            ),
-          );
-        }
+    return BlocBuilder<IncidentBloc, IncidentState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Create todo'),
+            actions: [
+              if (state is WithOperatorState)
+                MenuOperatorButton(state.currentOperator),
+            ],
+          ),
+          body: BlocListener<IncidentBloc, IncidentState>(
+            listener: (context, state) {
+              if (state is IncidentCreated) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: moss,
+                    content:
+                        Text('Incident created with number ${state.number}'),
+                  ),
+                );
+              } else if (state is IncidentCreationError) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => ErrorDialog(
+                    cause: state.cause,
+                    activeScreenIsLogin: false,
+                  ),
+                );
+              }
+            },
+            child: _IncidentForm(state),
+          ),
+        );
       },
-      child: BlocBuilder<IncidentBloc, IncidentState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Create todo'),
-              actions: [
-                if (state is WithOperatorState)
-                  MenuOperatorButton(state.currentOperator),
-              ],
-            ),
-            body: _IncidentForm(state),
-          );
-        },
-      ),
     );
   }
 }
