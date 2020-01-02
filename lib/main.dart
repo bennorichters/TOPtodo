@@ -79,8 +79,18 @@ class _TopToDoAppState extends State<TopToDoApp> {
         title: 'TOPtodo',
         routes: {
           'incident': (context) => const IncidentScreen(),
-          'login': (context) => const LoginScreen(),
           'settings': (context) => const SettingsScreen(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name != 'login') {
+            return null;
+          }
+
+          final LoginScreenArguments args = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) =>
+                LoginScreen(logOut: args == null ? args.logOut : false),
+          );
         },
         theme: ThemeData(primarySwatch: denim),
         home: InitScreen(),

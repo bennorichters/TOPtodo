@@ -6,8 +6,14 @@ import 'package:toptodo/screens/login/widgets/credentials_form.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 
+class LoginScreenArguments {
+  const LoginScreenArguments({@required this.logOut});
+  final bool logOut;
+}
+
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key key}) : super(key: key);
+  const LoginScreen({@required this.logOut, Key key}) : super(key: key);
+  final bool logOut;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -17,7 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<LoginBloc>(context)..add(const CredentialsInit());
+
+    BlocProvider.of<LoginBloc>(context)
+      ..add(widget.logOut ? const LogOut() : const CredentialsInit());
   }
 
   @override

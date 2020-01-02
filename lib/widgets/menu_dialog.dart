@@ -1,8 +1,6 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
-import 'package:toptodo/blocs/login/bloc.dart';
-import 'package:toptodo/blocs/login/login_bloc.dart';
+import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/utils/colors.dart';
 
 class MenuDialog extends StatelessWidget {
@@ -54,18 +52,23 @@ class MenuDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (showSettings)
-                    const _MenuItem(
+                    _MenuItem(
                       iconData: Icons.settings,
                       text: 'settings',
-                      route: 'settings',
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, 'settings');
+                      },
                     ),
                   if (showSettings) SizedBox(height: 20),
                   _MenuItem(
                     iconData: Icons.person,
                     text: 'log out',
-                    route: 'login',
-                    beforeNavigate: () {
-                      BlocProvider.of<LoginBloc>(context).add(const LogOut());
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        'login',
+                        arguments: LoginScreenArguments(logOut: true),
+                      );
                     },
                   ),
                 ],
@@ -82,25 +85,17 @@ class _MenuItem extends StatelessWidget {
   const _MenuItem({
     @required this.iconData,
     @required this.text,
-    @required this.route,
-    this.beforeNavigate,
+    this.onTap,
     Key key,
   }) : super(key: key);
   final IconData iconData;
   final String text;
-  final String route;
-  final Function beforeNavigate;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        if (beforeNavigate != null) {
-          beforeNavigate();
-        }
-
-        Navigator.pushReplacementNamed(context, route);
-      },
+      onTap: onTap,
       child: Row(
         children: [
           Padding(

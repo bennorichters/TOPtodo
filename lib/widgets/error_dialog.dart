@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 typedef DialogCloser = void Function(BuildContext context);
@@ -57,7 +58,11 @@ class _ErrorDialogState extends State<ErrorDialog> {
     } else if (widget.activeScreenIsLogin) {
       Navigator.pop(context);
     } else {
-      Navigator.pushReplacementNamed(context, 'login');
+      Navigator.pushReplacementNamed(
+        context,
+        'login',
+        arguments: LoginScreenArguments(logOut: false),
+      );
     }
   }
 
