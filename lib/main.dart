@@ -89,7 +89,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
           final LoginScreenArguments args = settings.arguments;
           return MaterialPageRoute(
             builder: (context) =>
-                LoginScreen(logOut: args == null ? args.logOut : false),
+                LoginScreen(logOut: args == null ? false : args.logOut),
           );
         },
         theme: ThemeData(primarySwatch: denim),
