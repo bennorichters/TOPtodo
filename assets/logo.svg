@@ -1,0 +1,28 @@
+<svg version="1.1" 
+	baseProfile="full" 
+	width="300" 
+	height="300" 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<g transform="rotate(135 100 100)" 
+		fill="#C24530">
+		<path id="part" 
+			d="M 100 125 
+		a 25 25, 0, 0, 1, -25 -25
+		l 25 0" />
+	</g>
+	<g transform="rotate(-45 100 100)" 
+		fill="#E65038">
+		<use xlink:href="#part"/>
+	</g>
+	<g transform="rotate(-45 100 100)">
+		<rect x="100" 
+			y="100" 
+			width="25" 
+			height="25" 
+			stroke="#E65038" 
+			fill="#E65038" 
+			stroke-width=".4"/>
+	</g>
+</svg>
