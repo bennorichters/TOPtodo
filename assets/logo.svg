@@ -1,7 +1,7 @@
 <svg version="1.1" 
 	baseProfile="full" 
-	width="300" 
-	height="300" 
+	width="100%"
+	viewBox="0 0 300 300"
 	xmlns="http://www.w3.org/2000/svg" 
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
@@ -43,7 +43,7 @@
 				height="25" 
 				stroke="#E65038" 
 				fill="#E65038" 
-				stroke-width=".4"/>
+				stroke-width="0"/>
 		</g>
 	</g>
 
@@ -75,9 +75,9 @@
 		stroke-width="5"/>
 
 	<line x1="130" 
-		y1="227" 
+		y1="228" 
 		x2="250" 
-		y2="227" 
+		y2="228" 
 		stroke="#0A7DA0" 
 		stroke-width="5"/>
 </svg>
