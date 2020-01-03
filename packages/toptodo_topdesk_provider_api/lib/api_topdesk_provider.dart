@@ -254,30 +254,25 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required Settings settings,
     String request,
   }) async {
-    final jsonElements = []
-      ..add('"status": "firstLine"')
-      ..add('"callerBranch": {"id": "${settings.branchId}"}')
-      ..add('"caller": {"id": "${settings.callerId}"}')
-      ..add('"category": {"id": "${settings.categoryId}"}')
-      ..add('"subcategory": {"id": "${settings.subCategoryId}"}')
-      ..add('"duration": {"id": "${settings.incidentDurationId}"}')
-      ..add('"operator": {"id": "${settings.incidentOperatorId}"}');
-
-    final escapedDesc = _escapeQuotes(briefDescription);
-    jsonElements.add('"briefDescription": "$escapedDesc"');
+    final body = {};
+    body['status'] = 'firstLine';
+    body['callerBranch'] = {'id': settings.branchId};
+    body['caller'] = {'id': settings.callerId};
+    body['category'] = {'id': settings.categoryId};
+    body['subcategory'] = {'id': settings.subCategoryId};
+    body['duration'] = {'id': settings.incidentDurationId};
+    body['operator'] = {'id': settings.incidentOperatorId};
+    body['briefDescription'] = briefDescription;
 
     if (request != null && request.isNotEmpty) {
-      final escapedRequest = _escapeQuotes(request);
-      jsonElements.add('"request": "$escapedRequest"');
+      body['request'] = request;
     }
 
-    final json = '{' + jsonElements.join(',') + '}';
+    final responseJson = json.encode(body);
 
-    final response = await _apiPost('incidents', json);
+    final response = await _apiPost('incidents', responseJson);
     return response['number'];
   }
-
-  String _escapeQuotes(String userInput) => userInput.replaceAll('"', '\\\"');
 
   dynamic _apiGet(String endPoint) async => _apiCall(
         endPoint,
