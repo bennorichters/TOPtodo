@@ -61,7 +61,7 @@ class MenuDialog extends StatelessWidget {
                     ),
                   if (showSettings) SizedBox(height: 20),
                   _MenuItem(
-                    iconData: Icons.person,
+                    iconData: Icons.power_settings_new,
                     text: 'log out',
                     onTap: () {
                       Navigator.pushReplacementNamed(
