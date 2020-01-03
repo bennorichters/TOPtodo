@@ -62,16 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (BuildContext context, LoginState state) {
               if (state is LoginWaitingForSavedData) {
-                return buildLoading();
+                return const _Loading();
               } else if (state is WithSavedData) {
                 return CredentialsForm.withSavedDate(
                   state.savedData,
                   state.remember,
                 );
               } else if (state is LoginSuccess) {
-                return buildLoading();
+                return const _Loading();
               } else if (state is LoginSubmitting) {
-                return buildLoading();
+                return const _Loading();
               } else {
                 throw StateError('unknown state: $state');
               }
@@ -81,10 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
 
-  Widget buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) => const Center(
+        child: CircularProgressIndicator(),
+      );
 }
