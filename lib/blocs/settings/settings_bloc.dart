@@ -49,7 +49,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       _formState = _formState.update(updatedBranch: event.branch);
       yield await _currentData();
     } else if (event is SettingsOperatorSelected) {
-      _formState.update(updatedIncidentOperator: event.incidentOperator);
+      _formState = _formState.update(updatedIncidentOperator: event.incidentOperator);
       yield await _currentData();
     } else if (event is SettingsCallerSelected) {
       _formState = _formState.update(updatedCaller: event.caller);
