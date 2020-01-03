@@ -16,7 +16,7 @@ dependencies:
     git: 
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: b22cdeab47579f950d48091ef04deb77ec9a2f45
+      ref: 70131ea6133de0293d59e244e9dc5fb1068e0bc1
   flutter_secure_storage: ^3.3.1+1
   shared_preferences: ^0.5.4+3
   crypto: ^2.1.3
