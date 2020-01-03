@@ -59,7 +59,7 @@ class IncompleteCredentials extends InitState {
 
 class LoadingDataFailed extends InitState {
   const LoadingDataFailed(this.cause);
-  final Exception cause;
+  final Object cause;
 
   @override
   List<Object> get props => <Object>[cause];

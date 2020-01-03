@@ -6,7 +6,7 @@ typedef DialogCloser = void Function(BuildContext context);
 
 class ErrorDialog extends StatefulWidget {
   ErrorDialog({this.cause, this.activeScreenIsLogin});
-  final Exception cause;
+  final Object cause;
   final bool activeScreenIsLogin;
 
   @override
