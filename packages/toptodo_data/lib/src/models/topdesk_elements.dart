@@ -55,8 +55,7 @@ abstract class Person extends TdModel {
     @required String id,
     @required String name,
     @required this.avatar,
-  })  : assert(avatar != null),
-        super(id: id, name: name);
+  }) : super(id: id, name: name);
 
   final String avatar;
 }
