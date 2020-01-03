@@ -7,7 +7,7 @@ import 'package:toptodo/screens/settings/settings_screen.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
-import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
+import 'package:toptodo_topdesk_provider_api/api_topdesk_provider.dart';
 
 import 'blocs/all_blocs.dart';
 import 'utils/colors.dart';
@@ -27,7 +27,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
   @override
   void initState() {
     _credentialsProvider = SecureStorageCredentials();
-    _topdeskProvider = FakeTopdeskProvider();
+    _topdeskProvider = ApiTopdeskProvider();
     _settingsProvider = SharedPreferencesSettingsProvider();
 
     super.initState();
