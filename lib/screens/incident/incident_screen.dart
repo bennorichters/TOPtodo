@@ -17,7 +17,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<IncidentBloc>(context)..add(IncidentShowForm());
+    BlocProvider.of<IncidentBloc>(context)..add(const IncidentShowForm());
   }
 
   @override

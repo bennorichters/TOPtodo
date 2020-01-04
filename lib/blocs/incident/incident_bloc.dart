@@ -13,7 +13,7 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   final SettingsProvider settingsProvider;
 
   @override
-  IncidentState get initialState => InitialIncidentState();
+  IncidentState get initialState => const InitialIncidentState();
 
   @override
   Stream<IncidentState> mapEventToState(
@@ -24,9 +24,9 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
         currentOperator: await topdeskProvider.currentIncidentOperator(),
       );
     } else if (event is IncidentSubmit) {
-      yield SubmittingIncident(
-        currentOperator: await topdeskProvider.currentIncidentOperator(),
-      );
+      final currentOperator = await topdeskProvider.currentIncidentOperator();
+
+      yield SubmittingIncident(currentOperator: currentOperator);
 
       try {
         final number = await topdeskProvider.createIncident(
@@ -35,14 +35,11 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
           settings: await settingsProvider.provide(),
         );
 
-        yield IncidentCreated(
-          number: number,
-          currentOperator: await topdeskProvider.currentIncidentOperator(),
-        );
+        yield IncidentCreated(number: number, currentOperator: currentOperator);
       } catch (error) {
         yield IncidentCreationError(
           cause: error,
-          currentOperator: await topdeskProvider.currentIncidentOperator(),
+          currentOperator: currentOperator,
         );
       }
     }

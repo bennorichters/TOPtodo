@@ -6,12 +6,17 @@ abstract class IncidentEvent extends Equatable {
 }
 
 class IncidentShowForm extends IncidentEvent {
+  const IncidentShowForm();
+
   @override
-  List<Object> get props => <Object>[];
+  List<Object> get props => [];
 }
 
 class IncidentSubmit extends IncidentEvent {
-  IncidentSubmit({@required this.briefDescription, @required this.request});
+  const IncidentSubmit({
+    @required this.briefDescription,
+    @required this.request,
+  });
   final String briefDescription;
   final String request;
 

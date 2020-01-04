@@ -7,12 +7,14 @@ abstract class IncidentState extends Equatable {
 }
 
 class InitialIncidentState extends IncidentState {
+  const InitialIncidentState();
+
   @override
   List<Object> get props => [];
 }
 
 abstract class WithOperatorState extends IncidentState {
-  WithOperatorState({@required this.currentOperator});
+  const WithOperatorState({@required this.currentOperator});
   final IncidentOperator currentOperator;
 
   @override
@@ -20,7 +22,7 @@ abstract class WithOperatorState extends IncidentState {
 }
 
 class OperatorLoaded extends WithOperatorState {
-  OperatorLoaded({@required IncidentOperator currentOperator})
+  const OperatorLoaded({@required IncidentOperator currentOperator})
       : super(currentOperator: currentOperator);
 
   @override
@@ -28,7 +30,7 @@ class OperatorLoaded extends WithOperatorState {
 }
 
 class SubmittingIncident extends WithOperatorState {
-  SubmittingIncident({@required IncidentOperator currentOperator})
+  const SubmittingIncident({@required IncidentOperator currentOperator})
       : super(currentOperator: currentOperator);
 
   @override
@@ -36,7 +38,7 @@ class SubmittingIncident extends WithOperatorState {
 }
 
 class IncidentCreated extends WithOperatorState {
-  IncidentCreated({
+  const IncidentCreated({
     @required this.number,
     @required IncidentOperator currentOperator,
   }) : super(currentOperator: currentOperator);
@@ -48,12 +50,12 @@ class IncidentCreated extends WithOperatorState {
 }
 
 class IncidentCreationError extends WithOperatorState {
-  IncidentCreationError({
+  const IncidentCreationError({
     @required this.cause,
     @required IncidentOperator currentOperator,
   }) : super(currentOperator: currentOperator);
 
-  final Exception cause;
+  final Object cause;
 
   @override
   List<Object> get props => [cause];
