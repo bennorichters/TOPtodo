@@ -635,7 +635,7 @@ void main() {
       });
     });
 
-    group('incident', () {
+    group('create incident', () {
       final settings = Settings(
         branchId: 'a',
         callerId: 'a',
@@ -645,7 +645,7 @@ void main() {
         incidentOperatorId: 'a',
       );
 
-      test('create without request', () async {
+      test('without request', () async {
         final Client client = MockClient((Request request) async {
           expect(request.url.path, credentials.url + '/tas/api/incidents');
           expect(
@@ -683,7 +683,7 @@ void main() {
         expect(number, '19 12 002');
       });
 
-      test('create with request', () async {
+      test('with request', () async {
         final Client client = MockClient((Request request) async {
           expect(request.url.path, credentials.url + '/tas/api/incidents');
           expect(
@@ -720,6 +720,29 @@ void main() {
         );
 
         expect(number, '19 12 002');
+      });
+
+      test('with request with new lines', () async {
+        final Client client = MockClient((Request request) async {
+          final body = json.decode(request.body);
+          expect(
+            body['request'],
+            'my request<br>with<br>several<br>new lines',
+          );
+
+          return Response('{"number": "1"}', 201);
+        });
+
+        final p = ApiTopdeskProvider()
+          ..init(
+            credentials,
+            client: client,
+          );
+        await p.createIncident(
+          briefDescription: 'new line test',
+          request: 'my request\nwith\nseveral\nnew lines',
+          settings: settings,
+        );
       });
     });
   });

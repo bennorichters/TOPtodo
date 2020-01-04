@@ -265,7 +265,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     body['briefDescription'] = briefDescription;
 
     if (request != null && request.isNotEmpty) {
-      body['request'] = request;
+      body['request'] = _replaceNewLineWithBr(request);
     }
 
     final responseJson = json.encode(body);
@@ -357,6 +357,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   String _sanatizeUserInput(String input) => Uri.encodeComponent(input);
+
+  String _replaceNewLineWithBr(String input) => input.replaceAll('\n', '<br>');
 
   Map<String, String> _createAuthHeaders(Credentials credentials) {
     final encoded = utf8
