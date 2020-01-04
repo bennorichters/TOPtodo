@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
 import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class IncidentState extends Equatable {
