@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/utils/colors.dart';
+import 'package:toptodo/utils/td_colors.dart';
 
 class MenuDialog extends StatelessWidget {
   const MenuDialog({@required this.showSettings});

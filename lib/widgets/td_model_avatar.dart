@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo/utils/colors.dart';
+import 'package:toptodo/utils/td_colors.dart';
 
 class TdModelAvatar extends StatelessWidget {
   const TdModelAvatar(this.model, {this.diameter = 40.0});

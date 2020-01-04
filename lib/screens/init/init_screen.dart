@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/utils/colors.dart';
+import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/td_shape.dart';
 

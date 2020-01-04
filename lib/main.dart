@@ -8,7 +8,7 @@ import 'package:toptodo_topdesk_provider_api/api_topdesk_provider.dart';
 
 import 'package:toptodo/blocs/all_blocs.dart';
 import 'package:toptodo/screens/all_screens.dart';
-import 'package:toptodo/utils/colors.dart';
+import 'package:toptodo/utils/td_colors.dart';
 
 void main() => runApp(TopToDoApp());
 
