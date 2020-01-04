@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptodo/screens/incident/incident_screen.dart';
-import 'package:toptodo/screens/init/init_screen.dart';
-import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/screens/settings/settings_screen.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_repository_providers_impl/toptodo_repository_providers_impl.dart';
+import 'package:toptodo_repository_providers_impl/'
+    'toptodo_repository_providers_impl.dart';
 import 'package:toptodo_topdesk_provider_api/api_topdesk_provider.dart';
 
-import 'blocs/all_blocs.dart';
-import 'utils/colors.dart';
+import 'package:toptodo/blocs/all_blocs.dart';
+import 'package:toptodo/screens/all_screens.dart';
+import 'package:toptodo/utils/colors.dart';
 
 void main() => runApp(TopToDoApp());
 
