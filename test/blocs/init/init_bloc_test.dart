@@ -62,12 +62,12 @@ void main() {
       );
 
       final actual = <InitState>[];
-      final subsciption = bloc.listen(actual.add);
+      final subscription = bloc.listen(actual.add);
 
       bloc.add(const RequestInitData());
 
       await bloc.close();
-      await subsciption.cancel();
+      await subscription.cancel();
 
       expect(actual.length, 4);
       expect(actual.first, InitData.empty());
@@ -120,12 +120,12 @@ void main() {
       );
 
       final actual = <InitState>[];
-      final subsciption = bloc.listen(actual.add);
+      final subscription = bloc.listen(actual.add);
 
       bloc.add(const RequestInitData());
 
       await bloc.close();
-      await subsciption.cancel();
+      await subscription.cancel();
 
       expect(actual.last, LoadingDataFailed(exc));
     });
