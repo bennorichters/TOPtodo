@@ -19,7 +19,7 @@ class IncidentForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TdShapeBackground(
       longSide: LongSide.bottom,
-      color: squash,
+      color: TdColors.squash,
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(

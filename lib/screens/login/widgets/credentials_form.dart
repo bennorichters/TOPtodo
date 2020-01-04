@@ -27,7 +27,7 @@ class CredentialsForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TdShapeBackground(
       longSide: LongSide.left,
-      color: forest100,
+      color: TdColors.forest100,
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(

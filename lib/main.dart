@@ -90,7 +90,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
                 LoginScreen(logOut: args == null ? false : args.logOut),
           );
         },
-        theme: ThemeData(primarySwatch: denim),
+        theme: ThemeData(primarySwatch: TdColors.materialDenim),
         home: InitScreen(),
       ),
     );

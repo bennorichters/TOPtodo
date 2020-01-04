@@ -37,7 +37,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
               if (state is IncidentCreated) {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: moss,
+                    backgroundColor: TdColors.moss,
                     content:
                         Text('Incident created with number ${state.number}'),
                   ),

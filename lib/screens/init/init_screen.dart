@@ -75,7 +75,7 @@ class _InitDataProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TdShapeBackground(
-      color: duckEgg,
+      color: TdColors.duckEgg,
       longSide: LongSide.top,
       child: Center(
         child: Table(
@@ -116,7 +116,7 @@ class _InitDataProgress extends StatelessWidget {
               ? CircularProgressIndicator()
               : Icon(
                   Icons.done,
-                  color: moss,
+                  color: TdColors.moss,
                 ),
         ),
       ),

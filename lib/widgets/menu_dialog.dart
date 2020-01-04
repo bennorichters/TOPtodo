@@ -31,7 +31,7 @@ class MenuDialog extends StatelessWidget {
                   child: Text(
                     'TOPtodo',
                     style: TextStyle(
-                      color: denim.shade500,
+                      color: TdColors.materialDenim,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),

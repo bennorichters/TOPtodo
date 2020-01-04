@@ -55,7 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ? _SettingsForm(state)
               : TdShapeBackground(
                   longSide: LongSide.right,
-                  color: duckEgg,
+                  color: TdColors.duckEgg,
                   child: const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -77,7 +77,7 @@ class _SettingsForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TdShapeBackground(
       longSide: LongSide.right,
-      color: duckEgg,
+      color: TdColors.duckEgg,
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(

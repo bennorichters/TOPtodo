@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo/utils/colors.dart' show squash;
+import 'package:toptodo/utils/colors.dart';
 
 class TdModelAvatar extends StatelessWidget {
   const TdModelAvatar(this.model, {this.diameter = 40.0});
@@ -14,7 +14,7 @@ class TdModelAvatar extends StatelessWidget {
       height: diameter,
       width: diameter,
       child: CircleAvatar(
-        backgroundColor: squash,
+        backgroundColor: TdColors.squash,
         child: _buildTdModelAvatar(model),
       ),
     );

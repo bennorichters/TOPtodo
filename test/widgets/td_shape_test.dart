@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toptodo/utils/colors.dart' show forest100;
+import 'package:toptodo/utils/colors.dart';
 import 'package:toptodo/widgets/td_shape.dart';
 
 void main() {
@@ -14,7 +14,7 @@ void main() {
     await tester.runAsync(() async {
       final recorder = PictureRecorder();
       final canvas = Canvas(recorder);
-      final tdShape = TdShape(LongSide.left, forest100);
+      final tdShape = TdShape(LongSide.left, TdColors.forest100);
 
       tdShape.paint(canvas, const Size(400, 425));
 
@@ -26,7 +26,7 @@ void main() {
       final values = bd.buffer.asUint8List();
       final myImage = img.decodeImage(values);
 
-      expect(_argbIsAbgr(forest100, myImage.getPixel(10, 10)), isTrue);
+      expect(_argbIsAbgr(TdColors.forest100, myImage.getPixel(10, 10)), isTrue);
     });
   });
 }
