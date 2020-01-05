@@ -54,7 +54,7 @@ abstract class Person extends TdModel {
   const Person({
     @required String id,
     @required String name,
-    @required this.avatar,
+    this.avatar,
   }) : super(id: id, name: name);
 
   final String avatar;
@@ -64,7 +64,7 @@ class Caller extends Person {
   const Caller({
     @required String id,
     @required String name,
-    @required String avatar,
+    String avatar,
     @required this.branch,
   })  : assert(branch != null),
         super(id: id, name: name, avatar: avatar);
@@ -76,10 +76,12 @@ class IncidentOperator extends Person {
   const IncidentOperator({
     @required String id,
     @required String name,
-    @required String avatar,
+    String avatar,
     @required this.firstLine,
     @required this.secondLine,
-  }) : super(id: id, name: name, avatar: avatar);
+  })  : assert(firstLine != null),
+        assert(secondLine != null),
+        super(id: id, name: name, avatar: avatar);
 
   final bool firstLine;
   final bool secondLine;
