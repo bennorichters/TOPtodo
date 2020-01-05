@@ -4,11 +4,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class TdModelSearchEvent extends Equatable {
   const TdModelSearchEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class TdModelNewSearch extends TdModelSearchEvent {
-  @override
-  List<Object> get props => [];
+  const TdModelNewSearch();
 }
 
 abstract class TdModelSearchInfoEvent<T extends TdModel>
@@ -21,7 +23,7 @@ abstract class TdModelSearchInfoEvent<T extends TdModel>
   final String query;
 
   @override
-  List<Object> get props => [linkedTo, query];
+  List<Object> get props => super.props..addAll([linkedTo, query]);
 
   @override
   String toString() =>
