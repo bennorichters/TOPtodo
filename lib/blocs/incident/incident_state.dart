@@ -20,6 +20,9 @@ abstract class WithOperatorState extends IncidentState {
 
   @override
   List<Object> get props => super.props..addAll([currentOperator]);
+
+  @override
+  String toString() => '$runtimeType currentOperator: $currentOperator';
 }
 
 class OperatorLoaded extends WithOperatorState {

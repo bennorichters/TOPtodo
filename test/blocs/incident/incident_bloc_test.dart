@@ -89,6 +89,8 @@ void main() {
     test('create incident TdException', () async {
       final timeOutTdProvider = MockTopdeskProvider();
       const exc = TdTimeOutException('error test');
+      when(timeOutTdProvider.currentIncidentOperator())
+          .thenAnswer((_) => Future.value(currentOperator));
       when(timeOutTdProvider.createIncident(
         briefDescription: anyNamed('briefDescription'),
         request: anyNamed('request'),
