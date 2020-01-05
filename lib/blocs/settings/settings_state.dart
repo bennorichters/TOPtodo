@@ -5,13 +5,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class SettingsState extends Equatable {
   const SettingsState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class InitialSettingsState extends SettingsState {
   const InitialSettingsState();
-  
-  @override
-  List<Object> get props => [];
 }
 
 class SettingsWithOperator extends SettingsState {
@@ -19,7 +19,7 @@ class SettingsWithOperator extends SettingsState {
   final IncidentOperator currentOperator;
 
   @override
-  List<Object> get props => [currentOperator];
+  List<Object> get props => super.props..addAll([currentOperator]);
 }
 
 class SettingsLoading extends SettingsWithOperator {
@@ -35,7 +35,7 @@ abstract class SettingsWithFormState extends SettingsWithOperator {
   final SettingsFormState formState;
 
   @override
-  List<Object> get props => [formState];
+  List<Object> get props => super.props..addAll([formState]);
 
   @override
   String toString() => '${runtimeType} - $formState';

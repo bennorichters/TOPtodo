@@ -3,13 +3,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class SettingsInit extends SettingsEvent {
   const SettingsInit();
-
-  @override
-  List<Object> get props => [];
 }
 
 class SettingsBranchSelected extends SettingsEvent {
@@ -17,7 +17,7 @@ class SettingsBranchSelected extends SettingsEvent {
   final Branch branch;
 
   @override
-  List<Object> get props => [branch];
+  List<Object> get props => super.props..addAll([branch]);
 }
 
 class SettingsCategorySelected extends SettingsEvent {
@@ -25,7 +25,7 @@ class SettingsCategorySelected extends SettingsEvent {
   final Category category;
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => super.props..addAll([category]);
 }
 
 class SettingsDurationSelected extends SettingsEvent {
@@ -33,7 +33,7 @@ class SettingsDurationSelected extends SettingsEvent {
   final IncidentDuration duration;
 
   @override
-  List<Object> get props => [duration];
+  List<Object> get props => super.props..addAll([duration]);
 }
 
 class SettingsOperatorSelected extends SettingsEvent {
@@ -41,7 +41,7 @@ class SettingsOperatorSelected extends SettingsEvent {
   final IncidentOperator incidentOperator;
 
   @override
-  List<Object> get props => [incidentOperator];
+  List<Object> get props => super.props..addAll([incidentOperator]);
 }
 
 class SettingsCallerSelected extends SettingsEvent {
@@ -49,7 +49,7 @@ class SettingsCallerSelected extends SettingsEvent {
   final Caller caller;
 
   @override
-  List<Object> get props => [caller];
+  List<Object> get props => super.props..addAll([caller]);
 }
 
 class SettingsSubCategorySelected extends SettingsEvent {
@@ -57,10 +57,9 @@ class SettingsSubCategorySelected extends SettingsEvent {
   final SubCategory subCategory;
 
   @override
-  List<Object> get props => [subCategory];
+  List<Object> get props => super.props..addAll([subCategory]);
 }
 
 class SettingsSave extends SettingsEvent {
-  @override
-  List<Object> get props => [];
+  const SettingsSave();
 }
