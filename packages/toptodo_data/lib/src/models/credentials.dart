@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 /// A container for a URL, a login name and a password. All three elements can
 /// be null. Instances of this class are immutable.
 class Credentials extends Equatable {
+  /// Creates a `Credentials`
   const Credentials({
     this.url,
     this.loginName,
