@@ -21,7 +21,7 @@ class Credentials extends Equatable {
       (url != null) && (loginName != null) && (password != null);
 
   @override
-  List<Object> get props => <Object>[url, loginName, password];
+  List<Object> get props => [url, loginName, password];
 
   @override
   String toString() => 'Credentials: ['
