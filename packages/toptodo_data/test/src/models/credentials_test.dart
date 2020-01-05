@@ -15,14 +15,14 @@ void main() {
     });
 
     test('empty', () {
-      final c = Credentials.empty();
+      final c = Credentials();
       expect(c.url, isNull);
       expect(c.loginName, isNull);
       expect(c.password, isNull);
     });
 
     test('isComplete', () {
-      expect(Credentials.empty().isComplete(), isFalse);
+      expect(Credentials().isComplete(), isFalse);
       expect(
           Credentials(
             url: 'url',

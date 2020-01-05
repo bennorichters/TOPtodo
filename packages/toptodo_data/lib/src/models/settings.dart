@@ -1,14 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 class Settings extends Equatable {
   const Settings({
-    @required this.branchId,
-    @required this.callerId,
-    @required this.categoryId,
-    @required this.subCategoryId,
-    @required this.incidentDurationId,
-    @required this.incidentOperatorId,
+    this.branchId,
+    this.callerId,
+    this.categoryId,
+    this.subCategoryId,
+    this.incidentDurationId,
+    this.incidentOperatorId,
   });
 
   Settings.fromJson(Map<String, dynamic> json)
@@ -18,14 +17,6 @@ class Settings extends Equatable {
         subCategoryId = json['subCategoryId'],
         incidentDurationId = json['incidentDurationId'],
         incidentOperatorId = json['incidentOperatorId'];
-
-  const Settings.empty()
-      : branchId = null,
-        callerId = null,
-        categoryId = null,
-        subCategoryId = null,
-        incidentDurationId = null,
-        incidentOperatorId = null;
 
   final String branchId;
   final String callerId;
@@ -62,5 +53,5 @@ class Settings extends Equatable {
       ];
 
   @override
-  String toString() => toJson().toString();
+  String toString() => 'Settings [${toJson().toString()}]';
 }

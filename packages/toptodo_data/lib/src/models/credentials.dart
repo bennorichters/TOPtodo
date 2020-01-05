@@ -1,17 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 class Credentials extends Equatable {
   const Credentials({
-    @required this.url,
-    @required this.loginName,
-    @required this.password,
+    this.url,
+    this.loginName,
+    this.password,
   });
-
-  const Credentials.empty()
-      : url = null,
-        loginName = null,
-        password = null;
 
   final String url;
   final String loginName;
