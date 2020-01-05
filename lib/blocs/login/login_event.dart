@@ -3,20 +3,17 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class CredentialsInit extends LoginEvent {
   const CredentialsInit();
-
-  @override
-  List<Object> get props => [];
 }
 
 class LogOut extends LoginEvent {
   const LogOut();
-
-  @override
-  List<Object> get props => [];
 }
 
 class RememberToggle extends LoginEvent {
@@ -25,7 +22,6 @@ class RememberToggle extends LoginEvent {
 
   @override
   List<Object> get props => [credentials];
-
 }
 
 class TryLogin extends LoginEvent {

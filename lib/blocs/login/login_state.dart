@@ -4,13 +4,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class LoginState extends Equatable {
   const LoginState();
+
+  @override
+  List<Object> get props => <Object>[];
 }
 
 class LoginWaitingForSavedData extends LoginState {
   const LoginWaitingForSavedData();
-
-  @override
-  List<Object> get props => <Object>[];
 }
 
 abstract class WithSavedData extends LoginState {
@@ -19,7 +19,7 @@ abstract class WithSavedData extends LoginState {
   final bool remember;
 
   @override
-  List<Object> get props => <Object>[remember, savedData];
+  List<Object> get props => super.props..addAll([remember, savedData]);
 }
 
 class RetrievedSavedData extends WithSavedData {
@@ -44,7 +44,7 @@ class LoginSuccess extends LoginState {
   final Settings settings;
 
   @override
-  List<Object> get props => <Object>[topdeskProvider, settings];
+  List<Object> get props => super.props..addAll([topdeskProvider, settings]);
 }
 
 class LoginSuccessIncompleteSettings extends LoginSuccess {
@@ -77,5 +77,5 @@ class LoginFailed extends WithSavedData {
   final Exception cause;
 
   @override
-  List<Object> get props => <Object>[cause];
+  List<Object> get props => super.props..addAll([cause]);
 }
