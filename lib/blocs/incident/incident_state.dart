@@ -5,13 +5,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class IncidentState extends Equatable {
   const IncidentState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class InitialIncidentState extends IncidentState {
   const InitialIncidentState();
-
-  @override
-  List<Object> get props => [];
 }
 
 abstract class WithOperatorState extends IncidentState {
@@ -19,23 +19,17 @@ abstract class WithOperatorState extends IncidentState {
   final IncidentOperator currentOperator;
 
   @override
-  List<Object> get props => [currentOperator];
+  List<Object> get props => super.props..addAll([currentOperator]);
 }
 
 class OperatorLoaded extends WithOperatorState {
   const OperatorLoaded({@required IncidentOperator currentOperator})
       : super(currentOperator: currentOperator);
-
-  @override
-  List<Object> get props => [];
 }
 
 class SubmittingIncident extends WithOperatorState {
   const SubmittingIncident({@required IncidentOperator currentOperator})
       : super(currentOperator: currentOperator);
-
-  @override
-  List<Object> get props => [];
 }
 
 class IncidentCreated extends WithOperatorState {
@@ -47,7 +41,7 @@ class IncidentCreated extends WithOperatorState {
   final String number;
 
   @override
-  List<Object> get props => [number];
+  List<Object> get props => super.props..addAll([number]);
 }
 
 class IncidentCreationError extends WithOperatorState {
@@ -59,5 +53,5 @@ class IncidentCreationError extends WithOperatorState {
   final Object cause;
 
   @override
-  List<Object> get props => [cause];
+  List<Object> get props => super.props..addAll([cause]);
 }

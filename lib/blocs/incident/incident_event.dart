@@ -3,13 +3,13 @@ import 'package:meta/meta.dart';
 
 abstract class IncidentEvent extends Equatable {
   const IncidentEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class IncidentShowForm extends IncidentEvent {
   const IncidentShowForm();
-
-  @override
-  List<Object> get props => [];
 }
 
 class IncidentSubmit extends IncidentEvent {
@@ -21,5 +21,9 @@ class IncidentSubmit extends IncidentEvent {
   final String request;
 
   @override
-  List<Object> get props => [briefDescription, request];
+  List<Object> get props => super.props
+    ..addAll([
+      briefDescription,
+      request,
+    ]);
 }
