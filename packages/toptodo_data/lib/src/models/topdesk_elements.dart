@@ -60,6 +60,7 @@ class TdSubCategory extends TdModel {
   })  : assert(category != null),
         super(id: id, name: name);
 
+  /// The category this sub category belongs to
   final TdCategory category;
 }
 
@@ -72,6 +73,8 @@ abstract class TdPerson extends TdModel {
     this.avatar,
   }) : super(id: id, name: name);
 
+  /// Image information. See documentation of the implementing class for 
+  /// details.
   final String avatar;
 }
 
@@ -86,10 +89,11 @@ class TdCaller extends TdPerson {
   })  : assert(branch != null),
         super(id: id, name: name, avatar: avatar);
 
+  /// the branch this caller belongs to
   final TdBranch branch;
 }
 
-/// A [TdPerson] that represents an operator in TOPdesk. This class adds to 
+/// A [TdPerson] that represents an operator in TOPdesk. This class adds two 
 /// fields, [firstLine] and [secondLine], representing if this operator can be
 /// assigned to first and second line incidents repectively. Both these fields 
 /// cannot be `null`. 
@@ -104,6 +108,8 @@ class TdOperator extends TdPerson {
         assert(secondLine != null),
         super(id: id, name: name, avatar: avatar);
 
+  /// flag to see if this operator can be assigned to first line incidents
   final bool firstLine;
+  /// flag to see if this operator can be assigned to second line incidents
   final bool secondLine;
 }
