@@ -22,43 +22,43 @@ abstract class TopdeskProvider {
   void init(Credentials credentials);
   void dispose();
 
-  Future<Branch> branch({
+  Future<TdBranch> tdBranch({
     @required String id,
   });
-  Future<Iterable<Branch>> branches({
+  Future<Iterable<TdBranch>> tdBranches({
     @required String startsWith,
   });
 
-  Future<Caller> caller({
+  Future<TdCaller> tdCaller({
     @required String id,
   });
-  Future<Iterable<Caller>> callers({
+  Future<Iterable<TdCaller>> tdCallers({
     @required String startsWith,
-    @required Branch branch,
+    @required TdBranch tdBranch,
   });
 
-  Future<Category> category({
+  Future<TdCategory> tdCategory({
     @required String id,
   });
-  Future<Iterable<Category>> categories();
+  Future<Iterable<TdCategory>> tdCategories();
 
-  Future<SubCategory> subCategory({
+  Future<TdSubCategory> tdSubCategory({
     @required String id,
   });
-  Future<Iterable<SubCategory>> subCategories({
-    @required Category category,
+  Future<Iterable<TdSubCategory>> tdSubCategories({
+    @required TdCategory tdCategory,
   });
 
-  Future<IncidentDuration> incidentDuration({
+  Future<TdDuration> tdDuration({
     @required String id,
   });
-  Future<Iterable<IncidentDuration>> incidentDurations();
+  Future<Iterable<TdDuration>> tdDurations();
 
-  Future<IncidentOperator> incidentOperator({
+  Future<TdOperator> tdOperator({
     @required String id,
   });
-  Future<IncidentOperator> currentIncidentOperator();
-  Future<Iterable<IncidentOperator>> incidentOperators({
+  Future<TdOperator> currentTdOperator();
+  Future<Iterable<TdOperator>> tdOperators({
     @required String startsWith,
   });
 

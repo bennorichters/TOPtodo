@@ -27,48 +27,46 @@ abstract class TdModel extends Equatable {
 }
 
 /// A [TdModel] representing a branch in TOPdesk
-class Branch extends TdModel {
-  const Branch({
+class TdBranch extends TdModel {
+  const TdBranch({
     @required String id,
     @required String name,
   }) : super(id: id, name: name);
 }
 
-/// A [TdModel] representing a duration in TOPdesk. The name of this type is 
-/// prefixed with the word 'incident' to avoid conflicts with the Dart type 
-/// `Duration`.
-class IncidentDuration extends TdModel {
-  const IncidentDuration({
+/// A [TdModel] representing a duration in TOPdesk. 
+class TdDuration extends TdModel {
+  const TdDuration({
     @required String id,
     @required String name,
   }) : super(id: id, name: name);
 }
 
 /// A [TdModel] representing a category in TOPdesk
-class Category extends TdModel {
-  const Category({
+class TdCategory extends TdModel {
+  const TdCategory({
     @required String id,
     @required String name,
   }) : super(id: id, name: name);
 }
 
 /// A [TdModel] representing a sub category in TOPdesk. A sub category has a 
-/// parent [Category] that cannot be `null`.
-class SubCategory extends TdModel {
-  const SubCategory({
+/// parent [TdCategory] that cannot be `null`.
+class TdSubCategory extends TdModel {
+  const TdSubCategory({
     @required String id,
     @required String name,
     @required this.category,
   })  : assert(category != null),
         super(id: id, name: name);
 
-  final Category category;
+  final TdCategory category;
 }
 
 /// A [TdModel] base class for TOPdesk models representing persons. A person
 /// has an [avatar]. The `avatar` can be `null`.
-abstract class Person extends TdModel {
-  const Person({
+abstract class TdPerson extends TdModel {
+  const TdPerson({
     @required String id,
     @required String name,
     this.avatar,
@@ -77,10 +75,10 @@ abstract class Person extends TdModel {
   final String avatar;
 }
 
-/// A [Person] that represents a caller in TOPdesk. A caller has a parent 
-/// [Branch] that cannot be null.
-class Caller extends Person {
-  const Caller({
+/// A [TdPerson] that represents a caller in TOPdesk. A caller has a parent 
+/// [TdBranch] that cannot be null.
+class TdCaller extends TdPerson {
+  const TdCaller({
     @required String id,
     @required String name,
     String avatar,
@@ -88,16 +86,15 @@ class Caller extends Person {
   })  : assert(branch != null),
         super(id: id, name: name, avatar: avatar);
 
-  final Branch branch;
+  final TdBranch branch;
 }
 
-/// A [Person] that represents an operator in TOPdesk. The name of this type is 
-/// prefixed with the word 'incident' to avoid conflicts with the reserved word
-/// 'operator' in Dart. This class adds to fields, [firstLine] and 
-/// [secondLine], representing if this operator can be assigned to first and 
-/// second line incidents repectively. Both these fields cannot be `null`. 
-class IncidentOperator extends Person {
-  const IncidentOperator({
+/// A [TdPerson] that represents an operator in TOPdesk. This class adds to 
+/// fields, [firstLine] and [secondLine], representing if this operator can be
+/// assigned to first and second line incidents repectively. Both these fields 
+/// cannot be `null`. 
+class TdOperator extends TdPerson {
+  const TdOperator({
     @required String id,
     @required String name,
     String avatar,

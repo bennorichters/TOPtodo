@@ -11,62 +11,62 @@ import 'package:equatable/equatable.dart';
 class Settings extends Equatable {
   /// Creates an instance of `Settings`
   const Settings({
-    this.branchId,
-    this.callerId,
-    this.categoryId,
-    this.subCategoryId,
-    this.incidentDurationId,
-    this.incidentOperatorId,
+    this.tdBranchId,
+    this.tdCallerId,
+    this.tdCategoryId,
+    this.tdSubCategoryId,
+    this.tdDurationId,
+    this.tdOperatorId,
   });
 
   /// Converts a json object into an instance of `Settings`
   Settings.fromJson(Map<String, dynamic> json)
-      : branchId = json['branchId'],
-        callerId = json['callerId'],
-        categoryId = json['categoryId'],
-        subCategoryId = json['subCategoryId'],
-        incidentDurationId = json['incidentDurationId'],
-        incidentOperatorId = json['incidentOperatorId'];
+      : tdBranchId = json['tdBranchId'],
+        tdCallerId = json['tdCallerId'],
+        tdCategoryId = json['tdCategoryId'],
+        tdSubCategoryId = json['tdSubCategoryId'],
+        tdDurationId = json['tdDurationId'],
+        tdOperatorId = json['tdOperatorId'];
 
-  /// foreign key to a [Branch]
-  final String branchId;
+  /// foreign key to a [TdBranch]
+  final String tdBranchId;
 
-  /// foreign key to a [Caller]
-  final String callerId;
+  /// foreign key to a [TdCaller]
+  final String tdCallerId;
 
-  /// foreign key to a [Category]
-  final String categoryId;
+  /// foreign key to a [TdCategory]
+  final String tdCategoryId;
 
-  /// foreign key to a [SubCategory]
-  final String subCategoryId;
+  /// foreign key to a [TdSubCategory]
+  final String tdSubCategoryId;
 
-  /// foreign key to a [IncidentDuration]
-  final String incidentDurationId;
+  /// foreign key to a [TdDuration]
+  final String tdDurationId;
 
-  /// foreign key to a [IncidentOperator]
-  final String incidentOperatorId;
+  /// foreign key to a [TdOperator]
+  final String tdOperatorId;
 
   /// Returns `true` if none of the fields are null, `false` otherwise.
   bool isComplete() => !props.contains(null);
 
   /// Converts this instance to a json object
   Map<String, dynamic> toJson() => {
-        'branchId': branchId,
-        'callerId': callerId,
-        'categoryId': categoryId,
-        'subCategoryId': subCategoryId,
-        'incidentDurationId': incidentDurationId,
-        'incidentOperatorId': incidentOperatorId,
+        'tdBranchId': tdBranchId,
+        'tdCallerId': tdCallerId,
+        'tdCategoryId': tdCategoryId,
+        'tdSubCategoryId': tdSubCategoryId,
+        'tdDurationId': tdDurationId,
+        'tdOperatorId': tdOperatorId,
       };
 
   @override
   List<Object> get props => [
-        branchId,
-        callerId,
-        categoryId,
-        subCategoryId,
-        incidentDurationId,
-        incidentOperatorId,
+        tdBranchId,
+        tdCallerId,
+        tdCategoryId,
+        tdSubCategoryId,
+        tdDurationId,
+        tdOperatorId,
       ];
 
   @override

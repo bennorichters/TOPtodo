@@ -5,28 +5,28 @@ import 'package:toptodo_data/toptodo_data.dart';
 void main() {
   group('topdesk elements', () {
     test('asserts', () {
-      expect(() => Branch(id: null, name: 'a'), throwsA(isA<AssertionError>()));
-      expect(() => Branch(id: 'a', name: null), throwsA(isA<AssertionError>()));
+      expect(() => TdBranch(id: null, name: 'a'), throwsA(isA<AssertionError>()));
+      expect(() => TdBranch(id: 'a', name: null), throwsA(isA<AssertionError>()));
     });
 
     test('equals by id', () {
-      expect(Branch(id: 'a', name: 'b') == Branch(id: 'a', name: 'c'), isTrue);
-      expect(Branch(id: 'a', name: 'b') == Branch(id: 'b', name: 'b'), isFalse);
+      expect(TdBranch(id: 'a', name: 'b') == TdBranch(id: 'a', name: 'c'), isTrue);
+      expect(TdBranch(id: 'a', name: 'b') == TdBranch(id: 'b', name: 'b'), isFalse);
     });
 
     test('toString', () {
-      expect(Branch(id: 'a', name: 'b').toString(), 'b');
+      expect(TdBranch(id: 'a', name: 'b').toString(), 'b');
     });
 
     test('branch', () {
-      final b = Branch(id: 'a', name: 'b');
+      final b = TdBranch(id: 'a', name: 'b');
       expect(b.id, 'a');
       expect(b.name, 'b');
     });
 
     test('caller', () {
-      final b = Branch(id: 'a', name: 'b');
-      final c = Caller(id: 'a', name: 'b', avatar: 'av', branch: b);
+      final b = TdBranch(id: 'a', name: 'b');
+      final c = TdCaller(id: 'a', name: 'b', avatar: 'av', branch: b);
       expect(c.id, 'a');
       expect(c.name, 'b');
       expect(c.avatar, 'av');
@@ -34,14 +34,14 @@ void main() {
     });
 
     test('caller null avatar allowed', () {
-      final b = Branch(id: 'a', name: 'b');
-      final c = Caller(id: 'a', name: 'b', avatar: null, branch: b);
+      final b = TdBranch(id: 'a', name: 'b');
+      final c = TdCaller(id: 'a', name: 'b', avatar: null, branch: b);
       expect(c.avatar, null);
     });
 
     test('caller null branch assertion error', () {
       expect(
-        () => Caller(
+        () => TdCaller(
           id: 'a',
           name: 'b',
           avatar: 'av',
@@ -52,14 +52,14 @@ void main() {
     });
 
     test('category', () {
-      final c = Category(id: 'a', name: 'b');
+      final c = TdCategory(id: 'a', name: 'b');
       expect(c.id, 'a');
       expect(c.name, 'b');
     });
 
     test('sub category', () {
-      final c = Category(id: 'a', name: 'b');
-      final s = SubCategory(id: 'a', name: 'b', category: c);
+      final c = TdCategory(id: 'a', name: 'b');
+      final s = TdSubCategory(id: 'a', name: 'b', category: c);
       expect(s.id, 'a');
       expect(s.name, 'b');
       expect(s.category, c);
@@ -67,7 +67,7 @@ void main() {
 
     test('sub category null category assertion error', () {
       expect(
-        () => SubCategory(
+        () => TdSubCategory(
           id: 'a',
           name: 'b',
           category: null,
@@ -77,13 +77,13 @@ void main() {
     });
 
     test('duration', () {
-      final d = IncidentDuration(id: 'a', name: 'b');
+      final d = TdDuration(id: 'a', name: 'b');
       expect(d.id, 'a');
       expect(d.name, 'b');
     });
 
     test('operator', () {
-      final op = IncidentOperator(
+      final op = TdOperator(
         id: 'a',
         name: 'b',
         avatar: 'av',
@@ -98,7 +98,7 @@ void main() {
     });
 
     test('operator null avatar allowed', () {
-      final op = IncidentOperator(
+      final op = TdOperator(
         id: 'a',
         name: 'b',
         avatar: null,
@@ -110,7 +110,7 @@ void main() {
 
     test('operator null firstLine assertion error', () {
       expect(
-        () => IncidentOperator(
+        () => TdOperator(
           id: 'a',
           name: 'b',
           avatar: 'av',
@@ -123,7 +123,7 @@ void main() {
 
     test('operator null secondLine assertion error', () {
       expect(
-        () => IncidentOperator(
+        () => TdOperator(
           id: 'a',
           name: 'b',
           avatar: 'av',
