@@ -14,7 +14,7 @@ class Settings extends Equatable {
     this.tdBranchId,
     this.tdCallerId,
     this.tdCategoryId,
-    this.tdSubCategoryId,
+    this.tdSubcategoryId,
     this.tdDurationId,
     this.tdOperatorId,
   });
@@ -24,7 +24,7 @@ class Settings extends Equatable {
       : tdBranchId = json['tdBranchId'],
         tdCallerId = json['tdCallerId'],
         tdCategoryId = json['tdCategoryId'],
-        tdSubCategoryId = json['tdSubCategoryId'],
+        tdSubcategoryId = json['tdSubcategoryId'],
         tdDurationId = json['tdDurationId'],
         tdOperatorId = json['tdOperatorId'];
 
@@ -37,8 +37,8 @@ class Settings extends Equatable {
   /// foreign key to a [TdCategory]
   final String tdCategoryId;
 
-  /// foreign key to a [TdSubCategory]
-  final String tdSubCategoryId;
+  /// foreign key to a [TdSubcategory]
+  final String tdSubcategoryId;
 
   /// foreign key to a [TdDuration]
   final String tdDurationId;
@@ -54,7 +54,7 @@ class Settings extends Equatable {
         'tdBranchId': tdBranchId,
         'tdCallerId': tdCallerId,
         'tdCategoryId': tdCategoryId,
-        'tdSubCategoryId': tdSubCategoryId,
+        'tdSubcategoryId': tdSubcategoryId,
         'tdDurationId': tdDurationId,
         'tdOperatorId': tdOperatorId,
       };
@@ -64,7 +64,7 @@ class Settings extends Equatable {
         tdBranchId,
         tdCallerId,
         tdCategoryId,
-        tdSubCategoryId,
+        tdSubcategoryId,
         tdDurationId,
         tdOperatorId,
       ];

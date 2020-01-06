@@ -42,10 +42,10 @@ abstract class TopdeskProvider {
   });
   Future<Iterable<TdCategory>> tdCategories();
 
-  Future<TdSubCategory> tdSubCategory({
+  Future<TdSubcategory> tdSubCategory({
     @required String id,
   });
-  Future<Iterable<TdSubCategory>> tdSubCategories({
+  Future<Iterable<TdSubcategory>> tdSubCategories({
     @required TdCategory tdCategory,
   });
 

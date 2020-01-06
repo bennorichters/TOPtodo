@@ -59,7 +59,7 @@ void main() {
 
     test('sub category', () {
       final c = TdCategory(id: 'a', name: 'b');
-      final s = TdSubCategory(id: 'a', name: 'b', category: c);
+      final s = TdSubcategory(id: 'a', name: 'b', category: c);
       expect(s.id, 'a');
       expect(s.name, 'b');
       expect(s.category, c);
@@ -67,7 +67,7 @@ void main() {
 
     test('sub category null category assertion error', () {
       expect(
-        () => TdSubCategory(
+        () => TdSubcategory(
           id: 'a',
           name: 'b',
           category: null,

@@ -14,7 +14,7 @@ void main() {
             tdBranchId: 'a',
             tdCallerId: 'a',
             tdCategoryId: 'a',
-            tdSubCategoryId: 'a',
+            tdSubcategoryId: 'a',
             tdDurationId: 'a',
             tdOperatorId: 'a',
           ).isComplete(),
@@ -26,7 +26,7 @@ void main() {
         tdBranchId: 'a',
         tdCallerId: 'a',
         tdCategoryId: 'a',
-        tdSubCategoryId: 'a',
+        tdSubcategoryId: 'a',
         tdDurationId: 'a',
         tdOperatorId: 'a',
       );
@@ -34,7 +34,7 @@ void main() {
         tdBranchId: 'a',
         tdCallerId: 'a',
         tdCategoryId: 'a',
-        tdSubCategoryId: 'a',
+        tdSubcategoryId: 'a',
         tdDurationId: 'a',
         tdOperatorId: 'a',
       );
@@ -42,7 +42,7 @@ void main() {
         tdBranchId: 'a',
         tdCallerId: 'a',
         tdCategoryId: 'a',
-        tdSubCategoryId: 'a',
+        tdSubcategoryId: 'a',
         tdDurationId: 'a',
         tdOperatorId: 'c',
       );
@@ -57,7 +57,7 @@ void main() {
         "tdBranchId": "a", 
         "tdCallerId": "a", 
         "tdCategoryId": "a", 
-        "tdSubCategoryId": "a", 
+        "tdSubcategoryId": "a", 
         "tdDurationId": "a", 
         "tdOperatorId": "a"
       }
@@ -69,7 +69,7 @@ void main() {
         tdBranchId: 'a',
         tdCallerId: 'a',
         tdCategoryId: 'a',
-        tdSubCategoryId: 'a',
+        tdSubcategoryId: 'a',
         tdDurationId: 'a',
         tdOperatorId: 'a',
       );

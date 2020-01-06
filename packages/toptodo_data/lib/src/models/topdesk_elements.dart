@@ -50,10 +50,10 @@ class TdCategory extends TdModel {
   }) : super(id: id, name: name);
 }
 
-/// A [TdModel] representing a sub category in TOPdesk. A sub category has a 
+/// A [TdModel] representing a subcategory in TOPdesk. A subcategory has a 
 /// parent [TdCategory] that cannot be `null`.
-class TdSubCategory extends TdModel {
-  const TdSubCategory({
+class TdSubcategory extends TdModel {
+  const TdSubcategory({
     @required String id,
     @required String name,
     @required this.category,
