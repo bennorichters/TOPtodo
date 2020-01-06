@@ -2,10 +2,13 @@ import 'package:equatable/equatable.dart';
 
 /// A 'pojo' for the credentials of a user.
 ///
-/// A container for a URL, a login name and a password. All three elements can
-/// be null. Instances of this class are immutable.
+/// A container for a URL, a login name and a password. 
+/// 
+/// Instances of this class are considered equal if and only if all matching 
+/// fields of both instances are equal. All fields can be null. Instances of 
+/// this class are immutable. 
 class Credentials extends Equatable {
-  /// Creates a `Credentials`
+  /// Creates an instance of `Credentials`
   const Credentials({
     this.url,
     this.loginName,
