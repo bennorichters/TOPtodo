@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
-import '../models/credentials.dart';
-import '../models/settings.dart';
-import '../models/topdesk_elements.dart';
+import 'package:toptodo_data/src/models/credentials.dart';
+import 'package:toptodo_data/src/models/settings.dart';
+import 'package:toptodo_data/src/models/topdesk_elements.dart';
 
 abstract class CredentialsProvider {
   Future<Credentials> provide();
