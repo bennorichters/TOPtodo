@@ -30,13 +30,7 @@ class Settings extends Equatable {
   final String incidentDurationId;
   final String incidentOperatorId;
 
-  bool isComplete() =>
-      branchId != null &&
-      callerId != null &&
-      categoryId != null &&
-      subCategoryId != null &&
-      incidentDurationId != null &&
-      incidentOperatorId != null;
+  bool isComplete() => !props.contains(null);
 
   Map<String, dynamic> toJson() => {
         'branchId': branchId,
