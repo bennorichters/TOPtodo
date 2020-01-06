@@ -1,5 +1,10 @@
 import 'package:equatable/equatable.dart';
 
+/// A 'pojo' for the settings of a user.
+/// 
+/// A container for several elements that are used to create an incident. Each
+/// element contains a foreign key that refers to a [TdModel]. All elements can
+/// be null. Instances of this class are immutable. 
 class Settings extends Equatable {
   const Settings({
     this.branchId,
@@ -43,7 +48,7 @@ class Settings extends Equatable {
       };
 
   @override
-  List<Object> get props => <Object>[
+  List<Object> get props => [
         branchId,
         callerId,
         categoryId,

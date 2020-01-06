@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// A 'pojo' for a user's credentials. 
+/// A 'pojo' for the credentials of a user. 
 /// 
 /// A container for a URL, a login name and a password. All three elements can
 /// be null. Instances of this class are immutable.
