@@ -60,7 +60,7 @@ class TdSubcategory extends TdModel {
   })  : assert(category != null),
         super(id: id, name: name);
 
-  /// The category this sub category belongs to
+  /// The category this subcategory belongs to
   final TdCategory category;
 }
 

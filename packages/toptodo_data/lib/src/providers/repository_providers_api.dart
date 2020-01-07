@@ -51,7 +51,8 @@ abstract class TopdeskProvider {
   Future<TdBranch> tdBranch({
     @required String id,
   });
-  /// Returns the first x [TdBranch]es which names start with `startsWith`, 
+
+  /// Returns the first x [TdBranch]es which names start with `startsWith`,
   /// where x depends on the implementation.
   Future<Iterable<TdBranch>> tdBranches({
     @required String startsWith,
@@ -61,7 +62,8 @@ abstract class TopdeskProvider {
   Future<TdCaller> tdCaller({
     @required String id,
   });
-  /// Returns the first x [TdCaller]s whose names start with `startsWith` and 
+
+  /// Returns the first x [TdCaller]s whose names start with `startsWith` and
   /// belong to `tdBranch`, where x depends on the implementation.
   Future<Iterable<TdCaller>> tdCallers({
     @required String startsWith,
@@ -72,29 +74,47 @@ abstract class TopdeskProvider {
   Future<TdCategory> tdCategory({
     @required String id,
   });
-  
+
+  /// Returns instances of [TdCategory] representing all categories for
+  /// incidents in TOPdesk.
   Future<Iterable<TdCategory>> tdCategories();
 
-  Future<TdSubcategory> tdSubCategory({
+  /// Returns the [TdSubcategory] with the given `id`
+  Future<TdSubcategory> tdSubcategory({
     @required String id,
   });
-  Future<Iterable<TdSubcategory>> tdSubCategories({
+
+  /// Returns instances of [TdSubcategory] representing all subcategories in
+  /// TOPdesk that belong to the given `tdCategory`.
+  Future<Iterable<TdSubcategory>> tdSubcategories({
     @required TdCategory tdCategory,
   });
 
+  /// Returns the [TdDuration] with the given `id`
   Future<TdDuration> tdDuration({
     @required String id,
   });
+
+  /// Returns instances of [TdCategory] representing all durations for
+  /// incidents in TOPdesk.
   Future<Iterable<TdDuration>> tdDurations();
 
+  /// Returns the [Tdoperator] with the given `id`
   Future<TdOperator> tdOperator({
     @required String id,
   });
+
+  /// Returns the [Tdoperator] belonging to the [Credentials] that where used
+  /// in the [init()] of this provider.
   Future<TdOperator> currentTdOperator();
+
+  /// Returns the first x [Tdoperator]s whose names start with `startsWith`,
+  /// where x depends on the implementation.
   Future<Iterable<TdOperator>> tdOperators({
     @required String startsWith,
   });
 
+  /// Creates a new incident in TOPdesk and returns the new incident number.
   Future<String> createTdIncident({
     @required String briefDescription,
     @required Settings settings,
