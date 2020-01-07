@@ -12,12 +12,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
   ApiTopdeskProvider({
     this.timeOut = const Duration(seconds: 30),
     currentOperatorCacheDuration = const Duration(hours: 1),
-  }) : _currentOperatorCache = AsyncCache<IncidentOperator>(
+  }) : _currentOperatorCache = AsyncCache<TdOperator>(
           currentOperatorCacheDuration,
         );
 
   final Duration timeOut;
-  final AsyncCache<IncidentOperator> _currentOperatorCache;
+  final AsyncCache<TdOperator> _currentOperatorCache;
 
   static final _acceptHeaders = {
     HttpHeaders.acceptHeader: 'application/json',
@@ -62,13 +62,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Branch> branch({String id}) async {
+  Future<TdBranch> tdBranch({String id}) async {
     final dynamic response = await _apiGet('branches/id/$id');
     return _branchFromJson(response);
   }
 
   @override
-  Future<Iterable<Branch>> branches({@required String startsWith}) async {
+  Future<Iterable<TdBranch>> tdBranches({@required String startsWith}) async {
     final sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response =
         await _apiGet('branches?nameFragment=$sanitized&\$fields=id,name');
@@ -76,13 +76,13 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return response.map((dynamic e) => _branchFromJson(e));
   }
 
-  static Branch _branchFromJson(Map<String, dynamic> json) => Branch(
+  static TdBranch _branchFromJson(Map<String, dynamic> json) => TdBranch(
         id: json['id'],
         name: json['name'],
       );
 
   @override
-  Future<Caller> caller({String id}) async {
+  Future<TdCaller> tdCaller({String id}) async {
     final dynamic response =
         await _apiGet('persons/id/$id?\$fields=id,dynamicName,branch');
 
@@ -90,16 +90,16 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<Caller>> callers({
+  Future<Iterable<TdCaller>> tdCallers({
     @required String startsWith,
-    @required Branch branch,
+    @required TdBranch tdBranch,
   }) async {
     final sanitized = _sanatizeUserInput(startsWith);
     final List<dynamic> response = await _apiGet(
       'persons?lastname=$sanitized&\$fields=id,dynamicName,branch',
     );
 
-    final fixed = await Future.wait<Caller>(
+    final fixed = await Future.wait<TdCaller>(
       response.map(
         (dynamic json) async => await _fixCaller(json),
       ),
@@ -108,14 +108,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return fixed;
   }
 
-  Future<Caller> _fixCaller(Map<String, dynamic> json) async {
+  Future<TdCaller> _fixCaller(Map<String, dynamic> json) async {
     final dynamic fixed = await _fixPerson(_subPathCaller, json);
-    final branch = Branch(
+    final branch = TdBranch(
       id: json['branch']['id'],
       name: json['branch']['name'],
     );
 
-    return Caller(
+    return TdCaller(
       id: fixed['id'],
       name: fixed['name'],
       avatar: fixed['avatar'],
@@ -124,25 +124,25 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Category> category({String id}) async =>
-      (await categories()).firstWhere(
-        (Category c) => c.id == id,
+  Future<TdCategory> tdCategory({String id}) async =>
+      (await tdCategories()).firstWhere(
+        (TdCategory c) => c.id == id,
         orElse: () => throw TdModelNotFoundException('no category for id: $id'),
       );
 
   @override
-  Future<Iterable<Category>> categories() async {
+  Future<Iterable<TdCategory>> tdCategories() async {
     final List<dynamic> response = await _apiGet('incidents/categories');
     return response.map((dynamic e) => _categoryFromJson(e));
   }
 
-  static Category _categoryFromJson(Map<String, dynamic> json) => Category(
+  static TdCategory _categoryFromJson(Map<String, dynamic> json) => TdCategory(
         id: json['id'],
         name: json['name'],
       );
 
   @override
-  Future<SubCategory> subCategory({String id}) async {
+  Future<TdSubcategory> tdSubcategory({String id}) async {
     final List<dynamic> response = await _apiGet('incidents/subcategories');
     final dynamic theOne = response.firstWhere(
       (dynamic json) => json['id'] == id,
@@ -150,7 +150,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    final category = Category(
+    final category = TdCategory(
       id: theOne['category']['id'],
       name: theOne['category']['name'],
     );
@@ -158,49 +158,51 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<SubCategory>> subCategories({Category category}) async {
+  Future<Iterable<TdSubcategory>> tdSubcategories({
+    TdCategory tdCategory,
+  }) async {
     final List<dynamic> response = await _apiGet('incidents/subcategories');
 
     return response
-        .where((dynamic json) => json['category']['id'] == category.id)
-        .map((dynamic json) => _subCategoryFromJson(json, category));
+        .where((dynamic json) => json['category']['id'] == tdCategory.id)
+        .map((dynamic json) => _subCategoryFromJson(json, tdCategory));
   }
 
-  SubCategory _subCategoryFromJson(
+  TdSubcategory _subCategoryFromJson(
     Map<String, dynamic> json,
-    Category category,
+    TdCategory category,
   ) =>
-      SubCategory(
+      TdSubcategory(
         id: json['id'],
         name: json['name'],
         category: category,
       );
 
   @override
-  Future<IncidentDuration> incidentDuration({String id}) async {
-    return (await incidentDurations()).firstWhere(
-      (IncidentDuration e) => e.id == id,
+  Future<TdDuration> tdDuration({String id}) async {
+    return (await tdDurations()).firstWhere(
+      (TdDuration e) => e.id == id,
       orElse: () =>
           throw TdModelNotFoundException('no incident duration for id: $id'),
     );
   }
 
   @override
-  Future<Iterable<IncidentDuration>> incidentDurations() async {
+  Future<Iterable<TdDuration>> tdDurations() async {
     final List<dynamic> response = await _apiGet('incidents/durations');
     return response.map((dynamic e) => _incidentDurationFromJson(e));
   }
 
-  static IncidentDuration _incidentDurationFromJson(
+  static TdDuration _incidentDurationFromJson(
     Map<String, dynamic> json,
   ) =>
-      IncidentDuration(
+      TdDuration(
         id: json['id'],
         name: json['name'],
       );
 
   @override
-  Future<IncidentOperator> incidentOperator({String id}) async {
+  Future<TdOperator> tdOperator({String id}) async {
     final dynamic response = await _apiGet('operators/id/$id');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
 
@@ -208,7 +210,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<IncidentOperator> currentIncidentOperator() async {
+  Future<TdOperator> currentTdOperator() async {
     return _currentOperatorCache.fetch(() async {
       final dynamic response = await _apiGet('operators/current');
       final dynamic fixed = await _fixPerson(_subPathOperator, response);
@@ -218,7 +220,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   @override
-  Future<Iterable<IncidentOperator>> incidentOperators({
+  Future<Iterable<TdOperator>> tdOperators({
     @required String startsWith,
   }) async {
     final sanitized = _sanatizeUserInput(startsWith);
@@ -239,8 +241,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return fixed.map((dynamic json) => _incidentOperatorFromJson(json));
   }
 
-  IncidentOperator _incidentOperatorFromJson(Map<String, dynamic> json) =>
-      IncidentOperator(
+  TdOperator _incidentOperatorFromJson(Map<String, dynamic> json) => TdOperator(
         id: json['id'],
         name: json['name'],
         avatar: json['avatar'],
@@ -249,19 +250,19 @@ class ApiTopdeskProvider extends TopdeskProvider {
       );
 
   @override
-  Future<String> createIncident({
+  Future<String> createTdIncident({
     @required String briefDescription,
     @required Settings settings,
     String request,
   }) async {
     final body = {};
     body['status'] = 'firstLine';
-    body['callerBranch'] = {'id': settings.branchId};
-    body['caller'] = {'id': settings.callerId};
-    body['category'] = {'id': settings.categoryId};
-    body['subcategory'] = {'id': settings.subCategoryId};
-    body['duration'] = {'id': settings.incidentDurationId};
-    body['operator'] = {'id': settings.incidentOperatorId};
+    body['callerBranch'] = {'id': settings.tdBranchId};
+    body['caller'] = {'id': settings.tdCallerId};
+    body['category'] = {'id': settings.tdCategoryId};
+    body['subcategory'] = {'id': settings.tdSubcategoryId};
+    body['duration'] = {'id': settings.tdDurationId};
+    body['operator'] = {'id': settings.tdOperatorId};
     body['briefDescription'] = briefDescription;
 
     if (request != null && request.isNotEmpty) {
