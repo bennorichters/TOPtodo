@@ -1,19 +1,20 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+typedef StorageProvider = FlutterSecureStorage Function();
+
+FlutterSecureStorage _defaultStorageProvider() => FlutterSecureStorage();
+
 class SecureStorageCredentials implements CredentialsProvider {
+  SecureStorageCredentials({this.storageProvider = _defaultStorageProvider});
+  final storageProvider;
+
   @override
   Future<Credentials> provide() async {
-    const FlutterSecureStorage storage = FlutterSecureStorage();
-    final Future<String> url = storage.read(
-      key: 'url',
-    );
-    final Future<String> loginName = storage.read(
-      key: 'loginName',
-    );
-    final Future<String> password = storage.read(
-      key: 'password',
-    );
+    final storage = storageProvider();
+    final url = storage.read(key: 'url');
+    final loginName = storage.read(key: 'loginName');
+    final password = storage.read(key: 'password');
 
     return Future.wait(<Future<String>>[
       url,
@@ -30,30 +31,26 @@ class SecureStorageCredentials implements CredentialsProvider {
 
   @override
   Future<void> save(Credentials credentials) {
-    const FlutterSecureStorage storage = FlutterSecureStorage();
-    final Future<void> url = storage.write(
+    final storage = storageProvider();
+    final url = storage.write(
       key: 'url',
       value: credentials.url,
     );
-    final Future<void> loginName = storage.write(
+    final loginName = storage.write(
       key: 'loginName',
       value: credentials.loginName,
     );
-    final Future<void> password = storage.write(
+    final password = storage.write(
       key: 'password',
       value: credentials.password,
     );
 
-    return Future.wait(<Future<void>>[
-      url,
-      loginName,
-      password,
-    ]);
+    return Future.wait(<Future<void>>[url, loginName, password]);
   }
 
   @override
   Future<void> delete() {
-    const FlutterSecureStorage storage = FlutterSecureStorage();
+    final storage = storageProvider();
     return storage.deleteAll();
   }
 }
