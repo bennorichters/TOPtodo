@@ -57,17 +57,22 @@ abstract class TopdeskProvider {
     @required String startsWith,
   });
 
+  /// Returns the [TdCaller] with the given `id`
   Future<TdCaller> tdCaller({
     @required String id,
   });
+  /// Returns the first x [TdCaller]s whose names start with `startsWith` and 
+  /// belong to `tdBranch`, where x depends on the implementation.
   Future<Iterable<TdCaller>> tdCallers({
     @required String startsWith,
     @required TdBranch tdBranch,
   });
 
+  /// Returns the [TdCategory] with the given `id`
   Future<TdCategory> tdCategory({
     @required String id,
   });
+  
   Future<Iterable<TdCategory>> tdCategories();
 
   Future<TdSubcategory> tdSubCategory({

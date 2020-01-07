@@ -15,13 +15,13 @@ class Credentials extends Equatable {
     this.password,
   });
 
-  /// URL
+  /// The URL this `Credentials` contains
   final String url;
 
-  /// login name
+  /// The login name `Credentials` contains
   final String loginName;
 
-  /// password
+  /// The password `Credentials` contains
   final String password;
 
   /// Returns `true` if none of the fields are null, `false` otherwise.
