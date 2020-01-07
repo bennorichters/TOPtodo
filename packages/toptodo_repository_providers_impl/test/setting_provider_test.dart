@@ -14,12 +14,12 @@ void main() {
 
   group('basics', () {
     Settings settingsToSave = Settings(
-      branchId: 'a',
-      callerId: 'a',
-      categoryId: 'a',
-      subCategoryId: 'a',
-      incidentDurationId: 'a',
-      incidentOperatorId: 'a',
+      tdBranchId: 'a',
+      tdCallerId: 'a',
+      tdCategoryId: 'a',
+      tdSubcategoryId: 'a',
+      tdDurationId: 'a',
+      tdOperatorId: 'a',
     );
 
     test('first empty settings then retrieve same as saved', () async {
@@ -27,7 +27,7 @@ void main() {
           SharedPreferencesSettingsProvider();
       p.init('url', 'loginName');
 
-      expect(await p.provide(), const Settings.empty());
+      expect(await p.provide(), const Settings());
 
       await p.save(settingsToSave);
 
@@ -40,7 +40,7 @@ void main() {
           SharedPreferencesSettingsProvider();
       p.init('url', 'loginName');
 
-      expect(await p.provide(), const Settings.empty());
+      expect(await p.provide(), const Settings());
 
       await p.save(settingsToSave);
 
@@ -62,7 +62,7 @@ void main() {
           SharedPreferencesSettingsProvider();
       p2.init('url2', 'loginName');
 
-      expect(await p2.provide(), const Settings.empty());
+      expect(await p2.provide(), const Settings());
     });
   });
 }

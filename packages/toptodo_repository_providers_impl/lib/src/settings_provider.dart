@@ -29,7 +29,7 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
 
     return (prefs.containsKey(_storageKey))
         ? Settings.fromJson(jsonDecode(prefs.getString(_storageKey)))
-        : const Settings.empty();
+        : const Settings();
   }
 
   @override
