@@ -215,15 +215,16 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required Settings settings,
     String request,
   }) async {
-    final body = {};
-    body['status'] = 'firstLine';
-    body['callerBranch'] = {'id': settings.tdBranchId};
-    body['caller'] = {'id': settings.tdCallerId};
-    body['category'] = {'id': settings.tdCategoryId};
-    body['subcategory'] = {'id': settings.tdSubcategoryId};
-    body['duration'] = {'id': settings.tdDurationId};
-    body['operator'] = {'id': settings.tdOperatorId};
-    body['briefDescription'] = briefDescription;
+    final body = {
+      'status': 'firstLine',
+      'callerBranch': {'id': settings.tdBranchId},
+      'caller': {'id': settings.tdCallerId},
+      'category': {'id': settings.tdCategoryId},
+      'subcategory': {'id': settings.tdSubcategoryId},
+      'duration': {'id': settings.tdDurationId},
+      'operator': {'id': settings.tdOperatorId},
+      'briefDescription': briefDescription,
+    };
 
     if (request != null && request.isNotEmpty) {
       body['request'] = _replaceNewLineWithBr(request);
