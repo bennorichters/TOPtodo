@@ -64,7 +64,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<TdBranch> tdBranch({String id}) async {
     final dynamic response = await _apiGet('branches/id/$id');
-    return _branchFromJson(response);
+    return TdBranch.fromJson(response);
   }
 
   @override
@@ -73,13 +73,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
     final List<dynamic> response =
         await _apiGet('branches?nameFragment=$sanitized&\$fields=id,name');
 
-    return response.map((dynamic e) => _branchFromJson(e));
+    return response.map((dynamic e) => TdBranch.fromJson(e));
   }
-
-  static TdBranch _branchFromJson(Map<String, dynamic> json) => TdBranch(
-        id: json['id'],
-        name: json['name'],
-      );
 
   @override
   Future<TdCaller> tdCaller({String id}) async {
@@ -133,13 +128,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<TdCategory>> tdCategories() async {
     final List<dynamic> response = await _apiGet('incidents/categories');
-    return response.map((dynamic e) => _categoryFromJson(e));
+    return response.map((dynamic e) => TdCategory.fromJson(e));
   }
-
-  static TdCategory _categoryFromJson(Map<String, dynamic> json) => TdCategory(
-        id: json['id'],
-        name: json['name'],
-      );
 
   @override
   Future<TdSubcategory> tdSubcategory({String id}) async {
@@ -150,11 +140,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    final category = TdCategory(
-      id: theOne['category']['id'],
-      name: theOne['category']['name'],
-    );
-    return _subCategoryFromJson(theOne, category);
+    return TdSubcategory.fromJson(theOne);
   }
 
   @override
@@ -165,18 +151,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     return response
         .where((dynamic json) => json['category']['id'] == tdCategory.id)
-        .map((dynamic json) => _subCategoryFromJson(json, tdCategory));
+        .map((dynamic json) => TdSubcategory.fromJson(json));
   }
-
-  TdSubcategory _subCategoryFromJson(
-    Map<String, dynamic> json,
-    TdCategory category,
-  ) =>
-      TdSubcategory(
-        id: json['id'],
-        name: json['name'],
-        category: category,
-      );
 
   @override
   Future<TdDuration> tdDuration({String id}) async {
@@ -190,23 +166,15 @@ class ApiTopdeskProvider extends TopdeskProvider {
   @override
   Future<Iterable<TdDuration>> tdDurations() async {
     final List<dynamic> response = await _apiGet('incidents/durations');
-    return response.map((dynamic e) => _incidentDurationFromJson(e));
+    return response.map((dynamic e) => TdDuration.fromJson(e));
   }
-
-  static TdDuration _incidentDurationFromJson(
-    Map<String, dynamic> json,
-  ) =>
-      TdDuration(
-        id: json['id'],
-        name: json['name'],
-      );
 
   @override
   Future<TdOperator> tdOperator({String id}) async {
     final dynamic response = await _apiGet('operators/id/$id');
     final dynamic fixed = await _fixPerson(_subPathOperator, response);
 
-    return _incidentOperatorFromJson(fixed);
+    return TdOperator.fromJson(fixed);
   }
 
   @override
@@ -215,7 +183,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
       final dynamic response = await _apiGet('operators/current');
       final dynamic fixed = await _fixPerson(_subPathOperator, response);
 
-      return _incidentOperatorFromJson(fixed);
+      return TdOperator.fromJson(fixed);
     });
   }
 
@@ -238,16 +206,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ),
     );
 
-    return fixed.map((dynamic json) => _incidentOperatorFromJson(json));
+    return fixed.map((dynamic json) => TdOperator.fromJson(json));
   }
-
-  TdOperator _incidentOperatorFromJson(Map<String, dynamic> json) => TdOperator(
-        id: json['id'],
-        name: json['name'],
-        avatar: json['avatar'],
-        firstLine: json['firstLineCallOperator'],
-        secondLine: json['secondLineCallOperator'],
-      );
 
   @override
   Future<String> createTdIncident({
