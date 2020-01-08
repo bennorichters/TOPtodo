@@ -154,6 +154,33 @@ void main() {
         });
         expect(caller.id, 'a');
         expect(caller.name, 'b');
+        expect(caller.avatar, null);
+        expect(caller.branch.id, 'a');
+        expect(caller.branch.name, 'b');
+      });
+
+      test('category', () {
+        final cat = TdCategory.fromJson({'id': 'a', 'name': 'b'});
+        expect(cat.id, 'a');
+        expect(cat.name, 'b');
+      });
+
+      test('subcategory', () {
+        final subcat = TdSubcategory.fromJson({
+          'id': 'a',
+          'name': 'b',
+          'category': {'id': 'a', 'name': 'b'}
+        });
+        expect(subcat.id, 'a');
+        expect(subcat.name, 'b');
+        expect(subcat.category.id, 'a');
+        expect(subcat.category.name, 'b');
+      });
+
+      test('duration', () {
+        final duration = TdDuration.fromJson({'id': 'a', 'name': 'b'});
+        expect(duration.id, 'a');
+        expect(duration.name, 'b');
       });
 
       test('operator', () {
@@ -169,6 +196,82 @@ void main() {
         expect(op.avatar, null);
         expect(op.firstLine, true);
         expect(op.secondLine, false);
+      });
+    });
+
+    group('json errors', () {
+      test('branch without all required fields', () {
+        expect(() => TdBranch.fromJson({}), throwsA(isA<AssertionError>()));
+        expect(
+            () => TdBranch.fromJson({
+                  'id': 'a',
+                }),
+            throwsA(isA<AssertionError>()));
+        expect(
+            () => TdBranch.fromJson({
+                  'name': 'a',
+                }),
+            throwsA(isA<AssertionError>()));
+      });
+
+      test('caller without branch', () {
+        expect(
+            () => TdCaller.fromJson({
+                  'id': 'a',
+                  'name': 'b',
+                  'avatar': null,
+                }),
+            throwsA(isA<Error>()));
+      });
+
+      test('subcategory without category', () {
+        expect(
+            () => TdSubcategory.fromJson({
+                  'id': 'a',
+                  'name': 'b',
+                }),
+            throwsA(isA<Error>()));
+      });
+
+      test('operator without first or second line', () {
+        expect(
+            () => TdOperator.fromJson({
+                  'id': 'a',
+                  'name': 'b',
+                  'avatar': null,
+                  'firstLineCallOperator': true,
+                }),
+            throwsA(isA<Error>()));
+
+        expect(
+            () => TdOperator.fromJson({
+                  'id': 'a',
+                  'name': 'b',
+                  'avatar': null,
+                  'secondLineCallOperator': true,
+                }),
+            throwsA(isA<Error>()));
+
+        expect(
+            () => TdOperator.fromJson({
+                  'id': 'a',
+                  'name': 'b',
+                  'avatar': null,
+                  'firstLineCallOperator': null,
+                  'secondLineCallOperator': true,
+                }),
+            throwsA(isA<Error>()));
+
+            
+        expect(
+            () => TdOperator.fromJson({
+                  'id': 'a',
+                  'name': 'b',
+                  'avatar': null,
+                  'firstLineCallOperator': true,
+                  'secondLineCallOperator': 'no boolean',
+                }),
+            throwsA(isA<Error>()));
       });
     });
   });
