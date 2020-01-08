@@ -16,6 +16,12 @@ typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 /// free resources. Once the [init] method has been called it can only be called
 /// again after [dispose] has been called.
 /// 
+/// See [timeOut] for details on how this object deals with requests to the 
+/// TOPdesk server that take too long.
+/// 
+/// See [currentOperatorCacheDuration] for details on how this object caches
+/// calls to the [currentTdOperator] method.
+/// 
 /// When the TOPdesk sever code responds with a success code the methods of this
 /// object return the following:
 /// * Success code 200: All elements are returned
@@ -254,6 +260,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
     return fixed.map((dynamic json) => TdOperator.fromJson(json));
   }
 
+  /// Creates a new incident in TOPdesk and returns the new incident number.
+  /// 
+  /// New lines `\n` are replaced by `<br>` tags to preserve new lines.
   @override
   Future<String> createTdIncident({
     @required String briefDescription,
