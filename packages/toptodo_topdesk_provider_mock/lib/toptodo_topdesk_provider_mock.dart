@@ -52,7 +52,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<TdBranch>> tdBranches({@required String startsWith}) async {
     final swLower = startsWith.toLowerCase();
 
-    final List<dynamic> response = await _readJson(json_branches.branches);
+    final List<dynamic> response = await _withDelay(json_branches.branches);
     return response
         .map(
           (dynamic e) => TdBranch.fromJson(e),
@@ -66,7 +66,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<TdCaller> tdCaller({String id}) async {
     final avatar = await _avatar();
 
-    final List<dynamic> response = await _readJson(json_callers.callers);
+    final List<dynamic> response = await _withDelay(json_callers.callers);
     final dynamic found = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () => throw TdModelNotFoundException(
@@ -87,7 +87,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final swLower = startsWith.toLowerCase();
 
     final avatar = await _avatar();
-    final List<dynamic> response = await _readJson(json_callers.callers);
+    final List<dynamic> response = await _withDelay(json_callers.callers);
     return response
         .where(
           (dynamic e) =>
@@ -121,7 +121,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<TdCategory>> tdCategories() async {
-    final List<dynamic> response = await _readJson(json_categories.categories);
+    final List<dynamic> response = await _withDelay(json_categories.categories);
     return response.map(
       (dynamic e) => TdCategory.fromJson(e),
     );
@@ -130,7 +130,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   @override
   Future<TdSubcategory> tdSubcategory({String id}) async {
     final List<dynamic> response =
-        await _readJson(json_sub_categories.subCategories);
+        await _withDelay(json_sub_categories.subCategories);
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () =>
@@ -144,7 +144,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<TdSubcategory>> tdSubcategories(
       {TdCategory tdCategory}) async {
     final List<dynamic> response =
-        await _readJson(json_sub_categories.subCategories);
+        await _withDelay(json_sub_categories.subCategories);
     return response
         .where(
           (dynamic e) => e['categoryId'] == tdCategory.id,
@@ -166,7 +166,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<Iterable<TdDuration>> tdDurations() async {
-    final List<dynamic> response = await _readJson(json_durations.durations);
+    final List<dynamic> response = await _withDelay(json_durations.durations);
     return response.map(
       (dynamic e) => TdDuration.fromJson(e),
     );
@@ -196,7 +196,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final swLower = startsWith.toLowerCase();
 
     final avatar = await _avatar();
-    final List<dynamic> response = await _readJson(json_operators.operators);
+    final List<dynamic> response = await _withDelay(json_operators.operators);
     return response
         .where(
           (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
@@ -225,7 +225,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
       (_currentOperator ??= (await tdOperators(startsWith: '')).first);
 
   Future<String> _avatar() async {
-    return (await _readJson(json_avatar.avatar))['black'];
+    return (await _withDelay(json_avatar.avatar))['black'];
   }
 
   @override
@@ -237,10 +237,10 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return Future.delayed(latency, () => (++_incidentNumber).toString());
   }
 
-  Future<dynamic> _readJson(String content) async {
+  Future<dynamic> _withDelay(dynamic content) async {
     return Future<dynamic>.delayed(
       latency,
-      () => json.decode(content),
+      () => content,
     );
   }
 }

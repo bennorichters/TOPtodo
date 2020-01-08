@@ -1,5 +1,3 @@
-const String avatar = '''
-{
-    "black": "R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="
-}
-''';
+const Map<String, dynamic> avatar = {
+  'black': 'R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+};
