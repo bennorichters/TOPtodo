@@ -5,13 +5,17 @@ import 'package:toptodo_data/toptodo_data.dart';
 void main() {
   group('topdesk elements', () {
     test('asserts', () {
-      expect(() => TdBranch(id: null, name: 'a'), throwsA(isA<AssertionError>()));
-      expect(() => TdBranch(id: 'a', name: null), throwsA(isA<AssertionError>()));
+      expect(
+          () => TdBranch(id: null, name: 'a'), throwsA(isA<AssertionError>()));
+      expect(
+          () => TdBranch(id: 'a', name: null), throwsA(isA<AssertionError>()));
     });
 
     test('equals by id', () {
-      expect(TdBranch(id: 'a', name: 'b') == TdBranch(id: 'a', name: 'c'), isTrue);
-      expect(TdBranch(id: 'a', name: 'b') == TdBranch(id: 'b', name: 'b'), isFalse);
+      expect(
+          TdBranch(id: 'a', name: 'b') == TdBranch(id: 'a', name: 'c'), isTrue);
+      expect(TdBranch(id: 'a', name: 'b') == TdBranch(id: 'b', name: 'b'),
+          isFalse);
     });
 
     test('toString', () {
@@ -132,6 +136,40 @@ void main() {
         ),
         throwsA(isA<AssertionError>()),
       );
+    });
+
+    group('json', () {
+      test('branch', () {
+        final b = TdBranch.fromJson({'id': 'a', 'name': 'b'});
+        expect(b.id, 'a');
+        expect(b.name, 'b');
+      });
+
+      test('caller', () {
+        final caller = TdCaller.fromJson({
+          'id': 'a',
+          'name': 'b',
+          'avatar': null,
+          'branch': {'id': 'a', 'name': 'b'},
+        });
+        expect(caller.id, 'a');
+        expect(caller.name, 'b');
+      });
+
+      test('operator', () {
+        final op = TdOperator.fromJson({
+          'id': 'a',
+          'name': 'b',
+          'avatar': null,
+          'firstLineCallOperator': true,
+          'secondLineCallOperator': false,
+        });
+        expect(op.id, 'a');
+        expect(op.name, 'b');
+        expect(op.avatar, null);
+        expect(op.firstLine, true);
+        expect(op.secondLine, false);
+      });
     });
   });
 }
