@@ -55,17 +55,12 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _readJson(json_branches.branches);
     return response
         .map(
-          (dynamic e) => _branchFromJson(e),
+          (dynamic e) => TdBranch.fromJson(e),
         )
         .where(
           (TdBranch b) => b.name.toLowerCase().startsWith(swLower),
         );
   }
-
-  static TdBranch _branchFromJson(Map<String, dynamic> json) => TdBranch(
-        id: json['id'],
-        name: json['name'],
-      );
 
   @override
   Future<TdCaller> tdCaller({String id}) async {
@@ -128,14 +123,9 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<TdCategory>> tdCategories() async {
     final List<dynamic> response = await _readJson(json_categories.categories);
     return response.map(
-      (dynamic e) => _categofryFromJson(e),
+      (dynamic e) => TdCategory.fromJson(e),
     );
   }
-
-  static TdCategory _categofryFromJson(Map<String, dynamic> json) => TdCategory(
-        id: json['id'],
-        name: json['name'],
-      );
 
   @override
   Future<TdSubcategory> tdSubcategory({String id}) async {
@@ -178,19 +168,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<Iterable<TdDuration>> tdDurations() async {
     final List<dynamic> response = await _readJson(json_durations.durations);
     return response.map(
-      (dynamic e) => _incidentDurationFromJson(e),
+      (dynamic e) => TdDuration.fromJson(e),
     );
   }
 
-  static TdDuration _incidentDurationFromJson(
-    Map<String, dynamic> json,
-  ) =>
-      TdDuration(
-        id: json['id'],
-        name: json['name'],
-      );
-
-  @override
+   @override
   Future<TdDuration> tdDuration({String id}) async {
     return (await tdDurations()).firstWhere(
       (TdDuration e) => e.id == id,
