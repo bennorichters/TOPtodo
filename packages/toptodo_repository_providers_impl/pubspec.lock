@@ -63,7 +63,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -92,7 +92,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0+2"
+    version: "0.12.0+4"
   http_parser:
     dependency: transitive
     description:
@@ -235,8 +235,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: bbb2e939668418a1fd24b4993ae52a9f37abb175
-      resolved-ref: bbb2e939668418a1fd24b4993ae52a9f37abb175
+      ref: aa1073509a129825acd188ff41a897f08da2b04e
+      resolved-ref: aa1073509a129825acd188ff41a897f08da2b04e
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
