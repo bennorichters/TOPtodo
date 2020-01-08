@@ -8,19 +8,21 @@ import 'package:meta/meta.dart';
 /// their `id` is equal. The `id` and `name` cannot be `null`. Instances of
 /// this class and its subclasses are immutable.
 abstract class TdModel extends Equatable {
+  /// Abstract constructor for a `TdModel`
   const TdModel({
     @required this.id,
     @required this.name,
   })  : assert(id != null),
         assert(name != null);
 
+  /// Abstract constructor for a `TdModel`
   TdModel.fromJson(Map<String, dynamic> json)
       : this(id: json['id'], name: json['name']);
 
-  /// unique identifier
+  /// A unique identifier for this `TdModel`
   final String id;
 
-  /// name
+  /// The name of this `TdModel`
   final String name;
 
   @override
@@ -32,37 +34,44 @@ abstract class TdModel extends Equatable {
 
 /// A [TdModel] representing a branch in TOPdesk
 class TdBranch extends TdModel {
+  /// Creates a new instance of a `TdBranch`
   const TdBranch({
     @required String id,
     @required String name,
   }) : super(id: id, name: name);
 
+  /// Creates a new instance of a `TdBranch`
   TdBranch.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 /// A [TdModel] representing a duration in TOPdesk.
 class TdDuration extends TdModel {
+  /// Creates a new instance of a `TdDuration`
   const TdDuration({
     @required String id,
     @required String name,
   }) : super(id: id, name: name);
 
+  /// Creates a new instance of a `TdDuration`
   TdDuration.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 /// A [TdModel] representing a category in TOPdesk
 class TdCategory extends TdModel {
+  /// Creates a new instance of a `TdCategory`
   const TdCategory({
     @required String id,
     @required String name,
   }) : super(id: id, name: name);
 
+  /// Creates a new instance of a `TdCategory`
   TdCategory.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 /// A [TdModel] representing a subcategory in TOPdesk. A subcategory has a
 /// parent [TdCategory] that cannot be `null`.
 class TdSubcategory extends TdModel {
+  /// Creates a new instance of a `TdSubcategory`
   const TdSubcategory({
     @required String id,
     @required String name,
@@ -70,6 +79,7 @@ class TdSubcategory extends TdModel {
   })  : assert(category != null),
         super(id: id, name: name);
 
+  /// Creates a new instance of a `TdSubcategory`
   TdSubcategory.fromJson(Map<String, dynamic> json)
       : category = TdCategory.fromJson(json['category']),
         super.fromJson(json);
@@ -81,12 +91,14 @@ class TdSubcategory extends TdModel {
 /// A [TdModel] base class for TOPdesk models representing persons. A person
 /// has an [avatar]. The `avatar` can be `null`.
 abstract class TdPerson extends TdModel {
+  /// Abstract constructor for `TdPerson`
   const TdPerson({
     @required String id,
     @required String name,
     this.avatar,
   }) : super(id: id, name: name);
 
+  /// Abstract constructor for `TdPerson`
   TdPerson.fromJson(Map<String, dynamic> json)
       : avatar = json['avatar'],
         super.fromJson(json);
@@ -99,6 +111,7 @@ abstract class TdPerson extends TdModel {
 /// A [TdPerson] that represents a caller in TOPdesk. A caller has a parent
 /// [TdBranch] that cannot be null.
 class TdCaller extends TdPerson {
+  /// Creates a new instance of a `TdCaller`
   const TdCaller({
     @required String id,
     @required String name,
@@ -107,6 +120,7 @@ class TdCaller extends TdPerson {
   })  : assert(branch != null),
         super(id: id, name: name, avatar: avatar);
 
+  /// Creates a new instance of a `TdCaller`
   TdCaller.fromJson(Map<String, dynamic> json)
       : branch = TdBranch.fromJson(json['branch']),
         super.fromJson(json);
@@ -120,6 +134,7 @@ class TdCaller extends TdPerson {
 /// assigned to first and second line incidents repectively. Both these fields
 /// cannot be `null`.
 class TdOperator extends TdPerson {
+  /// Creates a new instance of a `TdOperator`
   const TdOperator({
     @required String id,
     @required String name,
@@ -130,6 +145,7 @@ class TdOperator extends TdPerson {
         assert(secondLine != null),
         super(id: id, name: name, avatar: avatar);
 
+  /// Creates a new instance of a `TdOperator`
   TdOperator.fromJson(Map<String, dynamic> json)
       : assert(json['firstLineCallOperator'] is bool),
         assert(json['secondLineCallOperator'] is bool),
