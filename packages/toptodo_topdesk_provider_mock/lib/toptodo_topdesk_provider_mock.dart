@@ -39,17 +39,17 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
-  Future<Branch> branch({String id}) async => (await branches(
+  Future<TdBranch> tdBranch({String id}) async => (await tdBranches(
         startsWith: '',
       ))
           .firstWhere(
-        (Branch b) => b.id == id,
+        (TdBranch b) => b.id == id,
         orElse: () =>
             throw TdModelNotFoundException('no branch found with id: $id'),
       );
 
   @override
-  Future<Iterable<Branch>> branches({@required String startsWith}) async {
+  Future<Iterable<TdBranch>> tdBranches({@required String startsWith}) async {
     final swLower = startsWith.toLowerCase();
 
     final List<dynamic> response = await _readJson(json_branches.branches);
@@ -58,17 +58,17 @@ class FakeTopdeskProvider implements TopdeskProvider {
           (dynamic e) => _branchFromJson(e),
         )
         .where(
-          (Branch b) => b.name.toLowerCase().startsWith(swLower),
+          (TdBranch b) => b.name.toLowerCase().startsWith(swLower),
         );
   }
 
-  static Branch _branchFromJson(Map<String, dynamic> json) => Branch(
+  static TdBranch _branchFromJson(Map<String, dynamic> json) => TdBranch(
         id: json['id'],
         name: json['name'],
       );
 
   @override
-  Future<Caller> caller({String id}) async {
+  Future<TdCaller> tdCaller({String id}) async {
     final avatar = await _avatar();
 
     final List<dynamic> response = await _readJson(json_callers.callers);
@@ -82,15 +82,13 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return _callerFromJson(
       found,
       avatar,
-      await branch(id: found['branchId']),
+      await tdBranch(id: found['branchId']),
     );
   }
 
   @override
-  Future<Iterable<Caller>> callers({
-    @required String startsWith,
-    @required Branch branch,
-  }) async {
+  Future<Iterable<TdCaller>> tdCallers(
+      {String startsWith, TdBranch tdBranch}) async {
     final swLower = startsWith.toLowerCase();
 
     final avatar = await _avatar();
@@ -98,20 +96,20 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return response
         .where(
           (dynamic e) =>
-              (e['branchId'] == branch.id) &&
+              (e['branchId'] == tdBranch.id) &&
               e['name'].toLowerCase().startsWith(swLower),
         )
         .map(
-          (dynamic e) => _callerFromJson(e, avatar, branch),
+          (dynamic e) => _callerFromJson(e, avatar, tdBranch),
         );
   }
 
-  static Caller _callerFromJson(
+  static TdCaller _callerFromJson(
     Map<String, dynamic> json,
     String avatar,
-    Branch branch,
+    TdBranch branch,
   ) =>
-      Caller(
+      TdCaller(
         id: json['id'],
         name: json['name'],
         avatar: avatar,
@@ -119,28 +117,28 @@ class FakeTopdeskProvider implements TopdeskProvider {
       );
 
   @override
-  Future<Category> category({String id}) async {
-    return (await categories()).firstWhere(
-      (Category c) => c.id == id,
+  Future<TdCategory> tdCategory({String id}) async {
+    return (await tdCategories()).firstWhere(
+      (TdCategory c) => c.id == id,
       orElse: () => throw TdModelNotFoundException('no category for id: $id'),
     );
   }
 
   @override
-  Future<Iterable<Category>> categories() async {
+  Future<Iterable<TdCategory>> tdCategories() async {
     final List<dynamic> response = await _readJson(json_categories.categories);
     return response.map(
       (dynamic e) => _categofryFromJson(e),
     );
   }
 
-  static Category _categofryFromJson(Map<String, dynamic> json) => Category(
+  static TdCategory _categofryFromJson(Map<String, dynamic> json) => TdCategory(
         id: json['id'],
         name: json['name'],
       );
 
   @override
-  Future<SubCategory> subCategory({String id}) async {
+  Future<TdSubcategory> tdSubcategory({String id}) async {
     final List<dynamic> response =
         await _readJson(json_sub_categories.subCategories);
     final dynamic json = response.firstWhere(
@@ -149,67 +147,68 @@ class FakeTopdeskProvider implements TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    return _subCategoryFromJson(json, await category(id: json['categoryId']));
+    return _subCategoryFromJson(json, await tdCategory(id: json['categoryId']));
   }
 
   @override
-  Future<Iterable<SubCategory>> subCategories({Category category}) async {
+  Future<Iterable<TdSubcategory>> tdSubcategories(
+      {TdCategory tdCategory}) async {
     final List<dynamic> response =
         await _readJson(json_sub_categories.subCategories);
     return response
         .where(
-          (dynamic e) => e['categoryId'] == category.id,
+          (dynamic e) => e['categoryId'] == tdCategory.id,
         )
         .map(
-          (dynamic e) => _subCategoryFromJson(e, category),
+          (dynamic e) => _subCategoryFromJson(e, tdCategory),
         );
   }
 
-  SubCategory _subCategoryFromJson(
+  TdSubcategory _subCategoryFromJson(
     Map<String, dynamic> json,
-    Category category,
+    TdCategory category,
   ) =>
-      SubCategory(
+      TdSubcategory(
         id: json['id'],
         name: json['name'],
         category: category,
       );
 
   @override
-  Future<Iterable<IncidentDuration>> incidentDurations() async {
+  Future<Iterable<TdDuration>> tdDurations() async {
     final List<dynamic> response = await _readJson(json_durations.durations);
     return response.map(
       (dynamic e) => _incidentDurationFromJson(e),
     );
   }
 
-  static IncidentDuration _incidentDurationFromJson(
+  static TdDuration _incidentDurationFromJson(
     Map<String, dynamic> json,
   ) =>
-      IncidentDuration(
+      TdDuration(
         id: json['id'],
         name: json['name'],
       );
 
   @override
-  Future<IncidentDuration> incidentDuration({String id}) async {
-    return (await incidentDurations()).firstWhere(
-      (IncidentDuration e) => e.id == id,
+  Future<TdDuration> tdDuration({String id}) async {
+    return (await tdDurations()).firstWhere(
+      (TdDuration e) => e.id == id,
       orElse: () =>
           throw TdModelNotFoundException('no incident duration for id: $id'),
     );
   }
 
   @override
-  Future<IncidentOperator> incidentOperator({String id}) async {
-    return (await incidentOperators(startsWith: '')).firstWhere(
-      (IncidentOperator e) => e.id == id,
+  Future<TdOperator> tdOperator({String id}) async {
+    return (await tdOperators(startsWith: '')).firstWhere(
+      (TdOperator e) => e.id == id,
       orElse: () => throw TdModelNotFoundException('no operator for id: $id'),
     );
   }
 
   @override
-  Future<Iterable<IncidentOperator>> incidentOperators({
+  Future<Iterable<TdOperator>> tdOperators({
     @required String startsWith,
   }) async {
     final swLower = startsWith.toLowerCase();
@@ -225,11 +224,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
         );
   }
 
-  IncidentOperator _incidentOperatorFromJson(
+  TdOperator _incidentOperatorFromJson(
     Map<String, dynamic> json,
     String avatar,
   ) =>
-      IncidentOperator(
+      TdOperator(
         id: json['id'],
         name: json['name'],
         avatar: avatar,
@@ -237,18 +236,18 @@ class FakeTopdeskProvider implements TopdeskProvider {
         secondLine: true,
       );
 
-  IncidentOperator _currentOperator;
+  TdOperator _currentOperator;
 
   @override
-  Future<IncidentOperator> currentIncidentOperator() async =>
-      (_currentOperator ??= (await incidentOperators(startsWith: '')).first);
+  Future<TdOperator> currentTdOperator() async =>
+      (_currentOperator ??= (await tdOperators(startsWith: '')).first);
 
   Future<String> _avatar() async {
     return (await _readJson(json_avatar.avatar))['black'];
   }
 
   @override
-  Future<String> createIncident({
+  Future<String> createTdIncident({
     @required String briefDescription,
     @required Settings settings,
     String request,
