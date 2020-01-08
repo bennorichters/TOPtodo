@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
@@ -16,11 +15,6 @@ import 'package:toptodo_topdesk_provider_mock/json/operators.dart'
     as json_operators;
 import 'package:toptodo_topdesk_provider_mock/json/sub_categories.dart'
     as json_sub_categories;
-
-// Importing all json files as Strings in dart files
-// Using File our Resource (from the Dart resource package) fails
-// as soon as this is included in a Flutter project
-// See https://stackoverflow.com/questions/59421963
 
 class FakeTopdeskProvider implements TopdeskProvider {
   FakeTopdeskProvider({this.latency = const Duration(milliseconds: 1500)});
