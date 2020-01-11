@@ -99,16 +99,16 @@ abstract class TopdeskProvider {
   /// incidents in TOPdesk.
   Future<Iterable<TdDuration>> tdDurations();
 
-  /// Returns the [Tdoperator] with the given `id`
+  /// Returns the [TdOperator] with the given `id`
   Future<TdOperator> tdOperator({
     @required String id,
   });
 
-  /// Returns the [Tdoperator] belonging to the [Credentials] that where used
+  /// Returns the [TdOperator] belonging to the [Credentials] that where used
   /// in the [init()] of this provider.
   Future<TdOperator> currentTdOperator();
 
-  /// Returns the first x [Tdoperator]s whose names start with `startsWith`,
+  /// Returns the first x [TdOperator]s whose names start with `startsWith`,
   /// where x depends on the implementation.
   Future<Iterable<TdOperator>> tdOperators({
     @required String startsWith,
