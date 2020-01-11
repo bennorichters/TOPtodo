@@ -33,7 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is LogOut) {
       yield const LoginWaitingForSavedData();
       await credentialsProvider.delete();
-      _credentials = Credentials.empty();
+      _credentials = Credentials();
       _remember = false;
       yield RetrievedSavedData(_credentials, _remember);
     } else if (event is RememberToggle) {
@@ -62,7 +62,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       try {
         final settings =
-            await settingsProvider.provide() ?? const Settings.empty();
+            await settingsProvider.provide() ?? const Settings();
 
         if (settings.isComplete()) {
           yield LoginSuccessValidSettings(

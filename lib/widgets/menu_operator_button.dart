@@ -8,7 +8,7 @@ class MenuOperatorButton extends StatelessWidget {
     this.incidentOperator, {
     this.showSettings = true,
   });
-  final IncidentOperator incidentOperator;
+  final TdOperator incidentOperator;
   final bool showSettings;
 
   @override

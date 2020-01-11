@@ -18,10 +18,10 @@ void main() {
     });
 
     test('branches starting with "br"', () async {
-      final branches = await tp.branches(startsWith: 'br');
+      final branches = await tp.tdBranches(startsWith: 'br');
 
       bloc.add(
-        const TdModelSearchIncompleteQuery<Branch>(
+        const TdModelSearchIncompleteQuery<TdBranch>(
           linkedTo: null,
           query: 'br',
         ),
@@ -32,17 +32,17 @@ void main() {
         [
           TdModelSearchInitialState(),
           TdModelSearching(),
-          TdModelSearchResults<Branch>(branches),
+          TdModelSearchResults<TdBranch>(branches),
         ],
       );
     });
 
     test('callers belonging to branch A starting with "s"', () async {
-      final branchA = await tp.branch(id: 'a');
-      final callers = await tp.callers(startsWith: 's', branch: branchA);
+      final branchA = await tp.tdBranch(id: 'a');
+      final callers = await tp.tdCallers(startsWith: 's', tdBranch: branchA);
 
       bloc.add(
-        TdModelSearchIncompleteQuery<Caller>(
+        TdModelSearchIncompleteQuery<TdCaller>(
           linkedTo: branchA,
           query: 's',
         ),
@@ -53,16 +53,16 @@ void main() {
         [
           TdModelSearchInitialState(),
           TdModelSearching(),
-          TdModelSearchResults<Caller>(callers),
+          TdModelSearchResults<TdCaller>(callers),
         ],
       );
     });
 
     test('operator starting with "a"', () async {
-      final operators = await tp.incidentOperators(startsWith: 'a');
+      final operators = await tp.tdOperators(startsWith: 'a');
 
       bloc.add(
-        const TdModelSearchIncompleteQuery<IncidentOperator>(
+        const TdModelSearchIncompleteQuery<TdOperator>(
           linkedTo: null,
           query: 'a',
         ),
@@ -73,16 +73,16 @@ void main() {
         [
           TdModelSearchInitialState(),
           TdModelSearching(),
-          TdModelSearchResults<IncidentOperator>(operators),
+          TdModelSearchResults<TdOperator>(operators),
         ],
       );
     });
 
     test('operator finished query', () async {
-      final operators = await tp.incidentOperators(startsWith: 'a');
+      final operators = await tp.tdOperators(startsWith: 'a');
 
       bloc.add(
-        const TdModelSearchFinishedQuery<IncidentOperator>(
+        const TdModelSearchFinishedQuery<TdOperator>(
           linkedTo: null,
           query: 'a',
         ),
@@ -93,7 +93,7 @@ void main() {
         [
           TdModelSearchInitialState(),
           TdModelSearching(),
-          TdModelSearchResults<IncidentOperator>(operators),
+          TdModelSearchResults<TdOperator>(operators),
         ],
       );
     });
@@ -105,15 +105,15 @@ void main() {
       );
 
       test('first branch then callers', () async {
-        final branches = await tp.branches(startsWith: 'br');
-        final branchA = await tp.branch(id: 'a');
-        final callers = await tp.callers(startsWith: 's', branch: branchA);
+        final branches = await tp.tdBranches(startsWith: 'br');
+        final branchA = await tp.tdBranch(id: 'a');
+        final callers = await tp.tdCallers(startsWith: 's', tdBranch: branchA);
 
         final actual = <TdModelSearchState>[];
         final subscription = bloc.listen(actual.add);
 
         bloc.add(
-          const TdModelSearchIncompleteQuery<Branch>(
+          const TdModelSearchIncompleteQuery<TdBranch>(
             linkedTo: null,
             query: 'br',
           ),
@@ -121,7 +121,7 @@ void main() {
 
         bloc.add(TdModelNewSearch());
         bloc.add(
-          TdModelSearchIncompleteQuery<Caller>(
+          TdModelSearchIncompleteQuery<TdCaller>(
             linkedTo: branchA,
             query: 's',
           ),
@@ -133,10 +133,10 @@ void main() {
         expect(actual, [
           TdModelSearchInitialState(),
           TdModelSearching(),
-          TdModelSearchResults<Branch>(branches),
+          TdModelSearchResults<TdBranch>(branches),
           TdModelSearchInitialState(),
           TdModelSearching(),
-          TdModelSearchResults<Caller>(callers),
+          TdModelSearchResults<TdCaller>(callers),
         ]);
       });
     });

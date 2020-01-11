@@ -15,14 +15,14 @@ class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 void main() {
   group('incident bloc', () {
     const settings = Settings(
-      branchId: 'a',
-      callerId: 'a',
-      categoryId: 'a',
-      subCategoryId: 'a',
-      incidentDurationId: 'a',
-      incidentOperatorId: 'a',
+      tdBranchId: 'a',
+      tdCallerId: 'a',
+      tdCategoryId: 'a',
+      tdSubcategoryId: 'a',
+      tdDurationId: 'a',
+      tdOperatorId: 'a',
     );
-    const currentOperator = IncidentOperator(
+    const currentOperator = TdOperator(
       id: 'a',
       name: 'a',
       avatar: 'a',
@@ -34,9 +34,9 @@ void main() {
     when(sp.provide()).thenAnswer((_) => Future.value(settings));
 
     final tdp = MockTopdeskProvider();
-    when(tdp.currentIncidentOperator())
+    when(tdp.currentTdOperator())
         .thenAnswer((_) => Future.value(currentOperator));
-    when(tdp.createIncident(
+    when(tdp.createTdIncident(
       briefDescription: anyNamed('briefDescription'),
       request: anyNamed('request'),
       settings: anyNamed('settings'),
@@ -89,9 +89,9 @@ void main() {
     test('create incident TdException', () async {
       final timeOutTdProvider = MockTopdeskProvider();
       const exc = TdTimeOutException('error test');
-      when(timeOutTdProvider.currentIncidentOperator())
+      when(timeOutTdProvider.currentTdOperator())
           .thenAnswer((_) => Future.value(currentOperator));
-      when(timeOutTdProvider.createIncident(
+      when(timeOutTdProvider.createTdIncident(
         briefDescription: anyNamed('briefDescription'),
         request: anyNamed('request'),
         settings: anyNamed('settings'),

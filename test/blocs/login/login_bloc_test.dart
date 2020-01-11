@@ -71,12 +71,12 @@ void main() {
       );
 
       const settings = Settings(
-        branchId: 'a',
-        callerId: 'a',
-        categoryId: 'a',
-        subCategoryId: 'a',
-        incidentDurationId: 'a',
-        incidentOperatorId: 'a',
+        tdBranchId: 'a',
+        tdCallerId: 'a',
+        tdCategoryId: 'a',
+        tdSubcategoryId: 'a',
+        tdDurationId: 'a',
+        tdOperatorId: 'a',
       );
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(settings),
@@ -99,21 +99,21 @@ void main() {
 
     test('incomplete settings', () async {
       const saved = Settings(
-        branchId: 'a',
-        callerId: 'a',
-        categoryId: 'a',
-        subCategoryId: 'a',
-        incidentDurationId: 'a',
-        incidentOperatorId: null,
+        tdBranchId: 'a',
+        tdCallerId: 'a',
+        tdCategoryId: 'a',
+        tdSubcategoryId: 'a',
+        tdDurationId:  'a',
+        tdOperatorId:  null,
       );
 
       const incomplete = Settings(
-        branchId: 'a',
-        callerId: 'a',
-        categoryId: 'a',
-        subCategoryId: 'a',
-        incidentDurationId: 'a',
-        incidentOperatorId: null,
+        tdBranchId: 'a',
+        tdCallerId: 'a',
+        tdCategoryId: 'a',
+        tdSubcategoryId: 'a',
+        tdDurationId:  'a',
+        tdOperatorId:  null,
       );
 
       final TopdeskProvider topdeskProvider = MockTopdeskProvider();

@@ -4,9 +4,9 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 void main() {
   test('update branch clears caller', () async {
-    final branchA = Branch(id: 'a', name: 'ba');
-    final branchB = Branch(id: 'b', name: 'bb');
-    final callerA = Caller(id: 'a', name: 'ca', avatar: '', branch: branchA);
+    final branchA = TdBranch(id: 'a', name: 'ba');
+    final branchB = TdBranch(id: 'b', name: 'bb');
+    final callerA = TdCaller(id: 'a', name: 'ca', avatar: '', branch: branchA);
     
     final state1 = SettingsFormState();
     final state2 = state1.update(

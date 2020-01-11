@@ -28,18 +28,18 @@ void main() {
         durations;
 
     setUp(() async {
-      branchA = await topdeskProvider.branch(id: 'a');
-      callerAa = await topdeskProvider.caller(id: 'aa');
-      callerAb = await topdeskProvider.caller(id: 'ab');
-      categoryA = await topdeskProvider.category(id: 'a');
-      subCategoryAa = await topdeskProvider.subCategory(id: 'aa');
-      subCategoryAb = await topdeskProvider.subCategory(id: 'ab');
-      durationA = await topdeskProvider.incidentDuration(id: 'a');
-      operatorA = await topdeskProvider.incidentOperator(id: 'a');
+      branchA = await topdeskProvider.tdBranch(id: 'a');
+      callerAa = await topdeskProvider.tdCaller(id: 'aa');
+      callerAb = await topdeskProvider.tdCaller(id: 'ab');
+      categoryA = await topdeskProvider.tdCategory(id: 'a');
+      subCategoryAa = await topdeskProvider.tdSubcategory(id: 'aa');
+      subCategoryAb = await topdeskProvider.tdSubcategory(id: 'ab');
+      durationA = await topdeskProvider.tdDuration(id: 'a');
+      operatorA = await topdeskProvider.tdOperator(id: 'a');
 
-      categories = await topdeskProvider.categories();
-      subCategories = await topdeskProvider.subCategories(category: categoryA);
-      durations = await topdeskProvider.incidentDurations();
+      categories = await topdeskProvider.tdCategories();
+      subCategories = await topdeskProvider.tdSubcategories(tdCategory: categoryA);
+      durations = await topdeskProvider.tdDurations();
 
       bloc = SettingsBloc(
         settingsProvider: settingsProvider,
@@ -51,12 +51,12 @@ void main() {
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(
           Settings(
-            branchId: branchA.id,
-            callerId: callerAa.id,
-            categoryId: categoryA.id,
-            subCategoryId: subCategoryAa.id,
-            incidentDurationId: durationA.id,
-            incidentOperatorId: operatorA.id,
+            tdBranchId: branchA.id,
+            tdCallerId: callerAa.id,
+            tdCategoryId: categoryA.id,
+            tdSubcategoryId: subCategoryAa.id,
+            tdDurationId: durationA.id,
+            tdOperatorId: operatorA.id,
           ),
         ),
       );
@@ -68,10 +68,10 @@ void main() {
         [
           const InitialSettingsState(),
           SettingsLoading(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
           ),
           SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -82,7 +82,7 @@ void main() {
             ),
           ),
           SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -103,12 +103,12 @@ void main() {
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(
           Settings(
-            branchId: branchA.id,
-            callerId: callerAb.id,
-            categoryId: categoryA.id,
-            subCategoryId: subCategoryAa.id,
-            incidentDurationId: durationA.id,
-            incidentOperatorId: operatorA.id,
+            tdBranchId: branchA.id,
+            tdCallerId: callerAb.id,
+            tdCategoryId: categoryA.id,
+            tdSubcategoryId: subCategoryAa.id,
+            tdDurationId: durationA.id,
+            tdOperatorId: operatorA.id,
           ),
         ),
       );
@@ -120,10 +120,10 @@ void main() {
         [
           const InitialSettingsState(),
           SettingsLoading(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
           ),
           SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: null,
@@ -134,7 +134,7 @@ void main() {
             ),
           ),
           SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: null,
@@ -155,12 +155,12 @@ void main() {
       when(settingsProvider.provide()).thenAnswer(
         (_) => Future<Settings>.value(
           Settings(
-            branchId: branchA.id,
-            callerId: callerAa.id,
-            categoryId: categoryA.id,
-            subCategoryId: subCategoryAb.id,
-            incidentDurationId: durationA.id,
-            incidentOperatorId: operatorA.id,
+            tdBranchId: branchA.id,
+            tdCallerId: callerAa.id,
+            tdCategoryId: categoryA.id,
+            tdSubcategoryId: subCategoryAb.id,
+            tdDurationId: durationA.id,
+            tdOperatorId: operatorA.id,
           ),
         ),
       );
@@ -172,10 +172,10 @@ void main() {
         [
           const InitialSettingsState(),
           SettingsLoading(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
           ),
           SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -186,7 +186,7 @@ void main() {
             ),
           ),
           SettingsTdData(
-            currentOperator: await topdeskProvider.currentIncidentOperator(),
+            currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
               branch: branchA,
               caller: callerAa,
@@ -205,11 +205,11 @@ void main() {
 
     test('empty settings fill operator', () async {
       when(settingsProvider.provide())
-          .thenAnswer((_) => Future<Settings>.value(Settings.empty()));
+          .thenAnswer((_) => Future<Settings>.value(Settings()));
 
       bloc.add(const SettingsInit());
 
-      final currentOperator = await topdeskProvider.currentIncidentOperator();
+      final currentOperator = await topdeskProvider.currentTdOperator();
       await emitsExactly<SettingsBloc, SettingsState>(
         bloc,
         [
@@ -235,9 +235,9 @@ void main() {
 
     test('empty settings dont fill operator', () async {
       when(settingsProvider.provide())
-          .thenAnswer((_) => Future<Settings>.value(Settings.empty()));
+          .thenAnswer((_) => Future<Settings>.value(Settings()));
 
-      final currentOperator = IncidentOperator(
+      final currentOperator = TdOperator(
         id: 'x',
         name: '',
         avatar: '',
@@ -245,12 +245,12 @@ void main() {
         secondLine: true,
       );
       final tdProviderWrongOperator = MockTopdeskProvider();
-      when(tdProviderWrongOperator.currentIncidentOperator())
-          .thenAnswer((_) => Future<IncidentOperator>.value(currentOperator));
-      when(tdProviderWrongOperator.categories())
-          .thenAnswer((_) => topdeskProvider.categories());
-      when(tdProviderWrongOperator.incidentDurations())
-          .thenAnswer((_) => topdeskProvider.incidentDurations());
+      when(tdProviderWrongOperator.currentTdOperator())
+          .thenAnswer((_) => Future<TdOperator>.value(currentOperator));
+      when(tdProviderWrongOperator.tdCategories())
+          .thenAnswer((_) => topdeskProvider.tdCategories());
+      when(tdProviderWrongOperator.tdDurations())
+          .thenAnswer((_) => topdeskProvider.tdDurations());
 
       bloc = SettingsBloc(
         settingsProvider: settingsProvider,

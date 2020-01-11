@@ -16,20 +16,20 @@ class InitialSettingsState extends SettingsState {
 
 class SettingsWithOperator extends SettingsState {
   const SettingsWithOperator({@required this.currentOperator});
-  final IncidentOperator currentOperator;
+  final TdOperator currentOperator;
 
   @override
   List<Object> get props => super.props..addAll([currentOperator]);
 }
 
 class SettingsLoading extends SettingsWithOperator {
-  const SettingsLoading({@required IncidentOperator currentOperator})
+  const SettingsLoading({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
 abstract class SettingsWithFormState extends SettingsWithOperator {
   const SettingsWithFormState({
-    @required IncidentOperator currentOperator,
+    @required TdOperator currentOperator,
     @required this.formState,
   }) : super(currentOperator: currentOperator);
   final SettingsFormState formState;
@@ -43,7 +43,7 @@ abstract class SettingsWithFormState extends SettingsWithOperator {
 
 class SettingsTdData extends SettingsWithFormState {
   const SettingsTdData({
-    @required IncidentOperator currentOperator,
+    @required TdOperator currentOperator,
     @required SettingsFormState formState,
   }) : super(
           currentOperator: currentOperator,
@@ -53,7 +53,7 @@ class SettingsTdData extends SettingsWithFormState {
 
 class SettingsSaved extends SettingsWithFormState {
   const SettingsSaved({
-    @required IncidentOperator currentOperator,
+    @required TdOperator currentOperator,
     @required SettingsFormState formState,
   }) : super(
           currentOperator: currentOperator,

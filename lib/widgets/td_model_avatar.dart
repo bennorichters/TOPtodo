@@ -21,13 +21,13 @@ class TdModelAvatar extends StatelessWidget {
   }
 }
 
-Widget _buildTdModelAvatar(TdModel model) => (model is Person)
+Widget _buildTdModelAvatar(TdModel model) => (model is TdPerson)
     ? ((model.avatar == null) ? _AvatarText(model) : _AvatarImage(model))
     : _AvatarText(model);
 
 class _AvatarImage extends StatelessWidget {
   const _AvatarImage(this.model);
-  final Person model;
+  final TdPerson model;
 
   @override
   Widget build(BuildContext context) {

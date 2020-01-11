@@ -54,22 +54,22 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
 
   Stream<TdModelSearchState> _queryBasedResults<T extends TdModel>(
       {TdModelSearchInfoEvent searchInfo}) async* {
-    if (searchInfo is TdModelSearchInfoEvent<Branch>) {
-      yield TdModelSearchResults<Branch>(
-        await topdeskProvider.branches(
+    if (searchInfo is TdModelSearchInfoEvent<TdBranch>) {
+      yield TdModelSearchResults<TdBranch>(
+        await topdeskProvider.tdBranches(
           startsWith: searchInfo.query,
         ),
       );
-    } else if (searchInfo is TdModelSearchInfoEvent<Caller>) {
-      yield TdModelSearchResults<Caller>(
-        await topdeskProvider.callers(
-          branch: searchInfo.linkedTo as Branch,
+    } else if (searchInfo is TdModelSearchInfoEvent<TdCaller>) {
+      yield TdModelSearchResults<TdCaller>(
+        await topdeskProvider.tdCallers(
+          tdBranch: searchInfo.linkedTo as TdBranch,
           startsWith: searchInfo.query,
         ),
       );
-    } else if (searchInfo is TdModelSearchInfoEvent<IncidentOperator>) {
-      yield TdModelSearchResults<IncidentOperator>(
-        await topdeskProvider.incidentOperators(
+    } else if (searchInfo is TdModelSearchInfoEvent<TdOperator>) {
+      yield TdModelSearchResults<TdOperator>(
+        await topdeskProvider.tdOperators(
           startsWith: searchInfo.query,
         ),
       );

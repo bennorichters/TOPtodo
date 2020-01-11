@@ -8,7 +8,7 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
   TdModelSearchDelegate.allBranches() : _linkedTo = null;
 
   TdModelSearchDelegate.callersForBranch({
-    @required Branch branch,
+    @required TdBranch branch,
   }) : _linkedTo = branch;
 
   TdModelSearchDelegate.allOperators() : _linkedTo = null;

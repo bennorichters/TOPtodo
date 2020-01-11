@@ -84,13 +84,13 @@ class _SettingsForm extends StatelessWidget {
           key: _formKey,
           child: ListView(
             children: [
-              SearchField<Branch>(
+              SearchField<TdBranch>(
                 value: state.formState.branch,
                 label: 'Branch',
                 search: _searchBranch(context),
                 validationText: 'Choose a branch',
               ),
-              SearchField<Caller>(
+              SearchField<TdCaller>(
                 value: state.formState.caller,
                 label: 'Caller' +
                     (state.formState.branch == null
@@ -99,28 +99,28 @@ class _SettingsForm extends StatelessWidget {
                 search: _searchCaller(context, state.formState.branch),
                 validationText: 'Choose a caller',
               ),
-              SearchList<Category>(
+              SearchList<TdCategory>(
                 name: 'Category',
                 validationText: 'Choose a Category',
                 items: state.formState.categories,
                 selectedItem: state.formState.category,
-                onChangedCallBack: (Category newValue) {
+                onChangedCallBack: (TdCategory newValue) {
                   BlocProvider.of<SettingsBloc>(context)
                     ..add(SettingsCategorySelected(newValue));
                 },
               ),
               _SubCategoryWidget(formState: state.formState),
-              SearchList<IncidentDuration>(
+              SearchList<TdDuration>(
                 name: 'Duration',
                 validationText: 'Choose a Duration',
                 items: state.formState.incidentDurations,
                 selectedItem: state.formState.incidentDuration,
-                onChangedCallBack: (IncidentDuration newValue) {
+                onChangedCallBack: (TdDuration newValue) {
                   BlocProvider.of<SettingsBloc>(context)
                     ..add(SettingsDurationSelected(newValue));
                 },
               ),
-              SearchField<IncidentOperator>(
+              SearchField<TdOperator>(
                 label: 'Operator',
                 value: state.formState.incidentOperator,
                 search: _searchOperator(context),
@@ -150,9 +150,9 @@ class _SettingsForm extends StatelessWidget {
   VoidCallback _searchBranch(BuildContext context) {
     return () async {
       _initNewSearch(context);
-      final chosenBranch = await showSearch<Branch>(
+      final chosenBranch = await showSearch<TdBranch>(
         context: context,
-        delegate: TdModelSearchDelegate<Branch>.allBranches(),
+        delegate: TdModelSearchDelegate<TdBranch>.allBranches(),
       );
 
       BlocProvider.of<SettingsBloc>(context)
@@ -160,14 +160,14 @@ class _SettingsForm extends StatelessWidget {
     };
   }
 
-  VoidCallback _searchCaller(BuildContext context, Branch branch) {
+  VoidCallback _searchCaller(BuildContext context, TdBranch branch) {
     return (branch == null)
         ? null
         : () async {
             _initNewSearch(context);
-            final chosenCaller = await showSearch<Caller>(
+            final chosenCaller = await showSearch<TdCaller>(
               context: context,
-              delegate: TdModelSearchDelegate<Caller>.callersForBranch(
+              delegate: TdModelSearchDelegate<TdCaller>.callersForBranch(
                 branch: branch,
               ),
             );
@@ -180,9 +180,9 @@ class _SettingsForm extends StatelessWidget {
   VoidCallback _searchOperator(BuildContext context) {
     return () async {
       _initNewSearch(context);
-      final chosenOperator = await showSearch<IncidentOperator>(
+      final chosenOperator = await showSearch<TdOperator>(
         context: context,
-        delegate: TdModelSearchDelegate<IncidentOperator>.allOperators(),
+        delegate: TdModelSearchDelegate<TdOperator>.allOperators(),
       );
 
       BlocProvider.of<SettingsBloc>(context)
@@ -210,12 +210,12 @@ class _SubCategoryWidget extends StatelessWidget {
       );
     }
 
-    return SearchList<SubCategory>(
+    return SearchList<TdSubcategory>(
       name: 'Sub category',
       validationText: 'Choose a sub category',
       items: formState.subCategories,
       selectedItem: formState.subCategory,
-      onChangedCallBack: (SubCategory newValue) {
+      onChangedCallBack: (TdSubcategory newValue) {
         BlocProvider.of<SettingsBloc>(context)
           ..add(SettingsSubCategorySelected(newValue));
       },

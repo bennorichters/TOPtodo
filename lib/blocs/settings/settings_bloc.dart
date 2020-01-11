@@ -24,7 +24,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async* {
     if (event is SettingsInit) {
       yield SettingsLoading(
-        currentOperator: await topdeskProvider.currentIncidentOperator(),
+        currentOperator: await topdeskProvider.currentTdOperator(),
       );
       await _fillFormWithSettings();
       yield await _currentData();
@@ -39,7 +39,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       _formState = _formState.update(
         updatedSubCategories:
-            await topdeskProvider.subCategories(category: event.category),
+            await topdeskProvider.tdSubcategories(tdCategory: event.category),
       );
       yield await _currentData();
     } else if (event is SettingsDurationSelected) {
@@ -49,7 +49,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       _formState = _formState.update(updatedBranch: event.branch);
       yield await _currentData();
     } else if (event is SettingsOperatorSelected) {
-      _formState = _formState.update(updatedIncidentOperator: event.incidentOperator);
+      _formState =
+          _formState.update(updatedIncidentOperator: event.incidentOperator);
       yield await _currentData();
     } else if (event is SettingsCallerSelected) {
       _formState = _formState.update(updatedCaller: event.caller);
@@ -60,7 +61,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else if (event is SettingsSave) {
       await settingsProvider.save(_formState.toSettings());
       yield SettingsSaved(
-        currentOperator: await topdeskProvider.currentIncidentOperator(),
+        currentOperator: await topdeskProvider.currentTdOperator(),
         formState: _formState,
       );
     } else {
@@ -72,23 +73,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final settings = await settingsProvider.provide();
     final models = await Future.wait(
       [
-        _modelOrNull(settings.branchId, topdeskProvider.branch),
-        _modelOrNull(settings.callerId, topdeskProvider.caller),
-        _modelOrNull(settings.categoryId, topdeskProvider.category),
-        _modelOrNull(settings.subCategoryId, topdeskProvider.subCategory),
-        _modelOrNull(
-            settings.incidentDurationId, topdeskProvider.incidentDuration),
-        _modelOrNull(
-            settings.incidentOperatorId, topdeskProvider.incidentOperator),
+        _modelOrNull(settings.tdBranchId, topdeskProvider.tdBranch),
+        _modelOrNull(settings.tdCallerId, topdeskProvider.tdCaller),
+        _modelOrNull(settings.tdCategoryId, topdeskProvider.tdCategory),
+        _modelOrNull(settings.tdSubcategoryId, topdeskProvider.tdSubcategory),
+        _modelOrNull(settings.tdDurationId, topdeskProvider.tdDuration),
+        _modelOrNull(settings.tdOperatorId, topdeskProvider.tdOperator),
       ],
     );
 
-    final Branch branch = models[0];
-    final Caller caller = models[1];
-    final Category category = models[2];
-    final SubCategory subCategory = models[3];
-    final IncidentDuration incidentDuration = models[4];
-    final IncidentOperator incidentOperator = models[5];
+    final TdBranch branch = models[0];
+    final TdCaller caller = models[1];
+    final TdCategory category = models[2];
+    final TdSubcategory subCategory = models[3];
+    final TdDuration incidentDuration = models[4];
+    final TdOperator incidentOperator = models[5];
 
     _formState = SettingsFormState(
       branch: branch,
@@ -101,7 +100,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<SettingsTdData> _currentData() async {
-    final currentOperator = await topdeskProvider.currentIncidentOperator();
+    final currentOperator = await topdeskProvider.currentTdOperator();
     if (_formState.incidentOperator == null && currentOperator.firstLine) {
       _formState = _formState.update(updatedIncidentOperator: currentOperator);
     }
@@ -132,14 +131,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   Future _fillFormWithSearchLists() async {
     final searchLists = [
-      topdeskProvider.incidentDurations(),
-      topdeskProvider.categories(),
+      topdeskProvider.tdDurations(),
+      topdeskProvider.tdCategories(),
     ];
 
     if (_formState.category != null) {
       searchLists.add(
-        topdeskProvider.subCategories(
-          category: _formState.category,
+        topdeskProvider.tdSubcategories(
+          tdCategory: _formState.category,
         ),
       );
     }

@@ -17,28 +17,28 @@ class SettingsFormState extends Equatable {
     this.subCategory,
   });
 
-  final Branch branch;
-  final Caller caller;
-  final Iterable<Category> categories;
-  final Category category;
-  final Iterable<IncidentDuration> incidentDurations;
-  final IncidentDuration incidentDuration;
-  final Iterable<IncidentOperator> incidentOperators;
-  final IncidentOperator incidentOperator;
-  final Iterable<SubCategory> subCategories;
-  final SubCategory subCategory;
+  final TdBranch branch;
+  final TdCaller caller;
+  final Iterable<TdCategory> categories;
+  final TdCategory category;
+  final Iterable<TdDuration> incidentDurations;
+  final TdDuration incidentDuration;
+  final Iterable<TdOperator> incidentOperators;
+  final TdOperator incidentOperator;
+  final Iterable<TdSubcategory> subCategories;
+  final TdSubcategory subCategory;
 
   SettingsFormState update({
-    Branch updatedBranch,
-    Caller updatedCaller,
-    Iterable<Category> updatedCategories,
-    Category updatedCategory,
-    Iterable<IncidentDuration> updatedDurations,
-    IncidentDuration updatedDuration,
-    Iterable<IncidentOperator> updatedIncidentOperators,
-    IncidentOperator updatedIncidentOperator,
-    Iterable<SubCategory> updatedSubCategories,
-    SubCategory updatedSubCategory,
+    TdBranch updatedBranch,
+    TdCaller updatedCaller,
+    Iterable<TdCategory> updatedCategories,
+    TdCategory updatedCategory,
+    Iterable<TdDuration> updatedDurations,
+    TdDuration updatedDuration,
+    Iterable<TdOperator> updatedIncidentOperators,
+    TdOperator updatedIncidentOperator,
+    Iterable<TdSubcategory> updatedSubCategories,
+    TdSubcategory updatedSubCategory,
   }) =>
       SettingsFormState(
         branch: updatedBranch ?? branch,
@@ -78,12 +78,12 @@ class SettingsFormState extends Equatable {
       ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
 
   Settings toSettings() => Settings(
-        branchId: branch.id,
-        callerId: caller.id,
-        categoryId: category.id,
-        subCategoryId: subCategory.id,
-        incidentDurationId: incidentDuration.id,
-        incidentOperatorId: incidentOperator.id,
+        tdBranchId: branch.id,
+        tdCallerId: caller.id,
+        tdCategoryId: category.id,
+        tdSubcategoryId: subCategory.id,
+        tdDurationId: incidentDuration.id,
+        tdOperatorId: incidentOperator.id,
       );
 
   @override

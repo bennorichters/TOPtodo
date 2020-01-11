@@ -63,7 +63,7 @@ class InitBloc extends Bloc<InitEvent, InitState> {
       }
     });
 
-    topdeskProvider.currentIncidentOperator().then((value) async {
+    topdeskProvider.currentTdOperator().then((value) async {
       controller.add(
         _initData = _initData.update(updatedCurrentOperator: value),
       );

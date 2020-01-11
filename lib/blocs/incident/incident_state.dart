@@ -16,7 +16,7 @@ class InitialIncidentState extends IncidentState {
 
 abstract class WithOperatorState extends IncidentState {
   const WithOperatorState({@required this.currentOperator});
-  final IncidentOperator currentOperator;
+  final TdOperator currentOperator;
 
   @override
   List<Object> get props => super.props..addAll([currentOperator]);
@@ -26,19 +26,19 @@ abstract class WithOperatorState extends IncidentState {
 }
 
 class OperatorLoaded extends WithOperatorState {
-  const OperatorLoaded({@required IncidentOperator currentOperator})
+  const OperatorLoaded({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
 class SubmittingIncident extends WithOperatorState {
-  const SubmittingIncident({@required IncidentOperator currentOperator})
+  const SubmittingIncident({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
 class IncidentCreated extends WithOperatorState {
   const IncidentCreated({
     @required this.number,
-    @required IncidentOperator currentOperator,
+    @required TdOperator currentOperator,
   }) : super(currentOperator: currentOperator);
 
   final String number;
@@ -50,7 +50,7 @@ class IncidentCreated extends WithOperatorState {
 class IncidentCreationError extends WithOperatorState {
   const IncidentCreationError({
     @required this.cause,
-    @required IncidentOperator currentOperator,
+    @required TdOperator currentOperator,
   }) : super(currentOperator: currentOperator);
 
   final Object cause;

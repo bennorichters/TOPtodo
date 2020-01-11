@@ -18,12 +18,12 @@ class InitData extends InitState {
         settings = null;
 
   final Credentials credentials;
-  final IncidentOperator currentOperator;
+  final TdOperator currentOperator;
   final Settings settings;
 
   InitData update({
     Credentials updatedCredentials,
-    IncidentOperator updatedCurrentOperator,
+    TdOperator updatedCurrentOperator,
     Settings updatedSettings,
   }) =>
       InitData(

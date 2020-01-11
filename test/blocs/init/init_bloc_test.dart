@@ -15,14 +15,14 @@ void main() {
   group('init bloc', () {
     const credentials = Credentials(url: 'u', loginName: 'ln', password: 'pw');
     const settings = Settings(
-      branchId: 'a',
-      callerId: 'a',
-      categoryId: 'a',
-      subCategoryId: 'a',
-      incidentDurationId: 'a',
-      incidentOperatorId: 'a',
+      tdBranchId: 'a',
+      tdCallerId: 'a',
+      tdCategoryId: 'a',
+      tdSubcategoryId: 'a',
+      tdDurationId: 'a',
+      tdOperatorId: 'a',
     );
-    const currentOperator = IncidentOperator(
+    const currentOperator = TdOperator(
       id: 'a',
       name: 'a',
       avatar: 'a',
@@ -36,7 +36,7 @@ void main() {
 
     when(cp.provide()).thenAnswer((_) => Future.value(credentials));
     when(sp.provide()).thenAnswer((_) => Future.value(settings));
-    when(tdp.currentIncidentOperator())
+    when(tdp.currentTdOperator())
         .thenAnswer((_) => Future.value(currentOperator));
 
     test('initial state', () async {
@@ -109,7 +109,7 @@ void main() {
     test('error', () async {
       final timeOutTdProvider = MockTopdeskProvider();
       const exc = TdTimeOutException('error test');
-      when(timeOutTdProvider.currentIncidentOperator()).thenAnswer(
+      when(timeOutTdProvider.currentTdOperator()).thenAnswer(
         (_) => Future.delayed(Duration.zero, () => throw exc),
       );
 

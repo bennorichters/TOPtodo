@@ -24,15 +24,15 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   ) async* {
     if (event is IncidentShowForm) {
       yield OperatorLoaded(
-        currentOperator: await topdeskProvider.currentIncidentOperator(),
+        currentOperator: await topdeskProvider.currentTdOperator(),
       );
     } else if (event is IncidentSubmit) {
-      final currentOperator = await topdeskProvider.currentIncidentOperator();
+      final currentOperator = await topdeskProvider.currentTdOperator();
 
       yield SubmittingIncident(currentOperator: currentOperator);
 
       try {
-        final number = await topdeskProvider.createIncident(
+        final number = await topdeskProvider.createTdIncident(
           briefDescription: event.briefDescription,
           request: event.request.isEmpty ? null : event.request,
           settings: await settingsProvider.provide(),
