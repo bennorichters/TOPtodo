@@ -5,66 +5,66 @@ import 'package:toptodo_data/toptodo_data.dart';
 @immutable
 class SettingsFormState extends Equatable {
   const SettingsFormState({
-    this.branch,
-    this.caller,
-    this.categories,
-    this.category,
-    this.incidentDurations,
-    this.incidentDuration,
-    this.incidentOperators,
-    this.incidentOperator,
-    this.subCategories,
-    this.subCategory,
+    this.tdBranch,
+    this.tdCaller,
+    this.tdCategories,
+    this.tdCategory,
+    this.tdDurations,
+    this.tdDuration,
+    this.tdOperators,
+    this.tdOperator,
+    this.tdSubcategories,
+    this.tdSubcategory,
   });
 
-  final TdBranch branch;
-  final TdCaller caller;
-  final Iterable<TdCategory> categories;
-  final TdCategory category;
-  final Iterable<TdDuration> incidentDurations;
-  final TdDuration incidentDuration;
-  final Iterable<TdOperator> incidentOperators;
-  final TdOperator incidentOperator;
-  final Iterable<TdSubcategory> subCategories;
-  final TdSubcategory subCategory;
+  final TdBranch tdBranch;
+  final TdCaller tdCaller;
+  final Iterable<TdCategory> tdCategories;
+  final TdCategory tdCategory;
+  final Iterable<TdDuration> tdDurations;
+  final TdDuration tdDuration;
+  final Iterable<TdOperator> tdOperators;
+  final TdOperator tdOperator;
+  final Iterable<TdSubcategory> tdSubcategories;
+  final TdSubcategory tdSubcategory;
 
   SettingsFormState update({
-    TdBranch updatedBranch,
-    TdCaller updatedCaller,
-    Iterable<TdCategory> updatedCategories,
-    TdCategory updatedCategory,
-    Iterable<TdDuration> updatedDurations,
-    TdDuration updatedDuration,
-    Iterable<TdOperator> updatedIncidentOperators,
-    TdOperator updatedIncidentOperator,
-    Iterable<TdSubcategory> updatedSubCategories,
-    TdSubcategory updatedSubCategory,
+    TdBranch updatedTdBranch,
+    TdCaller updatedTdCaller,
+    Iterable<TdCategory> updatedTdCategories,
+    TdCategory updatedTdCategory,
+    Iterable<TdDuration> updatedTdDurations,
+    TdDuration updatedTdDuration,
+    Iterable<TdOperator> updatedTdOperators,
+    TdOperator updatedTdOperator,
+    Iterable<TdSubcategory> updatedTdSubcategories,
+    TdSubcategory updatedTdSubcategory,
   }) =>
       SettingsFormState(
-        branch: updatedBranch ?? branch,
-        categories: updatedCategories ?? categories,
-        category: updatedCategory ?? category,
-        incidentDurations: updatedDurations ?? incidentDurations,
-        incidentDuration: updatedDuration ?? incidentDuration,
-        incidentOperators: updatedIncidentOperators ?? incidentOperators,
-        incidentOperator: updatedIncidentOperator ?? incidentOperator,
-        caller: _updatedValue(
-          value: updatedCaller,
-          oldValue: caller,
-          linkedTo: updatedBranch,
-          oldLinkedTo: branch,
+        tdBranch: updatedTdBranch ?? tdBranch,
+        tdCategories: updatedTdCategories ?? tdCategories,
+        tdCategory: updatedTdCategory ?? tdCategory,
+        tdDurations: updatedTdDurations ?? tdDurations,
+        tdDuration: updatedTdDuration ?? tdDuration,
+        tdOperators: updatedTdOperators ?? tdOperators,
+        tdOperator: updatedTdOperator ?? tdOperator,
+        tdCaller: _updatedValue(
+          value: updatedTdCaller,
+          oldValue: tdCaller,
+          linkedTo: updatedTdBranch,
+          oldLinkedTo: tdBranch,
         ),
-        subCategories: _updatedValue(
-          value: updatedSubCategories,
-          oldValue: subCategories,
-          linkedTo: updatedCategory,
-          oldLinkedTo: category,
+        tdSubcategories: _updatedValue(
+          value: updatedTdSubcategories,
+          oldValue: tdSubcategories,
+          linkedTo: updatedTdCategory,
+          oldLinkedTo: tdCategory,
         ),
-        subCategory: _updatedValue(
-          value: updatedSubCategory,
-          oldValue: subCategory,
-          linkedTo: updatedCategory,
-          oldLinkedTo: category,
+        tdSubcategory: _updatedValue(
+          value: updatedTdSubcategory,
+          oldValue: tdSubcategory,
+          linkedTo: updatedTdCategory,
+          oldLinkedTo: tdCategory,
         ),
       );
 
@@ -78,39 +78,39 @@ class SettingsFormState extends Equatable {
       ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
 
   Settings toSettings() => Settings(
-        tdBranchId: branch.id,
-        tdCallerId: caller.id,
-        tdCategoryId: category.id,
-        tdSubcategoryId: subCategory.id,
-        tdDurationId: incidentDuration.id,
-        tdOperatorId: incidentOperator.id,
+        tdBranchId: tdBranch.id,
+        tdCallerId: tdCaller.id,
+        tdCategoryId: tdCategory.id,
+        tdSubcategoryId: tdSubcategory.id,
+        tdDurationId: tdDuration.id,
+        tdOperatorId: tdOperator.id,
       );
 
   @override
   List<Object> get props => [
-        branch,
-        caller,
-        categories,
-        category,
-        incidentDurations,
-        incidentDuration,
-        incidentOperators,
-        incidentOperator,
-        subCategories,
-        subCategory,
+        tdBranch,
+        tdCaller,
+        tdCategories,
+        tdCategory,
+        tdDurations,
+        tdDuration,
+        tdOperators,
+        tdOperator,
+        tdSubcategories,
+        tdSubcategory,
       ];
 
   @override
   String toString() => 'SettingsFormState {'
-      'branch: $branch, '
-      'caller: $caller, '
-      'categories: $categories, '
-      'category: $category, '
-      'subCategory: $subCategory, '
-      'subCategories: $subCategories, '
-      'durations: $incidentDurations, '
-      'duration: $incidentDuration, '
-      'operators: $incidentOperators, '
-      'operator: $incidentOperator, '
+      'branch: $tdBranch, '
+      'caller: $tdCaller, '
+      'categories: $tdCategories, '
+      'category: $tdCategory, '
+      'subCategory: $tdSubcategory, '
+      'subCategories: $tdSubcategories, '
+      'durations: $tdDurations, '
+      'duration: $tdDuration, '
+      'operators: $tdOperators, '
+      'operator: $tdOperator, '
       '}';
 }

@@ -33,30 +33,29 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield await _currentData();
     } else if (event is SettingsCategorySelected) {
       _formState = _formState.update(
-        updatedCategory: event.category,
+        updatedTdCategory: event.category,
       );
       yield await _currentData();
 
       _formState = _formState.update(
-        updatedSubCategories:
+        updatedTdSubcategories:
             await topdeskProvider.tdSubcategories(tdCategory: event.category),
       );
       yield await _currentData();
     } else if (event is SettingsDurationSelected) {
-      _formState = _formState.update(updatedDuration: event.duration);
+      _formState = _formState.update(updatedTdDuration: event.duration);
       yield await _currentData();
     } else if (event is SettingsBranchSelected) {
-      _formState = _formState.update(updatedBranch: event.branch);
+      _formState = _formState.update(updatedTdBranch: event.branch);
       yield await _currentData();
     } else if (event is SettingsOperatorSelected) {
-      _formState =
-          _formState.update(updatedIncidentOperator: event.incidentOperator);
+      _formState = _formState.update(updatedTdOperator: event.tdOperator);
       yield await _currentData();
     } else if (event is SettingsCallerSelected) {
-      _formState = _formState.update(updatedCaller: event.caller);
+      _formState = _formState.update(updatedTdCaller: event.caller);
       yield await _currentData();
     } else if (event is SettingsSubCategorySelected) {
-      _formState = _formState.update(updatedSubCategory: event.subCategory);
+      _formState = _formState.update(updatedTdSubcategory: event.subCategory);
       yield await _currentData();
     } else if (event is SettingsSave) {
       await settingsProvider.save(_formState.toSettings());
@@ -86,23 +85,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final TdCaller caller = models[1];
     final TdCategory category = models[2];
     final TdSubcategory subCategory = models[3];
-    final TdDuration incidentDuration = models[4];
-    final TdOperator incidentOperator = models[5];
+    final TdDuration tdDuration = models[4];
+    final TdOperator tdOperator = models[5];
 
     _formState = SettingsFormState(
-      branch: branch,
-      caller: _paternityTest(caller, caller?.branch, branch),
-      category: category,
-      subCategory: _paternityTest(subCategory, subCategory?.category, category),
-      incidentDuration: incidentDuration,
-      incidentOperator: incidentOperator,
+      tdBranch: branch,
+      tdCaller: _paternityTest(caller, caller?.branch, branch),
+      tdCategory: category,
+      tdSubcategory:
+          _paternityTest(subCategory, subCategory?.category, category),
+      tdDuration: tdDuration,
+      tdOperator: tdOperator,
     );
   }
 
   Future<SettingsTdData> _currentData() async {
     final currentOperator = await topdeskProvider.currentTdOperator();
-    if (_formState.incidentOperator == null && currentOperator.firstLine) {
-      _formState = _formState.update(updatedIncidentOperator: currentOperator);
+    if (_formState.tdOperator == null && currentOperator.firstLine) {
+      _formState = _formState.update(updatedTdOperator: currentOperator);
     }
 
     return SettingsTdData(
@@ -135,10 +135,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       topdeskProvider.tdCategories(),
     ];
 
-    if (_formState.category != null) {
+    if (_formState.tdCategory != null) {
       searchLists.add(
         topdeskProvider.tdSubcategories(
-          tdCategory: _formState.category,
+          tdCategory: _formState.tdCategory,
         ),
       );
     }
@@ -146,10 +146,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final searchListOptions = await Future.wait(searchLists);
 
     _formState = _formState.update(
-      updatedDurations: searchListOptions[0],
-      updatedCategories: searchListOptions[1],
-      updatedSubCategories:
-          _formState.category == null ? null : searchListOptions[2],
+      updatedTdDurations: searchListOptions[0],
+      updatedTdCategories: searchListOptions[1],
+      updatedTdSubcategories:
+          _formState.tdCategory == null ? null : searchListOptions[2],
     );
   }
 }

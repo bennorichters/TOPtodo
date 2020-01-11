@@ -37,11 +37,11 @@ class SettingsDurationSelected extends SettingsEvent {
 }
 
 class SettingsOperatorSelected extends SettingsEvent {
-  const SettingsOperatorSelected(this.incidentOperator);
-  final TdOperator incidentOperator;
+  const SettingsOperatorSelected(this.tdOperator);
+  final TdOperator tdOperator;
 
   @override
-  List<Object> get props => super.props..addAll([incidentOperator]);
+  List<Object> get props => super.props..addAll([tdOperator]);
 }
 
 class SettingsCallerSelected extends SettingsEvent {

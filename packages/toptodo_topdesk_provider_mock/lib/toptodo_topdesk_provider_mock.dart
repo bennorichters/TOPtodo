@@ -196,11 +196,11 @@ class FakeTopdeskProvider implements TopdeskProvider {
           (dynamic e) => e['name'].toLowerCase().startsWith(swLower),
         )
         .map(
-          (dynamic e) => _incidentOperatorFromJson(e, avatar),
+          (dynamic e) => _tdOperatorFromJson(e, avatar),
         );
   }
 
-  TdOperator _incidentOperatorFromJson(
+  TdOperator _tdOperatorFromJson(
     Map<String, dynamic> json,
     String avatar,
   ) =>

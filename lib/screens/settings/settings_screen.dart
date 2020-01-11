@@ -85,25 +85,25 @@ class _SettingsForm extends StatelessWidget {
           child: ListView(
             children: [
               SearchField<TdBranch>(
-                value: state.formState.branch,
+                value: state.formState.tdBranch,
                 label: 'Branch',
                 search: _searchBranch(context),
                 validationText: 'Choose a branch',
               ),
               SearchField<TdCaller>(
-                value: state.formState.caller,
+                value: state.formState.tdCaller,
                 label: 'Caller' +
-                    (state.formState.branch == null
+                    (state.formState.tdBranch == null
                         ? ' (first choose a branch)'
                         : ''),
-                search: _searchCaller(context, state.formState.branch),
+                search: _searchCaller(context, state.formState.tdBranch),
                 validationText: 'Choose a caller',
               ),
               SearchList<TdCategory>(
                 name: 'Category',
                 validationText: 'Choose a Category',
-                items: state.formState.categories,
-                selectedItem: state.formState.category,
+                items: state.formState.tdCategories,
+                selectedItem: state.formState.tdCategory,
                 onChangedCallBack: (TdCategory newValue) {
                   BlocProvider.of<SettingsBloc>(context)
                     ..add(SettingsCategorySelected(newValue));
@@ -113,8 +113,8 @@ class _SettingsForm extends StatelessWidget {
               SearchList<TdDuration>(
                 name: 'Duration',
                 validationText: 'Choose a Duration',
-                items: state.formState.incidentDurations,
-                selectedItem: state.formState.incidentDuration,
+                items: state.formState.tdDurations,
+                selectedItem: state.formState.tdDuration,
                 onChangedCallBack: (TdDuration newValue) {
                   BlocProvider.of<SettingsBloc>(context)
                     ..add(SettingsDurationSelected(newValue));
@@ -122,7 +122,7 @@ class _SettingsForm extends StatelessWidget {
               ),
               SearchField<TdOperator>(
                 label: 'Operator',
-                value: state.formState.incidentOperator,
+                value: state.formState.tdOperator,
                 search: _searchOperator(context),
                 validationText: 'Choose an operator',
               ),
@@ -201,7 +201,7 @@ class _SubCategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (formState.category == null) {
+    if (formState.tdCategory == null) {
       return TextFormField(
         enabled: false,
         decoration: const InputDecoration(
@@ -213,8 +213,8 @@ class _SubCategoryWidget extends StatelessWidget {
     return SearchList<TdSubcategory>(
       name: 'Sub category',
       validationText: 'Choose a sub category',
-      items: formState.subCategories,
-      selectedItem: formState.subCategory,
+      items: formState.tdSubcategories,
+      selectedItem: formState.tdSubcategory,
       onChangedCallBack: (TdSubcategory newValue) {
         BlocProvider.of<SettingsBloc>(context)
           ..add(SettingsSubCategorySelected(newValue));

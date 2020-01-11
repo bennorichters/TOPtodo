@@ -5,10 +5,10 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 class MenuOperatorButton extends StatelessWidget {
   const MenuOperatorButton(
-    this.incidentOperator, {
+    this.tdOperator, {
     this.showSettings = true,
   });
-  final TdOperator incidentOperator;
+  final TdOperator tdOperator;
   final bool showSettings;
 
   @override
@@ -25,7 +25,7 @@ class MenuOperatorButton extends StatelessWidget {
           );
         },
         child: TdModelAvatar(
-          incidentOperator,
+          tdOperator,
           diameter: 25.0,
         ),
       ),

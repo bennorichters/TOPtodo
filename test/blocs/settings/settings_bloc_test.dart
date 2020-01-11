@@ -38,7 +38,8 @@ void main() {
       operatorA = await topdeskProvider.tdOperator(id: 'a');
 
       categories = await topdeskProvider.tdCategories();
-      subCategories = await topdeskProvider.tdSubcategories(tdCategory: categoryA);
+      subCategories =
+          await topdeskProvider.tdSubcategories(tdCategory: categoryA);
       durations = await topdeskProvider.tdDurations();
 
       bloc = SettingsBloc(
@@ -73,26 +74,26 @@ void main() {
           SettingsTdData(
             currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
-              branch: branchA,
-              caller: callerAa,
-              category: categoryA,
-              subCategory: subCategoryAa,
-              incidentDuration: durationA,
-              incidentOperator: operatorA,
+              tdBranch: branchA,
+              tdCaller: callerAa,
+              tdCategory: categoryA,
+              tdSubcategory: subCategoryAa,
+              tdDuration: durationA,
+              tdOperator: operatorA,
             ),
           ),
           SettingsTdData(
             currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
-              branch: branchA,
-              caller: callerAa,
-              category: categoryA,
-              subCategory: subCategoryAa,
-              incidentDuration: durationA,
-              incidentOperator: operatorA,
-              categories: categories,
-              subCategories: subCategories,
-              incidentDurations: durations,
+              tdBranch: branchA,
+              tdCaller: callerAa,
+              tdCategory: categoryA,
+              tdSubcategory: subCategoryAa,
+              tdDuration: durationA,
+              tdOperator: operatorA,
+              tdCategories: categories,
+              tdSubcategories: subCategories,
+              tdDurations: durations,
             ),
           ),
         ],
@@ -125,26 +126,26 @@ void main() {
           SettingsTdData(
             currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
-              branch: branchA,
-              caller: null,
-              category: categoryA,
-              subCategory: subCategoryAa,
-              incidentDuration: durationA,
-              incidentOperator: operatorA,
+              tdBranch: branchA,
+              tdCaller: null,
+              tdCategory: categoryA,
+              tdSubcategory: subCategoryAa,
+              tdDuration: durationA,
+              tdOperator: operatorA,
             ),
           ),
           SettingsTdData(
             currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
-              branch: branchA,
-              caller: null,
-              category: categoryA,
-              subCategory: subCategoryAa,
-              incidentDuration: durationA,
-              incidentOperator: operatorA,
-              categories: categories,
-              subCategories: subCategories,
-              incidentDurations: durations,
+              tdBranch: branchA,
+              tdCaller: null,
+              tdCategory: categoryA,
+              tdSubcategory: subCategoryAa,
+              tdDuration: durationA,
+              tdOperator: operatorA,
+              tdCategories: categories,
+              tdSubcategories: subCategories,
+              tdDurations: durations,
             ),
           ),
         ],
@@ -177,26 +178,26 @@ void main() {
           SettingsTdData(
             currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
-              branch: branchA,
-              caller: callerAa,
-              category: categoryA,
-              subCategory: null,
-              incidentDuration: durationA,
-              incidentOperator: operatorA,
+              tdBranch: branchA,
+              tdCaller: callerAa,
+              tdCategory: categoryA,
+              tdSubcategory: null,
+              tdDuration: durationA,
+              tdOperator: operatorA,
             ),
           ),
           SettingsTdData(
             currentOperator: await topdeskProvider.currentTdOperator(),
             formState: SettingsFormState(
-              branch: branchA,
-              caller: callerAa,
-              category: categoryA,
-              subCategory: null,
-              incidentDuration: durationA,
-              incidentOperator: operatorA,
-              categories: categories,
-              subCategories: subCategories,
-              incidentDurations: durations,
+              tdBranch: branchA,
+              tdCaller: callerAa,
+              tdCategory: categoryA,
+              tdSubcategory: null,
+              tdDuration: durationA,
+              tdOperator: operatorA,
+              tdCategories: categories,
+              tdSubcategories: subCategories,
+              tdDurations: durations,
             ),
           ),
         ],
@@ -218,15 +219,15 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
-              incidentOperator: currentOperator,
+              tdOperator: currentOperator,
             ),
           ),
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
-              categories: categories,
-              incidentDurations: durations,
-              incidentOperator: currentOperator,
+              tdCategories: categories,
+              tdDurations: durations,
+              tdOperator: currentOperator,
             ),
           ),
         ],
@@ -270,8 +271,8 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
-              categories: categories,
-              incidentDurations: durations,
+              tdCategories: categories,
+              tdDurations: durations,
             ),
           ),
         ],

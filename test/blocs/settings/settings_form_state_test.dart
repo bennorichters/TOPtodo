@@ -10,16 +10,16 @@ void main() {
     
     final state1 = SettingsFormState();
     final state2 = state1.update(
-      updatedBranch: branchA,
-      updatedCaller: callerA,
+      updatedTdBranch: branchA,
+      updatedTdCaller: callerA,
     );
     final state3 = state2.update(
-      updatedBranch: branchB,
+      updatedTdBranch: branchB,
     );
 
-    expect(state2.branch, branchA);
-    expect(state2.caller, callerA);
-    expect(state3.branch, branchB);
-    expect(state3.caller, null);
+    expect(state2.tdBranch, branchA);
+    expect(state2.tdCaller, callerA);
+    expect(state3.tdBranch, branchB);
+    expect(state3.tdCaller, null);
   });
 }
