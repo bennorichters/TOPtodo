@@ -8,6 +8,17 @@ void main() {
     latency: Duration(microseconds: 0),
   );
 
+  group('special', () {
+    test('init does nothing', () {
+      ftp.init(null);
+      ftp.init(null);
+    });
+
+    test('dispose does nothing', () {
+      ftp.dispose();
+    });
+  });
+
   group('branch', () {
     test('find some', () async {
       final ds = await ftp.tdBranches(startsWith: 'E');

@@ -131,24 +131,25 @@ class FakeTopdeskProvider implements TopdeskProvider {
           throw TdModelNotFoundException('no sub category for id: $id'),
     );
 
-    return _subCategoryFromJson(json, await tdCategory(id: json['categoryId']));
+    return _subcategoryFromJson(json, await tdCategory(id: json['categoryId']));
   }
 
   @override
-  Future<Iterable<TdSubcategory>> tdSubcategories(
-      {TdCategory tdCategory}) async {
-    final List<dynamic> response =
-        await _withDelay(json_sub_categories.subCategories);
+  Future<Iterable<TdSubcategory>> tdSubcategories({
+    TdCategory tdCategory,
+  }) async {
+    final List<dynamic> response = await _withDelay(
+      json_sub_categories.subCategories,
+    );
+
     return response
         .where(
           (dynamic e) => e['categoryId'] == tdCategory.id,
         )
-        .map(
-          (dynamic e) => _subCategoryFromJson(e, tdCategory),
-        );
+        .map((dynamic e) => _subcategoryFromJson(e, tdCategory));
   }
 
-  TdSubcategory _subCategoryFromJson(
+  TdSubcategory _subcategoryFromJson(
     Map<String, dynamic> json,
     TdCategory category,
   ) =>
@@ -166,7 +167,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     );
   }
 
-   @override
+  @override
   Future<TdDuration> tdDuration({String id}) async {
     return (await tdDurations()).firstWhere(
       (TdDuration e) => e.id == id,
