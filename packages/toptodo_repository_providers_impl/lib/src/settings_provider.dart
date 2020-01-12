@@ -3,6 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// A [SettingsProvider] that uses Flutter's [SharedPreferences].
+/// 
+/// The settings are stored per login name and per url as set in the [init] 
+/// method. This [init] method should be called before using the methods 
+/// [provide], [save] and [delete].
 class SharedPreferencesSettingsProvider extends SettingsProvider {
   String _storageKey;
   Settings _value;
@@ -10,7 +15,7 @@ class SharedPreferencesSettingsProvider extends SettingsProvider {
   @override
   void init(String url, String loginName) {
     assert(_storageKey == null, 'init has already been called');
-    _storageKey = _generateMd5(url + loginName);
+    _storageKey = _generateMd5(loginName + '@' + url);
   }
 
   static String _generateMd5(String input) {

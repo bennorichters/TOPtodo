@@ -1,12 +1,19 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// A provider for a [FlutterSecureStorage]
 typedef StorageProvider = FlutterSecureStorage Function();
 
 FlutterSecureStorage _defaultStorageProvider() => FlutterSecureStorage();
 
+/// A [CredentialsProvider] that uses [FlutterSecureStorage].
 class SecureStorageCredentials implements CredentialsProvider {
+  /// Creates a [SecureStorageCredentials].
+  /// 
+  /// If the argument [storageProvider] is ommitted a default callback is used
+  /// that provides a new instance of [FlutterSecureStorage].
   SecureStorageCredentials({this.storageProvider = _defaultStorageProvider});
+  /// A callback for the [FlutterSecureStorage] that this object uses.
   final storageProvider;
 
   @override
