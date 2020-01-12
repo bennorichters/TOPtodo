@@ -184,13 +184,13 @@ void main() {
     );
 
     Future<void> testException(Exception e) async {
-      final SettingsProvider sp = MockSettingsProvider();
-      when(sp.provide()).thenThrow(e);
+      final topdeskProvider = MockTopdeskProvider();
+      when(topdeskProvider.currentTdOperator()).thenThrow(e);
 
       final bloc = LoginBloc(
         credentialsProvider: MockCredentialsProvider(),
-        settingsProvider: sp,
-        topdeskProvider: MockTopdeskProvider(),
+        settingsProvider: MockSettingsProvider(),
+        topdeskProvider: topdeskProvider,
       );
 
       bloc.add(const TryLogin(credentials));

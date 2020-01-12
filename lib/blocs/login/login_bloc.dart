@@ -46,10 +46,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       yield RetrievedSavedData(_credentials, _remember);
     } else if (event is TryLogin) {
-      _credentials = event.credentials;
-
       yield const LoginSubmitting();
 
+      _credentials = event.credentials;
       if (_remember) {
         await credentialsProvider.save(_credentials);
       }
@@ -61,6 +60,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       settingsProvider.init(_credentials.url, _credentials.loginName);
 
       try {
+        await topdeskProvider.currentTdOperator();
+        
         final settings =
             await settingsProvider.provide() ?? const Settings();
 
