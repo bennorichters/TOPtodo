@@ -42,3 +42,12 @@ class TdTimeOutException implements Exception {
   @override
   String toString() => 'TdTimeOutException: $message';
 }
+
+/// Thrown when the TOPdesk server cannot be reached
+class TdCannotConnect implements Exception {
+  const TdCannotConnect(this.message);
+  final String message;
+
+  @override
+  String toString() => 'TdCannotConnect: $message';
+}

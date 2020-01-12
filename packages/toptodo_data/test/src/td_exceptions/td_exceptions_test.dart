@@ -27,5 +27,10 @@ void main() {
       expect(TdTimeOutException('test').toString(),
           'TdTimeOutException: test');
     });
+
+    test('TdCannotConnect', () {
+      expect(TdCannotConnect('test').toString(),
+          'TdCannotConnect: test');
+    });
   });
 }
