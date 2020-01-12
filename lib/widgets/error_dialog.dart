@@ -87,6 +87,12 @@ class _ErrorDialogState extends State<ErrorDialog> {
           'Contact your TOPdesk application manager.');
     }
 
+    if (widget.cause is TdCannotConnect) {
+      return const Text('The TOPdesk server cannot be reached. '
+          'Check your internet connection or contact your TOPdesk application '
+          'manager.');
+    }
+
     return const Text('An unexpected error happened. '
         'Please try again later.');
   }
