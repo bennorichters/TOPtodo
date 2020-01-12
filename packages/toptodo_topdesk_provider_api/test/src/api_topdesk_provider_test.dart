@@ -415,7 +415,7 @@ void main() {
       });
 
       test('find three', () async {
-         basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
         final cs = await basicProvider.tdCategories();
@@ -438,7 +438,7 @@ void main() {
           '}]';
 
       test('find by id', () async {
-      basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subCategoryJson,
         );
@@ -491,7 +491,7 @@ void main() {
       });
 
       test('find by nonexisting id throws', () async {
-         basicApiTopdeskProvider();
+        basicApiTopdeskProvider();
         expect(
           basicProvider.tdDuration(id: 'doesnotexist'),
           throwsA(
