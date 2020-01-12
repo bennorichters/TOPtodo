@@ -1,10 +1,19 @@
+import 'package:flutter/gestures.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/widgets/td_model_avatar.dart';
+import 'package:toptodo_data/toptodo_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuDialog extends StatelessWidget {
-  const MenuDialog({@required this.showSettings});
+  const MenuDialog({
+    @required this.currentOperator,
+    @required this.showSettings,
+  });
+
+  final TdOperator currentOperator;
   final bool showSettings;
 
   @override
@@ -27,18 +36,32 @@ class MenuDialog extends StatelessWidget {
                   iconSize: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 4.0),
                   child: Text(
                     'TOPtodo',
                     style: TextStyle(
                       color: TdColors.materialDenim,
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: 18,
                     ),
                   ),
                 ),
                 Container(width: 48),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TdModelAvatar(
+                    currentOperator,
+                    diameter: 35,
+                  ),
+                  const SizedBox(width: 20),
+                  Text(currentOperator.name),
+                ],
+              ),
             ),
             Divider(
               thickness: 1,
@@ -46,7 +69,7 @@ class MenuDialog extends StatelessWidget {
               endIndent: 10,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(25, 20, 25, 25),
+              padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,6 +93,39 @@ class MenuDialog extends StatelessWidget {
                         arguments: LoginScreenArguments(logOut: true),
                       );
                     },
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'TOPtodo ',
+                          style: TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launch(
+                                'https://github.com/bennorichters/toptodo',
+                              );
+                            },
+                        ),
+                        TextSpan(
+                          text: 'is an open source project.',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

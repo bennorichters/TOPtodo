@@ -20,13 +20,14 @@ class MenuOperatorButton extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) => MenuDialog(
+              currentOperator: tdOperator,
               showSettings: showSettings,
             ),
           );
         },
         child: TdModelAvatar(
           tdOperator,
-          diameter: 25.0,
+          diameter: 30.0,
         ),
       ),
     );

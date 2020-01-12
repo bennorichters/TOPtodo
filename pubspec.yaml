@@ -35,7 +35,8 @@ dependencies:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_api
       ref: 43ceebdd416a95b1150980acd08753b09c90630a
-
+  url_launcher: ^5.4.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
