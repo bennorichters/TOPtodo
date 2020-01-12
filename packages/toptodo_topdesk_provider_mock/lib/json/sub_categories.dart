@@ -1,4 +1,5 @@
-const List<Map<String, dynamic>> subCategories = [
+/// Subcategories
+const List<Map<String, dynamic>> subcategories = [
   {'id': 'aa', 'name': 'Aap', 'categoryId': 'a'},
   {'id': 'ab', 'name': 'Noot', 'categoryId': 'b'},
   {'id': 'ac', 'name': 'Mies', 'categoryId': 'a'},

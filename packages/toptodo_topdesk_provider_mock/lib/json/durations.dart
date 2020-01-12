@@ -1,3 +1,4 @@
+/// Durations
 const List<Map<String, dynamic>> durations = [
   {'id': 'a', 'name': '15 minutes'},
   {'id': 'b', 'name': '30 minutes'},

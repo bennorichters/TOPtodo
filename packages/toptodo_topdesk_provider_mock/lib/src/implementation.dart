@@ -16,6 +16,11 @@ import 'package:toptodo_topdesk_provider_mock/json/operators.dart'
 import 'package:toptodo_topdesk_provider_mock/json/sub_categories.dart'
     as json_sub_categories;
 
+/// A [TopdeskProvider] that returns dummy data.
+/// 
+/// This object can be useful for testing purposes. The returned data is based
+/// on static json objects. The [init] and [dispose] methods of this object do
+/// not do anything.
 class FakeTopdeskProvider implements TopdeskProvider {
   FakeTopdeskProvider({this.latency = const Duration(milliseconds: 1500)});
   final Duration latency;
@@ -124,7 +129,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   @override
   Future<TdSubcategory> tdSubcategory({String id}) async {
     final List<dynamic> response =
-        await _withDelay(json_sub_categories.subCategories);
+        await _withDelay(json_sub_categories.subcategories);
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
       orElse: () =>
@@ -139,7 +144,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     TdCategory tdCategory,
   }) async {
     final List<dynamic> response = await _withDelay(
-      json_sub_categories.subCategories,
+      json_sub_categories.subcategories,
     );
 
     return response
