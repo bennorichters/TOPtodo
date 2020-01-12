@@ -54,8 +54,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else if (event is SettingsCallerSelected) {
       _formState = _formState.update(updatedTdCaller: event.caller);
       yield await _currentData();
-    } else if (event is SettingsSubCategorySelected) {
-      _formState = _formState.update(updatedTdSubcategory: event.subCategory);
+    } else if (event is SettingsSubcategorySelected) {
+      _formState = _formState.update(updatedTdSubcategory: event.subcategory);
       yield await _currentData();
     } else if (event is SettingsSave) {
       await settingsProvider.save(_formState.toSettings());
@@ -84,7 +84,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final TdBranch branch = models[0];
     final TdCaller caller = models[1];
     final TdCategory category = models[2];
-    final TdSubcategory subCategory = models[3];
+    final TdSubcategory subcategory = models[3];
     final TdDuration tdDuration = models[4];
     final TdOperator tdOperator = models[5];
 
@@ -93,7 +93,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       tdCaller: _paternityTest(caller, caller?.branch, branch),
       tdCategory: category,
       tdSubcategory:
-          _paternityTest(subCategory, subCategory?.category, category),
+          _paternityTest(subcategory, subcategory?.category, category),
       tdDuration: tdDuration,
       tdOperator: tdOperator,
     );

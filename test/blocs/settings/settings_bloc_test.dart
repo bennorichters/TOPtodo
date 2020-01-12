@@ -19,12 +19,12 @@ void main() {
         callerAa,
         callerAb,
         categoryA,
-        subCategoryAa,
-        subCategoryAb,
+        subcategoryAa,
+        subcategoryAb,
         durationA,
         operatorA,
         categories,
-        subCategories,
+        subcategories,
         durations;
 
     setUp(() async {
@@ -32,13 +32,13 @@ void main() {
       callerAa = await topdeskProvider.tdCaller(id: 'aa');
       callerAb = await topdeskProvider.tdCaller(id: 'ab');
       categoryA = await topdeskProvider.tdCategory(id: 'a');
-      subCategoryAa = await topdeskProvider.tdSubcategory(id: 'aa');
-      subCategoryAb = await topdeskProvider.tdSubcategory(id: 'ab');
+      subcategoryAa = await topdeskProvider.tdSubcategory(id: 'aa');
+      subcategoryAb = await topdeskProvider.tdSubcategory(id: 'ab');
       durationA = await topdeskProvider.tdDuration(id: 'a');
       operatorA = await topdeskProvider.tdOperator(id: 'a');
 
       categories = await topdeskProvider.tdCategories();
-      subCategories =
+      subcategories =
           await topdeskProvider.tdSubcategories(tdCategory: categoryA);
       durations = await topdeskProvider.tdDurations();
 
@@ -55,7 +55,7 @@ void main() {
             tdBranchId: branchA.id,
             tdCallerId: callerAa.id,
             tdCategoryId: categoryA.id,
-            tdSubcategoryId: subCategoryAa.id,
+            tdSubcategoryId: subcategoryAa.id,
             tdDurationId: durationA.id,
             tdOperatorId: operatorA.id,
           ),
@@ -77,7 +77,7 @@ void main() {
               tdBranch: branchA,
               tdCaller: callerAa,
               tdCategory: categoryA,
-              tdSubcategory: subCategoryAa,
+              tdSubcategory: subcategoryAa,
               tdDuration: durationA,
               tdOperator: operatorA,
             ),
@@ -88,11 +88,11 @@ void main() {
               tdBranch: branchA,
               tdCaller: callerAa,
               tdCategory: categoryA,
-              tdSubcategory: subCategoryAa,
+              tdSubcategory: subcategoryAa,
               tdDuration: durationA,
               tdOperator: operatorA,
               tdCategories: categories,
-              tdSubcategories: subCategories,
+              tdSubcategories: subcategories,
               tdDurations: durations,
             ),
           ),
@@ -107,7 +107,7 @@ void main() {
             tdBranchId: branchA.id,
             tdCallerId: callerAb.id,
             tdCategoryId: categoryA.id,
-            tdSubcategoryId: subCategoryAa.id,
+            tdSubcategoryId: subcategoryAa.id,
             tdDurationId: durationA.id,
             tdOperatorId: operatorA.id,
           ),
@@ -129,7 +129,7 @@ void main() {
               tdBranch: branchA,
               tdCaller: null,
               tdCategory: categoryA,
-              tdSubcategory: subCategoryAa,
+              tdSubcategory: subcategoryAa,
               tdDuration: durationA,
               tdOperator: operatorA,
             ),
@@ -140,11 +140,11 @@ void main() {
               tdBranch: branchA,
               tdCaller: null,
               tdCategory: categoryA,
-              tdSubcategory: subCategoryAa,
+              tdSubcategory: subcategoryAa,
               tdDuration: durationA,
               tdOperator: operatorA,
               tdCategories: categories,
-              tdSubcategories: subCategories,
+              tdSubcategories: subcategories,
               tdDurations: durations,
             ),
           ),
@@ -159,7 +159,7 @@ void main() {
             tdBranchId: branchA.id,
             tdCallerId: callerAa.id,
             tdCategoryId: categoryA.id,
-            tdSubcategoryId: subCategoryAb.id,
+            tdSubcategoryId: subcategoryAb.id,
             tdDurationId: durationA.id,
             tdOperatorId: operatorA.id,
           ),
@@ -196,7 +196,7 @@ void main() {
               tdDuration: durationA,
               tdOperator: operatorA,
               tdCategories: categories,
-              tdSubcategories: subCategories,
+              tdSubcategories: subcategories,
               tdDurations: durations,
             ),
           ),

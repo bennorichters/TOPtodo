@@ -52,12 +52,12 @@ class SettingsCallerSelected extends SettingsEvent {
   List<Object> get props => super.props..addAll([caller]);
 }
 
-class SettingsSubCategorySelected extends SettingsEvent {
-  const SettingsSubCategorySelected(this.subCategory);
-  final TdSubcategory subCategory;
+class SettingsSubcategorySelected extends SettingsEvent {
+  const SettingsSubcategorySelected(this.subcategory);
+  final TdSubcategory subcategory;
 
   @override
-  List<Object> get props => super.props..addAll([subCategory]);
+  List<Object> get props => super.props..addAll([subcategory]);
 }
 
 class SettingsSave extends SettingsEvent {

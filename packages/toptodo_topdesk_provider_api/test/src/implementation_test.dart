@@ -447,7 +447,7 @@ void main() {
     });
 
     group('subcategory', () {
-      const subCategoryJson = '[{'
+      const subcategoryJson = '[{'
           '"id": "aa", "name": "Climate Control",'
           ' "category": {"id": "a", "name": "Building Areas"}'
           '},'
@@ -461,7 +461,7 @@ void main() {
       test('find by id', () async {
         basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
-          responseJson: subCategoryJson,
+          responseJson: subcategoryJson,
         );
 
         final sc = await basicProvider.tdSubcategory(id: 'ab');
@@ -470,7 +470,7 @@ void main() {
 
       test('find by non existing id throws', () async {
         basicApiTopdeskProvider(
-          responseJson: subCategoryJson,
+          responseJson: subcategoryJson,
         );
 
         expect(
@@ -484,7 +484,7 @@ void main() {
       test('find by category', () async {
         basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
-          responseJson: subCategoryJson,
+          responseJson: subcategoryJson,
         );
 
         const cat = TdCategory(
@@ -492,12 +492,12 @@ void main() {
           name: 'catA',
         );
 
-        final subCats = await basicProvider.tdSubcategories(
+        final subcats = await basicProvider.tdSubcategories(
           tdCategory: cat,
         );
-        expect(subCats.length, 2);
-        expect(subCats.first.id, 'aa');
-        expect(subCats.last.id, 'ac');
+        expect(subcats.length, 2);
+        expect(subcats.first.id, 'aa');
+        expect(subcats.last.id, 'ac');
       });
     });
 

@@ -109,7 +109,7 @@ class _SettingsForm extends StatelessWidget {
                     ..add(SettingsCategorySelected(newValue));
                 },
               ),
-              _SubCategoryWidget(formState: state.formState),
+              _SubcategoryWidget(formState: state.formState),
               SearchList<TdDuration>(
                 name: 'Duration',
                 validationText: 'Choose a Duration',
@@ -195,8 +195,8 @@ class _SettingsForm extends StatelessWidget {
   }
 }
 
-class _SubCategoryWidget extends StatelessWidget {
-  const _SubCategoryWidget({this.formState});
+class _SubcategoryWidget extends StatelessWidget {
+  const _SubcategoryWidget({this.formState});
   final SettingsFormState formState;
 
   @override
@@ -205,19 +205,19 @@ class _SubCategoryWidget extends StatelessWidget {
       return TextFormField(
         enabled: false,
         decoration: const InputDecoration(
-          labelText: 'Sub category (first choose a category)',
+          labelText: 'Subcategory (first choose a category)',
         ),
       );
     }
 
     return SearchList<TdSubcategory>(
-      name: 'Sub category',
-      validationText: 'Choose a sub category',
+      name: 'Subcategory',
+      validationText: 'Choose a subcategory',
       items: formState.tdSubcategories,
       selectedItem: formState.tdSubcategory,
       onChangedCallBack: (TdSubcategory newValue) {
         BlocProvider.of<SettingsBloc>(context)
-          ..add(SettingsSubCategorySelected(newValue));
+          ..add(SettingsSubcategorySelected(newValue));
       },
     );
   }
