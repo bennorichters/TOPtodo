@@ -78,7 +78,7 @@ void main() {
       await testErrorCode(500, const TypeMatcher<TdServerException>());
     });
 
-    test('client throws error', () async {
+    test('client throws some error', () async {
       final Client client = MockClient((Request request) async {
         throw StateError('just testing');
       });
@@ -93,6 +93,27 @@ void main() {
         atp.tdBranch(id: 'xyz'),
         throwsA(
           const TypeMatcher<TdServerException>(),
+        ),
+      );
+
+      atp.dispose();
+    });
+
+    test('client throws SocketException', () async {
+      final Client client = MockClient((Request request) async {
+        throw SocketException('just testing');
+      });
+
+      final atp = ApiTopdeskProvider()
+        ..init(
+          credentials,
+          client: client,
+        );
+
+      expect(
+        atp.tdBranch(id: 'xyz'),
+        throwsA(
+          const TypeMatcher<TdCannotConnect>(),
         ),
       );
 

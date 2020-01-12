@@ -322,6 +322,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       );
     } on TdTimeOutException {
       rethrow;
+    } on SocketException catch (error) {
+      throw TdCannotConnect('error get $method error: $error');
     } catch (error) {
       throw TdServerException('error get $method error: $error');
     }
