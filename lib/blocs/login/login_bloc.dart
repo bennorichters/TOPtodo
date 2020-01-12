@@ -28,7 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is CredentialsInit) {
       yield const LoginWaitingForSavedData();
       _credentials = await credentialsProvider.provide();
-
+      _remember = _credentials.isComplete();
       yield RetrievedSavedData(_credentials, _remember);
     } else if (event is LogOut) {
       yield const LoginWaitingForSavedData();

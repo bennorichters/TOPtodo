@@ -51,6 +51,37 @@ void main() {
         ),
       ],
     );
+
+    test('remember flag true when entering loginscreen with saved credentials',
+        () async {
+      final credentials = Credentials(
+        url: 'a',
+        loginName: 'userA',
+        password: 'S3CrEt!',
+      );
+      CredentialsProvider credentialsProvider = MockCredentialsProvider();
+      when(credentialsProvider.provide())
+          .thenAnswer((_) => Future.value(credentials));
+
+      final TopdeskProvider topdeskProvider = MockTopdeskProvider();
+      final SettingsProvider settingsProvider = MockSettingsProvider();
+
+      final bloc = LoginBloc(
+        credentialsProvider: credentialsProvider,
+        settingsProvider: settingsProvider,
+        topdeskProvider: topdeskProvider,
+      );
+
+      bloc.add(CredentialsInit());
+
+      await emitsExactly<LoginBloc, LoginState>(
+        bloc,
+        [
+          const LoginWaitingForSavedData(),
+          RetrievedSavedData(credentials, true)
+        ],
+      );
+    });
   });
 
   group('TryLogin', () {
@@ -103,8 +134,8 @@ void main() {
         tdCallerId: 'a',
         tdCategoryId: 'a',
         tdSubcategoryId: 'a',
-        tdDurationId:  'a',
-        tdOperatorId:  null,
+        tdDurationId: 'a',
+        tdOperatorId: null,
       );
 
       const incomplete = Settings(
@@ -112,8 +143,8 @@ void main() {
         tdCallerId: 'a',
         tdCategoryId: 'a',
         tdSubcategoryId: 'a',
-        tdDurationId:  'a',
-        tdOperatorId:  null,
+        tdDurationId: 'a',
+        tdOperatorId: null,
       );
 
       final TopdeskProvider topdeskProvider = MockTopdeskProvider();

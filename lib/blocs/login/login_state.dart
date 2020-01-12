@@ -20,6 +20,11 @@ abstract class WithSavedData extends LoginState {
 
   @override
   List<Object> get props => super.props..addAll([remember, savedData]);
+
+  @override
+  String toString() => '$runtimeType: '
+      'credentials: $savedData, '
+      'remember: $remember';
 }
 
 class RetrievedSavedData extends WithSavedData {
