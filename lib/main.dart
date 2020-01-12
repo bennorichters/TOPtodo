@@ -94,7 +94,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
         theme: ThemeData(
           primarySwatch: TdColors.materialDenim,
           fontFamily: 'OpenSans',
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             textTheme: TextTheme(
               title: TextStyle(
                 fontSize: 26.0,
