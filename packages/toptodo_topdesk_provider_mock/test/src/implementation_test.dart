@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
+import 'package:toptodo_topdesk_provider_mock/'
+    'toptodo_topdesk_provider_mock.dart';
 
 void main() {
   final ftp = FakeTopdeskProvider(
@@ -193,7 +194,7 @@ void main() {
         briefDescription: 'brief description',
         settings: Settings(),
       );
-      
+
       expect(number, isNotNull);
     });
   });
