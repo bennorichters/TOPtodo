@@ -34,6 +34,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
   @override
   void dispose() {
     _topdeskProvider.dispose();
+    _settingsProvider.dispose();
     super.dispose();
   }
 
