@@ -18,6 +18,7 @@ void main() {
     test('StateError without init', () async {
       final atp = ApiTopdeskProvider();
       expect(atp.tdBranches(startsWith: ''), throwsStateError);
+      atp.dispose();
     });
 
     test('StateError after dispose', () async {
@@ -32,6 +33,7 @@ void main() {
       atp.init(credentials);
 
       expect(() => atp.init(credentials), throwsStateError);
+      atp.dispose();
     });
 
     Future<void> testErrorCode(int code, TypeMatcher<dynamic> tm) async {
@@ -49,6 +51,7 @@ void main() {
         atp.tdBranch(id: 'xyz'),
         throwsA(tm),
       );
+      atp.dispose();
     }
 
     test('400', () async {
@@ -92,6 +95,8 @@ void main() {
           const TypeMatcher<TdServerException>(),
         ),
       );
+
+      atp.dispose();
     });
 
     test('timeout', () async {
@@ -115,6 +120,8 @@ void main() {
           const TypeMatcher<TdTimeOutException>(),
         ),
       );
+
+      atp.dispose();
     });
   });
 
@@ -135,6 +142,8 @@ void main() {
 
       final branches = await atp.tdBranches(startsWith: 'xyz');
       expect(branches.length, isZero);
+
+      atp.dispose();
     });
   });
 
@@ -157,15 +166,20 @@ void main() {
           .fuse(base64)
           .decode(headers['authorization'].substring('Basic '.length));
       expect(decoded, credentials.loginName + ':' + credentials.password);
+
+      atp.dispose();
     });
   });
 
   group('api call', () {
+    ApiTopdeskProvider basicProvider;
+    ApiTopdeskProvider personProvider;
+
     const defaultJson = '[{"id": "a", "name": "ABA"},'
         '{"id": "b", "name": "DEF"},'
         '{"id": "c", "name": "ABB"}]';
 
-    ApiTopdeskProvider basicApiTopdeskProvider({
+    void basicApiTopdeskProvider({
       String expectedPath,
       Map<String, String> expectedQueryParameters,
       int responseCode,
@@ -186,17 +200,18 @@ void main() {
         );
       });
 
-      return ApiTopdeskProvider()
+      basicProvider = ApiTopdeskProvider()
         ..init(
           credentials,
           client: client,
         );
     }
 
-    ApiTopdeskProvider personApiTopdeskProvider({
+    void personApiTopdeskProvider({
       String personPath,
       Map<String, String> expectedPersonQueryParameters,
       String personResponseJson,
+      int responseCode = 200,
       String avatarPath,
       Set<String> personIds,
     }) {
@@ -209,7 +224,7 @@ void main() {
             req.url.queryParameters,
             expectedPersonQueryParameters,
           );
-          return Response(personResponseJson, 200);
+          return Response(personResponseJson, responseCode);
         } else if (path.startsWith(avatarPath)) {
           final id = path.substring(avatarPath.length);
           expect(
@@ -218,37 +233,45 @@ void main() {
             reason: 'unexpected request for avatar with caller id $id',
           );
 
-          return Response('{"image": "avatarFor$id"}', 200);
+          return Response('{"image": "avatarFor$id"}', responseCode);
         } else {
           fail('unexpected call to endpoint: $path');
         }
       });
 
-      return ApiTopdeskProvider()
+      personProvider = ApiTopdeskProvider()
         ..init(
           credentials,
           client: client,
         );
     }
 
+    tearDown(() {
+      basicProvider?.dispose();
+      basicProvider = null;
+
+      personProvider?.dispose();
+      personProvider = null;
+    });
+
     group('branch', () {
       test('find by id', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches/id/a',
           responseJson: '{"id": "a", "name": "ABA"}',
         );
-        final b = await atp.tdBranch(id: 'a');
+        final b = await basicProvider.tdBranch(id: 'a');
 
         expect(b.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
         expect(
-          atp.tdBranch(id: 'doesnotexist'),
+          basicProvider.tdBranch(id: 'doesnotexist'),
           throwsA(
             const TypeMatcher<TdModelNotFoundException>(),
           ),
@@ -256,7 +279,7 @@ void main() {
       });
 
       test('starts with find two', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches',
           expectedQueryParameters: <String, String>{
             '\$fields': 'id,name',
@@ -266,12 +289,12 @@ void main() {
               '{"id": "c", "name": "ABB"}]',
         );
 
-        final bs = await atp.tdBranches(startsWith: 'ab');
+        final bs = await basicProvider.tdBranches(startsWith: 'ab');
         expect(bs.length, 2);
       });
 
       test('sanatized starts with', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches',
           expectedQueryParameters: <String, String>{
             '\$fields': 'id,name',
@@ -281,7 +304,7 @@ void main() {
               '{"id": "c", "name": "ABB"}]',
         );
 
-        await atp.tdBranches(
+        await basicProvider.tdBranches(
           startsWith: 'a&hourlyRate=50',
         );
       });
@@ -294,7 +317,7 @@ void main() {
       );
 
       test('find by id', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/persons/id/aa',
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -305,19 +328,19 @@ void main() {
           personIds: <String>{'aa'},
         );
 
-        final c = await atp.tdCaller(id: 'aa');
+        final c = await personProvider.tdCaller(id: 'aa');
 
         expect(c.id, 'aa');
         expect(c.avatar, 'avatarForaa');
       });
 
       test('find by nonexisting id throws', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
         expect(
-          atp.tdCaller(id: 'doesnotexist'),
+          basicProvider.tdCaller(id: 'doesnotexist'),
           throwsA(
             const TypeMatcher<TdModelNotFoundException>(),
           ),
@@ -325,7 +348,7 @@ void main() {
       });
 
       test('starts with find two', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -339,7 +362,7 @@ void main() {
           personIds: <String>{'aa', 'ac'},
         );
 
-        final cs = await atp.tdCallers(
+        final cs = await personProvider.tdCallers(
           tdBranch: branchForCaller,
           startsWith: 'ab',
         );
@@ -352,7 +375,7 @@ void main() {
       });
 
       test('sanatized starts with', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: const <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -364,7 +387,7 @@ void main() {
           personIds: <String>{'aa'},
         );
 
-        await atp.tdCallers(
+        await personProvider.tdCallers(
           tdBranch: branchForCaller,
           startsWith: 'a&hourlyRate=50',
         );
@@ -373,18 +396,18 @@ void main() {
 
     group('category', () {
       test('find by id', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
-        final c = await atp.tdCategory(id: 'a');
+        final c = await basicProvider.tdCategory(id: 'a');
 
         expect(c.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final atp = basicApiTopdeskProvider();
+        basicApiTopdeskProvider();
         expect(
-          atp.tdCategory(id: 'doesnotexist'),
+          basicProvider.tdCategory(id: 'doesnotexist'),
           throwsA(
             const TypeMatcher<TdModelNotFoundException>(),
           ),
@@ -392,10 +415,10 @@ void main() {
       });
 
       test('find three', () async {
-        final atp = basicApiTopdeskProvider(
+         basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
-        final cs = await atp.tdCategories();
+        final cs = await basicProvider.tdCategories();
 
         expect(cs.length, 3);
         expect(cs.first.id, 'a');
@@ -415,22 +438,22 @@ void main() {
           '}]';
 
       test('find by id', () async {
-        final atp = basicApiTopdeskProvider(
+      basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subCategoryJson,
         );
 
-        final sc = await atp.tdSubcategory(id: 'ab');
+        final sc = await basicProvider.tdSubcategory(id: 'ab');
         expect(sc.id, 'ab');
       });
 
       test('find by non existing id throws', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           responseJson: subCategoryJson,
         );
 
         expect(
-          atp.tdSubcategory(id: 'doesnotexist'),
+          basicProvider.tdSubcategory(id: 'doesnotexist'),
           throwsA(
             const TypeMatcher<TdModelNotFoundException>(),
           ),
@@ -438,7 +461,7 @@ void main() {
       });
 
       test('find by category', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subCategoryJson,
         );
@@ -448,7 +471,7 @@ void main() {
           name: 'catA',
         );
 
-        final subCats = await atp.tdSubcategories(
+        final subCats = await basicProvider.tdSubcategories(
           tdCategory: cat,
         );
         expect(subCats.length, 2);
@@ -459,18 +482,18 @@ void main() {
 
     group('duration', () {
       test('find by id', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/durations',
         );
-        final id = await atp.tdDuration(id: 'a');
+        final id = await basicProvider.tdDuration(id: 'a');
 
         expect(id.id, 'a');
       });
 
       test('find by nonexisting id throws', () async {
-        final atp = basicApiTopdeskProvider();
+         basicApiTopdeskProvider();
         expect(
-          atp.tdDuration(id: 'doesnotexist'),
+          basicProvider.tdDuration(id: 'doesnotexist'),
           throwsA(
             const TypeMatcher<TdModelNotFoundException>(),
           ),
@@ -478,10 +501,10 @@ void main() {
       });
 
       test('find three', () async {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/durations',
         );
-        final ids = await atp.tdDurations();
+        final ids = await basicProvider.tdDurations();
 
         expect(ids.length, 3);
         expect(ids.first.id, 'a');
@@ -490,7 +513,7 @@ void main() {
 
     group('operator', () {
       test('find by id', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/operators/id/a',
           expectedPersonQueryParameters: <String, String>{},
           personResponseJson: '{'
@@ -503,19 +526,19 @@ void main() {
           personIds: <String>{'a'},
         );
 
-        final op = await atp.tdOperator(id: 'a');
+        final op = await personProvider.tdOperator(id: 'a');
 
         expect(op.id, 'a');
         expect(op.avatar, 'avatarFora');
       });
 
       test('find by non existing id throws', () {
-        final atp = basicApiTopdeskProvider(
+        basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
         expect(
-          atp.tdOperator(id: 'doesnotexist'),
+          basicProvider.tdOperator(id: 'doesnotexist'),
           throwsA(
             const TypeMatcher<TdModelNotFoundException>(),
           ),
@@ -523,7 +546,7 @@ void main() {
       });
 
       test('find by starts with', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/operators',
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a',
@@ -549,7 +572,7 @@ void main() {
           personIds: <String>{'a', 'c'},
         );
 
-        final os = await atp.tdOperators(startsWith: 'a');
+        final os = await personProvider.tdOperators(startsWith: 'a');
 
         expect(os.length, 2);
         expect(os.first.id, 'a');
@@ -559,7 +582,7 @@ void main() {
       });
 
       test('current', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/operators/current',
           expectedPersonQueryParameters: const <String, String>{},
           personResponseJson: '{'
@@ -572,7 +595,7 @@ void main() {
           personIds: <String>{'a'},
         );
 
-        final co = await atp.currentTdOperator();
+        final co = await personProvider.currentTdOperator();
         expect(co.id, 'a');
         expect(co.avatar, 'avatarFora');
       });
@@ -614,6 +637,8 @@ void main() {
 
         expect((await atp.currentTdOperator()).id, 'a');
         expect((await atp.currentTdOperator()).id, 'a');
+
+        atp.dispose();
       });
 
       test('current cached expired', () async {
@@ -655,10 +680,12 @@ void main() {
         expect((await atp.currentTdOperator()).id, 'a');
         await Future.delayed(const Duration(milliseconds: 1));
         expect((await atp.currentTdOperator()).id, 'b');
+
+        atp.dispose();
       });
 
       test('sanatized starts with', () async {
-        final atp = personApiTopdeskProvider(
+        personApiTopdeskProvider(
           personPath: 'tas/api/operators',
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a&hourlyRate=50',
@@ -669,7 +696,7 @@ void main() {
           personIds: <String>{'a'},
         );
 
-        await atp.tdOperators(
+        await personProvider.tdOperators(
           startsWith: 'a&hourlyRate=50',
         );
       });
@@ -721,6 +748,7 @@ void main() {
         );
 
         expect(number, '19 12 002');
+        p.dispose();
       });
 
       test('with request', () async {
@@ -760,6 +788,7 @@ void main() {
         );
 
         expect(number, '19 12 002');
+        p.dispose();
       });
 
       test('with request with new lines', () async {
@@ -783,6 +812,7 @@ void main() {
           request: 'my request\nwith\nseveral\nnew lines',
           settings: settings,
         );
+        p.dispose();
       });
     });
   });
