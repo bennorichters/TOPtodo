@@ -27,7 +27,7 @@ class MenuOperatorButton extends StatelessWidget {
         },
         child: TdModelAvatar(
           tdOperator,
-          diameter: 30.0,
+          diameter: 35.0,
         ),
       ),
     );
