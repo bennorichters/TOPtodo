@@ -91,8 +91,20 @@ class _TopToDoAppState extends State<TopToDoApp> {
                 LoginScreen(logOut: args == null ? false : args.logOut),
           );
         },
-        theme: ThemeData(primarySwatch: TdColors.materialDenim),
-        home: InitScreen(),
+        theme: ThemeData(
+          primarySwatch: TdColors.materialDenim,
+          fontFamily: 'OpenSans',
+          appBarTheme: AppBarTheme(
+            textTheme: TextTheme(
+              title: TextStyle(
+                fontSize: 26.0,
+                fontFamily: 'BreeSerif',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        home: const InitScreen(),
       ),
     );
   }

@@ -19,11 +19,15 @@ class TdButton extends StatelessWidget {
             child: InkWell(
               onTap: onTap,
               child: Center(
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 6.0),
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: 'BreeSerif',
+                    ),
                   ),
                 ),
               ),

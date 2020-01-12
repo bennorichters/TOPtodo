@@ -58,6 +58,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+  fonts:
+    - family: BreeSerif
+      fonts:
+        - asset: fonts/BreeSerif-Regular.ttf
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-Regular.ttf
 
 flutter_icons:
   android: "launcher_icon" 
