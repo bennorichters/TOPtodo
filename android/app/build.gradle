@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "bennorichters.github.com.toptodo"
+        applicationId "com.github.bennorichters.toptodo"
         minSdkVersion 18
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

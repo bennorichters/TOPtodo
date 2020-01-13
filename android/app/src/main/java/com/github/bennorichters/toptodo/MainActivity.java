@@ -1,4 +1,4 @@
-package com.example.toptodo;
+package com.github.bennorichters.toptodo;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;
