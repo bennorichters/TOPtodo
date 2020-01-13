@@ -19,9 +19,6 @@ abstract class CredentialsProvider {
 /// Provider for [Settings]
 abstract class SettingsProvider {
   /// Initialiazes this provider.
-  /// 
-  /// This method tests if the `url` can be connected to. If it cannot a 
-  /// [TdCannotConnect] exception will be thrown.
   Future<void> init(String url, String loginName);
 
   /// Invalidates a previous call to init. Implementations can use this method
@@ -44,7 +41,11 @@ abstract class SettingsProvider {
 /// Provider for TOPdesk elements.
 abstract class TopdeskProvider {
   /// Initializes this provider with the given [Credentials]
-  void init(Credentials credentials);
+  ///  
+  /// This method tests if the `url` contained in the given `Credentials` can 
+  /// be connected to. If it cannot a [TdCannotConnect] exception will be 
+  /// thrown.
+  Future<void> init(Credentials credentials);
 
   /// Invalidates a previous call to init. Implementations can use this method
   /// to  dispose of any cached data.
