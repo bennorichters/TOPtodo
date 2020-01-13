@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
-import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/dialog_header.dart';
 import 'package:toptodo/widgets/td_model_avatar.dart';
 import 'package:toptodo_data/toptodo_data.dart';

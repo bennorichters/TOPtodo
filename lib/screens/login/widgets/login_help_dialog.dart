@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/dialog_header.dart';
 
 class LoginHelpDialog extends StatelessWidget {
