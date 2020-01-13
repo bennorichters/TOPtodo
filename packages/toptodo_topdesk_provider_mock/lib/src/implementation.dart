@@ -28,7 +28,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   int _incidentNumber = 0;
 
   @override
-  void init(Credentials credentials) {
+  Future<void> init(Credentials credentials) async {
     // Ignore
   }
 
