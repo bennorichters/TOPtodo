@@ -32,10 +32,7 @@ class InitBloc extends Bloc<InitEvent, InitState> {
           _initData = InitData(credentials: credentials);
           controller.add(_initData);
 
-          settingsProvider.init(credentials.url, credentials.loginName);
-          topdeskProvider.init(credentials);
-
-          _finishLoadingData(controller);
+          _finishLoadingData(controller, credentials);
         } else {
           controller.add(IncompleteCredentials(credentials));
           await controller.close();
@@ -52,20 +49,29 @@ class InitBloc extends Bloc<InitEvent, InitState> {
     }
   }
 
-  void _finishLoadingData(StreamController<InitState> controller) {
+  void _finishLoadingData(
+    StreamController<InitState> controller,
+    Credentials credentials,
+  ) {
+    settingsProvider.init(credentials.url, credentials.loginName);
     settingsProvider.provide().then((value) async {
-      controller.add(
-        _initData = _initData.update(updatedSettings: value),
-      );
+      if (!controller.isClosed) {
+        controller.add(
+          _initData = _initData.update(updatedSettings: value),
+        );
+      }
 
       if (_initData.isComplete()) {
         await controller.close();
       }
     });
 
-    topdeskProvider.currentTdOperator().then((value) async {
+    topdeskProvider
+        .init(credentials)
+        .then((_) => topdeskProvider.currentTdOperator())
+        .then((tdOperator) async {
       controller.add(
-        _initData = _initData.update(updatedCurrentOperator: value),
+        _initData = _initData.update(updatedCurrentOperator: tdOperator),
       );
 
       if (_initData.isComplete()) {

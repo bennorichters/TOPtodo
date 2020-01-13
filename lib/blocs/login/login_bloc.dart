@@ -53,17 +53,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await credentialsProvider.save(_credentials);
       }
 
-      topdeskProvider.dispose();
-      topdeskProvider.init(_credentials);
-
       settingsProvider.dispose();
       settingsProvider.init(_credentials.url, _credentials.loginName);
 
       try {
+        topdeskProvider.dispose();
+        await topdeskProvider.init(_credentials);
         await topdeskProvider.currentTdOperator();
-        
-        final settings =
-            await settingsProvider.provide() ?? const Settings();
+
+        final settings = await settingsProvider.provide() ?? const Settings();
 
         if (settings.isComplete()) {
           yield LoginSuccessValidSettings(

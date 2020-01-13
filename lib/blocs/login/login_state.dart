@@ -79,7 +79,7 @@ class LoginFailed extends WithSavedData {
     @required this.cause,
   }) : super(savedData, remember);
 
-  final Exception cause;
+  final Object cause;
 
   @override
   List<Object> get props => super.props..addAll([cause]);

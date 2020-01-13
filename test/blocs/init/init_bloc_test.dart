@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:test/test.dart';
 
 import 'package:bloc_test/bloc_test.dart';
@@ -36,6 +38,7 @@ void main() {
 
     when(cp.provide()).thenAnswer((_) => Future.value(credentials));
     when(sp.provide()).thenAnswer((_) => Future.value(settings));
+    when(tdp.init(any)).thenAnswer((_) => Future.value());
     when(tdp.currentTdOperator())
         .thenAnswer((_) => Future.value(currentOperator));
 
@@ -106,28 +109,56 @@ void main() {
       );
     });
 
-    test('error', () async {
-      final timeOutTdProvider = MockTopdeskProvider();
-      const exc = TdTimeOutException('error test');
-      when(timeOutTdProvider.currentTdOperator()).thenAnswer(
-        (_) => Future.delayed(Duration.zero, () => throw exc),
-      );
+    group('errors', () {
+      test('init fails', () async {
+        final initFailsProvider = MockTopdeskProvider();
+        const exc = SocketException('error test');
+        when(initFailsProvider.init(any)).thenAnswer(
+          (_) => Future.delayed(Duration.zero, () => throw exc),
+        );
 
-      final bloc = InitBloc(
-        credentialsProvider: cp,
-        settingsProvider: sp,
-        topdeskProvider: timeOutTdProvider,
-      );
+        final bloc = InitBloc(
+          credentialsProvider: cp,
+          settingsProvider: sp,
+          topdeskProvider: initFailsProvider,
+        );
 
-      final actual = <InitState>[];
-      final subscription = bloc.listen(actual.add);
+        final actual = <InitState>[];
+        final subscription = bloc.listen(actual.add);
 
-      bloc.add(const RequestInitData());
+        bloc.add(const RequestInitData());
 
-      await bloc.close();
-      await subscription.cancel();
+        await bloc.close();
+        await subscription.cancel();
 
-      expect(actual.last, LoadingDataFailed(exc));
+        expect(actual.last, LoadingDataFailed(exc));
+      });
+
+      test('timeout', () async {
+        final timeOutTdProvider = MockTopdeskProvider();
+        when(timeOutTdProvider.init(any)).thenAnswer((_) => Future.value());
+
+        const exc = TdTimeOutException('error test');
+        when(timeOutTdProvider.currentTdOperator()).thenAnswer(
+          (_) => Future.delayed(Duration.zero, () => throw exc),
+        );
+
+        final bloc = InitBloc(
+          credentialsProvider: cp,
+          settingsProvider: sp,
+          topdeskProvider: timeOutTdProvider,
+        );
+
+        final actual = <InitState>[];
+        final subscription = bloc.listen(actual.add);
+
+        bloc.add(const RequestInitData());
+
+        await bloc.close();
+        await subscription.cancel();
+
+        expect(actual.last, LoadingDataFailed(exc));
+      });
     });
   });
 }
