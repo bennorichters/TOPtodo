@@ -15,6 +15,14 @@ void main() {
   );
 
   group('errors', () {
+    final Client client = MockClient((Request request) async {
+      if (request.method == 'HEAD') {
+        return Response('', 200);
+      }
+
+      throw ArgumentError();
+    });
+
     test('StateError without init', () async {
       final atp = ApiTopdeskProvider();
       expect(atp.tdBranches(startsWith: ''), throwsStateError);
@@ -23,29 +31,59 @@ void main() {
 
     test('StateError after dispose', () async {
       final atp = ApiTopdeskProvider();
-      atp.init(credentials);
+      await atp.init(credentials, client: client);
       atp.dispose();
       expect(atp.tdBranches(startsWith: ''), throwsStateError);
     });
 
-    test('call init twice throws', () {
-      final atp = ApiTopdeskProvider();
-      atp.init(credentials);
+    test('init with 404 url', () async {
+      final Client client404 = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 404);
+        }
 
-      expect(() => atp.init(credentials), throwsStateError);
+        throw ArgumentError();
+      });
+
+      final atp = ApiTopdeskProvider();
+           expect(
+        () async => await atp.init(
+          credentials,
+          client: client404,
+        ),
+        throwsA(const TypeMatcher<TdCannotConnect>()),
+      );
+    });
+
+    test('call init twice throws', () async {
+      final atp = ApiTopdeskProvider();
+      await atp.init(credentials, client: client);
+
+      expect(
+        () async => await atp.init(
+          credentials,
+          client: client,
+        ),
+        throwsStateError,
+      );
       atp.dispose();
     });
 
     Future<void> testErrorCode(int code, TypeMatcher<dynamic> tm) async {
       final Client client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         return Response('', code);
       });
 
-      final atp = ApiTopdeskProvider()
-        ..init(
-          credentials,
-          client: client,
-        );
+      final atp = ApiTopdeskProvider();
+
+      await atp.init(
+        credentials,
+        client: client,
+      );
 
       expect(
         atp.tdBranch(id: 'xyz'),
@@ -80,14 +118,18 @@ void main() {
 
     test('client throws some error', () async {
       final Client client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         throw StateError('just testing');
       });
 
-      final atp = ApiTopdeskProvider()
-        ..init(
-          credentials,
-          client: client,
-        );
+      final atp = ApiTopdeskProvider();
+      await atp.init(
+        credentials,
+        client: client,
+      );
 
       expect(
         atp.tdBranch(id: 'xyz'),
@@ -101,14 +143,18 @@ void main() {
 
     test('client throws SocketException', () async {
       final Client client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         throw SocketException('just testing');
       });
 
-      final atp = ApiTopdeskProvider()
-        ..init(
-          credentials,
-          client: client,
-        );
+      final atp = ApiTopdeskProvider();
+      await atp.init(
+        credentials,
+        client: client,
+      );
 
       expect(
         atp.tdBranch(id: 'xyz'),
@@ -122,6 +168,10 @@ void main() {
 
     test('timeout', () async {
       final Client client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         return Future<Response>.delayed(
           const Duration(milliseconds: 50),
           () => Response('{"id": "a", "name": "ABA"}', 200),
@@ -130,10 +180,11 @@ void main() {
 
       final atp = ApiTopdeskProvider(
         timeOut: const Duration(milliseconds: 10),
-      )..init(
-          credentials,
-          client: client,
-        );
+      );
+      await atp.init(
+        credentials,
+        client: client,
+      );
 
       expect(
         atp.tdBranch(id: 'a'),
@@ -149,17 +200,21 @@ void main() {
   group('special', () {
     test('no entities found', () async {
       final Client client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         return Response(
           '{"message": "No entitites found"}',
           204,
         );
       });
 
-      final atp = ApiTopdeskProvider()
-        ..init(
-          credentials,
-          client: client,
-        );
+      final atp = ApiTopdeskProvider();
+      await atp.init(
+        credentials,
+        client: client,
+      );
 
       final branches = await atp.tdBranches(startsWith: 'xyz');
       expect(branches.length, isZero);
@@ -172,12 +227,16 @@ void main() {
     test('headers', () async {
       Map<String, String> headers;
       final mc = MockClient((Request req) async {
+        if (req.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         headers = req.headers;
         return Response('[]', 200);
       });
 
       final atp = ApiTopdeskProvider();
-      atp.init(credentials, client: mc);
+      await atp.init(credentials, client: mc);
       await atp.tdDurations();
 
       expect(headers['accept'], 'application/json');
@@ -200,13 +259,17 @@ void main() {
         '{"id": "b", "name": "DEF"},'
         '{"id": "c", "name": "ABB"}]';
 
-    void basicApiTopdeskProvider({
+    Future<void> basicApiTopdeskProvider({
       String expectedPath,
       Map<String, String> expectedQueryParameters,
       int responseCode,
       String responseJson,
-    }) {
+    }) async {
       final Client client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         if (expectedPath != null) {
           expect(request.url.path, credentials.url + '/' + expectedPath);
         }
@@ -221,22 +284,26 @@ void main() {
         );
       });
 
-      basicProvider = ApiTopdeskProvider()
-        ..init(
-          credentials,
-          client: client,
-        );
+      basicProvider = ApiTopdeskProvider();
+      await basicProvider.init(
+        credentials,
+        client: client,
+      );
     }
 
-    void personApiTopdeskProvider({
+    Future<void> personApiTopdeskProvider({
       String personPath,
       Map<String, String> expectedPersonQueryParameters,
       String personResponseJson,
       int responseCode = 200,
       String avatarPath,
       Set<String> personIds,
-    }) {
+    }) async {
       final Client client = MockClient((Request req) async {
+        if (req.method == 'HEAD') {
+          return Response('', 200);
+        }
+
         final path = req.url.path.substring(
           credentials.url.length + 1,
         );
@@ -260,11 +327,11 @@ void main() {
         }
       });
 
-      personProvider = ApiTopdeskProvider()
-        ..init(
-          credentials,
-          client: client,
-        );
+      personProvider = ApiTopdeskProvider();
+      await personProvider.init(
+        credentials,
+        client: client,
+      );
     }
 
     tearDown(() {
@@ -277,7 +344,7 @@ void main() {
 
     group('branch', () {
       test('find by id', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches/id/a',
           responseJson: '{"id": "a", "name": "ABA"}',
         );
@@ -287,7 +354,7 @@ void main() {
       });
 
       test('find by nonexisting id throws', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
@@ -300,7 +367,7 @@ void main() {
       });
 
       test('starts with find two', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches',
           expectedQueryParameters: <String, String>{
             '\$fields': 'id,name',
@@ -315,7 +382,7 @@ void main() {
       });
 
       test('sanatized starts with', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/branches',
           expectedQueryParameters: <String, String>{
             '\$fields': 'id,name',
@@ -338,7 +405,7 @@ void main() {
       );
 
       test('find by id', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/persons/id/aa',
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -356,7 +423,7 @@ void main() {
       });
 
       test('find by nonexisting id throws', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
@@ -369,7 +436,7 @@ void main() {
       });
 
       test('starts with find two', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -396,7 +463,7 @@ void main() {
       });
 
       test('sanatized starts with', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/persons',
           expectedPersonQueryParameters: const <String, String>{
             '\$fields': 'id,dynamicName,branch',
@@ -417,7 +484,7 @@ void main() {
 
     group('category', () {
       test('find by id', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
         final c = await basicProvider.tdCategory(id: 'a');
@@ -426,7 +493,7 @@ void main() {
       });
 
       test('find by nonexisting id throws', () async {
-        basicApiTopdeskProvider();
+        await basicApiTopdeskProvider();
         expect(
           basicProvider.tdCategory(id: 'doesnotexist'),
           throwsA(
@@ -436,7 +503,7 @@ void main() {
       });
 
       test('find three', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/categories',
         );
         final cs = await basicProvider.tdCategories();
@@ -459,7 +526,7 @@ void main() {
           '}]';
 
       test('find by id', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subcategoryJson,
         );
@@ -469,7 +536,7 @@ void main() {
       });
 
       test('find by non existing id throws', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           responseJson: subcategoryJson,
         );
 
@@ -482,7 +549,7 @@ void main() {
       });
 
       test('find by category', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/subcategories',
           responseJson: subcategoryJson,
         );
@@ -503,7 +570,7 @@ void main() {
 
     group('duration', () {
       test('find by id', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/durations',
         );
         final id = await basicProvider.tdDuration(id: 'a');
@@ -512,7 +579,7 @@ void main() {
       });
 
       test('find by nonexisting id throws', () async {
-        basicApiTopdeskProvider();
+        await basicApiTopdeskProvider();
         expect(
           basicProvider.tdDuration(id: 'doesnotexist'),
           throwsA(
@@ -522,7 +589,7 @@ void main() {
       });
 
       test('find three', () async {
-        basicApiTopdeskProvider(
+        await basicApiTopdeskProvider(
           expectedPath: 'tas/api/incidents/durations',
         );
         final ids = await basicProvider.tdDurations();
@@ -534,7 +601,7 @@ void main() {
 
     group('operator', () {
       test('find by id', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/operators/id/a',
           expectedPersonQueryParameters: <String, String>{},
           personResponseJson: '{'
@@ -553,8 +620,8 @@ void main() {
         expect(op.avatar, 'avatarFora');
       });
 
-      test('find by non existing id throws', () {
-        basicApiTopdeskProvider(
+      test('find by non existing id throws', () async {
+        await basicApiTopdeskProvider(
           responseCode: 404,
           responseJson: '',
         );
@@ -567,7 +634,7 @@ void main() {
       });
 
       test('find by starts with', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/operators',
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a',
@@ -603,7 +670,7 @@ void main() {
       });
 
       test('current', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/operators/current',
           expectedPersonQueryParameters: const <String, String>{},
           personResponseJson: '{'
@@ -638,6 +705,10 @@ void main() {
         var flag = false;
 
         final Client client = MockClient((Request req) async {
+          if (req.method == 'HEAD') {
+            return Response('', 200);
+          }
+
           if (req.url.path.contains('avatar')) {
             return Response('{"image": "avatar"}', 200);
           }
@@ -650,11 +721,11 @@ void main() {
           return res;
         });
 
-        final atp = ApiTopdeskProvider()
-          ..init(
-            credentials,
-            client: client,
-          );
+        final atp = ApiTopdeskProvider();
+        await atp.init(
+          credentials,
+          client: client,
+        );
 
         expect((await atp.currentTdOperator()).id, 'a');
         expect((await atp.currentTdOperator()).id, 'a');
@@ -678,6 +749,10 @@ void main() {
         var flag = false;
 
         final Client client = MockClient((Request req) async {
+          if (req.method == 'HEAD') {
+            return Response('', 200);
+          }
+
           if (req.url.path.contains('avatar')) {
             return Response('{"image": "avatar"}', 200);
           }
@@ -693,10 +768,11 @@ void main() {
 
         final atp = ApiTopdeskProvider(
           currentOperatorCacheDuration: Duration.zero,
-        )..init(
-            credentials,
-            client: client,
-          );
+        );
+        await atp.init(
+          credentials,
+          client: client,
+        );
 
         expect((await atp.currentTdOperator()).id, 'a');
         await Future.delayed(const Duration(milliseconds: 1));
@@ -706,7 +782,7 @@ void main() {
       });
 
       test('sanatized starts with', () async {
-        personApiTopdeskProvider(
+        await personApiTopdeskProvider(
           personPath: 'tas/api/operators',
           expectedPersonQueryParameters: const <String, String>{
             'lastname': 'a&hourlyRate=50',
@@ -735,6 +811,10 @@ void main() {
 
       test('without request', () async {
         final Client client = MockClient((Request request) async {
+          if (request.method == 'HEAD') {
+            return Response('', 200);
+          }
+
           expect(request.url.path, credentials.url + '/tas/api/incidents');
           expect(
             request.headers[HttpHeaders.contentTypeHeader],
@@ -758,11 +838,11 @@ void main() {
           );
         });
 
-        final p = ApiTopdeskProvider()
-          ..init(
-            credentials,
-            client: client,
-          );
+        final p = ApiTopdeskProvider();
+        await p.init(
+          credentials,
+          client: client,
+        );
         final number = await p.createTdIncident(
           briefDescription: 'my "todo"',
           settings: settings,
@@ -774,6 +854,10 @@ void main() {
 
       test('with request', () async {
         final Client client = MockClient((Request request) async {
+          if (request.method == 'HEAD') {
+            return Response('', 200);
+          }
+
           expect(request.url.path, credentials.url + '/tas/api/incidents');
           expect(
             request.headers[HttpHeaders.contentTypeHeader],
@@ -797,11 +881,11 @@ void main() {
           );
         });
 
-        final p = ApiTopdeskProvider()
-          ..init(
-            credentials,
-            client: client,
-          );
+        final p = ApiTopdeskProvider();
+        await p.init(
+          credentials,
+          client: client,
+        );
         final number = await p.createTdIncident(
           briefDescription: 'my "todo"',
           request: 'my request',
@@ -814,6 +898,10 @@ void main() {
 
       test('with request with new lines', () async {
         final Client client = MockClient((Request request) async {
+          if (request.method == 'HEAD') {
+            return Response('', 200);
+          }
+
           final body = json.decode(request.body);
           expect(
             body['request'],
@@ -823,11 +911,11 @@ void main() {
           return Response('{"number": "1"}', 201);
         });
 
-        final p = ApiTopdeskProvider()
-          ..init(
-            credentials,
-            client: client,
-          );
+        final p = ApiTopdeskProvider();
+        await p.init(
+          credentials,
+          client: client,
+        );
         await p.createTdIncident(
           briefDescription: 'new line test',
           request: 'my request\nwith\nseveral\nnew lines',

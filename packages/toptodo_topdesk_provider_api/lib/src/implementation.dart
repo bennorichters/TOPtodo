@@ -9,29 +9,29 @@ import 'package:toptodo_data/toptodo_data.dart';
 typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 
 /// A [TopdeskProvider] that makes API calls to a TOPdesk server.
-/// 
+///
 /// The is object should first be initialized by calling the [init] method. All
-/// other methods, except [dispose], will throw a `StateError` otherwise. When 
-/// this object is no longer needed its [dispose] method should be called to 
+/// other methods, except [dispose], will throw a `StateError` otherwise. When
+/// this object is no longer needed its [dispose] method should be called to
 /// free resources. Once the [init] method has been called it can only be called
 /// again after [dispose] has been called.
-/// 
-/// See [timeOut] for details on how this object deals with requests to the 
+///
+/// See [timeOut] for details on how this object deals with requests to the
 /// TOPdesk server that take too long.
-/// 
+///
 /// See [currentOperatorCacheDuration] for details on how this object caches
 /// calls to the [currentTdOperator] method.
-/// 
+///
 /// When the TOPdesk sever code responds with a success code the methods of this
 /// object return the following:
 /// * Success code 200: All elements are returned
-/// * Success code 201: Only occurs when calling [createTdIncident]. Creating 
+/// * Success code 201: Only occurs when calling [createTdIncident]. Creating
 /// the incident was successful and the new incident number is returned.
 /// * Success code 204: An empty list is returned.
 /// * Success code 206: A limited number of elements are returned. The rest of
-/// the elements can only be requested by calling methods of this object with 
+/// the elements can only be requested by calling methods of this object with
 /// refined search criterea.
-/// 
+///
 /// When the TOPdesk server responds with an error code the following exceptions
 /// will be thrown by this object:
 /// * Error code 400: [TdBadRequestException]
@@ -39,15 +39,15 @@ typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 /// * Error code 403: [TdNotAuthorizedException]
 /// * Error code 404: [TdModelNotFoundException]
 /// * Error code 500: [TdServerException]
-/// 
-/// For all other error codes an [ArgumentError] will be thrown by methods of 
+///
+/// For all other error codes an [ArgumentError] will be thrown by methods of
 /// this object.
 class ApiTopdeskProvider extends TopdeskProvider {
   /// Creates a new [ApiTopdeskProvider].
-  /// 
+  ///
   /// The [timeOut] can be set with an optional parameter. The default value is
   /// a `Duration` of 30 seconds.
-  /// 
+  ///
   /// The [currentOperatorCacheDuration] can be set with an optional parameter.
   /// The default value is a `Duration` of 1 hour.
   ApiTopdeskProvider({
@@ -58,15 +58,15 @@ class ApiTopdeskProvider extends TopdeskProvider {
         );
 
   /// Time out when making calls to the TOPdesk server.
-  /// 
+  ///
   /// When the time out is exceeded a [TdTimeOutException] will be thrown by the
   /// methods of this object.
   final Duration timeOut;
 
   /// Time the current operator will be cached.
-  /// 
-  /// When the first call is made to [currentTdOperator] its result will be 
-  /// cached. The same result will be returned during this time period. When 
+  ///
+  /// When the first call is made to [currentTdOperator] its result will be
+  /// cached. The same result will be returned during this time period. When
   /// the current operator is requested after this period, the cache is cleared
   /// and this cycle starts agauin.
   final AsyncCache<TdOperator> _currentOperatorCache;
@@ -88,19 +88,27 @@ class ApiTopdeskProvider extends TopdeskProvider {
   static const String _subPathCaller = 'person';
 
   @override
-  void init(Credentials credentials, {http.Client client}) {
+  Future<void> init(Credentials credentials, {http.Client client}) async {
     if (_url != null) {
       throw StateError('init has already been called');
     }
 
     _url = credentials.url;
+    _client = client ?? http.Client();
+    await _testUrl();
+
     _getHeaders = {}
       ..addAll(_createAuthHeaders(credentials))
       ..addAll(_acceptHeaders);
 
     _postHeaders = {}..addAll(_getHeaders)..addAll(_contentHeaders);
+  }
 
-    _client = client ?? http.Client();
+  void _testUrl() async {
+    final response = await _client.head(_url);
+    if (response.statusCode != 200) {
+      throw TdCannotConnect('Cannot connect to $_url');
+    }
   }
 
   @override
@@ -262,7 +270,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   }
 
   /// Creates a new incident in TOPdesk and returns the new incident number.
-  /// 
+  ///
   /// New lines `\n` are replaced by `<br>` tags to preserve new lines.
   @override
   Future<String> createTdIncident({
