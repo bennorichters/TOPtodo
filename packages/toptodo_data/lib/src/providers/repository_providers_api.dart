@@ -19,7 +19,7 @@ abstract class CredentialsProvider {
 /// Provider for [Settings]
 abstract class SettingsProvider {
   /// Initialiazes this provider.
-  Future<void> init(String url, String loginName);
+  void init(String url, String loginName);
 
   /// Invalidates a previous call to init. Implementations can use this method
   /// to  dispose of any cached data.
