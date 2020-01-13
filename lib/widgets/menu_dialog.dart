@@ -58,7 +58,9 @@ class MenuDialog extends StatelessWidget {
                       iconData: Icons.settings,
                       text: 'settings',
                       onTap: () {
-                        Navigator.pushReplacementNamed(context, 'settings');
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                        Navigator.pushNamed(context, 'settings');
                       },
                     ),
                   if (showSettings) SizedBox(height: 20),
@@ -66,6 +68,7 @@ class MenuDialog extends StatelessWidget {
                     iconData: Icons.power_settings_new,
                     text: 'log out',
                     onTap: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                       Navigator.pushReplacementNamed(
                         context,
                         'login',
