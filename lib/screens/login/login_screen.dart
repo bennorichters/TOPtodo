@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/login/widgets/credentials_form.dart';
+import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 
@@ -34,6 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Welcome to TOPtodo'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.help),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => LoginHelpDialog(),
+                );
+              },
+            )
+          ],
         ),
         body: BlocListener<LoginBloc, LoginState>(
           listener: (BuildContext context, LoginState state) {

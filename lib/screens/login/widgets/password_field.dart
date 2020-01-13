@@ -22,6 +22,7 @@ class _PasswordFieldState extends State<PasswordField> {
             obscureText: _obscured,
             decoration: const InputDecoration(
               labelText: 'application password',
+              hintText: 'press the help (?) button for info',
             ),
             validator: (String value) =>
                 value.isEmpty ? 'fill in your application password' : null,
