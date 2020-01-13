@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
+import 'package:toptodo/screens/login/widgets/password_field.dart';
 import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
@@ -56,16 +57,7 @@ class CredentialsForm extends StatelessWidget {
                     value.isEmpty ? 'fill in your login name' : null,
               ),
               _verticalSpace,
-              TextFormField(
-                autocorrect: false,
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'application password',
-                ),
-                validator: (String value) =>
-                    value.isEmpty ? 'fill in your application password' : null,
-              ),
+              PasswordField(_passwordController),
               _verticalSpace,
               Row(
                 children: [
