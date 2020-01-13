@@ -35,6 +35,7 @@ typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 /// When the TOPdesk server responds with an error code the following exceptions
 /// will be thrown by this object:
 /// * Error code 400: [TdBadRequestException]
+/// * Error code 401: [TdNotAuthorizedException]
 /// * Error code 403: [TdNotAuthorizedException]
 /// * Error code 404: [TdModelNotFoundException]
 /// * Error code 500: [TdServerException]
@@ -344,6 +345,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
 
     if (res.statusCode == 400) {
       throw TdBadRequestException('400 for $endPoint body: ${res.body}');
+    }
+
+    if (res.statusCode == 401) {
+      throw TdNotAuthorizedException('401 for $endPoint body: ${res.body}');
     }
 
     if (res.statusCode == 403) {

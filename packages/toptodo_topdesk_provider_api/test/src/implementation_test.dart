@@ -59,7 +59,7 @@ void main() {
     });
 
     test('401', () async {
-      await testErrorCode(401, const TypeMatcher<ArgumentError>());
+      await testErrorCode(401, const TypeMatcher<TdNotAuthorizedException>());
     });
 
     test('402', () async {
