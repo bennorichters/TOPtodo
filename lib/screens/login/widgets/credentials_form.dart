@@ -39,7 +39,7 @@ class CredentialsForm extends StatelessWidget {
                 controller: _urlController,
                 autocorrect: false,
                 decoration: const InputDecoration(
-                  labelText: 'TOPdesk url',
+                  labelText: 'TOPdesk address',
                   hintText: 'https://your-environment.topdesk.net',
                 ),
                 validator: (String value) => value.isEmpty
