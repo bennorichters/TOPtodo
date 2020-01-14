@@ -44,8 +44,6 @@ class InitBloc extends Bloc<InitEvent, InitState> {
       );
 
       yield* controller.stream;
-    } else {
-      throw ArgumentError('unexpected event $event');
     }
   }
 

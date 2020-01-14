@@ -15,8 +15,8 @@ class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
   group('init bloc', () {
-    const credentials = Credentials(url: 'u', loginName: 'ln', password: 'pw');
-    const settings = Settings(
+    final credentials = Credentials(url: 'u', loginName: 'ln', password: 'pw');
+    final settings = Settings(
       tdBranchId: 'a',
       tdCallerId: 'a',
       tdCategoryId: 'a',
@@ -24,7 +24,7 @@ void main() {
       tdDurationId: 'a',
       tdOperatorId: 'a',
     );
-    const currentOperator = TdOperator(
+    final currentOperator = TdOperator(
       id: 'a',
       name: 'a',
       avatar: 'a',
@@ -67,7 +67,7 @@ void main() {
       final actual = <InitState>[];
       final subscription = bloc.listen(actual.add);
 
-      bloc.add(const RequestInitData());
+      bloc.add(RequestInitData());
 
       await bloc.close();
       await subscription.cancel();
@@ -98,7 +98,7 @@ void main() {
         topdeskProvider: tdp,
       );
 
-      bloc.add(const RequestInitData());
+      bloc.add(RequestInitData());
 
       await emitsExactly(
         bloc,
@@ -109,10 +109,69 @@ void main() {
       );
     });
 
+    test('SettingsProvider comes last', () async {
+      final settingsWithDelay = MockSettingsProvider();
+      when(settingsWithDelay.provide()).thenAnswer(
+          (_) => Future.delayed(Duration(milliseconds: 10), () => settings));
+
+      final bloc = InitBloc(
+        credentialsProvider: cp,
+        settingsProvider: settingsWithDelay,
+        topdeskProvider: tdp,
+      );
+
+      final actual = <InitState>[];
+      final subscription = bloc.listen(actual.add);
+
+      bloc.add(RequestInitData());
+
+      /// Waiting for settings provider
+      await Future.delayed(Duration(milliseconds: 50));
+
+      await bloc.close();
+      await subscription.cancel();
+
+      expect(actual.length, 4);
+      expect(actual.first, InitData.empty());
+      expect(actual[1], InitData(credentials: credentials));
+      expect(
+          actual[2],
+          InitData(
+            credentials: credentials,
+            currentOperator: currentOperator,
+          ));
+      expect(
+        actual[3],
+        InitData(
+          credentials: credentials,
+          currentOperator: currentOperator,
+          settings: settings,
+        ),
+      );
+    });
+
+    test('RequestInitData equals', () {
+      final e1 = RequestInitData();
+      final e2 = RequestInitData();
+      expect(e1 == e2, isTrue);
+    });
+
+    test('InitData toString contains info', () {
+      final s = InitData(credentials: credentials);
+
+      expect(s.toString().contains('Credentials'), isTrue);
+    });
+
+    test('IncompleteCredentials toString contains info', () {
+      final s = IncompleteCredentials(credentials);
+
+      expect(s.toString().contains('Credentials'), isTrue);
+    });
+
     group('errors', () {
       test('init fails', () async {
         final initFailsProvider = MockTopdeskProvider();
-        const exc = SocketException('error test');
+        final exc = SocketException('error test');
         when(initFailsProvider.init(any)).thenAnswer(
           (_) => Future.delayed(Duration.zero, () => throw exc),
         );
@@ -126,7 +185,7 @@ void main() {
         final actual = <InitState>[];
         final subscription = bloc.listen(actual.add);
 
-        bloc.add(const RequestInitData());
+        bloc.add(RequestInitData());
 
         await bloc.close();
         await subscription.cancel();
@@ -138,7 +197,7 @@ void main() {
         final timeOutTdProvider = MockTopdeskProvider();
         when(timeOutTdProvider.init(any)).thenAnswer((_) => Future.value());
 
-        const exc = TdTimeOutException('error test');
+        final exc = TdTimeOutException('error test');
         when(timeOutTdProvider.currentTdOperator()).thenAnswer(
           (_) => Future.delayed(Duration.zero, () => throw exc),
         );
@@ -152,7 +211,7 @@ void main() {
         final actual = <InitState>[];
         final subscription = bloc.listen(actual.add);
 
-        bloc.add(const RequestInitData());
+        bloc.add(RequestInitData());
 
         await bloc.close();
         await subscription.cancel();
@@ -168,7 +227,7 @@ void main() {
             (_) => Future.delayed(Duration(milliseconds: 10), () => settings));
 
         final initFailsProvider = MockTopdeskProvider();
-        const exc = SocketException('error test');
+        final exc = SocketException('error test');
         when(initFailsProvider.init(any)).thenAnswer(
           (_) => Future.delayed(Duration.zero, () => throw exc),
         );
@@ -182,7 +241,7 @@ void main() {
         final actual = <InitState>[];
         final subscription = bloc.listen(actual.add);
 
-        bloc.add(const RequestInitData());
+        bloc.add(RequestInitData());
 
         /// Waiting for settings provider
         await Future.delayed(Duration(milliseconds: 50));
