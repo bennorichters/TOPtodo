@@ -68,7 +68,8 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
   Widget _tldrMessage() {
     if (widget.cause is TdNotAuthorizedException) {
-      return const Text('You do not have sufficient authorization. '
+      return const Text('You do not have sufficient authorization '
+          'or you password is incorrect. '
           'Contact your TOPdesk application manager.');
     }
 
@@ -89,8 +90,8 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
     if (widget.cause is TdCannotConnect) {
       return const Text('The TOPdesk server cannot be reached. '
-          'Check your internet connection or contact your TOPdesk application '
-          'manager.');
+          'Check the TOPdesk address and your internet connection '
+          'or contact your TOPdesk application manager.');
     }
 
     return const Text('An unexpected error happened. '
