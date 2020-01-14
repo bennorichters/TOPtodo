@@ -159,6 +159,39 @@ void main() {
 
         expect(actual.last, LoadingDataFailed(exc));
       });
+
+      test(
+          'TopdeskProvider gives error. Stream is closed. '
+          'Settings are not added to closed stream', () async {
+        final settingsWithDelay = MockSettingsProvider();
+        when(settingsWithDelay.provide()).thenAnswer(
+            (_) => Future.delayed(Duration(milliseconds: 10), () => settings));
+
+        final initFailsProvider = MockTopdeskProvider();
+        const exc = SocketException('error test');
+        when(initFailsProvider.init(any)).thenAnswer(
+          (_) => Future.delayed(Duration.zero, () => throw exc),
+        );
+
+        final bloc = InitBloc(
+          credentialsProvider: cp,
+          settingsProvider: settingsWithDelay,
+          topdeskProvider: initFailsProvider,
+        );
+
+        final actual = <InitState>[];
+        final subscription = bloc.listen(actual.add);
+
+        bloc.add(const RequestInitData());
+
+        /// Waiting for settings provider
+        await Future.delayed(Duration(milliseconds: 50));
+
+        await bloc.close();
+        await subscription.cancel();
+
+        expect(actual.last, LoadingDataFailed(exc));
+      });
     });
   });
 }
