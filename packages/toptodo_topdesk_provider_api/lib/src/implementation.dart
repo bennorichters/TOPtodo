@@ -112,7 +112,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
             '${response.statusCode}');
       }
     } catch (e) {
-      throw TdCannotConnect('Cannot connecto to $_url. Error: $e');
+      throw TdCannotConnect('Cannot connect to $_url. Error: $e');
     }
   }
 
