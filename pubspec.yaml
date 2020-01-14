@@ -21,22 +21,22 @@ dependencies:
   flutter_bloc: ^3.1.0
   meta: ^1.1.8
   toptodo_data:
-    git: 
+    git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
       ref: 515c5c08b7dc4c645aeacf32603a8ffcd63881b5
   toptodo_repository_providers_impl:
-    git: 
+    git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_repository_providers_impl
-      ref: c6a0debd3d68ee26483a41210840d2f87acd0921
+      ref: 1708f3ca1ac7850b02577361c5e243f973a84740
   toptodo_topdesk_provider_api:
-    git: 
+    git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_api
-      ref: c6a0debd3d68ee26483a41210840d2f87acd0921
+      ref: 1708f3ca1ac7850b02577361c5e243f973a84740
   url_launcher: ^5.4.1
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -45,10 +45,10 @@ dev_dependencies:
   flutter_native_splash: ^0.1.9
   mockito: ^4.1.1
   toptodo_topdesk_provider_mock:
-    git: 
+    git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_mock
-      ref: c6a0debd3d68ee26483a41210840d2f87acd0921
+      ref: 1708f3ca1ac7850b02577361c5e243f973a84740
 
 # used to override flutter_test that uses an older version
 dependency_overrides:
@@ -67,7 +67,7 @@ flutter:
         - asset: fonts/OpenSans-Regular.ttf
 
 flutter_icons:
-  android: "launcher_icon" 
+  android: "launcher_icon"
   ios: true
   image_path: "scripts/images/logo.png"
 
