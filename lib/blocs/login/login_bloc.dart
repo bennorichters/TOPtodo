@@ -48,7 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is TryLogin) {
       yield const LoginSubmitting();
 
-      _credentials = event.credentials;
+      _credentials = _fixCredentials(event.credentials);
       if (_remember) {
         await credentialsProvider.save(_credentials);
       }
@@ -83,4 +83,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
   }
+}
+
+Credentials _fixCredentials(Credentials credentials) {
+  var url = credentials.url.trim();
+  if (!(url.toLowerCase().startsWith('http://') ||
+      url.toLowerCase().startsWith('http://'))) {
+    url = 'https://' + url;
+  }
+
+  while (url.endsWith('/')) {
+    url = url.substring(0, url.length - 1);
+  }
+
+  return Credentials(
+    url: url,
+    loginName: credentials.loginName.trim().toLowerCase(),
+    password: credentials.password,
+  );
 }
