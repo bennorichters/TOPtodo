@@ -88,7 +88,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 Credentials _fixCredentials(Credentials credentials) {
   var url = credentials.url.trim();
   if (!(url.toLowerCase().startsWith('http://') ||
-      url.toLowerCase().startsWith('http://'))) {
+      url.toLowerCase().startsWith('https://'))) {
     url = 'https://' + url;
   }
 
