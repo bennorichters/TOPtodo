@@ -46,10 +46,25 @@ void main() {
       });
 
       final atp = ApiTopdeskProvider();
-           expect(
+      expect(
         () async => await atp.init(
           credentials,
           client: client404,
+        ),
+        throwsA(const TypeMatcher<TdCannotConnect>()),
+      );
+    });
+
+    test('init client.get throws error', () async {
+      final Client clientError = MockClient((Request request) async {
+        throw ArgumentError();
+      });
+
+      final atp = ApiTopdeskProvider();
+      expect(
+        () async => await atp.init(
+          credentials,
+          client: clientError,
         ),
         throwsA(const TypeMatcher<TdCannotConnect>()),
       );
