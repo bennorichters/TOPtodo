@@ -40,6 +40,10 @@ class IncidentForm extends StatelessWidget {
                 maxLines: null,
               ),
               _verticalSpace,
+              // TODO: don't allow resubmit before state has been received that
+              // request is processed.
+              // Check what happens in case of error (like time out) does form 
+              // keep data? 
               (state is SubmittingIncident)
                   ? CircularProgressIndicator()
                   : TdButton(

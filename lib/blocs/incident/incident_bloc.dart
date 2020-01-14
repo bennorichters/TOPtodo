@@ -27,6 +27,10 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
         currentOperator: await topdeskProvider.currentTdOperator(),
       );
     } else if (event is IncidentSubmit) {
+      // TODO: 1. First yield SubmittingIncident 2. Move getting 
+      // currentTdOperator in try block.
+      // Write test to check that yielding SubmittingIncident comes soon.
+      // Write test to check proper behaviour if getting operator fails
       final currentOperator = await topdeskProvider.currentTdOperator();
 
       yield SubmittingIncident(currentOperator: currentOperator);
