@@ -14,7 +14,7 @@ class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
   group('incident bloc', () {
-    const settings = Settings(
+    final settings = Settings(
       tdBranchId: 'a',
       tdCallerId: 'a',
       tdCategoryId: 'a',
@@ -22,7 +22,7 @@ void main() {
       tdDurationId: 'a',
       tdOperatorId: 'a',
     );
-    const currentOperator = TdOperator(
+    final currentOperator = TdOperator(
       id: 'a',
       name: 'a',
       avatar: 'a',
@@ -48,7 +48,7 @@ void main() {
         settingsProvider: sp,
         topdeskProvider: tdp,
       ),
-      expect: [const InitialIncidentState()],
+      expect: [InitialIncidentState()],
     );
 
     blocTest<IncidentBloc, IncidentEvent, IncidentState>(
@@ -57,10 +57,10 @@ void main() {
         settingsProvider: sp,
         topdeskProvider: tdp,
       ),
-      act: (bloc) async => {bloc.add(const IncidentShowForm())},
+      act: (bloc) async => {bloc.add(IncidentShowForm())},
       expect: [
-        const InitialIncidentState(),
-        const OperatorLoaded(currentOperator: currentOperator),
+        InitialIncidentState(),
+        OperatorLoaded(currentOperator: currentOperator),
       ],
     );
 
@@ -71,15 +71,15 @@ void main() {
         topdeskProvider: tdp,
       ),
       act: (bloc) async => {
-        bloc.add(const IncidentSubmit(
+        bloc.add(IncidentSubmit(
           briefDescription: 'bd',
           request: '',
         ))
       },
       expect: [
-        const InitialIncidentState(),
-        const SubmittingIncident(currentOperator: currentOperator),
-        const IncidentCreated(
+        InitialIncidentState(),
+        SubmittingIncident(currentOperator: currentOperator),
+        IncidentCreated(
           currentOperator: currentOperator,
           number: '1',
         ),
@@ -88,7 +88,7 @@ void main() {
 
     test('create incident TdException', () async {
       final timeOutTdProvider = MockTopdeskProvider();
-      const exc = TdTimeOutException('error test');
+      final exc = TdTimeOutException('error test');
       when(timeOutTdProvider.currentTdOperator())
           .thenAnswer((_) => Future.value(currentOperator));
       when(timeOutTdProvider.createTdIncident(
@@ -107,7 +107,7 @@ void main() {
       final actual = <IncidentState>[];
       final subscription = bloc.listen(actual.add);
 
-      bloc.add(const IncidentSubmit(
+      bloc.add(IncidentSubmit(
         briefDescription: 'bd',
         request: '',
       ));
@@ -118,14 +118,42 @@ void main() {
       expect(
         actual,
         [
-          const InitialIncidentState(),
-          const SubmittingIncident(currentOperator: currentOperator),
-          const IncidentCreationError(
+          InitialIncidentState(),
+          SubmittingIncident(currentOperator: currentOperator),
+          IncidentCreationError(
             cause: exc,
             currentOperator: currentOperator,
           ),
         ],
       );
+    });
+
+    test('IncidentEvent equals', () {
+      final e1 = IncidentShowForm();
+      final e2 = IncidentShowForm();
+
+      expect(e1 == e2, isTrue);
+    });
+
+    test('IncidentSubmit equals', () {
+      final e1 = IncidentSubmit(briefDescription: 'a', request: 'b');
+      final e2 = IncidentSubmit(briefDescription: 'a', request: 'b');
+
+      expect(e1 == e2, isTrue);
+    });
+
+    test('WithOperatorState toString contains operator', () {
+      expect(
+          OperatorLoaded(
+            currentOperator: TdOperator(
+              id: 'a',
+              name: 'the operator',
+              avatar: 'av',
+              firstLine: true,
+              secondLine: true,
+            ),
+          ).toString().contains('the operator'),
+          isTrue);
     });
   });
 }
