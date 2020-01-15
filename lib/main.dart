@@ -99,7 +99,6 @@ class _TopToDoAppState extends State<TopToDoApp> {
               title: TextStyle(
                 fontSize: 26.0,
                 fontFamily: 'BreeSerif',
-                fontWeight: FontWeight.bold,
               ),
             ),
           ),

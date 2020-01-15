@@ -19,7 +19,6 @@ class DialogHeader extends StatelessWidget {
             style: TextStyle(
               color: TdColors.materialDenim,
               fontFamily: 'BreeSerif',
-              fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
           ),
