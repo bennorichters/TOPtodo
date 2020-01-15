@@ -4,38 +4,32 @@ import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 abstract class IncidentState extends Equatable {
-  const IncidentState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class InitialIncidentState extends IncidentState {
-  const InitialIncidentState();
-}
-
-abstract class WithOperatorState extends IncidentState {
-  const WithOperatorState({@required this.currentOperator});
+  const IncidentState({@required this.currentOperator});
   final TdOperator currentOperator;
 
   @override
-  List<Object> get props => super.props..addAll([currentOperator]);
+  List<Object> get props => [currentOperator];
 
   @override
   String toString() => '$runtimeType currentOperator: $currentOperator';
 }
 
-class OperatorLoaded extends WithOperatorState {
+class InitialIncidentState extends IncidentState {
+  const InitialIncidentState()
+      : super(currentOperator: null);
+}
+
+class OperatorLoaded extends IncidentState {
   const OperatorLoaded({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
-class SubmittingIncident extends WithOperatorState {
+class SubmittingIncident extends IncidentState {
   const SubmittingIncident({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
-class IncidentCreated extends WithOperatorState {
+class IncidentCreated extends IncidentState {
   const IncidentCreated({
     @required this.number,
     @required TdOperator currentOperator,
@@ -47,7 +41,7 @@ class IncidentCreated extends WithOperatorState {
   List<Object> get props => super.props..addAll([number]);
 }
 
-class IncidentCreationError extends WithOperatorState {
+class IncidentCreationError extends IncidentState {
   const IncidentCreationError({
     @required this.cause,
     @required TdOperator currentOperator,

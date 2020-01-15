@@ -65,7 +65,7 @@ void main() {
     );
 
     blocTest<IncidentBloc, IncidentEvent, IncidentState>(
-      'create incident normal flow',
+      'create incident normal flow current operator unknown',
       build: () => IncidentBloc(
         settingsProvider: sp,
         topdeskProvider: tdp,
@@ -78,6 +78,30 @@ void main() {
       },
       expect: [
         InitialIncidentState(),
+        SubmittingIncident(currentOperator: null),
+        IncidentCreated(
+          currentOperator: currentOperator,
+          number: '1',
+        ),
+      ],
+    );
+
+    blocTest<IncidentBloc, IncidentEvent, IncidentState>(
+      'create incident normal flow current operator known',
+      build: () => IncidentBloc(
+        settingsProvider: sp,
+        topdeskProvider: tdp,
+      ),
+      act: (bloc) async {
+        bloc.add(IncidentShowForm());
+        bloc.add(IncidentSubmit(
+          briefDescription: 'bd',
+          request: '',
+        ));
+      },
+      expect: [
+        InitialIncidentState(),
+        OperatorLoaded(currentOperator: currentOperator),
         SubmittingIncident(currentOperator: currentOperator),
         IncidentCreated(
           currentOperator: currentOperator,
@@ -119,10 +143,10 @@ void main() {
         actual,
         [
           InitialIncidentState(),
-          SubmittingIncident(currentOperator: currentOperator),
+          SubmittingIncident(currentOperator: null),
           IncidentCreationError(
             cause: exc,
-            currentOperator: currentOperator,
+            currentOperator: null,
           ),
         ],
       );

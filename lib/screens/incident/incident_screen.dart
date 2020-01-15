@@ -28,7 +28,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
           appBar: AppBar(
             title: const Text('Create todo'),
             actions: [
-              if (state is WithOperatorState)
+              if (state.currentOperator != null)
                 MenuOperatorButton(state.currentOperator),
             ],
           ),

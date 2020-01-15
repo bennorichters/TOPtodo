@@ -15,6 +15,8 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   final TopdeskProvider topdeskProvider;
   final SettingsProvider settingsProvider;
 
+  TdOperator _currentOperator;
+
   @override
   IncidentState get initialState => const InitialIncidentState();
 
@@ -23,30 +25,29 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
     IncidentEvent event,
   ) async* {
     if (event is IncidentShowForm) {
-      yield OperatorLoaded(
-        currentOperator: await topdeskProvider.currentTdOperator(),
-      );
+      _currentOperator = await topdeskProvider.currentTdOperator();
+      yield OperatorLoaded(currentOperator: _currentOperator);
     } else if (event is IncidentSubmit) {
-      // TODO: 1. First yield SubmittingIncident 2. Move getting 
-      // currentTdOperator in try block.
-      // Write test to check that yielding SubmittingIncident comes soon.
-      // Write test to check proper behaviour if getting operator fails
-      final currentOperator = await topdeskProvider.currentTdOperator();
-
-      yield SubmittingIncident(currentOperator: currentOperator);
+      yield SubmittingIncident(currentOperator: _currentOperator);
 
       try {
-        final number = await topdeskProvider.createTdIncident(
-          briefDescription: event.briefDescription,
-          request: event.request.isEmpty ? null : event.request,
-          settings: await settingsProvider.provide(),
-        );
+        final results = await Future.wait([
+          topdeskProvider.createTdIncident(
+            briefDescription: event.briefDescription,
+            request: event.request.isEmpty ? null : event.request,
+            settings: await settingsProvider.provide(),
+          ),
+          topdeskProvider.currentTdOperator(),
+        ]);
 
-        yield IncidentCreated(number: number, currentOperator: currentOperator);
+        final number = results[0];
+        _currentOperator = results[1];
+
+        yield IncidentCreated(number: number, currentOperator: _currentOperator);
       } catch (error) {
         yield IncidentCreationError(
           cause: error,
-          currentOperator: currentOperator,
+          currentOperator: _currentOperator,
         );
       }
     }
