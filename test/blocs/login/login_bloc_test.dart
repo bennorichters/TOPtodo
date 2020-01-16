@@ -19,7 +19,7 @@ void main() {
 
     final credentials = Credentials(
       url: 'https://your-environment.topdesk.net',
-      loginName: 'userA',
+      loginName: 'usera',
       password: 'S3CrEt!',
     );
     CredentialsProvider withCredentials = MockCredentialsProvider();
@@ -243,7 +243,7 @@ void main() {
           ],
         );
 
-        verify(withoutCredentials.save(any)).called(1);
+        verify(withoutCredentials.save(credentials)).called(1);
       });
 
       test('incomplete settings', () async {
