@@ -50,6 +50,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       _credentials = _fixCredentials(event.credentials);
       if (_remember) {
+        print('HERE! $_credentials');
         await credentialsProvider.save(_credentials);
       }
 
