@@ -174,28 +174,27 @@ void main() {
     });
 
     group('TryLogin', () {
+      final topdeskProvider = MockTopdeskProvider();
+      final SettingsProvider completeSettings = MockSettingsProvider();
+      final settings = Settings(
+        tdBranchId: 'a',
+        tdCallerId: 'a',
+        tdCategoryId: 'a',
+        tdSubcategoryId: 'a',
+        tdDurationId: 'a',
+        tdOperatorId: 'a',
+      );
+      when(completeSettings.provide()).thenAnswer(
+        (_) => Future<Settings>.value(settings),
+      );
+
       test(
           'valid settings - no prior credentials '
           'no consent to remember - dont save', () async {
-        final TopdeskProvider topdeskProvider = MockTopdeskProvider();
-        final SettingsProvider settingsProvider = MockSettingsProvider();
-
         final bloc = LoginBloc(
           credentialsProvider: withoutCredentials,
-          settingsProvider: settingsProvider,
+          settingsProvider: completeSettings,
           topdeskProvider: topdeskProvider,
-        );
-
-        final settings = Settings(
-          tdBranchId: 'a',
-          tdCallerId: 'a',
-          tdCategoryId: 'a',
-          tdSubcategoryId: 'a',
-          tdDurationId: 'a',
-          tdOperatorId: 'a',
-        );
-        when(settingsProvider.provide()).thenAnswer(
-          (_) => Future<Settings>.value(settings),
         );
 
         bloc.add(CredentialsInit());
@@ -220,25 +219,10 @@ void main() {
       test(
           'valid settings - no prior credentials '
           'toggled to remember - save', () async {
-        final TopdeskProvider topdeskProvider = MockTopdeskProvider();
-        final SettingsProvider settingsProvider = MockSettingsProvider();
-
         final bloc = LoginBloc(
           credentialsProvider: withoutCredentials,
-          settingsProvider: settingsProvider,
+          settingsProvider: completeSettings,
           topdeskProvider: topdeskProvider,
-        );
-
-        final settings = Settings(
-          tdBranchId: 'a',
-          tdCallerId: 'a',
-          tdCategoryId: 'a',
-          tdSubcategoryId: 'a',
-          tdDurationId: 'a',
-          tdOperatorId: 'a',
-        );
-        when(settingsProvider.provide()).thenAnswer(
-          (_) => Future<Settings>.value(settings),
         );
 
         bloc.add(CredentialsInit());
