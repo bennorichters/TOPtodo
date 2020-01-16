@@ -225,7 +225,7 @@ void main() {
           topdeskProvider: topdeskProvider,
         );
 
-        bloc.add(CredentialsInit());
+        bloc.add(CredentialsInit()); // Make sure `remember` will be true
         bloc.add(RememberToggle(credentials));
         bloc.add(TryLogin(credentials));
 
@@ -244,6 +244,46 @@ void main() {
         );
 
         verify(withoutCredentials.save(credentials)).called(1);
+      });
+
+      test('fix credentials', () async {
+        final bloc = LoginBloc(
+          credentialsProvider: withCredentials,
+          settingsProvider: completeSettings,
+          topdeskProvider: topdeskProvider,
+        );
+
+        bloc.add(CredentialsInit()); // Make sure `remember` will be true
+        bloc.add(
+          TryLogin(
+            Credentials(
+              url: 'a///',
+              loginName: 'B',
+              password: ' aBc ',
+            ),
+          ),
+        );
+
+        await emitsExactly<LoginBloc, LoginState>(
+          bloc,
+          [
+            LoginWaitingForSavedData(),
+            RetrievedSavedData(credentials, true),
+            LoginSubmitting(),
+            LoginSuccessValidSettings(
+              topdeskProvider: topdeskProvider,
+              settings: settings,
+            ),
+          ],
+        );
+
+        verify(withCredentials.save(
+          Credentials(
+            url: 'https://a',
+            loginName: 'b',
+            password: ' aBc ',
+          ),
+        )).called(1);
       });
 
       test('incomplete settings', () async {
@@ -333,6 +373,48 @@ void main() {
 
       test('time out', () async {
         await testException(const TdServerException(''));
+      });
+    });
+
+    group('equals', () {
+      test('CredentialsInit', () {
+        expect(CredentialsInit() == CredentialsInit(), isTrue);
+        expect(
+            RememberToggle(credentials) == RememberToggle(credentials), isTrue);
+        expect(TryLogin(credentials) == TryLogin(credentials), isTrue);
+      });
+    });
+
+    group('toString', () {
+      test('CredentialsInit', () {
+        expect(CredentialsInit() == CredentialsInit(), isTrue);
+        expect(
+          RememberToggle(credentials) == RememberToggle(credentials),
+          isTrue,
+        );
+        expect(TryLogin(credentials) == TryLogin(credentials), isTrue);
+        expect(
+          LoginFailed(
+                savedData: credentials,
+                remember: true,
+                cause: 1,
+              ) ==
+              LoginFailed(
+                savedData: credentials,
+                remember: true,
+                cause: 1,
+              ),
+          isTrue,
+        );
+      });
+    });
+
+    group('toString', () {
+      test('WithSavedData', () {
+        expect(
+          RetrievedSavedData(Credentials(), true).toString().contains('true'),
+          isTrue,
+        );
       });
     });
   });
