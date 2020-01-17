@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
+import 'package:toptodo_topdesk_provider_mock/json/avatar.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 import '../init/init_bloc_test.dart';
@@ -291,6 +292,12 @@ void main() {
       );
 
       final branchA = TdBranch(id: '1', name: 'branch A');
+      final callerA = TdCaller(
+        id: '1',
+        name: 'caller A',
+        avatar: 'img',
+        branch: branchA,
+      );
 
       final topdeskProvider = MockTopdeskProvider();
       when(topdeskProvider.currentTdOperator())
@@ -301,7 +308,7 @@ void main() {
           .thenAnswer((_) => Future.value(Settings()));
 
       blocTest<SettingsBloc, SettingsEvent, SettingsState>(
-        'branch',
+        'first branch then caller',
         build: () => SettingsBloc(
           settingsProvider: settingsProvider,
           topdeskProvider: topdeskProvider,
@@ -309,6 +316,7 @@ void main() {
         act: (SettingsBloc bloc) async {
           await bloc.add(SettingsInit());
           await bloc.add(SettingsBranchSelected(branchA));
+          await bloc.add(SettingsCallerSelected(callerA));
         },
         expect: [
           InitialSettingsState(),
@@ -323,6 +331,14 @@ void main() {
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdBranch: branchA,
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdBranch: branchA,
+              tdCaller: callerA,
               tdOperator: currentOperator,
             ),
           ),
