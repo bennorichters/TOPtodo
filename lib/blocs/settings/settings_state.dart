@@ -20,6 +20,10 @@ class SettingsWithOperator extends SettingsState {
 
   @override
   List<Object> get props => super.props..addAll([currentOperator]);
+
+  @override
+  String toString() => '$runtimeType: '
+      'currentOperator: $currentOperator';
 }
 
 class SettingsLoading extends SettingsWithOperator {
@@ -38,7 +42,7 @@ abstract class SettingsWithFormState extends SettingsWithOperator {
   List<Object> get props => super.props..addAll([formState]);
 
   @override
-  String toString() => '${runtimeType} - $formState';
+  String toString() => super.toString() + ', formState: $formState';
 }
 
 class SettingsTdData extends SettingsWithFormState {
