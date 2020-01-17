@@ -4,7 +4,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_mock/json/avatar.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 import '../init/init_bloc_test.dart';
