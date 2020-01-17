@@ -98,7 +98,7 @@ class MenuDialog extends StatelessWidget {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               launch(
-                                'https://bennorichters.github.io/toptodo/',
+                                'https://bennorichters.github.io/TOPtodo/',
                               );
                             },
                         ),
