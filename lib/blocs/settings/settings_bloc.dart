@@ -63,9 +63,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         currentOperator: await topdeskProvider.currentTdOperator(),
         formState: _formState,
       );
-    } else {
-      throw ArgumentError('unknown event $event');
-    }
+    } 
   }
 
   Future<void> _fillFormWithSettings() async {
