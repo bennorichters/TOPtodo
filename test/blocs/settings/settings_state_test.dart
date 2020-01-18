@@ -13,17 +13,24 @@ void main() {
         firstLine: true,
         secondLine: true,
       );
+
       expect(
         SettingsLoading(
           currentOperator: operatorA,
         ).toString().contains('operator A'),
         isTrue,
       );
+
       expect(
         SettingsTdData(
           currentOperator: operatorA,
           formState: null,
         ).toString().contains('formState'),
+        isTrue,
+      );
+
+      expect(
+        SettingsError('the cause').toString().contains('the cause'),
         isTrue,
       );
     });

@@ -6,9 +6,9 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
-import '../init/init_bloc_test.dart';
-
 class MockSettingsProvider extends Mock implements SettingsProvider {}
+
+class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
   group('settings bloc', () {
@@ -447,12 +447,25 @@ void main() {
       );
 
       final topdeskProvider = MockTopdeskProvider();
-      when(topdeskProvider.currentTdOperator())
-          .thenAnswer((_) => Future.value(currentOperator));
+      when(topdeskProvider.currentTdOperator()).thenAnswer(
+        (_) => Future.value(currentOperator),
+      );
+      when(topdeskProvider.tdCategories()).thenAnswer(
+        (_) => Future.value([]),
+      );
+      when(topdeskProvider.tdSubcategories(
+        tdCategory: anyNamed('tdCategory'),
+      )).thenAnswer(
+        (_) => Future.value([]),
+      );
+      when(topdeskProvider.tdDurations()).thenAnswer(
+        (_) => Future.value([]),
+      );
 
       final settingsProvider = MockSettingsProvider();
-      when(settingsProvider.provide())
-          .thenAnswer((_) => Future.value(Settings()));
+      when(settingsProvider.provide()).thenAnswer(
+        (_) => Future.value(Settings()),
+      );
 
       blocTest<SettingsBloc, SettingsEvent, SettingsState>(
         'first branch then caller',
@@ -477,6 +490,16 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
               tdBranch: branchA,
               tdOperator: currentOperator,
             ),
@@ -484,6 +507,8 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
               tdBranch: branchA,
               tdCaller: callerA,
               tdOperator: currentOperator,
@@ -515,13 +540,39 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            // First emit with chosen category
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
               tdCategory: categoryA,
               tdOperator: currentOperator,
             ),
           ),
           SettingsTdData(
+            // Then emit with found subcategories
             currentOperator: currentOperator,
             formState: SettingsFormState(
+              tdCategories: [],
+              tdSubcategories: [],
+              tdDurations: [],
+              tdCategory: categoryA,
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            // Then emit chosen subcategory
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategories: [],
+              tdSubcategories: [],
+              tdDurations: [],
               tdCategory: categoryA,
               tdSubcategory: subcategoryA,
               tdOperator: currentOperator,
@@ -552,6 +603,16 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
               tdDuration: durationA,
               tdOperator: currentOperator,
             ),
@@ -581,11 +642,62 @@ void main() {
           SettingsTdData(
             currentOperator: currentOperator,
             formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategories: [],
+              tdDurations: [],
               tdOperator: operatorA,
             ),
           ),
         ],
       );
+    });
+
+    group('error', () {
+      group('not authorized', () {
+        final error = TdNotAuthorizedException('just testing');
+        final topdeskProvider = MockTopdeskProvider();
+        when(topdeskProvider.currentTdOperator()).thenAnswer(
+          (_) => throw error,
+        );
+        when(topdeskProvider.tdCategories()).thenAnswer(
+          (_) => Future.value([]),
+        );
+        when(topdeskProvider.tdSubcategories(
+          tdCategory: anyNamed('tdCategory'),
+        )).thenAnswer(
+          (_) => Future.value([]),
+        );
+        when(topdeskProvider.tdDurations()).thenAnswer(
+          (_) => Future.value([]),
+        );
+
+        final settingsProvider = MockSettingsProvider();
+        when(settingsProvider.provide()).thenAnswer(
+          (_) => Future.value(Settings()),
+        );
+
+        blocTest<SettingsBloc, SettingsEvent, SettingsState>(
+          'duration',
+          build: () => SettingsBloc(
+            settingsProvider: settingsProvider,
+            topdeskProvider: topdeskProvider,
+          ),
+          act: (SettingsBloc bloc) async {
+            await bloc.add(SettingsInit());
+          },
+          expect: [
+            InitialSettingsState(),
+            SettingsError(error),
+          ],
+        );
+      });
     });
   });
 }

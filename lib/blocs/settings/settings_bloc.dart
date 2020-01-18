@@ -22,47 +22,51 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Stream<SettingsState> mapEventToState(
     SettingsEvent event,
   ) async* {
-    if (event is SettingsInit) {
-      yield SettingsLoading(
-        currentOperator: await topdeskProvider.currentTdOperator(),
-      );
-      await _fillFormWithSettings();
-      yield await _currentData();
+    try {
+      if (event is SettingsInit) {
+        yield SettingsLoading(
+          currentOperator: await topdeskProvider.currentTdOperator(),
+        );
+        await _fillFormWithSettings();
+        yield await _currentData();
 
-      await _fillFormWithSearchLists();
-      yield await _currentData();
-    } else if (event is CategorySelected) {
-      _formState = _formState.update(
-        updatedTdCategory: event.category,
-      );
-      yield await _currentData();
+        await _fillFormWithSearchLists();
+        yield await _currentData();
+      } else if (event is CategorySelected) {
+        _formState = _formState.update(
+          updatedTdCategory: event.category,
+        );
+        yield await _currentData();
 
-      _formState = _formState.update(
-        updatedTdSubcategories:
-            await topdeskProvider.tdSubcategories(tdCategory: event.category),
-      );
-      yield await _currentData();
-    } else if (event is DurationSelected) {
-      _formState = _formState.update(updatedTdDuration: event.duration);
-      yield await _currentData();
-    } else if (event is BranchSelected) {
-      _formState = _formState.update(updatedTdBranch: event.branch);
-      yield await _currentData();
-    } else if (event is OperatorSelected) {
-      _formState = _formState.update(updatedTdOperator: event.tdOperator);
-      yield await _currentData();
-    } else if (event is CallerSelected) {
-      _formState = _formState.update(updatedTdCaller: event.caller);
-      yield await _currentData();
-    } else if (event is SubcategorySelected) {
-      _formState = _formState.update(updatedTdSubcategory: event.subcategory);
-      yield await _currentData();
-    } else if (event is SettingsSave) {
-      await settingsProvider.save(_formState.toSettings());
-      yield SettingsSaved(
-        currentOperator: await topdeskProvider.currentTdOperator(),
-        formState: _formState,
-      );
+        _formState = _formState.update(
+          updatedTdSubcategories:
+              await topdeskProvider.tdSubcategories(tdCategory: event.category),
+        );
+        yield await _currentData();
+      } else if (event is DurationSelected) {
+        _formState = _formState.update(updatedTdDuration: event.duration);
+        yield await _currentData();
+      } else if (event is BranchSelected) {
+        _formState = _formState.update(updatedTdBranch: event.branch);
+        yield await _currentData();
+      } else if (event is OperatorSelected) {
+        _formState = _formState.update(updatedTdOperator: event.tdOperator);
+        yield await _currentData();
+      } else if (event is CallerSelected) {
+        _formState = _formState.update(updatedTdCaller: event.caller);
+        yield await _currentData();
+      } else if (event is SubcategorySelected) {
+        _formState = _formState.update(updatedTdSubcategory: event.subcategory);
+        yield await _currentData();
+      } else if (event is SettingsSave) {
+        await settingsProvider.save(_formState.toSettings());
+        yield SettingsSaved(
+          currentOperator: await topdeskProvider.currentTdOperator(),
+          formState: _formState,
+        );
+      }
+    } catch (error) {
+      yield SettingsError(error);
     }
   }
 
@@ -88,10 +92,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     _formState = SettingsFormState(
       tdBranch: branch,
-      tdCaller: _paternityTest(caller, caller?.branch, branch),
+      tdCaller: _paternityTest(
+        caller,
+        caller?.branch,
+        branch,
+      ),
       tdCategory: category,
-      tdSubcategory:
-          _paternityTest(subcategory, subcategory?.category, category),
+      tdSubcategory: _paternityTest(
+        subcategory,
+        subcategory?.category,
+        category,
+      ),
       tdDuration: tdDuration,
       tdOperator: tdOperator,
     );

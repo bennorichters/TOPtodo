@@ -64,3 +64,14 @@ class SettingsSaved extends SettingsWithFormState {
           formState: formState,
         );
 }
+
+class SettingsError extends SettingsState {
+  const SettingsError(this.cause);
+  final Object cause;
+
+  @override
+  List<Object> get props => super.props..addAll([cause]);
+
+  @override
+  String toString() => 'SettingsError error: $cause';
+}
