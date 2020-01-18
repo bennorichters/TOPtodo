@@ -64,12 +64,12 @@ void main() {
             ),
           );
 
-          bloc.add(const SettingsInit());
+          bloc.add(SettingsInit());
 
           await emitsExactly<SettingsBloc, SettingsState>(
             bloc,
             [
-              const InitialSettingsState(),
+              InitialSettingsState(),
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
@@ -116,12 +116,12 @@ void main() {
             ),
           );
 
-          bloc.add(const SettingsInit());
+          bloc.add(SettingsInit());
 
           await emitsExactly<SettingsBloc, SettingsState>(
             bloc,
             [
-              const InitialSettingsState(),
+              InitialSettingsState(),
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
@@ -168,12 +168,12 @@ void main() {
             ),
           );
 
-          bloc.add(const SettingsInit());
+          bloc.add(SettingsInit());
 
           await emitsExactly<SettingsBloc, SettingsState>(
             bloc,
             [
-              const InitialSettingsState(),
+              InitialSettingsState(),
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
@@ -210,13 +210,13 @@ void main() {
           when(settingsProvider.provide())
               .thenAnswer((_) => Future.value(Settings()));
 
-          bloc.add(const SettingsInit());
+          bloc.add(SettingsInit());
 
           final currentOperator = await topdeskProvider.currentTdOperator();
           await emitsExactly<SettingsBloc, SettingsState>(
             bloc,
             [
-              const InitialSettingsState(),
+              InitialSettingsState(),
               SettingsLoading(currentOperator: currentOperator),
               SettingsTdData(
                 currentOperator: currentOperator,
@@ -259,12 +259,12 @@ void main() {
             settingsProvider: settingsProvider,
             topdeskProvider: tdProviderWrongOperator,
           );
-          bloc.add(const SettingsInit());
+          bloc.add(SettingsInit());
 
           await emitsExactly<SettingsBloc, SettingsState>(
             bloc,
             [
-              const InitialSettingsState(),
+              InitialSettingsState(),
               SettingsLoading(currentOperator: currentOperator),
               SettingsTdData(
                 currentOperator: currentOperator,
@@ -337,7 +337,7 @@ void main() {
           await emitsExactly<SettingsBloc, SettingsState>(
             bloc,
             [
-              const InitialSettingsState(),
+              InitialSettingsState(),
               SettingsLoading(currentOperator: currentOperator),
               SettingsTdData(
                 currentOperator: currentOperator,
