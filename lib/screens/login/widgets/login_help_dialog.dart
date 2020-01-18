@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:toptodo/widgets/dialog_header.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginHelpDialog extends StatelessWidget {
   @override
@@ -14,17 +16,37 @@ class LoginHelpDialog extends StatelessWidget {
         children: [
           DialogHeader(),
           Padding(
-            padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
-            child: const Text(
-                'The application password that you need to login is not your '
-                'normal password. It instead is a separate password that you '
-                'will need to create using your TOPdesk environment. In the '
-                'operator settings you can create a new application password '
-                'that you can use here.\n'
-                '\n'
-                'Your operator profile should also be authorized to use the '
-                'REST API. Contact your TOPdesk application manager to verify '
-                'this.'),
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black),
+                children: [
+                  TextSpan(
+                      text: 'Fill in the TOPdesk address and your credentials. '
+                          'Note that the '),
+                  TextSpan(
+                    text: 'application password ',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                  TextSpan(
+                    text: 'differs from your normal password. Read the ',
+                  ),
+                  TextSpan(
+                    text: 'online documentation ',
+                    style: TextStyle(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(
+                          'https://bennorichters.github.io/TOPtodo/',
+                        );
+                      },
+                  ),
+                  TextSpan(
+                    text: 'for more details.',
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
