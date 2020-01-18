@@ -20,12 +20,28 @@ class BranchSelected extends SettingsEvent {
   List<Object> get props => super.props..addAll([branch]);
 }
 
+class CallerSelected extends SettingsEvent {
+  const CallerSelected(this.caller);
+  final TdCaller caller;
+
+  @override
+  List<Object> get props => super.props..addAll([caller]);
+}
+
 class CategorySelected extends SettingsEvent {
   const CategorySelected(this.category);
   final TdCategory category;
 
   @override
   List<Object> get props => super.props..addAll([category]);
+}
+
+class SubcategorySelected extends SettingsEvent {
+  const SubcategorySelected(this.subcategory);
+  final TdSubcategory subcategory;
+
+  @override
+  List<Object> get props => super.props..addAll([subcategory]);
 }
 
 class DurationSelected extends SettingsEvent {
@@ -42,22 +58,6 @@ class OperatorSelected extends SettingsEvent {
 
   @override
   List<Object> get props => super.props..addAll([tdOperator]);
-}
-
-class CallerSelected extends SettingsEvent {
-  const CallerSelected(this.caller);
-  final TdCaller caller;
-
-  @override
-  List<Object> get props => super.props..addAll([caller]);
-}
-
-class SubcategorySelected extends SettingsEvent {
-  const SubcategorySelected(this.subcategory);
-  final TdSubcategory subcategory;
-
-  @override
-  List<Object> get props => super.props..addAll([subcategory]);
 }
 
 class SettingsSave extends SettingsEvent {
