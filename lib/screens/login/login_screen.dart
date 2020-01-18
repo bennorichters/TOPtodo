@@ -62,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               );
             } else if (state is LoginFailed) {
-              print('Here');
               showDialog(
                 context: context,
                 builder: (BuildContext context) => ErrorDialog(
