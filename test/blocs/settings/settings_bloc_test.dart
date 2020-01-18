@@ -12,7 +12,7 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 
 void main() {
   group('settings bloc', () {
-    group('SettingsInit', () {
+    group('FakeTopdeskProvider', () {
       final settingsProvider = MockSettingsProvider();
       final topdeskProvider = FakeTopdeskProvider(latency: Duration.zero);
       var bloc,
@@ -49,235 +49,315 @@ void main() {
         );
       });
 
-      test('correct settings', () async {
-        when(settingsProvider.provide()).thenAnswer(
-          (_) => Future.value(
-            Settings(
-              tdBranchId: branchA.id,
-              tdCallerId: callerAa.id,
-              tdCategoryId: categoryA.id,
-              tdSubcategoryId: subcategoryAa.id,
-              tdDurationId: durationA.id,
-              tdOperatorId: operatorA.id,
-            ),
-          ),
-        );
-
-        bloc.add(const SettingsInit());
-
-        await emitsExactly<SettingsBloc, SettingsState>(
-          bloc,
-          [
-            const InitialSettingsState(),
-            SettingsLoading(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-            ),
-            SettingsTdData(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-              formState: SettingsFormState(
-                tdBranch: branchA,
-                tdCaller: callerAa,
-                tdCategory: categoryA,
-                tdSubcategory: subcategoryAa,
-                tdDuration: durationA,
-                tdOperator: operatorA,
+      group('SettingsInit', () {
+        test('correct settings', () async {
+          when(settingsProvider.provide()).thenAnswer(
+            (_) => Future.value(
+              Settings(
+                tdBranchId: branchA.id,
+                tdCallerId: callerAa.id,
+                tdCategoryId: categoryA.id,
+                tdSubcategoryId: subcategoryAa.id,
+                tdDurationId: durationA.id,
+                tdOperatorId: operatorA.id,
               ),
             ),
-            SettingsTdData(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-              formState: SettingsFormState(
-                tdBranch: branchA,
-                tdCaller: callerAa,
-                tdCategory: categoryA,
-                tdSubcategory: subcategoryAa,
-                tdDuration: durationA,
-                tdOperator: operatorA,
-                tdCategories: categories,
-                tdSubcategories: subcategories,
-                tdDurations: durations,
+          );
+
+          bloc.add(const SettingsInit());
+
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              const InitialSettingsState(),
+              SettingsLoading(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: callerAa,
+                  tdCategory: categoryA,
+                  tdSubcategory: subcategoryAa,
+                  tdDuration: durationA,
+                  tdOperator: operatorA,
+                ),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: callerAa,
+                  tdCategory: categoryA,
+                  tdSubcategory: subcategoryAa,
+                  tdDuration: durationA,
+                  tdOperator: operatorA,
+                  tdCategories: categories,
+                  tdSubcategories: subcategories,
+                  tdDurations: durations,
+                ),
+              ),
+            ],
+          );
+        });
+
+        test('caller belongs to different branch', () async {
+          when(settingsProvider.provide()).thenAnswer(
+            (_) => Future.value(
+              Settings(
+                tdBranchId: branchA.id,
+                tdCallerId: callerAb.id,
+                tdCategoryId: categoryA.id,
+                tdSubcategoryId: subcategoryAa.id,
+                tdDurationId: durationA.id,
+                tdOperatorId: operatorA.id,
               ),
             ),
-          ],
-        );
+          );
+
+          bloc.add(const SettingsInit());
+
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              const InitialSettingsState(),
+              SettingsLoading(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: null,
+                  tdCategory: categoryA,
+                  tdSubcategory: subcategoryAa,
+                  tdDuration: durationA,
+                  tdOperator: operatorA,
+                ),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: null,
+                  tdCategory: categoryA,
+                  tdSubcategory: subcategoryAa,
+                  tdDuration: durationA,
+                  tdOperator: operatorA,
+                  tdCategories: categories,
+                  tdSubcategories: subcategories,
+                  tdDurations: durations,
+                ),
+              ),
+            ],
+          );
+        });
+
+        test('sub category belongs to different category', () async {
+          when(settingsProvider.provide()).thenAnswer(
+            (_) => Future.value(
+              Settings(
+                tdBranchId: branchA.id,
+                tdCallerId: callerAa.id,
+                tdCategoryId: categoryA.id,
+                tdSubcategoryId: subcategoryAb.id,
+                tdDurationId: durationA.id,
+                tdOperatorId: operatorA.id,
+              ),
+            ),
+          );
+
+          bloc.add(const SettingsInit());
+
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              const InitialSettingsState(),
+              SettingsLoading(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: callerAa,
+                  tdCategory: categoryA,
+                  tdSubcategory: null,
+                  tdDuration: durationA,
+                  tdOperator: operatorA,
+                ),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: callerAa,
+                  tdCategory: categoryA,
+                  tdSubcategory: null,
+                  tdDuration: durationA,
+                  tdOperator: operatorA,
+                  tdCategories: categories,
+                  tdSubcategories: subcategories,
+                  tdDurations: durations,
+                ),
+              ),
+            ],
+          );
+        });
+
+        test('empty settings fill operator', () async {
+          when(settingsProvider.provide())
+              .thenAnswer((_) => Future.value(Settings()));
+
+          bloc.add(const SettingsInit());
+
+          final currentOperator = await topdeskProvider.currentTdOperator();
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              const InitialSettingsState(),
+              SettingsLoading(currentOperator: currentOperator),
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: SettingsFormState(
+                  tdOperator: currentOperator,
+                ),
+              ),
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: SettingsFormState(
+                  tdCategories: categories,
+                  tdDurations: durations,
+                  tdOperator: currentOperator,
+                ),
+              ),
+            ],
+          );
+        });
+
+        test('empty settings dont fill operator', () async {
+          when(settingsProvider.provide())
+              .thenAnswer((_) => Future.value(Settings()));
+
+          final currentOperator = TdOperator(
+            id: 'x',
+            name: '',
+            avatar: '',
+            firstLine: false,
+            secondLine: true,
+          );
+          final tdProviderWrongOperator = MockTopdeskProvider();
+          when(tdProviderWrongOperator.currentTdOperator())
+              .thenAnswer((_) => Future.value(currentOperator));
+          when(tdProviderWrongOperator.tdCategories())
+              .thenAnswer((_) => topdeskProvider.tdCategories());
+          when(tdProviderWrongOperator.tdDurations())
+              .thenAnswer((_) => topdeskProvider.tdDurations());
+
+          bloc = SettingsBloc(
+            settingsProvider: settingsProvider,
+            topdeskProvider: tdProviderWrongOperator,
+          );
+          bloc.add(const SettingsInit());
+
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              const InitialSettingsState(),
+              SettingsLoading(currentOperator: currentOperator),
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: SettingsFormState(),
+              ),
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: SettingsFormState(
+                  tdCategories: categories,
+                  tdDurations: durations,
+                ),
+              ),
+            ],
+          );
+        });
       });
 
-      test('caller belongs to different branch', () async {
-        when(settingsProvider.provide()).thenAnswer(
-          (_) => Future.value(
-            Settings(
-              tdBranchId: branchA.id,
-              tdCallerId: callerAb.id,
-              tdCategoryId: categoryA.id,
-              tdSubcategoryId: subcategoryAa.id,
-              tdDurationId: durationA.id,
-              tdOperatorId: operatorA.id,
-            ),
-          ),
-        );
+      group('save', () {
+        test('change operator', () async {
+          final currentOperator = await topdeskProvider.currentTdOperator();
+          final operatorB = await topdeskProvider.tdOperator(id: 'b');
+          final settings = Settings(
+            tdBranchId: branchA.id,
+            tdCallerId: callerAa.id,
+            tdCategoryId: categoryA.id,
+            tdSubcategoryId: subcategoryAa.id,
+            tdDurationId: durationA.id,
+            tdOperatorId: currentOperator.id,
+          );
+          when(settingsProvider.provide())
+              .thenAnswer((_) => Future.value(settings));
 
-        bloc.add(const SettingsInit());
+          bloc.add(SettingsInit());
+          bloc.add(SettingsOperatorSelected(operatorB));
+          bloc.add(SettingsSave());
 
-        await emitsExactly<SettingsBloc, SettingsState>(
-          bloc,
-          [
-            const InitialSettingsState(),
-            SettingsLoading(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-            ),
-            SettingsTdData(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-              formState: SettingsFormState(
-                tdBranch: branchA,
-                tdCaller: null,
-                tdCategory: categoryA,
-                tdSubcategory: subcategoryAa,
-                tdDuration: durationA,
-                tdOperator: operatorA,
+          final originalWithoutLists = SettingsFormState(
+            tdBranch: branchA,
+            tdCaller: callerAa,
+            tdCategory: categoryA,
+            tdSubcategory: subcategoryAa,
+            tdDuration: durationA,
+            tdOperator: currentOperator,
+          );
+
+          final originalWithLists = SettingsFormState(
+            tdBranch: branchA,
+            tdCaller: callerAa,
+            tdCategories: categories,
+            tdCategory: categoryA,
+            tdSubcategories: subcategories,
+            tdSubcategory: subcategoryAa,
+            tdDurations: durations,
+            tdDuration: durationA,
+            tdOperator: currentOperator,
+          );
+
+          final changedOperator = SettingsFormState(
+            tdBranch: branchA,
+            tdCaller: callerAa,
+            tdCategories: categories,
+            tdCategory: categoryA,
+            tdSubcategories: subcategories,
+            tdSubcategory: subcategoryAa,
+            tdDurations: durations,
+            tdDuration: durationA,
+            tdOperator: operatorB,
+          );
+
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              const InitialSettingsState(),
+              SettingsLoading(currentOperator: currentOperator),
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: originalWithoutLists,
               ),
-            ),
-            SettingsTdData(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-              formState: SettingsFormState(
-                tdBranch: branchA,
-                tdCaller: null,
-                tdCategory: categoryA,
-                tdSubcategory: subcategoryAa,
-                tdDuration: durationA,
-                tdOperator: operatorA,
-                tdCategories: categories,
-                tdSubcategories: subcategories,
-                tdDurations: durations,
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: originalWithLists,
               ),
-            ),
-          ],
-        );
-      });
-
-      test('sub category belongs to different category', () async {
-        when(settingsProvider.provide()).thenAnswer(
-          (_) => Future.value(
-            Settings(
-              tdBranchId: branchA.id,
-              tdCallerId: callerAa.id,
-              tdCategoryId: categoryA.id,
-              tdSubcategoryId: subcategoryAb.id,
-              tdDurationId: durationA.id,
-              tdOperatorId: operatorA.id,
-            ),
-          ),
-        );
-
-        bloc.add(const SettingsInit());
-
-        await emitsExactly<SettingsBloc, SettingsState>(
-          bloc,
-          [
-            const InitialSettingsState(),
-            SettingsLoading(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-            ),
-            SettingsTdData(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-              formState: SettingsFormState(
-                tdBranch: branchA,
-                tdCaller: callerAa,
-                tdCategory: categoryA,
-                tdSubcategory: null,
-                tdDuration: durationA,
-                tdOperator: operatorA,
+              SettingsTdData(
+                currentOperator: currentOperator,
+                formState: changedOperator,
               ),
-            ),
-            SettingsTdData(
-              currentOperator: await topdeskProvider.currentTdOperator(),
-              formState: SettingsFormState(
-                tdBranch: branchA,
-                tdCaller: callerAa,
-                tdCategory: categoryA,
-                tdSubcategory: null,
-                tdDuration: durationA,
-                tdOperator: operatorA,
-                tdCategories: categories,
-                tdSubcategories: subcategories,
-                tdDurations: durations,
-              ),
-            ),
-          ],
-        );
-      });
-
-      test('empty settings fill operator', () async {
-        when(settingsProvider.provide())
-            .thenAnswer((_) => Future.value(Settings()));
-
-        bloc.add(const SettingsInit());
-
-        final currentOperator = await topdeskProvider.currentTdOperator();
-        await emitsExactly<SettingsBloc, SettingsState>(
-          bloc,
-          [
-            const InitialSettingsState(),
-            SettingsLoading(currentOperator: currentOperator),
-            SettingsTdData(
-              currentOperator: currentOperator,
-              formState: SettingsFormState(
-                tdOperator: currentOperator,
-              ),
-            ),
-            SettingsTdData(
-              currentOperator: currentOperator,
-              formState: SettingsFormState(
-                tdCategories: categories,
-                tdDurations: durations,
-                tdOperator: currentOperator,
-              ),
-            ),
-          ],
-        );
-      });
-
-      test('empty settings dont fill operator', () async {
-        when(settingsProvider.provide())
-            .thenAnswer((_) => Future.value(Settings()));
-
-        final currentOperator = TdOperator(
-          id: 'x',
-          name: '',
-          avatar: '',
-          firstLine: false,
-          secondLine: true,
-        );
-        final tdProviderWrongOperator = MockTopdeskProvider();
-        when(tdProviderWrongOperator.currentTdOperator())
-            .thenAnswer((_) => Future.value(currentOperator));
-        when(tdProviderWrongOperator.tdCategories())
-            .thenAnswer((_) => topdeskProvider.tdCategories());
-        when(tdProviderWrongOperator.tdDurations())
-            .thenAnswer((_) => topdeskProvider.tdDurations());
-
-        bloc = SettingsBloc(
-          settingsProvider: settingsProvider,
-          topdeskProvider: tdProviderWrongOperator,
-        );
-        bloc.add(const SettingsInit());
-
-        await emitsExactly<SettingsBloc, SettingsState>(
-          bloc,
-          [
-            const InitialSettingsState(),
-            SettingsLoading(currentOperator: currentOperator),
-            SettingsTdData(
-              currentOperator: currentOperator,
-              formState: SettingsFormState(),
-            ),
-            SettingsTdData(
-              currentOperator: currentOperator,
-              formState: SettingsFormState(
-                tdCategories: categories,
-                tdDurations: durations,
-              ),
-            ),
-          ],
-        );
+              SettingsSaved(
+                currentOperator: currentOperator,
+                formState: changedOperator,
+              )
+            ],
+          );
+        });
       });
     });
 
