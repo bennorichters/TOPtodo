@@ -29,31 +29,27 @@ void main() {
 
     test('equals', () {
       expect(
-        SettingsBranchSelected(branchA) == SettingsBranchSelected(branchA),
+        BranchSelected(branchA) == BranchSelected(branchA),
         isTrue,
       );
       expect(
-        SettingsCallerSelected(callerA) == SettingsCallerSelected(callerA),
+        CallerSelected(callerA) == CallerSelected(callerA),
         isTrue,
       );
       expect(
-        SettingsCategorySelected(categoryA) ==
-            SettingsCategorySelected(categoryA),
+        CategorySelected(categoryA) == CategorySelected(categoryA),
         isTrue,
       );
       expect(
-        SettingsSubcategorySelected(subcategoryA) ==
-            SettingsSubcategorySelected(subcategoryA),
+        SubcategorySelected(subcategoryA) == SubcategorySelected(subcategoryA),
         isTrue,
       );
       expect(
-        SettingsDurationSelected(durationA) ==
-            SettingsDurationSelected(durationA),
+        DurationSelected(durationA) == DurationSelected(durationA),
         isTrue,
       );
       expect(
-        SettingsOperatorSelected(operatorA) ==
-            SettingsOperatorSelected(operatorA),
+        OperatorSelected(operatorA) == OperatorSelected(operatorA),
         isTrue,
       );
     });

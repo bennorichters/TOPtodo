@@ -106,7 +106,7 @@ class _SettingsForm extends StatelessWidget {
                 selectedItem: state.formState.tdCategory,
                 onChangedCallBack: (TdCategory newValue) {
                   BlocProvider.of<SettingsBloc>(context)
-                    ..add(SettingsCategorySelected(newValue));
+                    ..add(CategorySelected(newValue));
                 },
               ),
               _SubcategoryWidget(formState: state.formState),
@@ -117,7 +117,7 @@ class _SettingsForm extends StatelessWidget {
                 selectedItem: state.formState.tdDuration,
                 onChangedCallBack: (TdDuration newValue) {
                   BlocProvider.of<SettingsBloc>(context)
-                    ..add(SettingsDurationSelected(newValue));
+                    ..add(DurationSelected(newValue));
                 },
               ),
               SearchField<TdOperator>(
@@ -155,8 +155,7 @@ class _SettingsForm extends StatelessWidget {
         delegate: TdModelSearchDelegate<TdBranch>.allBranches(),
       );
 
-      BlocProvider.of<SettingsBloc>(context)
-        ..add(SettingsBranchSelected(chosenBranch));
+      BlocProvider.of<SettingsBloc>(context)..add(BranchSelected(chosenBranch));
     };
   }
 
@@ -173,7 +172,7 @@ class _SettingsForm extends StatelessWidget {
             );
 
             BlocProvider.of<SettingsBloc>(context)
-              ..add(SettingsCallerSelected(chosenCaller));
+              ..add(CallerSelected(chosenCaller));
           };
   }
 
@@ -186,7 +185,7 @@ class _SettingsForm extends StatelessWidget {
       );
 
       BlocProvider.of<SettingsBloc>(context)
-        ..add(SettingsOperatorSelected(chosenOperator));
+        ..add(OperatorSelected(chosenOperator));
     };
   }
 
@@ -217,7 +216,7 @@ class _SubcategoryWidget extends StatelessWidget {
       selectedItem: formState.tdSubcategory,
       onChangedCallBack: (TdSubcategory newValue) {
         BlocProvider.of<SettingsBloc>(context)
-          ..add(SettingsSubcategorySelected(newValue));
+          ..add(SubcategorySelected(newValue));
       },
     );
   }

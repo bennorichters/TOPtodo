@@ -298,7 +298,7 @@ void main() {
               .thenAnswer((_) => Future.value(settings));
 
           bloc.add(SettingsInit());
-          bloc.add(SettingsOperatorSelected(operatorB));
+          bloc.add(OperatorSelected(operatorB));
           bloc.add(SettingsSave());
 
           final originalWithoutLists = SettingsFormState(
@@ -462,8 +462,8 @@ void main() {
         ),
         act: (SettingsBloc bloc) async {
           await bloc.add(SettingsInit());
-          await bloc.add(SettingsBranchSelected(branchA));
-          await bloc.add(SettingsCallerSelected(callerA));
+          await bloc.add(BranchSelected(branchA));
+          await bloc.add(CallerSelected(callerA));
         },
         expect: [
           InitialSettingsState(),
@@ -500,8 +500,8 @@ void main() {
         ),
         act: (SettingsBloc bloc) async {
           await bloc.add(SettingsInit());
-          await bloc.add(SettingsCategorySelected(categoryA));
-          await bloc.add(SettingsSubcategorySelected(subcategoryA));
+          await bloc.add(CategorySelected(categoryA));
+          await bloc.add(SubcategorySelected(subcategoryA));
         },
         expect: [
           InitialSettingsState(),
@@ -538,7 +538,7 @@ void main() {
         ),
         act: (SettingsBloc bloc) async {
           await bloc.add(SettingsInit());
-          await bloc.add(SettingsDurationSelected(durationA));
+          await bloc.add(DurationSelected(durationA));
         },
         expect: [
           InitialSettingsState(),
@@ -567,7 +567,7 @@ void main() {
         ),
         act: (SettingsBloc bloc) async {
           await bloc.add(SettingsInit());
-          await bloc.add(SettingsOperatorSelected(operatorA));
+          await bloc.add(OperatorSelected(operatorA));
         },
         expect: [
           InitialSettingsState(),

@@ -31,7 +31,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       await _fillFormWithSearchLists();
       yield await _currentData();
-    } else if (event is SettingsCategorySelected) {
+    } else if (event is CategorySelected) {
       _formState = _formState.update(
         updatedTdCategory: event.category,
       );
@@ -42,19 +42,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             await topdeskProvider.tdSubcategories(tdCategory: event.category),
       );
       yield await _currentData();
-    } else if (event is SettingsDurationSelected) {
+    } else if (event is DurationSelected) {
       _formState = _formState.update(updatedTdDuration: event.duration);
       yield await _currentData();
-    } else if (event is SettingsBranchSelected) {
+    } else if (event is BranchSelected) {
       _formState = _formState.update(updatedTdBranch: event.branch);
       yield await _currentData();
-    } else if (event is SettingsOperatorSelected) {
+    } else if (event is OperatorSelected) {
       _formState = _formState.update(updatedTdOperator: event.tdOperator);
       yield await _currentData();
-    } else if (event is SettingsCallerSelected) {
+    } else if (event is CallerSelected) {
       _formState = _formState.update(updatedTdCaller: event.caller);
       yield await _currentData();
-    } else if (event is SettingsSubcategorySelected) {
+    } else if (event is SubcategorySelected) {
       _formState = _formState.update(updatedTdSubcategory: event.subcategory);
       yield await _currentData();
     } else if (event is SettingsSave) {
@@ -63,7 +63,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         currentOperator: await topdeskProvider.currentTdOperator(),
         formState: _formState,
       );
-    } 
+    }
   }
 
   Future<void> _fillFormWithSettings() async {
