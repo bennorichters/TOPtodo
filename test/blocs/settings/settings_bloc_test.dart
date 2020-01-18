@@ -359,6 +359,60 @@ void main() {
           );
         });
       });
+
+      group('outdated saved settings', () {
+        test('duration does not exist', () async {
+          when(settingsProvider.provide()).thenAnswer(
+            (_) => Future.value(
+              Settings(
+                tdBranchId: branchA.id,
+                tdCallerId: callerAa.id,
+                tdCategoryId: categoryA.id,
+                tdSubcategoryId: subcategoryAa.id,
+                tdDurationId: 'does not exist',
+                tdOperatorId: operatorA.id,
+              ),
+            ),
+          );
+
+          bloc.add(SettingsInit());
+
+          await emitsExactly<SettingsBloc, SettingsState>(
+            bloc,
+            [
+              InitialSettingsState(),
+              SettingsLoading(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: callerAa,
+                  tdCategory: categoryA,
+                  tdSubcategory: subcategoryAa,
+                  tdDuration: null,
+                  tdOperator: operatorA,
+                ),
+              ),
+              SettingsTdData(
+                currentOperator: await topdeskProvider.currentTdOperator(),
+                formState: SettingsFormState(
+                  tdBranch: branchA,
+                  tdCaller: callerAa,
+                  tdCategory: categoryA,
+                  tdSubcategory: subcategoryAa,
+                  tdDuration: null,
+                  tdOperator: operatorA,
+                  tdCategories: categories,
+                  tdSubcategories: subcategories,
+                  tdDurations: durations,
+                ),
+              ),
+            ],
+          );
+        });
+      });
     });
 
     group('item selected', () {
