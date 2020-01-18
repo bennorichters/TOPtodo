@@ -40,10 +40,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
           );
           await controller.close();
         });
-      } else {
-        await controller.close();
-        throw ArgumentError('unknown event $event');
-      }
+      } 
     }
 
     controller = StreamController<TdModelSearchState>(
@@ -73,9 +70,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
           startsWith: searchInfo.query,
         ),
       );
-    } else {
-      throw ArgumentError('no search for $searchInfo');
-    }
+    } 
   }
 }
 

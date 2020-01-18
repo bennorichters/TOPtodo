@@ -6,7 +6,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() {
-  group('search', () {
+  group('td model search bloc', () {
     final TopdeskProvider tp = FakeTopdeskProvider(latency: Duration.zero);
     var bloc;
 
@@ -21,7 +21,7 @@ void main() {
       final branches = await tp.tdBranches(startsWith: 'br');
 
       bloc.add(
-        const TdModelSearchIncompleteQuery<TdBranch>(
+        TdModelSearchIncompleteQuery<TdBranch>(
           linkedTo: null,
           query: 'br',
         ),
@@ -62,7 +62,7 @@ void main() {
       final operators = await tp.tdOperators(startsWith: 'a');
 
       bloc.add(
-        const TdModelSearchIncompleteQuery<TdOperator>(
+        TdModelSearchIncompleteQuery<TdOperator>(
           linkedTo: null,
           query: 'a',
         ),
@@ -82,7 +82,7 @@ void main() {
       final operators = await tp.tdOperators(startsWith: 'a');
 
       bloc.add(
-        const TdModelSearchFinishedQuery<TdOperator>(
+        TdModelSearchFinishedQuery<TdOperator>(
           linkedTo: null,
           query: 'a',
         ),
@@ -113,7 +113,7 @@ void main() {
         final subscription = bloc.listen(actual.add);
 
         bloc.add(
-          const TdModelSearchIncompleteQuery<TdBranch>(
+          TdModelSearchIncompleteQuery<TdBranch>(
             linkedTo: null,
             query: 'br',
           ),
