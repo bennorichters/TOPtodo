@@ -283,7 +283,7 @@ void main() {
 
     group('item selected', () {
       final currentOperator = TdOperator(
-        id: '1',
+        id: 'dawn',
         name: 'Dawn Meadows',
         avatar: 'image',
         firstLine: true,
@@ -296,6 +296,20 @@ void main() {
         name: 'caller A',
         avatar: 'img',
         branch: branchA,
+      );
+      final categoryA = TdCategory(id: '1', name: 'category A');
+      final subcategoryA = TdSubcategory(
+        id: '11',
+        name: 'subcategory A',
+        category: categoryA,
+      );
+      final durationA = TdDuration(id: '1', name: 'duration A');
+      final operatorA = TdOperator(
+        id: '1',
+        name: 'operator A',
+        avatar: 'img',
+        firstLine: true,
+        secondLine: true,
       );
 
       final topdeskProvider = MockTopdeskProvider();
@@ -339,6 +353,101 @@ void main() {
               tdBranch: branchA,
               tdCaller: callerA,
               tdOperator: currentOperator,
+            ),
+          ),
+        ],
+      );
+
+      blocTest<SettingsBloc, SettingsEvent, SettingsState>(
+        'first category then subcategory',
+        build: () => SettingsBloc(
+          settingsProvider: settingsProvider,
+          topdeskProvider: topdeskProvider,
+        ),
+        act: (SettingsBloc bloc) async {
+          await bloc.add(SettingsInit());
+          await bloc.add(SettingsCategorySelected(categoryA));
+          await bloc.add(SettingsSubcategorySelected(subcategoryA));
+        },
+        expect: [
+          InitialSettingsState(),
+          SettingsLoading(currentOperator: currentOperator),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategory: categoryA,
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdCategory: categoryA,
+              tdSubcategory: subcategoryA,
+              tdOperator: currentOperator,
+            ),
+          ),
+        ],
+      );
+
+      blocTest<SettingsBloc, SettingsEvent, SettingsState>(
+        'duration',
+        build: () => SettingsBloc(
+          settingsProvider: settingsProvider,
+          topdeskProvider: topdeskProvider,
+        ),
+        act: (SettingsBloc bloc) async {
+          await bloc.add(SettingsInit());
+          await bloc.add(SettingsDurationSelected(durationA));
+        },
+        expect: [
+          InitialSettingsState(),
+          SettingsLoading(currentOperator: currentOperator),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdDuration: durationA,
+              tdOperator: currentOperator,
+            ),
+          ),
+        ],
+      );
+
+      blocTest<SettingsBloc, SettingsEvent, SettingsState>(
+        'operator',
+        build: () => SettingsBloc(
+          settingsProvider: settingsProvider,
+          topdeskProvider: topdeskProvider,
+        ),
+        act: (SettingsBloc bloc) async {
+          await bloc.add(SettingsInit());
+          await bloc.add(SettingsOperatorSelected(operatorA));
+        },
+        expect: [
+          InitialSettingsState(),
+          SettingsLoading(currentOperator: currentOperator),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdOperator: currentOperator,
+            ),
+          ),
+          SettingsTdData(
+            currentOperator: currentOperator,
+            formState: SettingsFormState(
+              tdOperator: operatorA,
             ),
           ),
         ],
