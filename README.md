@@ -24,6 +24,6 @@ The mobile app needs an *application password*. This is different from the norma
 
 ## Open Source
 
-TOPtodo is een [open source project](https://github.com/bennorichters/TOPtodo/).
+TOPtodo is an [open source project](https://github.com/bennorichters/TOPtodo/).
 
 
