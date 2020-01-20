@@ -1,5 +1,5 @@
 ---
-image: https://repository-images.githubusercontent.com/218081395/e2f9aa00-2e22-11ea-9395-d6a897f88c0c
+image: ./images/logo-text.png
 ---
 
 # TOPtodo
