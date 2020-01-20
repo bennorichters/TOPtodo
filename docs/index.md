@@ -12,19 +12,19 @@ This app is currently under development and not yet available.
 
 ## How it works
 
-![flow](./docs/flow.png)
+![flow](./images/flow.png)
 
 ## TOPdesk authorization
 
 You need to have the right authorization levels within TOPdesk to be able to use this app. Of course you need to be able to create incidents, but you also need to be allowed to use the _REST API_ and to create application passwords. You might need to contact your TOPdesk application manager to enable these.
 
-![authorization-api](./docs/authorization-api.png)
+![authorization-api](./images/authorization-api.png)
 
 ## Application password
 
 The mobile app needs an _application password_. This is different from the normal password that is used to log into the TOPdesk web interface. You need to create a password yourself. See below how.
 
-![create-application-password](./docs/create-app-password.gif)
+![create-application-password](./images/create-app-password.gif)
 
 ## Open Source
 
