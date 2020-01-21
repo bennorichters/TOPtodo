@@ -9,6 +9,9 @@ class ErrorDialog extends StatefulWidget {
   final Object cause;
   final bool activeScreenIsLogin;
 
+  static final keyNameOkButton =
+      'com_github_bennorichters_toptodo_error_dialog_ok';
+
   @override
   State<StatefulWidget> createState() => _ErrorDialogState();
 }
@@ -44,6 +47,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
     result.add(
       FlatButton(
+        key: Key(ErrorDialog.keyNameOkButton),
         child: const Text('Ok'),
         onPressed: () => _closeDialog(context),
       ),
@@ -54,10 +58,12 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
   void _closeDialog(BuildContext context) {
     if (widget.cause is TdBadRequestException) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.pushReplacementNamed(context, 'settings');
     } else if (widget.activeScreenIsLogin) {
       Navigator.pop(context);
     } else {
+      Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.pushReplacementNamed(
         context,
         'login',
