@@ -41,15 +41,19 @@ abstract class SettingsProvider {
 /// Provider for TOPdesk elements.
 abstract class TopdeskProvider {
   /// Initializes this provider with the given [Credentials]
-  ///  
-  /// This method tests if the `url` contained in the given `Credentials` can 
-  /// be connected to. If it cannot a [TdCannotConnect] exception will be 
+  ///
+  /// This method tests if the `url` contained in the given `Credentials` can
+  /// be connected to. If it cannot a [TdCannotConnect] exception will be
   /// thrown.
   Future<void> init(Credentials credentials);
 
   /// Invalidates a previous call to init. Implementations can use this method
   /// to  dispose of any cached data.
   void dispose();
+
+  /// Returns the API version of the TOPdesk server this object is initialized
+  /// with.
+  Future<String> apiVersion();
 
   /// Returns the [TdBranch] with the given `id`
   Future<TdBranch> tdBranch({
