@@ -329,34 +329,34 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.12"
+    version: "0.2.13"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.17"
+    version: "0.2.18"
   test_coverage:
     dependency: "direct dev"
     description:
       name: test_coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.1"
   toptodo_data:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "515c5c08b7dc4c645aeacf32603a8ffcd63881b5"
-      resolved-ref: "515c5c08b7dc4c645aeacf32603a8ffcd63881b5"
+      ref: d2b1b2a7c9c5926f3c926d22f8436865cbe2459d
+      resolved-ref: d2b1b2a7c9c5926f3c926d22f8436865cbe2459d
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
