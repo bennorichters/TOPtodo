@@ -91,14 +91,36 @@ class _InitDataProgress extends StatelessWidget {
               ),
             ),
             TableRow(
+              children: [
+                Container(),
+                Padding(
+                  padding: EdgeInsetsDirectional.only(start: _padding + 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: (state.credentials == null)
+                        ? [
+                            Text('TOPdesk address'),
+                            Text('login name'),
+                          ]
+                        : [
+                            Text(state.credentials.url),
+                            Text(state.credentials.loginName),
+                          ],
+                  ),
+                ),
+              ],
+            ),
+            TableRow(
               children: _rowChildren(
                 'settings',
                 state.settings,
               ),
             ),
             TableRow(
-              children:
-                  _rowChildren('your operator profile', state.currentOperator),
+              children: _rowChildren(
+                'your operator profile',
+                state.currentOperator,
+              ),
             ),
           ],
         ),
