@@ -113,8 +113,10 @@ class ApiTopdeskProvider extends TopdeskProvider {
     try {
       final response = await _client.head(_url);
       if (response.statusCode != 200) {
-        throw TdCannotConnect('Cannot connect to $_url. Response code: '
-            '${response.statusCode}');
+        throw TdCannotConnect(
+          'Cannot connect to $_url. Response code: '
+          '${response.statusCode}',
+        );
       }
     } catch (error) {
       throw TdCannotConnect('Cannot connect to $_url. Error: $error');
