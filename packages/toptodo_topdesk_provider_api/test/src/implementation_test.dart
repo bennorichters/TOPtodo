@@ -7,6 +7,8 @@ import 'package:test/test.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_api/toptodo_topdesk_provider_api.dart';
 
+typedef _ClientResponse = Future<Response> Function(Request request);
+
 void main() {
   const credentials = Credentials(
     url: 'a',
@@ -14,12 +16,22 @@ void main() {
     password: 'S3CrEt!',
   );
 
-  group('errors', () {
-    final Client client = MockClient((Request request) async {
+  Client baseClient(_ClientResponse call) {
+    return MockClient((Request request) async {
       if (request.method == 'HEAD') {
         return Response('', 200);
       }
 
+      if (request.url.path == credentials.url + '/tas/api/version') {
+        return Response('{"version": "3.1.0"}', 200);
+      }
+
+      return call(request);
+    });
+  }
+
+  group('errors', () {
+    final client = baseClient((request) async {
       throw ArgumentError();
     });
 
@@ -85,14 +97,7 @@ void main() {
     });
 
     Future<void> testErrorCode(int code, TypeMatcher<dynamic> tm) async {
-      final Client client = MockClient((Request request) async {
-        if (request.method == 'HEAD') {
-          return Response('', 200);
-        }
-
-        return Response('', code);
-      });
-
+      final client = baseClient((request) => Future.value(Response('', code)));
       final atp = ApiTopdeskProvider();
 
       await atp.init(
@@ -132,11 +137,7 @@ void main() {
     });
 
     test('client throws some error', () async {
-      final Client client = MockClient((Request request) async {
-        if (request.method == 'HEAD') {
-          return Response('', 200);
-        }
-
+      final client = baseClient((request) async {
         throw StateError('just testing');
       });
 
@@ -157,11 +158,7 @@ void main() {
     });
 
     test('client throws SocketException', () async {
-      final Client client = MockClient((Request request) async {
-        if (request.method == 'HEAD') {
-          return Response('', 200);
-        }
-
+      final client = baseClient((request) async {
         throw SocketException('just testing');
       });
 
@@ -182,12 +179,8 @@ void main() {
     });
 
     test('timeout', () async {
-      final Client client = MockClient((Request request) async {
-        if (request.method == 'HEAD') {
-          return Response('', 200);
-        }
-
-        return Future<Response>.delayed(
+      final client = baseClient((request) async {
+        return await Future<Response>.delayed(
           const Duration(milliseconds: 50),
           () => Response('{"id": "a", "name": "ABA"}', 200),
         );
@@ -214,16 +207,10 @@ void main() {
 
   group('special', () {
     test('no entities found', () async {
-      final Client client = MockClient((Request request) async {
-        if (request.method == 'HEAD') {
-          return Response('', 200);
-        }
-
-        return Response(
-          '{"message": "No entitites found"}',
-          204,
-        );
-      });
+      final client = baseClient((request) async => Response(
+            '{"message": "No entitites found"}',
+            204,
+          ));
 
       final atp = ApiTopdeskProvider();
       await atp.init(
@@ -241,13 +228,9 @@ void main() {
   group('meta', () {
     test('headers', () async {
       Map<String, String> headers;
-      final mc = MockClient((Request req) async {
-        if (req.method == 'HEAD') {
-          return Response('', 200);
-        }
-
+      final mc = baseClient((req) {
         headers = req.headers;
-        return Response('[]', 200);
+        return Future.value(Response('[]', 200));
       });
 
       final atp = ApiTopdeskProvider();
@@ -280,15 +263,10 @@ void main() {
       int responseCode,
       String responseJson,
     }) async {
-      final Client client = MockClient((Request request) async {
-        if (request.method == 'HEAD') {
-          return Response('', 200);
-        }
-
+      final client = baseClient((request) async {
         if (expectedPath != null) {
           expect(request.url.path, credentials.url + '/' + expectedPath);
         }
-
         if (expectedQueryParameters != null) {
           expect(request.url.queryParameters, expectedQueryParameters);
         }
@@ -314,11 +292,7 @@ void main() {
       String avatarPath,
       Set<String> personIds,
     }) async {
-      final Client client = MockClient((Request req) async {
-        if (req.method == 'HEAD') {
-          return Response('', 200);
-        }
-
+      final client = baseClient((req) async {
         final path = req.url.path.substring(
           credentials.url.length + 1,
         );
@@ -719,11 +693,7 @@ void main() {
 
         var flag = false;
 
-        final Client client = MockClient((Request req) async {
-          if (req.method == 'HEAD') {
-            return Response('', 200);
-          }
-
+        final client = baseClient((req) async {
           if (req.url.path.contains('avatar')) {
             return Response('{"image": "avatar"}', 200);
           }
@@ -763,11 +733,7 @@ void main() {
             '}';
         var flag = false;
 
-        final Client client = MockClient((Request req) async {
-          if (req.method == 'HEAD') {
-            return Response('', 200);
-          }
-
+        final client = baseClient((req) async {
           if (req.url.path.contains('avatar')) {
             return Response('{"image": "avatar"}', 200);
           }
@@ -825,11 +791,7 @@ void main() {
       );
 
       test('without request', () async {
-        final Client client = MockClient((Request request) async {
-          if (request.method == 'HEAD') {
-            return Response('', 200);
-          }
-
+        final client = baseClient((request) async {
           expect(request.url.path, credentials.url + '/tas/api/incidents');
           expect(
             request.headers[HttpHeaders.contentTypeHeader],
@@ -868,11 +830,7 @@ void main() {
       });
 
       test('with request', () async {
-        final Client client = MockClient((Request request) async {
-          if (request.method == 'HEAD') {
-            return Response('', 200);
-          }
-
+        final client = baseClient((request) async {
           expect(request.url.path, credentials.url + '/tas/api/incidents');
           expect(
             request.headers[HttpHeaders.contentTypeHeader],
@@ -912,11 +870,7 @@ void main() {
       });
 
       test('with request with new lines', () async {
-        final Client client = MockClient((Request request) async {
-          if (request.method == 'HEAD') {
-            return Response('', 200);
-          }
-
+        final client = baseClient((request) async {
           final body = json.decode(request.body);
           expect(
             body['request'],

@@ -5,8 +5,11 @@ import 'package:async/async.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
+import 'package:toptodo_topdesk_provider_api/src/version.dart';
 
 typedef _HttpMethod = Future<http.Response> Function(String endPoint);
+
+const _minVersion = Version(3, 1, 0);
 
 /// A [TopdeskProvider] that makes API calls to a TOPdesk server.
 ///
@@ -102,6 +105,8 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ..addAll(_acceptHeaders);
 
     _postHeaders = {}..addAll(_getHeaders)..addAll(_contentHeaders);
+  
+    await _testVersion();
   }
 
   void _testUrl() async {
@@ -111,8 +116,36 @@ class ApiTopdeskProvider extends TopdeskProvider {
         throw TdCannotConnect('Cannot connect to $_url. Response code: '
             '${response.statusCode}');
       }
-    } catch (e) {
-      throw TdCannotConnect('Cannot connect to $_url. Error: $e');
+    } catch (error) {
+      throw TdCannotConnect('Cannot connect to $_url. Error: $error');
+    }
+  }
+
+  Future<void> _testVersion() async {
+    var versionText;
+    try {
+      versionText = await apiVersion();
+    } on TdModelNotFoundException catch (error) {
+      throw TdVersionNotSupported(
+        'unsupported version of TOPdesk API '
+        'required: "$_minVersion" or higher. '
+        'error: $error',
+      );
+    }
+
+    try {
+      final version = Version.fromString(versionText);
+      if (version < _minVersion) {
+        throw TdVersionNotSupported('version of this TOPdesk is not supported. '
+            'API version is: "$versionText", '
+            'required: "$_minVersion" or higher');
+      }
+    } catch (error) {
+      throw TdVersionNotSupported(
+        'unexpected version of TOPdesk API '
+        'version is: $versionText, '
+        'error: $error',
+      );
     }
   }
 
@@ -124,6 +157,12 @@ class ApiTopdeskProvider extends TopdeskProvider {
     _getHeaders = null;
     _client = null;
     _currentOperatorCache.invalidate();
+  }
+
+  @override
+  Future<String> apiVersion() async {
+    final dynamic response = await _apiGet('version');
+    return response['version'];
   }
 
   @override
