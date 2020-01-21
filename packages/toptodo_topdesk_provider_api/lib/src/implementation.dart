@@ -9,7 +9,7 @@ import 'package:toptodo_topdesk_provider_api/src/version.dart';
 
 typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 
-const _minVersion = Version(3, 1, 0);
+const _minTdApiVersion = Version(3, 1, 0);
 
 /// A [TopdeskProvider] that makes API calls to a TOPdesk server.
 ///
@@ -128,18 +128,18 @@ class ApiTopdeskProvider extends TopdeskProvider {
     } on TdModelNotFoundException catch (error) {
       throw TdVersionNotSupported(
         'unsupported version of TOPdesk API '
-        'required: "$_minVersion" or higher. '
+        'required: "$_minTdApiVersion" or higher. '
         'error: $error',
       );
     }
 
     try {
       final version = Version.fromString(versionText);
-      if (version < _minVersion) {
+      if (version < _minTdApiVersion) {
         throw TdVersionNotSupported(
           'version of this TOPdesk is not supported. '
           'API version is: "$versionText", '
-          'required: "$_minVersion" or higher',
+          'required: "$_minTdApiVersion" or higher',
         );
       }
     } catch (error) {
