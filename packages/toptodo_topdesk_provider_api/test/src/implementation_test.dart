@@ -387,9 +387,7 @@ void main() {
         Set<String> personIds,
       }) async {
         final client = baseClient((req) async {
-          final path = req.url.path.substring(
-            credentials.url.length + 1,
-          );
+          final path = req.url.path.substring(credentials.url.length + 1);
           if (path == personPath) {
             expect(
               req.url.queryParameters,
