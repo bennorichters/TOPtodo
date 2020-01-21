@@ -112,7 +112,7 @@ void main() {
       atp.dispose();
     }
 
-    test('no version info', () {
+    test('no version info 404', () {
       final client = MockClient((Request request) async {
         if (request.method == 'HEAD') {
           return Response('', 200);
@@ -132,6 +132,29 @@ void main() {
           client: client,
         ),
         throwsA(const TypeMatcher<TdVersionNotSupported>()),
+      );
+    });
+
+    test('get version not authorized 401', () {
+      final client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
+        if (request.url.path == credentials.url + '/tas/api/version') {
+          return Response('just testing', 401);
+        }
+
+        return Response('', 200);
+      });
+
+      final atp = ApiTopdeskProvider();
+      expect(
+        () async => await atp.init(
+          credentials,
+          client: client,
+        ),
+        throwsA(const TypeMatcher<TdNotAuthorizedException>()),
       );
     });
 
