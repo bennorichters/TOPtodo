@@ -105,7 +105,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
       ..addAll(_acceptHeaders);
 
     _postHeaders = {}..addAll(_getHeaders)..addAll(_contentHeaders);
-  
+
     await _testVersion();
   }
 
@@ -136,9 +136,11 @@ class ApiTopdeskProvider extends TopdeskProvider {
     try {
       final version = Version.fromString(versionText);
       if (version < _minVersion) {
-        throw TdVersionNotSupported('version of this TOPdesk is not supported. '
-            'API version is: "$versionText", '
-            'required: "$_minVersion" or higher');
+        throw TdVersionNotSupported(
+          'version of this TOPdesk is not supported. '
+          'API version is: "$versionText", '
+          'required: "$_minVersion" or higher',
+        );
       }
     } catch (error) {
       throw TdVersionNotSupported(
