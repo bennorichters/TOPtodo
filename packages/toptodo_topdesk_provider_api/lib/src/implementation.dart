@@ -244,8 +244,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
     final List<dynamic> response = await _apiGet('incidents/subcategories');
     final dynamic theOne = response.firstWhere(
       (dynamic json) => json['id'] == id,
-      orElse: () =>
-          throw TdModelNotFoundException('no sub category for id: $id'),
+      orElse: () => throw TdModelNotFoundException(
+        'no sub category for id: $id',
+      ),
     );
 
     return TdSubcategory.fromJson(theOne);
@@ -266,8 +267,9 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<TdDuration> tdDuration({String id}) async {
     return (await tdDurations()).firstWhere(
       (TdDuration e) => e.id == id,
-      orElse: () =>
-          throw TdModelNotFoundException('no incident duration for id: $id'),
+      orElse: () => throw TdModelNotFoundException(
+        'no incident duration for id: $id',
+      ),
     );
   }
 
