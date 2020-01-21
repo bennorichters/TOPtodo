@@ -51,3 +51,11 @@ class TdCannotConnect implements Exception {
   @override
   String toString() => 'TdCannotConnect: $message';
 }
+
+class TdVersionNotSupported implements Exception {
+  const TdVersionNotSupported(this.message);
+  final String message;
+
+  @override
+  String toString() => 'TdVersionNotSupported: $message';
+}

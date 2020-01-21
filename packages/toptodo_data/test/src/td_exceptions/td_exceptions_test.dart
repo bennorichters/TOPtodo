@@ -32,5 +32,10 @@ void main() {
       expect(TdCannotConnect('test').toString(),
           'TdCannotConnect: test');
     });
+
+    test('TdVersionNotSupported', () {
+      expect(TdVersionNotSupported('test').toString(),
+          'TdVersionNotSupported: test');
+    });
   });
 }
