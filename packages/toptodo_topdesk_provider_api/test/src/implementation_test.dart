@@ -112,6 +112,75 @@ void main() {
       atp.dispose();
     }
 
+    test('no version info', () {
+      final client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
+        if (request.url.path == credentials.url + '/tas/api/version') {
+          return Response('just testing', 404);
+        }
+
+        return Response('', 200);
+      });
+
+      final atp = ApiTopdeskProvider();
+      expect(
+        () async => await atp.init(
+          credentials,
+          client: client,
+        ),
+        throwsA(const TypeMatcher<TdVersionNotSupported>()),
+      );
+    });
+
+    test('version too low', () {
+      final client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
+        if (request.url.path == credentials.url + '/tas/api/version') {
+          return Response('{"version": "3.0.9"}', 200);
+        }
+
+        return Response('', 200);
+      });
+
+      final atp = ApiTopdeskProvider();
+      expect(
+        () async => await atp.init(
+          credentials,
+          client: client,
+        ),
+        throwsA(const TypeMatcher<TdVersionNotSupported>()),
+      );
+    });
+
+    test('unexpected version format', () {
+      final client = MockClient((Request request) async {
+        if (request.method == 'HEAD') {
+          return Response('', 200);
+        }
+
+        if (request.url.path == credentials.url + '/tas/api/version') {
+          return Response('{"version": "three.one.zero"}', 200);
+        }
+
+        return Response('', 200);
+      });
+
+      final atp = ApiTopdeskProvider();
+      expect(
+        () async => await atp.init(
+          credentials,
+          client: client,
+        ),
+        throwsA(const TypeMatcher<TdVersionNotSupported>()),
+      );
+    });
+
     test('400', () async {
       await testErrorCode(400, const TypeMatcher<TdBadRequestException>());
     });
