@@ -125,7 +125,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         id == null ? null : method(id: id),
       ).catchError(
         (error) {
-          if (error is TdModelNotFoundException) {
+          if (error is TdNotFoundException) {
             return null;
           }
         },
