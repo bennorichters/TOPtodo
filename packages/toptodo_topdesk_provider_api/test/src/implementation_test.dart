@@ -272,7 +272,7 @@ void main() {
         atp.dispose();
       });
 
-      test('timeout', () async {
+      test('get model timeout', () async {
         final client = baseClient((request) async {
           return await Future<Response>.delayed(
             const Duration(milliseconds: 50),
@@ -292,6 +292,39 @@ void main() {
           atp.tdBranch(id: 'a'),
           throwsA(
             const TypeMatcher<TdTimeOutException>(),
+          ),
+        );
+
+        atp.dispose();
+      });
+
+      test('init timeout throws TdCannotConnect', () async {
+        final client = MockClient((Request request) async {
+          if (request.method == 'HEAD') {
+            return Future.delayed(
+              Duration(milliseconds: 100),
+              () => Response('', 200),
+            );
+          }
+
+          if (request.url.path == credentials.url + '/tas/api/version') {
+            return Response('{"version": "3.1.0"}', 200);
+          }
+
+          throw ArgumentError('not in test scope');
+        });
+
+        final atp = ApiTopdeskProvider(
+          timeOut: const Duration(milliseconds: 10),
+        );
+
+        expect(
+          atp.init(
+            credentials,
+            client: client,
+          ),
+          throwsA(
+            const TypeMatcher<TdCannotConnect>(),
           ),
         );
 
