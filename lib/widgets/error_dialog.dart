@@ -73,34 +73,53 @@ class _ErrorDialogState extends State<ErrorDialog> {
   }
 
   Widget _tldrMessage() {
-    if (widget.cause is TdNotAuthorizedException) {
-      return const Text('You do not have sufficient authorization '
-          'or you password is incorrect. '
-          'Contact your TOPdesk application manager.');
-    }
-
-    if (widget.cause is TdTimeOutException) {
-      return const Text('It took the TOPdesk server too long to respond. '
-          'Please try again later.');
-    }
-
     if (widget.cause is TdBadRequestException) {
-      return const Text('Some of the settings are invalid. '
-          'Update the settings.');
-    }
-
-    if (widget.cause is TdServerException) {
-      return const Text('There was a problem with the TOPdesk server. '
-          'Contact your TOPdesk application manager.');
+      return const Text(
+        'Some of the settings are invalid. '
+        'Update the settings.',
+      );
     }
 
     if (widget.cause is TdCannotConnect) {
-      return const Text('The TOPdesk server cannot be reached. '
-          'Check the TOPdesk address and your internet connection '
-          'or contact your TOPdesk application manager.');
+      return const Text(
+        'The TOPdesk server cannot be reached. '
+        'Check the TOPdesk address and your internet connection '
+        'or contact your TOPdesk application manager.',
+      );
     }
 
-    return const Text('An unexpected error happened. '
-        'Please try again later.');
+    if (widget.cause is TdNotAuthorizedException) {
+      return const Text(
+        'You do not have sufficient authorization '
+        'or you password is incorrect. '
+        'Contact your TOPdesk application manager.',
+      );
+    }
+
+    if (widget.cause is TdServerException) {
+      return const Text(
+        'There was a problem with the TOPdesk server. '
+        'Contact your TOPdesk application manager.',
+      );
+    }
+
+    if (widget.cause is TdTimeOutException) {
+      return const Text(
+        'It took the TOPdesk server too long to respond. '
+        'Please try again later.',
+      );
+    }
+
+    if (widget.cause is TdVersionNotSupported) {
+      return const Text(
+        'The version of TOPdesk you are trying to connect to '
+        'is not supported.',
+      );
+    }
+
+    return const Text(
+      'An unexpected error happened. '
+      'Please try again later.',
+    );
   }
 }
