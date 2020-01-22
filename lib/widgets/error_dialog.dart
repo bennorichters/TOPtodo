@@ -10,7 +10,7 @@ class ErrorDialog extends StatefulWidget {
   final bool activeScreenIsLogin;
 
   static final keyNameOkButton =
-      'com_github_bennorichters_toptodo_error_dialog_ok';
+      'com.github.bennorichters.toptodo_error_dialog_ok';
 
   @override
   State<StatefulWidget> createState() => _ErrorDialogState();
