@@ -223,7 +223,7 @@ void main() {
       });
 
       test('404', () async {
-        await testErrorCode(404, const TypeMatcher<TdModelNotFoundException>());
+        await testErrorCode(404, const TypeMatcher<TdNotFoundException>());
       });
 
       test('500', () async {
@@ -435,7 +435,7 @@ void main() {
             expect(
               basicProvider.tdBranch(id: 'doesnotexist'),
               throwsA(
-                const TypeMatcher<TdModelNotFoundException>(),
+                const TypeMatcher<TdNotFoundException>(),
               ),
             );
           });
@@ -487,7 +487,7 @@ void main() {
             expect(
               basicProvider.tdCategory(id: 'doesnotexist'),
               throwsA(
-                const TypeMatcher<TdModelNotFoundException>(),
+                const TypeMatcher<TdNotFoundException>(),
               ),
             );
           });
@@ -533,7 +533,7 @@ void main() {
             expect(
               basicProvider.tdSubcategory(id: 'doesnotexist'),
               throwsA(
-                const TypeMatcher<TdModelNotFoundException>(),
+                const TypeMatcher<TdNotFoundException>(),
               ),
             );
           });
@@ -573,7 +573,7 @@ void main() {
             expect(
               basicProvider.tdDuration(id: 'doesnotexist'),
               throwsA(
-                const TypeMatcher<TdModelNotFoundException>(),
+                const TypeMatcher<TdNotFoundException>(),
               ),
             );
           });
@@ -786,7 +786,7 @@ void main() {
             expect(
               personProvider.tdCaller(id: 'doesnotexist'),
               throwsA(
-                const TypeMatcher<TdModelNotFoundException>(),
+                const TypeMatcher<TdNotFoundException>(),
               ),
             );
           });
@@ -871,7 +871,7 @@ void main() {
             expect(
               personProvider.tdOperator(id: 'doesnotexist'),
               throwsA(
-                const TypeMatcher<TdModelNotFoundException>(),
+                const TypeMatcher<TdNotFoundException>(),
               ),
             );
           });

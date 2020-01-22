@@ -355,8 +355,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "221f92969e8501f83acfd55b23dff7335525ce8e"
-      resolved-ref: "221f92969e8501f83acfd55b23dff7335525ce8e"
+      ref: "4faa3e5d4034dbe70c04564ddd74e71bfd050cfe"
+      resolved-ref: "4faa3e5d4034dbe70c04564ddd74e71bfd050cfe"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"

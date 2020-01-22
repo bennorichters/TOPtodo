@@ -121,7 +121,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     var versionText;
     try {
       versionText = await apiVersion();
-    } on TdModelNotFoundException catch (error) {
+    } on TdNotFoundException catch (error) {
       throw TdVersionNotSupported(
         'unsupported version of TOPdesk API '
         'required: "$_minTdApiVersion" or higher. '
@@ -224,7 +224,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<TdCategory> tdCategory({String id}) async =>
       (await tdCategories()).firstWhere(
         (TdCategory c) => c.id == id,
-        orElse: () => throw TdModelNotFoundException('no category for id: $id'),
+        orElse: () => throw TdNotFoundException('no category for id: $id'),
       );
 
   @override
@@ -238,7 +238,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     final List<dynamic> response = await _apiGet('incidents/subcategories');
     final dynamic theOne = response.firstWhere(
       (dynamic json) => json['id'] == id,
-      orElse: () => throw TdModelNotFoundException(
+      orElse: () => throw TdNotFoundException(
         'no sub category for id: $id',
       ),
     );
@@ -261,7 +261,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
   Future<TdDuration> tdDuration({String id}) async {
     return (await tdDurations()).firstWhere(
       (TdDuration e) => e.id == id,
-      orElse: () => throw TdModelNotFoundException(
+      orElse: () => throw TdNotFoundException(
         'no incident duration for id: $id',
       ),
     );
@@ -408,7 +408,7 @@ class ApiTopdeskProvider extends TopdeskProvider {
     }
 
     if (res.statusCode == 404) {
-      throw TdModelNotFoundException('404 for $endPoint body: ${res.body}');
+      throw TdNotFoundException('404 for $endPoint body: ${res.body}');
     }
 
     if (res.statusCode == 500) {
