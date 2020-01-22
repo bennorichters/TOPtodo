@@ -1,92 +1,154 @@
-<svg version="1.1" 
-    baseProfile="full" 
-    width="100%" 
-    viewBox="0 0 640 320" 
-    xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink">
-
-    <defs>
-        <linearGradient id="grad1" 
-            x1="0%" 
-            y1="0%" 
-            x2="0%" 
-            y2="100%">
-            <stop offset="0%" 
-                style="stop-color:#DCF1EF;stop-opacity:1" />
-            <stop offset="100%" 
-                style="stop-color:#BAE2DF;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-
-    <rect x="0" 
-        y="0" 
-        width="640" 
-        height="320" 
-        fill="url(#grad1)"/>
-
-    <g id="td">
-        <g transform="rotate(-135 70 80)" 
-            fill="#C24530">
-            <path id="part" 
-                d="M 95 80 
-		a 25 25, 0, 0, 1, -50 0
-		l 25 0" />
-        </g>
-        <g transform="rotate(-45 70 80)" 
-            fill="#E65038">
-            <use xlink:href="#part"/>
-        </g>
-        <g transform="rotate(-45 70 80)">
-            <rect x="70" 
-                y="80" 
-                width="25" 
-                height="25" 
-                stroke="#E65038" 
-                fill="#E65038" 
-                stroke-width="0"/>
-        </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta2 (2b71d25, 2019-12-03)"
+   sodipodi:docname="logo_text.svg"
+   id="svg927"
+   viewBox="0 0 640 320"
+   width="100%"
+   version="1.1">
+  <metadata
+     id="metadata931">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="svg927"
+     inkscape:window-maximized="1"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:cy="160"
+     inkscape:cx="320"
+     inkscape:zoom="1.509375"
+     showgrid="false"
+     id="namedview929"
+     inkscape:window-height="1005"
+     inkscape:window-width="1680"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     inkscape:document-rotation="0"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <defs
+     id="defs897">
+    <linearGradient
+       y2="100%"
+       x2="0%"
+       y1="0%"
+       x1="0%"
+       id="grad1">
+      <stop
+         id="stop892"
+         style="stop-color:#DCF1EF;stop-opacity:1"
+         offset="0%" />
+      <stop
+         id="stop894"
+         style="stop-color:#BAE2DF;stop-opacity:1"
+         offset="100%" />
+    </linearGradient>
+  </defs>
+  <rect
+     id="rect899"
+     fill="url(#grad1)"
+     height="320"
+     width="640"
+     y="0"
+     x="0" />
+  <g
+     id="td">
+    <g
+       id="g902"
+       fill="#C24530"
+       transform="rotate(-135 70 80)">
+      <path
+         d="M 95 80    a 25 25, 0, 0, 1, -50 0   l 25 0"
+         id="part" />
     </g>
-
-    <g transform="translate(0, 75)">
-        <use xlink:href="#td"/>
+    <g
+       id="g906"
+       fill="#E65038"
+       transform="rotate(-45 70 80)">
+      <use
+         id="use904"
+         xlink:href="#part" />
     </g>
-
-    <rect x="58" 
-        y="210" 
-        width="40" 
-        height="40" 
-        stroke="#0A7DA0" 
-        stroke-width="5" 
-        style="fill:none"/>
-
-
-    <line x1="130" 
-        y1="80" 
-        x2="250" 
-        y2="80" 
-        stroke="#19A064" 
-        stroke-width="5"/>
-
-    <line x1="130" 
-        y1="155" 
-        x2="250" 
-        y2="155" 
-        stroke="#19A064" 
-        stroke-width="5"/>
-
-    <line x1="130" 
-        y1="228" 
-        x2="250" 
-        y2="228" 
-        stroke="#0A7DA0" 
-        stroke-width="5"/>
-
-    <text x="290" 
-        y="180" 
-        font-size='80' 
-        fill='#0A7DA0' 
-        font-weight="bold" 
-        font-family='Open Sans'
-        
-		>TOPtodo</text>
+    <g
+       id="g910"
+       transform="rotate(-45 70 80)">
+      <rect
+         id="rect908"
+         stroke-width="0"
+         fill="#E65038"
+         stroke="#E65038"
+         height="25"
+         width="25"
+         y="80"
+         x="70" />
+    </g>
+  </g>
+  <g
+     id="g915"
+     transform="translate(0, 75)">
+    <use
+       id="use913"
+       xlink:href="#td" />
+  </g>
+  <rect
+     id="rect917"
+     style="fill:none"
+     stroke-width="5"
+     stroke="#0A7DA0"
+     height="40"
+     width="40"
+     y="210"
+     x="58" />
+  <line
+     id="line919"
+     stroke-width="5"
+     stroke="#19A064"
+     y2="80"
+     x2="250"
+     y1="80"
+     x1="130" />
+  <line
+     id="line921"
+     stroke-width="5"
+     stroke="#19A064"
+     y2="155"
+     x2="250"
+     y1="155"
+     x1="130" />
+  <line
+     id="line923"
+     stroke-width="5"
+     stroke="#0A7DA0"
+     y2="228"
+     x2="250"
+     y1="228"
+     x1="130" />
+  <text
+     id="text925"
+     font-family="Open Sans"
+     font-weight="bold"
+     fill="#0A7DA0"
+     font-size="80"
+     y="182"
+     x="272">TOPtodo</text>
 </svg>
