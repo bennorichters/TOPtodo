@@ -9,10 +9,11 @@ FlutterSecureStorage _defaultStorageProvider() => FlutterSecureStorage();
 /// A [CredentialsProvider] that uses [FlutterSecureStorage].
 class SecureStorageCredentials implements CredentialsProvider {
   /// Creates a [SecureStorageCredentials].
-  /// 
+  ///
   /// If the argument [storageProvider] is ommitted a default callback is used
   /// that provides a new instance of [FlutterSecureStorage].
   SecureStorageCredentials({this.storageProvider = _defaultStorageProvider});
+
   /// A callback for the [FlutterSecureStorage] that this object uses.
   final storageProvider;
 
