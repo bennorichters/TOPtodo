@@ -11,11 +11,11 @@ environment:
 
 dependencies:
   toptodo_data:
-    git: 
+    git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: 515c5c08b7dc4c645aeacf32603a8ffcd63881b5
+      ref: 4faa3e5d4034dbe70c04564ddd74e71bfd050cfe
 
 dev_dependencies:
-  test: ^1.11.0
-  test_coverage: ^0.4.0
+  test: ^1.11.1
+  test_coverage: ^0.4.1

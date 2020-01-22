@@ -17,7 +17,7 @@ import 'package:toptodo_topdesk_provider_mock/json/sub_categories.dart'
     as json_sub_categories;
 
 /// A [TopdeskProvider] that returns dummy data.
-/// 
+///
 /// This object can be useful for testing purposes. The returned data is based
 /// on static json objects. The [init] and [dispose] methods of this object do
 /// not do anything.
@@ -38,13 +38,17 @@ class FakeTopdeskProvider implements TopdeskProvider {
   }
 
   @override
+  Future<String> apiVersion() {
+    return Future.value('0.0.0');
+  }
+
+  @override
   Future<TdBranch> tdBranch({String id}) async => (await tdBranches(
         startsWith: '',
       ))
           .firstWhere(
         (TdBranch b) => b.id == id,
-        orElse: () =>
-            throw TdModelNotFoundException('no branch found with id: $id'),
+        orElse: () => throw TdNotFoundException('no branch found with id: $id'),
       );
 
   @override
@@ -68,7 +72,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _withDelay(json_callers.callers);
     final dynamic found = response.firstWhere(
       (dynamic e) => e['id'] == id,
-      orElse: () => throw TdModelNotFoundException(
+      orElse: () => throw TdNotFoundException(
         'no caller for id: $id',
       ),
     );
@@ -114,7 +118,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<TdCategory> tdCategory({String id}) async {
     return (await tdCategories()).firstWhere(
       (TdCategory c) => c.id == id,
-      orElse: () => throw TdModelNotFoundException('no category for id: $id'),
+      orElse: () => throw TdNotFoundException('no category for id: $id'),
     );
   }
 
@@ -132,8 +136,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
         await _withDelay(json_sub_categories.subcategories);
     final dynamic json = response.firstWhere(
       (dynamic e) => e['id'] == id,
-      orElse: () =>
-          throw TdModelNotFoundException('no sub category for id: $id'),
+      orElse: () => throw TdNotFoundException('no sub category for id: $id'),
     );
 
     return _subcategoryFromJson(json, await tdCategory(id: json['categoryId']));
@@ -177,7 +180,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
     return (await tdDurations()).firstWhere(
       (TdDuration e) => e.id == id,
       orElse: () =>
-          throw TdModelNotFoundException('no incident duration for id: $id'),
+          throw TdNotFoundException('no incident duration for id: $id'),
     );
   }
 
@@ -185,7 +188,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
   Future<TdOperator> tdOperator({String id}) async {
     return (await tdOperators(startsWith: '')).firstWhere(
       (TdOperator e) => e.id == id,
-      orElse: () => throw TdModelNotFoundException('no operator for id: $id'),
+      orElse: () => throw TdNotFoundException('no operator for id: $id'),
     );
   }
 
