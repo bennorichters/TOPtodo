@@ -1,61 +1,44 @@
-/// Thrown when a TOPdesk models is requested that cannot be found
-class TdModelNotFoundException implements Exception {
-  const TdModelNotFoundException(this.message);
+/// Base class for all exceptions related to API communication with a TOPdesk
+/// server
+abstract class TdException implements Exception {
+  const TdException(this.message);
   final String message;
 
   @override
-  String toString() => 'TdModelNotFoundException: $message';
+  String toString() => '$runtimeType: $message';
+}
+
+/// Thrown when the requested source cannot be found
+class TdNotFoundException extends TdException {
+  const TdNotFoundException(String message) : super(message);
 }
 
 /// Thrown when a request cannot be authorized by the TOPdesk server
-class TdNotAuthorizedException implements Exception {
-  const TdNotAuthorizedException(this.message);
-  final String message;
-
-  @override
-  String toString() => 'TdNotAuthorizedException: $message';
+class TdNotAuthorizedException extends TdException {
+  const TdNotAuthorizedException(String message) : super(message);
 }
 
 /// Thrown when a request triggers an error response by the TOPdesk server
-class TdBadRequestException implements Exception {
-  const TdBadRequestException(this.message);
-  final String message;
-
-  @override
-  String toString() => 'TdBadRequestException: $message';
+class TdBadRequestException extends TdException {
+  const TdBadRequestException(String message) : super(message);
 }
 
 /// Thrown when there is an error with contacting the TOPdesk server
-class TdServerException implements Exception {
-  const TdServerException(this.message);
-  final String message;
-
-  @override
-  String toString() => 'TdServerException: $message';
+class TdServerException extends TdException {
+  const TdServerException(String message) : super(message);
 }
 
 /// Thrown when a request to the TOPdesk server times out
-class TdTimeOutException implements Exception {
-  const TdTimeOutException(this.message);
-  final String message;
-
-  @override
-  String toString() => 'TdTimeOutException: $message';
+class TdTimeOutException extends TdException {
+  const TdTimeOutException(String message) : super(message);
 }
 
 /// Thrown when the TOPdesk server cannot be reached
-class TdCannotConnect implements Exception {
-  const TdCannotConnect(this.message);
-  final String message;
-
-  @override
-  String toString() => 'TdCannotConnect: $message';
+class TdCannotConnect extends TdException {
+  const TdCannotConnect(String message) : super(message);
 }
 
-class TdVersionNotSupported implements Exception {
-  const TdVersionNotSupported(this.message);
-  final String message;
-
-  @override
-  String toString() => 'TdVersionNotSupported: $message';
+/// Thrown when the version of the TOPdesk server is not supported
+class TdVersionNotSupported extends TdException {
+  const TdVersionNotSupported(String message) : super(message);
 }
