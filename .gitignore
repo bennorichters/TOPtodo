@@ -74,6 +74,7 @@
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 # TOPtodo
+key.json
 key.properties
 sandbox.dart
 sandbox_test.dart
