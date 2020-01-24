@@ -228,7 +228,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
       (_currentOperator ??= (await tdOperators(startsWith: '')).first);
 
   Future<String> _avatar() async {
-    return (await _withDelay(json_avatar.avatar))['black'];
+    return (await _withDelay(json_avatar.avatar))['DawnMeadows'];
   }
 
   @override
