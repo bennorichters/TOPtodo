@@ -8,7 +8,8 @@ import 'package:toptodo_repository_providers_impl/'
 import 'package:toptodo/blocs/all_blocs.dart';
 import 'package:toptodo/screens/all_screens.dart';
 import 'package:toptodo/utils/td_colors.dart';
-import 'package:toptodo_topdesk_provider_api/toptodo_topdesk_provider_api.dart';
+// import 'package:toptodo_topdesk_provider_api/toptodo_topdesk_provider_api.dart';
+import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
 void main() => runApp(TopToDoApp());
 
@@ -25,7 +26,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
   @override
   void initState() {
     _credentialsProvider = SecureStorageCredentials();
-    _topdeskProvider = ApiTopdeskProvider();
+    _topdeskProvider = FakeTopdeskProvider();
     _settingsProvider = SharedPreferencesSettingsProvider();
 
     super.initState();
