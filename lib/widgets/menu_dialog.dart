@@ -23,6 +23,7 @@ class MenuDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
+        constraints: BoxConstraints(maxWidth: 400),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
