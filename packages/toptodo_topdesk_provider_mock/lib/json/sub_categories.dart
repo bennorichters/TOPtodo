@@ -8,5 +8,5 @@ const List<Map<String, dynamic>> subcategories = [
   {'id': 'af', 'name': 'Jet', 'categoryId': 'c'},
   {'id': 'bv', 'name': 'Teun', 'categoryId': 'a'},
   {'id': 'bw', 'name': 'Vuur', 'categoryId': 'b'},
-  {'id': 'bx', 'name': 'Gijs', 'categoryId': 'a'}
+  {'id': 'bx', 'name': 'Todo', 'categoryId': 'a'}
 ];

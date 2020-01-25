@@ -6,5 +6,6 @@ const List<Map<String, dynamic>> operators = [
   {'id': 'd', 'name': 'Deesje'},
   {'id': 'e', 'name': 'Eduard'},
   {'id': 'f', 'name': 'Francisca'},
-  {'id': 'g', 'name': 'Gertruide'}
+  {'id': 'g', 'name': 'Gertruide'},
+  {'id': 'h', 'name': 'Dawn Meadows'},
 ];

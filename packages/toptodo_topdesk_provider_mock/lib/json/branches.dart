@@ -1,6 +1,6 @@
 /// Branches
 const List<Map<String, dynamic>> branches = [
-  {'id': 'a', 'name': 'Branch a'},
+  {'id': 'a', 'name': 'TOPdesk UK'},
   {'id': 'b', 'name': 'Branch b'},
   {'id': 'c', 'name': 'Branch c'},
   {'id': 'd', 'name': 'D Branch'},
