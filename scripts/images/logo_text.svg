@@ -8,12 +8,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:version="1.0beta2 (2b71d25, 2019-12-03)"
-   sodipodi:docname="logo_text.svg"
-   id="svg927"
-   viewBox="0 0 640 320"
+   inkscape:export-ydpi="192"
+   inkscape:export-xdpi="192"
+   inkscape:export-filename="/Users/bennorichters/Documents/logo_text_1280_640.png"
+   version="1.1"
    width="100%"
-   version="1.1">
+   viewBox="0 0 640 320"
+   id="svg927"
+   sodipodi:docname="logo_text.svg"
+   inkscape:version="1.0beta2 (2b71d25, 2019-12-03)">
   <metadata
      id="metadata931">
     <rdf:RDF>
@@ -26,129 +29,187 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:current-layer="svg927"
-     inkscape:window-maximized="1"
-     inkscape:window-y="23"
-     inkscape:window-x="0"
-     inkscape:cy="160"
-     inkscape:cx="320"
-     inkscape:zoom="1.509375"
-     showgrid="false"
-     id="namedview929"
-     inkscape:window-height="1005"
-     inkscape:window-width="1680"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0"
-     guidetolerance="10"
-     gridtolerance="10"
-     objecttolerance="10"
-     borderopacity="1"
-     inkscape:document-rotation="0"
+     pagecolor="#ffffff"
      bordercolor="#666666"
-     pagecolor="#ffffff" />
+     inkscape:document-rotation="0"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1680"
+     inkscape:window-height="1005"
+     id="namedview929"
+     showgrid="true"
+     inkscape:zoom="1.509375"
+     inkscape:cx="320"
+     inkscape:cy="160"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg927">
+    <inkscape:grid
+       id="grid895"
+       type="xygrid" />
+  </sodipodi:namedview>
   <defs
      id="defs897">
     <linearGradient
-       y2="100%"
-       x2="0%"
-       y1="0%"
+       id="grad1"
        x1="0%"
-       id="grad1">
+       y1="0%"
+       x2="0%"
+       y2="100%">
       <stop
-         id="stop892"
+         offset="0%"
          style="stop-color:#DCF1EF;stop-opacity:1"
-         offset="0%" />
+         id="stop892" />
       <stop
-         id="stop894"
+         offset="100%"
          style="stop-color:#BAE2DF;stop-opacity:1"
-         offset="100%" />
+         id="stop894" />
     </linearGradient>
   </defs>
   <rect
-     id="rect899"
-     fill="url(#grad1)"
-     height="320"
-     width="640"
+     x="0"
      y="0"
-     x="0" />
+     width="640"
+     height="320"
+     fill="url(#grad1)"
+     id="rect899" />
   <g
+     transform="translate(0,5)"
      id="td">
     <g
-       id="g902"
+       transform="rotate(-135,70,80)"
        fill="#C24530"
-       transform="rotate(-135 70 80)">
+       id="g902">
       <path
-         d="M 95 80    a 25 25, 0, 0, 1, -50 0   l 25 0"
-         id="part" />
+         inkscape:connector-curvature="0"
+         id="part"
+         d="M 95,80 A 25,25 0 0 1 45,80 H 70" />
     </g>
     <g
-       id="g906"
+       transform="rotate(-45,70,80)"
        fill="#E65038"
-       transform="rotate(-45 70 80)">
+       id="g906">
       <use
-         id="use904"
-         xlink:href="#part" />
+         height="100%"
+         width="100%"
+         y="0"
+         x="0"
+         xlink:href="#part"
+         id="use904" />
     </g>
     <g
-       id="g910"
-       transform="rotate(-45 70 80)">
+       transform="rotate(-45,70,80)"
+       id="g910">
       <rect
-         id="rect908"
-         stroke-width="0"
-         fill="#E65038"
-         stroke="#E65038"
-         height="25"
-         width="25"
+         x="70"
          y="80"
-         x="70" />
+         width="25"
+         height="25"
+         stroke="#E65038"
+         fill="#E65038"
+         stroke-width="0"
+         id="rect908" />
     </g>
   </g>
   <g
-     id="g915"
-     transform="translate(0, 75)">
+     transform="translate(0,80)"
+     id="g915">
     <use
-       id="use913"
-       xlink:href="#td" />
+       transform="translate(0,-5)"
+       height="100%"
+       width="100%"
+       y="0"
+       x="0"
+       xlink:href="#td"
+       id="use913" />
   </g>
   <rect
-     id="rect917"
-     style="fill:none"
-     stroke-width="5"
-     stroke="#0A7DA0"
-     height="40"
+     x="58"
+     y="215"
      width="40"
-     y="210"
-     x="58" />
-  <line
-     id="line919"
-     stroke-width="5"
-     stroke="#19A064"
-     y2="80"
-     x2="250"
-     y1="80"
-     x1="130" />
-  <line
-     id="line921"
-     stroke-width="5"
-     stroke="#19A064"
-     y2="155"
-     x2="250"
-     y1="155"
-     x1="130" />
-  <line
-     id="line923"
-     stroke-width="5"
+     height="40"
      stroke="#0A7DA0"
-     y2="228"
+     stroke-width="5"
+     style="fill:none"
+     id="rect917" />
+  <line
+     x1="130"
+     y1="85"
      x2="250"
-     y1="228"
-     x1="130" />
+     y2="85"
+     stroke="#19A064"
+     stroke-width="5"
+     id="line919" />
+  <line
+     x1="130"
+     y1="160"
+     x2="250"
+     y2="160"
+     stroke="#19A064"
+     stroke-width="5"
+     id="line921" />
+  <line
+     x1="130"
+     y1="233"
+     x2="250"
+     y2="233"
+     stroke="#0A7DA0"
+     stroke-width="5"
+     id="line923" />
   <text
-     id="text925"
-     font-family="Open Sans"
-     font-weight="bold"
-     fill="#0A7DA0"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:74.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0a7da0"
+     x="270"
+     y="187"
      font-size="80"
-     y="182"
-     x="272">TOPtodo</text>
+     fill="#0A7DA0"
+     font-weight="bold"
+     font-family="Open Sans"
+     id="text925">TOPtodo</text>
+  <rect
+     y="45"
+     x="30"
+     height="240"
+     width="580"
+     id="rect897"
+     style="fill:none" />
+  <rect
+     y="45"
+     x="40"
+     height="250"
+     width="470"
+     id="rect900"
+     style="fill:none" />
+  <rect
+     y="45"
+     x="40"
+     height="240"
+     width="450"
+     id="rect902"
+     style="fill:none" />
+  <rect
+     y="45"
+     x="40"
+     height="30"
+     width="30"
+     id="rect904"
+     style="fill:none" />
+  <rect
+     y="45"
+     x="30"
+     height="250"
+     width="570"
+     id="rect906"
+     style="fill:none" />
+  <rect
+     y="35"
+     x="20"
+     height="260"
+     width="580"
+     id="rect909"
+     style="fill:none" />
 </svg>
