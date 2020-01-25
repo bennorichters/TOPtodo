@@ -182,7 +182,7 @@
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = C696W93DR9;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -391,7 +391,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.bennorichters.toptodo;
 				PRODUCT_NAME = TOPtodo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -526,7 +526,7 @@
 				PRODUCT_NAME = TOPtodo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -553,7 +553,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.bennorichters.toptodo;
 				PRODUCT_NAME = TOPtodo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
