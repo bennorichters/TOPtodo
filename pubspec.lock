@@ -510,8 +510,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_repository_providers_impl"
-      ref: "633281b74d72a764f3e180a5d02832e3b03f1167"
-      resolved-ref: "633281b74d72a764f3e180a5d02832e3b03f1167"
+      ref: f50914aaed010c657cea39582e6a655e4ee99017
+      resolved-ref: f50914aaed010c657cea39582e6a655e4ee99017
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -519,8 +519,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_topdesk_provider_api"
-      ref: "633281b74d72a764f3e180a5d02832e3b03f1167"
-      resolved-ref: "633281b74d72a764f3e180a5d02832e3b03f1167"
+      ref: f50914aaed010c657cea39582e6a655e4ee99017
+      resolved-ref: f50914aaed010c657cea39582e6a655e4ee99017
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -528,8 +528,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/toptodo_topdesk_provider_mock"
-      ref: "633281b74d72a764f3e180a5d02832e3b03f1167"
-      resolved-ref: "633281b74d72a764f3e180a5d02832e3b03f1167"
+      ref: f50914aaed010c657cea39582e6a655e4ee99017
+      resolved-ref: f50914aaed010c657cea39582e6a655e4ee99017
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
