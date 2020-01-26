@@ -77,7 +77,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3+3"
+    version: "0.13.4"
   crypto:
     dependency: transitive
     description:
@@ -425,8 +425,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "4faa3e5d4034dbe70c04564ddd74e71bfd050cfe"
-      resolved-ref: "4faa3e5d4034dbe70c04564ddd74e71bfd050cfe"
+      ref: aeaf74fbb4a30cde847a4e28cdcf438c20003ac2
+      resolved-ref: aeaf74fbb4a30cde847a4e28cdcf438c20003ac2
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -434,8 +434,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_topdesk_provider_mock"
-      ref: f50914aaed010c657cea39582e6a655e4ee99017
-      resolved-ref: f50914aaed010c657cea39582e6a655e4ee99017
+      ref: "6f39d29fbc4cc52d54404dbbb0b8dc3ac82c5f45"
+      resolved-ref: "6f39d29fbc4cc52d54404dbbb0b8dc3ac82c5f45"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
