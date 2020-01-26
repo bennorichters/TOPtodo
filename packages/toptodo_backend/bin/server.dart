@@ -4,6 +4,7 @@ import 'package:appengine/appengine.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
 
+const pathTasApiPrefix = '/tas/api/';
 TopdeskProvider tdProvider;
 
 void main() async {
@@ -54,32 +55,12 @@ Map<String, dynamic> getAvatar(TdPerson person) => {
     };
 
 void respondToGet(HttpRequest request) async {
-  final path = request.uri.path;
-  if (path == '/') {
+  if (request.uri.path == '/') {
     request.response..write('TOPtodo');
-  } else if (path.startsWith('/tas/api/branches/id/')) {
-    final id = path.substring('/tas/api/branches/id/'.length);
-    try {
-      final branch = await tdProvider.tdBranch(id: id);
-      request.response.headers.add(
-        HttpHeaders.contentTypeHeader,
-        'application/json;charset=utf-8',
-      );
-      request.response.write(jsonEncode(branch.toJson()));
-    } catch (error) {
-      request.response.statusCode = 404;
-    }
-  } else if (path == '/tas/api/branches') {
-    final params = request.uri.queryParameters;
-    final search =
-        params.containsKey('nameFragment') ? params['nameFragment'] : '';
-
-    final branches = await tdProvider.tdBranches(startsWith: search);
-    final result =
-        '[' + branches.map((b) => jsonEncode(b.toJson())).join(',') + ']';
-    request.response.write(result);
   } else {
-    request.response.statusCode = 404;
+    final path = request.uri.path.substring(pathTasApiPrefix.length);
+    final call = pathPlain.keys.firstWhere((key) => path.startsWith(key));
+    // final id = 
   }
 }
 
