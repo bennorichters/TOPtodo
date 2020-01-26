@@ -138,7 +138,7 @@ void main() {
       );
     });
 
-    group('json', () {
+    group('fromJson', () {
       test('branch', () {
         final b = TdBranch.fromJson({'id': 'a', 'name': 'b'});
         expect(b.id, 'a');
@@ -199,7 +199,7 @@ void main() {
       });
     });
 
-    group('json errors', () {
+    group('fromJson errors', () {
       test('branch without all required fields', () {
         expect(() => TdBranch.fromJson({}), throwsA(isA<AssertionError>()));
         expect(
@@ -262,7 +262,6 @@ void main() {
                 }),
             throwsA(isA<Error>()));
 
-            
         expect(
             () => TdOperator.fromJson({
                   'id': 'a',
@@ -273,6 +272,48 @@ void main() {
                 }),
             throwsA(isA<Error>()));
       });
+    });
+
+    group('toJson', () {
+      test('branch', () {
+        final b = TdBranch(id: 'a', name: 'b');
+        expect(TdBranch.fromJson(b.toJson()).id, 'a');
+        expect(TdBranch.fromJson(b.toJson()).name, 'b');
+      });
+
+      test('caller', () {
+        final b = TdBranch(id: 'a', name: 'b');
+        final c = TdCaller(id: 'ca', name: 'cb', avatar: 'img', branch: b);
+        expect(TdCaller.fromJson(c.toJson()).id, 'ca');
+        expect(TdCaller.fromJson(c.toJson()).name, 'cb');
+        expect(TdCaller.fromJson(c.toJson()).avatar, 'img');
+        expect(TdCaller.fromJson(c.toJson()).branch.id, 'a');
+        expect(TdCaller.fromJson(c.toJson()).branch.name, 'b');
+      });
+
+      test('subcategory', () {
+        final c = TdCategory(id: 'a', name: 'b');
+        final s = TdSubcategory(id: 'sa', name: 'sb', category: c);
+        expect(TdSubcategory.fromJson(s.toJson()).id, 'sa');
+        expect(TdSubcategory.fromJson(s.toJson()).name, 'sb');
+        expect(TdSubcategory.fromJson(s.toJson()).category.id, 'a');
+        expect(TdSubcategory.fromJson(s.toJson()).category.name, 'b');
+      });
+    });
+    
+    test('operator', () {
+      final op = TdOperator(
+        id: 'a',
+        name: 'b',
+        avatar: 'img',
+        firstLine: false,
+        secondLine: true,
+      );
+      expect(TdOperator.fromJson(op.toJson()).id, 'a');
+      expect(TdOperator.fromJson(op.toJson()).name, 'b');
+      expect(TdOperator.fromJson(op.toJson()).avatar, 'img');
+      expect(TdOperator.fromJson(op.toJson()).firstLine, false);
+      expect(TdOperator.fromJson(op.toJson()).secondLine, true);
     });
   });
 }

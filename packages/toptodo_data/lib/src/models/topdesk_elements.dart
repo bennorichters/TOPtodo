@@ -25,6 +25,9 @@ abstract class TdModel extends Equatable {
   /// The name of this `TdModel`
   final String name;
 
+  /// Returns a json representation of this `TdModel`
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+
   @override
   List<Object> get props => [id];
 
@@ -84,6 +87,13 @@ class TdSubcategory extends TdModel {
       : category = TdCategory.fromJson(json['category']),
         super.fromJson(json);
 
+  @override
+  Map<String, dynamic> toJson() {
+    final result = super.toJson();
+    result['category'] = category.toJson();
+    return result;
+  }
+
   /// The category this subcategory belongs to
   final TdCategory category;
 }
@@ -106,6 +116,13 @@ abstract class TdPerson extends TdModel {
   /// Image information. See documentation of the implementing class for
   /// details.
   final String avatar;
+
+  @override
+  Map<String, dynamic> toJson() {
+    final result = super.toJson();
+    result['avatar'] = avatar;
+    return result;
+  }
 }
 
 /// A [TdPerson] that represents a caller in TOPdesk. A caller has a parent
@@ -127,6 +144,13 @@ class TdCaller extends TdPerson {
 
   /// the branch this caller belongs to
   final TdBranch branch;
+
+  @override
+  Map<String, dynamic> toJson() {
+    final result = super.toJson();
+    result['branch'] = branch.toJson();
+    return result;
+  }
 }
 
 /// A [TdPerson] that represents an operator in TOPdesk. This class adds two
@@ -158,4 +182,12 @@ class TdOperator extends TdPerson {
 
   /// flag to see if this operator can be assigned to second line incidents
   final bool secondLine;
+
+  @override
+  Map<String, dynamic> toJson() {
+    final result = super.toJson();
+    result['firstLineCallOperator'] = firstLine;
+    result['secondLineCallOperator'] = secondLine;
+    return result;
+  }
 }
