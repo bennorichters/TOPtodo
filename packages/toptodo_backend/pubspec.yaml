@@ -11,6 +11,16 @@ environment:
 
 dependencies:
   appengine: ^0.10.4
+  toptodo_data:
+    git:
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_data
+      ref: 4faa3e5d4034dbe70c04564ddd74e71bfd050cfe
+  toptodo_topdesk_provider_mock:
+    git:
+      url: git://github.com/bennorichters/toptodo
+      path: packages/toptodo_topdesk_provider_mock
+      ref: f50914aaed010c657cea39582e6a655e4ee99017
 
 dev_dependencies:
   test: ^1.11.1
