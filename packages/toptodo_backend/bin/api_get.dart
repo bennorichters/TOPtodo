@@ -35,7 +35,30 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
         ),
   };
 
-  Future<Map<String, dynamic>> respondToPathPlain(String path) async {
+  // final Map<String, dynamic> pathSearch = {
+  final pathSearch = {
+    'branches': {
+      'parameter': 'nameFragment',
+      'call': (String search) async => tdProvider.tdBranches(
+            startsWith: search,
+          ),
+    },
+    'persons': {
+      'parameter': 'lastname',
+      'call': (String search) async => tdProvider.tdCallers(
+            startsWith: search,
+            tdBranch: null,
+          ),
+    },
+    'operators': {
+      'parameter': 'lastname',
+      'call': (String search) async => tdProvider.tdOperators(
+            startsWith: search,
+          ),
+    },
+  };
+
+  Future<dynamic> respondToPathPlain(String path) async {
     final key = pathPlain.keys.firstWhere(
       (key) => key == path,
       orElse: () => null,
@@ -43,7 +66,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     return key == null ? null : await pathPlain[key]();
   }
 
-  Future<Map<String, dynamic>> respondToPathById(String path) async {
+  Future<dynamic> respondToPathById(String path) async {
     final key = pathById.keys.firstWhere(
       (key) => RegExp('^$key/id/[^/]+\$').hasMatch(path),
       orElse: () => null,
@@ -61,6 +84,38 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     }
   }
 
+  Future<dynamic> respondToPathSearch(
+    String path,
+  ) async {
+    final key = pathSearch.keys.firstWhere(
+      (key) => key == path,
+      orElse: () => null,
+    );
+
+    if (key == null) {
+      return null;
+    }
+
+    final paramKey = pathSearch[key]['parameter'];
+    if (!request.uri.queryParameters.containsKey(paramKey)) {
+      return null;
+    }
+
+    final Function call = pathSearch[key]['call'];
+    Iterable<TdModel> models =
+        await call(request.uri.queryParameters[paramKey]);
+    final abc = models.map((m) => removeAvatar(m)).toList();
+    print(abc);
+    print(abc.runtimeType);
+    return abc;
+    // final abc = [
+    //   (await tdProvider.tdOperator(id: 'a')).toJson(),
+    //   (await tdProvider.tdOperator(id: 'b')).toJson(),
+    // ];
+
+    // return abc;
+  }
+
   final requestPath = request.uri.path;
   if (requestPath == '/') {
     request.response..write('TOPtodo');
@@ -70,14 +125,15 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
 
     final path = requestPath.substring(pathTasApiPrefix.length);
 
-    var jsonMap = await respondToPathPlain(path);
-    jsonMap = jsonMap ?? await respondToPathById(path);
+    var jsonResult = await respondToPathPlain(path);
+    jsonResult = jsonResult ?? await respondToPathById(path);
+    jsonResult = jsonResult ?? await respondToPathSearch(path);
 
-    if (jsonMap == null) {
+    if (jsonResult == null) {
       request.response.statusCode = 404;
     } else {
       request.response.statusCode = 200;
-      request.response.write(json.encode(jsonMap));
+      request.response.write(json.encode(jsonResult));
     }
   } else {
     request.response.statusCode = 404;
