@@ -183,6 +183,12 @@ void main() {
         expect(ds.first.avatar.length, isNonZero);
       });
 
+      test('current operator is Dawn Meadows', () async {
+        final op = await ftp.currentTdOperator();
+
+        expect(op.name, 'Dawn Meadows');
+      });
+
       test('current operator has avatar', () async {
         final op = await ftp.currentTdOperator();
 
