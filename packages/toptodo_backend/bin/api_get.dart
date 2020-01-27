@@ -104,16 +104,8 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     final Function call = pathSearch[key]['call'];
     Iterable<TdModel> models =
         await call(request.uri.queryParameters[paramKey]);
-    final abc = models.map((m) => removeAvatar(m)).toList();
-    print(abc);
-    print(abc.runtimeType);
-    return abc;
-    // final abc = [
-    //   (await tdProvider.tdOperator(id: 'a')).toJson(),
-    //   (await tdProvider.tdOperator(id: 'b')).toJson(),
-    // ];
 
-    // return abc;
+    return models.map((m) => removeAvatar(m)).toList();
   }
 
   final requestPath = request.uri.path;
