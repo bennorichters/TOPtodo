@@ -84,9 +84,6 @@ class FakeTopdeskProvider implements TopdeskProvider {
     );
   }
 
-  /// Returns all [TdCaller]s whose names start with `startsWith` and belong to
-  /// `tdBranch`. If `tdBranch` is `null`, the returned items are not filtered
-  /// by branch.
   @override
   Future<Iterable<TdCaller>> tdCallers(
       {String startsWith, TdBranch tdBranch}) async {
@@ -96,17 +93,13 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _withDelay(json_callers.callers);
     return response
         .where(
-      (dynamic e) =>
-          ((tdBranch == null) || (e['branchId'] == tdBranch.id)) &&
-          e['name'].toLowerCase().startsWith(swLower),
-    )
+          (dynamic e) =>
+              (e['branchId'] == tdBranch.id) &&
+              e['name'].toLowerCase().startsWith(swLower),
+        )
         .map(
-      (dynamic e) {
-        final linkedBranch =
-            tdBranch ?? TdBranch(id: e['branchId'], name: 'dummy');
-        return _callerFromJson(e, avatar, linkedBranch);
-      },
-    );
+          (dynamic e) => _callerFromJson(e, avatar, tdBranch),
+        );
   }
 
   static TdCaller _callerFromJson(

@@ -68,15 +68,6 @@ void main() {
         expect(ds.length, 2);
       });
 
-      test('not filtered by branch find five', () async {
-        final ds = await ftp.tdCallers(
-          startsWith: 'b',
-          tdBranch: null,
-        );
-
-        expect(ds.length, 5);
-      });
-
       test('has avatar', () async {
         final ds = await ftp.tdCallers(
             startsWith: 'Augustin Sheryll',
