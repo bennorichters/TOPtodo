@@ -35,7 +35,7 @@ void respondToPost(HttpRequest request) async {
     request.response.headers
         .add(HttpHeaders.contentTypeHeader, 'application/json');
     request.response.statusCode = 201;
-    request.response.write('{"number": $number}');
+    request.response.write('{"number": "$number"}');
   } else {
     request.response.statusCode = 404;
   }
