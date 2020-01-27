@@ -39,12 +39,14 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
   final pathSearch = {
     'branches': {
       'parameter': 'nameFragment',
+      'hasAvatar': false,
       'call': (String search) async => tdProvider.tdBranches(
             startsWith: search,
           ),
     },
     'persons': {
       'parameter': 'lastname',
+      'hasAvatar': true,
       'call': (String search) async => tdProvider.tdCallers(
             startsWith: search,
             tdBranch: null,
@@ -52,6 +54,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     },
     'operators': {
       'parameter': 'lastname',
+      'hasAvatar': true,
       'call': (String search) async => tdProvider.tdOperators(
             startsWith: search,
           ),
@@ -105,7 +108,9 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     Iterable<TdModel> models =
         await call(request.uri.queryParameters[paramKey]);
 
-    return models.map((m) => removeAvatar(m)).toList();
+    return pathSearch[key]['hasAvatar']
+        ? models.map((m) => removeAvatar(m)).toList()
+        : List.from(models);
   }
 
   final requestPath = request.uri.path;
