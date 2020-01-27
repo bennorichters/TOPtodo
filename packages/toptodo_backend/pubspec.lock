@@ -434,8 +434,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_topdesk_provider_mock"
-      ref: "179094b7b918ad0fa27f9de15264a22e074d0e9e"
-      resolved-ref: "179094b7b918ad0fa27f9de15264a22e074d0e9e"
+      ref: "05dc016aa1073d859e9c251a9817055cb7eedadb"
+      resolved-ref: "05dc016aa1073d859e9c251a9817055cb7eedadb"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"

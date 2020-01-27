@@ -35,7 +35,6 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
         ),
   };
 
-  // final Map<String, dynamic> pathSearch = {
   final pathSearch = {
     'branches': {
       'parameter': 'nameFragment',
@@ -47,10 +46,19 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     'persons': {
       'parameter': 'lastname',
       'hasAvatar': true,
-      'call': (String search) async => tdProvider.tdCallers(
+      'call': (String search) async {
+        final allBranches = await tdProvider.tdBranches(startsWith: '');
+        final result = <TdCaller>[];
+        for (final branch in allBranches) {
+          final callers = await tdProvider.tdCallers(
+            tdBranch: branch,
             startsWith: search,
-            tdBranch: null,
-          ),
+          );
+          result.addAll(callers);
+        }
+
+        return result..sort((c1, c2) => c1.name.compareTo(c2.name));
+      }
     },
     'operators': {
       'parameter': 'lastname',
@@ -58,6 +66,20 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
       'call': (String search) async => tdProvider.tdOperators(
             startsWith: search,
           ),
+    },
+  };
+
+  final pathList = {
+    'categories': () async => await tdProvider.tdCategories(),
+    'durations': () async => await tdProvider.tdDurations(),
+    'subcategories': () async {
+      final cats = await tdProvider.tdCategories();
+      final result = [];
+      for (final cat in cats) {
+        result.addAll(await tdProvider.tdSubcategories(tdCategory: cat));
+      }
+
+      return result..sort((s1, s2) => s1.id.compareTo(s2.id));
     },
   };
 
@@ -113,6 +135,17 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
         : List.from(models);
   }
 
+  Future<dynamic> respondToPathList(
+    String path,
+  ) async {
+    final key = pathList.keys.firstWhere(
+      (key) => 'incidents/' + key == path,
+      orElse: () => null,
+    );
+    final call = pathList[key];
+    return key == null ? null : List.from(await call());
+  }
+
   final requestPath = request.uri.path;
   if (requestPath == '/') {
     request.response..write('TOPtodo');
@@ -125,6 +158,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
     var jsonResult = await respondToPathPlain(path);
     jsonResult = jsonResult ?? await respondToPathById(path);
     jsonResult = jsonResult ?? await respondToPathSearch(path);
+    jsonResult = jsonResult ?? await respondToPathList(path);
 
     if (jsonResult == null) {
       request.response.statusCode = 404;
