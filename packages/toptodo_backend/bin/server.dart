@@ -26,23 +26,22 @@ void requestHandler(HttpRequest request) async {
 }
 
 final pathPlain = {
-  'version': () => {'version': '3.1.0'},
+  'version': () async => {'version': '3.1.0'},
   'operators/current': () async =>
-      (await tdProvider.currentTdOperator()).toJson(),
+      removeAvatar(await tdProvider.currentTdOperator()),
 };
 
 final pathById = {
-  'branches/id': (String id) async => await tdProvider.tdBranch(id: id),
-  'persons/id': (String id) async => removeAvatar(
+  'branches': (String id) async => (await tdProvider.tdBranch(id: id)).toJson(),
+  'persons': (String id) async =>
+      removeAvatar(await tdProvider.tdCaller(id: id)),
+  'operators': (String id) async => removeAvatar(
+        await tdProvider.tdOperator(id: id),
+      ),
+  'avatars/persons': (String id) async => getAvatar(
         await tdProvider.tdCaller(id: id),
       ),
-  'operators/id': (String id) async => removeAvatar(
-        await tdProvider.tdOperator(id: id),
-      ),
-  'avatars/persons/id': (String id) async => getAvatar(
-        await tdProvider.tdOperator(id: id),
-      ),
-  'avatars/operators/id': (String id) async => getAvatar(
+  'avatars/operators': (String id) async => getAvatar(
         await tdProvider.tdOperator(id: id),
       ),
 };
@@ -55,12 +54,52 @@ Map<String, dynamic> getAvatar(TdPerson person) => {
     };
 
 void respondToGet(HttpRequest request) async {
-  if (request.uri.path == '/') {
+  final requestPath = request.uri.path;
+  if (requestPath == '/') {
     request.response..write('TOPtodo');
+  } else if (requestPath.startsWith(pathTasApiPrefix)) {
+    request.response.headers
+        .add(HttpHeaders.contentTypeHeader, 'application/json');
+
+    final path = requestPath.substring(pathTasApiPrefix.length);
+
+    var jsonMap = await respondToPathPlain(path);
+    jsonMap = jsonMap ?? await respondToPathById(path);
+
+    if (jsonMap == null) {
+      request.response.statusCode = 404;
+    } else {
+      request.response.statusCode = 200;
+      request.response.write(json.encode(jsonMap));
+    }
   } else {
-    final path = request.uri.path.substring(pathTasApiPrefix.length);
-    final call = pathPlain.keys.firstWhere((key) => path.startsWith(key));
-    // final id = 
+    request.response.statusCode = 404;
+  }
+}
+
+Future<Map<String, dynamic>> respondToPathPlain(String path) async {
+  final key = pathPlain.keys.firstWhere(
+    (key) => key == path,
+    orElse: () => null,
+  );
+  return key == null ? null : await pathPlain[key]();
+}
+
+Future<Map<String, dynamic>> respondToPathById(String path) async {
+  final key = pathById.keys.firstWhere(
+    (key) => RegExp('^$key/id/[^/]+\$').hasMatch(path),
+    orElse: () => null,
+  );
+
+  if (key == null) {
+    return null;
+  }
+
+  final id = RegExp(r'[^/]+$').firstMatch(path).group(0);
+  try {
+    return await pathById[key](id);
+  } catch (error) {
+    return null;
   }
 }
 
