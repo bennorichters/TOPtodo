@@ -7,14 +7,14 @@ const pathTasApiPrefix = '/tas/api/';
 
 void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
   Map<String, dynamic> fixPerson(TdPerson person) {
-      final jsonMap = person.toJson();
-      jsonMap.remove('avatar');
-      jsonMap['dynamicName'] = jsonMap['name'];
-      return jsonMap;
+    final jsonMap = person.toJson();
+    jsonMap.remove('avatar');
+    jsonMap['dynamicName'] = jsonMap['name'];
+    return jsonMap;
   }
 
   Map<String, dynamic> getAvatar(TdPerson person) => {
-        'avatar': person.toJson()['avatar'],
+        'image': person.toJson()['avatar'],
       };
 
   final pathPlain = {
