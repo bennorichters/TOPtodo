@@ -6,8 +6,12 @@ import 'package:toptodo_data/toptodo_data.dart';
 const pathTasApiPrefix = '/tas/api/';
 
 void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
-  Map<String, dynamic> removeAvatar(TdPerson person) =>
-      person.toJson()..remove('avatar');
+  Map<String, dynamic> fixPerson(TdPerson person) {
+      final jsonMap = person.toJson();
+      jsonMap.remove('avatar');
+      jsonMap['dynamicName'] = jsonMap['name'];
+      return jsonMap;
+  }
 
   Map<String, dynamic> getAvatar(TdPerson person) => {
         'avatar': person.toJson()['avatar'],
@@ -16,21 +20,21 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
   final pathPlain = {
     'version': () async => {'version': '3.1.0'},
     'operators/current': () async =>
-        removeAvatar(await tdProvider.currentTdOperator()),
+        fixPerson(await tdProvider.currentTdOperator()),
   };
 
   final pathById = {
-    'branches': (String id) async =>
+    'branches/id': (String id) async =>
         (await tdProvider.tdBranch(id: id)).toJson(),
-    'persons': (String id) async =>
-        removeAvatar(await tdProvider.tdCaller(id: id)),
-    'operators': (String id) async => removeAvatar(
+    'persons/id': (String id) async =>
+        fixPerson(await tdProvider.tdCaller(id: id)),
+    'operators': (String id) async => fixPerson(
           await tdProvider.tdOperator(id: id),
         ),
-    'avatars/persons': (String id) async => getAvatar(
+    'avatars/person': (String id) async => getAvatar(
           await tdProvider.tdCaller(id: id),
         ),
-    'avatars/operators': (String id) async => getAvatar(
+    'avatars/operator': (String id) async => getAvatar(
           await tdProvider.tdOperator(id: id),
         ),
   };
@@ -93,7 +97,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
 
   Future<dynamic> respondToPathById(String path) async {
     final key = pathById.keys.firstWhere(
-      (key) => RegExp('^$key/id/[^/]+\$').hasMatch(path),
+      (key) => RegExp('^$key/[^/]+\$').hasMatch(path),
       orElse: () => null,
     );
 
@@ -131,7 +135,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
         await call(request.uri.queryParameters[paramKey]);
 
     return pathSearch[key]['hasAvatar']
-        ? models.map((m) => removeAvatar(m)).toList()
+        ? models.map((m) => fixPerson(m)).toList()
         : List.from(models);
   }
 
