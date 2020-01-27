@@ -96,13 +96,17 @@ class FakeTopdeskProvider implements TopdeskProvider {
     final List<dynamic> response = await _withDelay(json_callers.callers);
     return response
         .where(
-          (dynamic e) =>
-              ((tdBranch == null) || (e['branchId'] == tdBranch.id)) &&
-              e['name'].toLowerCase().startsWith(swLower),
-        )
+      (dynamic e) =>
+          ((tdBranch == null) || (e['branchId'] == tdBranch.id)) &&
+          e['name'].toLowerCase().startsWith(swLower),
+    )
         .map(
-          (dynamic e) => _callerFromJson(e, avatar, tdBranch),
-        );
+      (dynamic e) {
+        final linkedBranch =
+            tdBranch ?? TdBranch(id: e['branchId'], name: 'dummy');
+        return _callerFromJson(e, avatar, linkedBranch);
+      },
+    );
   }
 
   static TdCaller _callerFromJson(
