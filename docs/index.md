@@ -6,9 +6,11 @@ image: ./images/logo-text.png
 
 A mobile app that connects to [TOPdesk](https://topdesk.com). Quickly create an incident as a todo item. Fill in all required fields only once. A new todo item only requires a new brief description and optionally a longer request.
 
+With TOPtodo you can only create incidents. Use TOPdesk to see and modify the incidents.
+
 ## Status
 
-This app is currently under development and not yet available.
+This app is currently under development. A beta release is available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.github.bennorichters.toptodo). A release for Apple's app store is pending.
 
 ## How it works
 
@@ -26,6 +28,6 @@ The mobile app needs an _application password_. This is different from the norma
 
 ![create-application-password](./images/create-app-password.gif)
 
-## Open Source
+## About
 
-TOPtodo is an [open source project](https://github.com/bennorichters/TOPtodo/).
+TOPtodo is an [open source project](https://github.com/bennorichters/TOPtodo/). This application is not developed nor maintained by the company TOPdesk.
