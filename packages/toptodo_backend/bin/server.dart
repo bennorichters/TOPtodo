@@ -18,11 +18,25 @@ void requestHandler(HttpRequest request) async {
   } else if (request.method == 'GET') {
     await respondToGet(request, tdProvider);
   } else if (request.method == 'POST') {
-    respondToPost(request);
+    await respondToPost(request);
   } else {
     request.response..statusCode = 405;
   }
   await request.response.close();
 }
 
-void respondToPost(HttpRequest request) {}
+void respondToPost(HttpRequest request) async {
+  if (request.uri.path == '/tas/api/incidents') {
+    final number = await tdProvider.createTdIncident(
+      settings: null,
+      briefDescription: '',
+    );
+
+    request.response.headers
+        .add(HttpHeaders.contentTypeHeader, 'application/json');
+    request.response.statusCode = 201;
+    request.response.write('{"number": $number}');
+  } else {
+    request.response.statusCode = 404;
+  }
+}
