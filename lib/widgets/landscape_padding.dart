@@ -8,16 +8,17 @@ class LandscapePadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(builder: (context, orientation) {
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-          orientation == Orientation.landscape ? _sidePadding : 0,
-          0,
-          orientation == Orientation.landscape ? _sidePadding : 0,
-          0,
-        ),
-        child: child,
-      );
-    });
+    final landscape =
+        (MediaQuery.of(context).orientation == Orientation.landscape);
+        
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        landscape ? _sidePadding : 0,
+        0,
+        landscape ? _sidePadding : 0,
+        0,
+      ),
+      child: child,
+    );
   }
 }
