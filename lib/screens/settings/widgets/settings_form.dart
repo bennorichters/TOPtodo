@@ -15,11 +15,11 @@ import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
 
 class SettingsForm extends StatelessWidget {
-  SettingsForm(this.state);
+  const SettingsForm(this.state);
   final SettingsWithFormState state;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Widget _verticalSpace = const SizedBox(height: 10);
+  static final Widget _verticalSpace = const SizedBox(height: 10);
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
