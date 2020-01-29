@@ -10,7 +10,7 @@ With TOPtodo you can only create incidents. Use TOPdesk to see and modify the in
 
 ## Status
 
-This app is currently under development. A beta release is available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.github.bennorichters.toptodo). A release for Apple's app store is pending.
+This app is currently under development. A beta release is available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.github.bennorichters.toptodo) and [Apple's App Store](https://apps.apple.com/app/id1496496893).
 
 ## How it works
 
