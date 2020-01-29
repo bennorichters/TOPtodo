@@ -11,16 +11,16 @@ class SearchField<T extends TdModel> extends FormField<T> {
           validator: (T _) => value == null ? validationText : null,
           builder: (FormFieldState<T> state) {
             return InputDecorator(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text((value?.name) ?? ''),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: search,
-                  ),
-                ],
+              child: GestureDetector(
+                onTap: search,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text((value?.name) ?? ''),
+                    ),
+                    const Icon(Icons.search),
+                  ],
+                ),
               ),
               isEmpty: value == null,
               decoration: InputDecoration(
