@@ -63,7 +63,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3+3"
+    version: "0.13.4"
   crypto:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   glob:
     dependency: transitive
     description:
@@ -355,8 +355,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: aeaf74fbb4a30cde847a4e28cdcf438c20003ac2
-      resolved-ref: aeaf74fbb4a30cde847a4e28cdcf438c20003ac2
+      ref: bd0409fdf09abefaa64b8edc71879fe8abda2970
+      resolved-ref: bd0409fdf09abefaa64b8edc71879fe8abda2970
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
