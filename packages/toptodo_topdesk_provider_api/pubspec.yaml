@@ -11,12 +11,12 @@ environment:
 
 dependencies:
   async: ^2.4.0
-  equatable: ^1.0.2
+  equatable: ^1.0.3
   toptodo_data:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: aeaf74fbb4a30cde847a4e28cdcf438c20003ac2
+      ref: bd0409fdf09abefaa64b8edc71879fe8abda2970
 
 dev_dependencies:
   test: ^1.11.1
