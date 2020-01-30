@@ -1,25 +1,21 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-/// A provider for a [FlutterSecureStorage]
-typedef StorageProvider = FlutterSecureStorage Function();
-
-FlutterSecureStorage _defaultStorageProvider() => FlutterSecureStorage();
+const FlutterSecureStorage _defaultStorage = FlutterSecureStorage();
 
 /// A [CredentialsProvider] that uses [FlutterSecureStorage].
 class SecureStorageCredentials implements CredentialsProvider {
   /// Creates a [SecureStorageCredentials].
   ///
-  /// If the argument [storageProvider] is ommitted a default callback is used
-  /// that provides a new instance of [FlutterSecureStorage].
-  SecureStorageCredentials({this.storageProvider = _defaultStorageProvider});
+  /// If the argument [storage] is ommitted an instance of
+  /// [FlutterSecureStorage] is used.
+  SecureStorageCredentials({this.storage = _defaultStorage});
 
-  /// A callback for the [FlutterSecureStorage] that this object uses.
-  final storageProvider;
+  /// The [FlutterSecureStorage] that this object uses.
+  final storage;
 
   @override
   Future<Credentials> provide() async {
-    final storage = storageProvider();
     final url = storage.read(key: 'url');
     final loginName = storage.read(key: 'loginName');
     final password = storage.read(key: 'password');
@@ -39,7 +35,6 @@ class SecureStorageCredentials implements CredentialsProvider {
 
   @override
   Future<void> save(Credentials credentials) {
-    final storage = storageProvider();
     final url = storage.write(
       key: 'url',
       value: credentials.url,
@@ -58,7 +53,6 @@ class SecureStorageCredentials implements CredentialsProvider {
 
   @override
   Future<void> delete() {
-    final storage = storageProvider();
     return storage.deleteAll();
   }
 }

@@ -21,7 +21,7 @@ void main() {
       )).thenAnswer((_) => Future.value('the password'));
 
       final ssc = SecureStorageCredentials(
-        storageProvider: () => mfss,
+        storage: mfss,
       );
 
       final credentials = await ssc.provide();
@@ -33,7 +33,7 @@ void main() {
     test('save - write returns Future<void> on right calls', () async {
       final mfss = MockFlutterSecureStorage();
       final ssc = SecureStorageCredentials(
-        storageProvider: () => mfss,
+        storage: mfss,
       );
 
       when(mfss.write(
@@ -63,7 +63,7 @@ void main() {
     test('delete', () async {
       final mfss = MockFlutterSecureStorage();
       final ssc = SecureStorageCredentials(
-        storageProvider: () => mfss,
+        storage: mfss,
       );
 
       await ssc.delete();
