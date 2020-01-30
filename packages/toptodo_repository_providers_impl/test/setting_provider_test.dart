@@ -35,6 +35,30 @@ void main() {
       expect(provided, settingsToSave);
     });
 
+    test('retrieve same as saved after dispose', () async {
+      final SharedPreferencesSettingsProvider p =
+          SharedPreferencesSettingsProvider();
+      p.init('url', 'loginName');
+      await p.save(settingsToSave);
+      p.dispose();
+
+      p.init('url', 'loginName');
+      final Settings provided = await p.provide();
+      expect(provided, settingsToSave);
+    });
+
+    test('retrieve empty after save and delete', () async {
+      final SharedPreferencesSettingsProvider p =
+          SharedPreferencesSettingsProvider();
+      p.init('url', 'loginName');
+      await p.save(settingsToSave);
+      p.dispose();
+      await p.delete();
+
+      p.init('url', 'loginName');
+      expect(await p.provide(), Settings());
+    });
+
     test('retrieve twice', () async {
       final SharedPreferencesSettingsProvider p =
           SharedPreferencesSettingsProvider();
