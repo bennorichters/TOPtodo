@@ -12,7 +12,7 @@ final _tdProvider = FakeTopdeskProvider(latency: Duration.zero);
 ///
 /// The response to requests contains test data. This is not a real TOPdesk
 /// implementation. Only the subset of the TOPdesk public API that is used by
-/// TOPtodo is implemented. All other request will respond with a 404 not found.
+/// TOPtodo is implemented. All other requests will respond with an error code.
 void requestHandler(HttpRequest request) async {
   if (request.method == 'HEAD') {
     request.response..statusCode = 200;
