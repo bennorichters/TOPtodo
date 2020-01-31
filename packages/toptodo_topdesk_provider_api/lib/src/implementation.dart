@@ -13,7 +13,7 @@ const _minTdApiVersion = Version(3, 1, 0);
 
 /// A [TopdeskProvider] that makes API calls to a TOPdesk server.
 ///
-/// The is object should first be initialized by calling the [init] method. All
+/// This object should first be initialized by calling the [init] method. All
 /// other methods, except [dispose], will throw a `StateError` otherwise. When
 /// this object is no longer needed its [dispose] method should be called to
 /// free resources. Once the [init] method has been called it can only be called
