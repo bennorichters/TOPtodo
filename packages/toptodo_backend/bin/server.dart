@@ -1,14 +1,13 @@
 import 'dart:io';
 import 'package:appengine/appengine.dart';
-import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
+import 'package:toptodo_topdesk_provider_mock/'
+    'toptodo_topdesk_provider_mock.dart';
 
 import 'api_get.dart';
 
-TopdeskProvider tdProvider;
+final tdProvider = FakeTopdeskProvider(latency: Duration.zero);
 
 void main() async {
-  tdProvider = FakeTopdeskProvider(latency: Duration.zero);
   await runAppEngine(requestHandler);
 }
 

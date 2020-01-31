@@ -239,6 +239,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+3"
+  mock_request:
+    dependency: "direct dev"
+    description:
+      name: mock_request
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   multi_server_socket:
     dependency: transitive
     description:
@@ -427,6 +434,15 @@ packages:
       path: "packages/toptodo_data"
       ref: bd0409fdf09abefaa64b8edc71879fe8abda2970
       resolved-ref: bd0409fdf09abefaa64b8edc71879fe8abda2970
+      url: "git://github.com/bennorichters/toptodo"
+    source: git
+    version: "0.0.1"
+  toptodo_topdesk_provider_api:
+    dependency: "direct dev"
+    description:
+      path: "packages/toptodo_topdesk_provider_api"
+      ref: c194294d3917bd62a70cb3111ef5434b867d5c0b
+      resolved-ref: c194294d3917bd62a70cb3111ef5434b867d5c0b
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
