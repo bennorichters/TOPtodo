@@ -29,12 +29,12 @@ dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_repository_providers_impl
-      ref: c194294d3917bd62a70cb3111ef5434b867d5c0b
+      ref: f63f15ee3a10156a2f509dc43c297308dd7b85e4
   toptodo_topdesk_provider_api:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_api
-      ref: c194294d3917bd62a70cb3111ef5434b867d5c0b
+      ref: f63f15ee3a10156a2f509dc43c297308dd7b85e4
   url_launcher: ^5.4.1
 
 dev_dependencies:
@@ -48,7 +48,7 @@ dev_dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_provider_mock
-      ref: c194294d3917bd62a70cb3111ef5434b867d5c0b
+      ref: f63f15ee3a10156a2f509dc43c297308dd7b85e4
 
 # used to override flutter_test that uses an older version
 dependency_overrides:
