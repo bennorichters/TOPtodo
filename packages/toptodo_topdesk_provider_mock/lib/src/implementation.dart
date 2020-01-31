@@ -39,7 +39,7 @@ class FakeTopdeskProvider implements TopdeskProvider {
 
   @override
   Future<String> apiVersion() {
-    return Future.value('0.0.0');
+    return Future.value('3.1.0');
   }
 
   @override
