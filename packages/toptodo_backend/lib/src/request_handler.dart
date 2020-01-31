@@ -8,6 +8,11 @@ import 'api_post.dart';
 
 final _tdProvider = FakeTopdeskProvider(latency: Duration.zero);
 
+/// Processes all TOPdesk API http requests that are used by TOPtodo.
+///
+/// The response to requests contains test data. This is not a real TOPdesk
+/// implementation. Only the subset of the TOPdesk public API that is used by
+/// TOPtodo is implemented. All other request will respond with a 404 not found.
 void requestHandler(HttpRequest request) async {
   if (request.method == 'HEAD') {
     request.response..statusCode = 200;
