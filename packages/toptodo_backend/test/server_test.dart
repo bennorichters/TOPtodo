@@ -4,11 +4,10 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:mock_request/mock_request.dart';
 import 'package:test/test.dart';
+import 'package:toptodo_backend/toptodo_backend.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo_topdesk_provider_api/toptodo_topdesk_provider_api.dart';
 import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
-
-import '../bin/server.dart';
 
 void main() {
   group('requestHandler with ApiTopdeskProvider', () {
