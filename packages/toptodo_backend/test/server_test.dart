@@ -93,11 +93,85 @@ void main() {
       );
     });
 
+    test('category by id', () async {
+      expect(
+        await apiTdProvider.tdCategory(id: 'a'),
+        await fakeTdProvider.tdCategory(id: 'a'),
+      );
+    });
+
+    test('all categories', () async {
+      expect(
+        await apiTdProvider.tdCategories(),
+        await fakeTdProvider.tdCategories(),
+      );
+    });
+
+    test('subcategory by id', () async {
+      expect(
+        await apiTdProvider.tdSubcategory(id: 'aa'),
+        await fakeTdProvider.tdSubcategory(id: 'aa'),
+      );
+    });
+
+    test('all subcategories', () async {
+      final cat = await apiTdProvider.tdCategory(id: 'a');
+      expect(
+        await apiTdProvider.tdSubcategories(tdCategory: cat),
+        await fakeTdProvider.tdSubcategories(tdCategory: cat),
+      );
+    });
+
+    test('duration by id', () async {
+      expect(
+        await apiTdProvider.tdDuration(id: 'a'),
+        await fakeTdProvider.tdDuration(id: 'a'),
+      );
+    });
+
+    test('all durations', () async {
+      expect(
+        await apiTdProvider.tdDurations(),
+        await fakeTdProvider.tdDurations(),
+      );
+    });
+
+    test('operator by id', () async {
+      expect(
+        await apiTdProvider.tdOperator(id: 'a'),
+        await fakeTdProvider.tdOperator(id: 'a'),
+      );
+    });
+
+    test('all operators', () async {
+      expect(
+        await apiTdProvider.tdOperators(startsWith: ''),
+        await fakeTdProvider.tdOperators(startsWith: ''),
+      );
+    });
+
     test('current operator', () async {
       expect(
         await apiTdProvider.currentTdOperator(),
         await fakeTdProvider.currentTdOperator(),
       );
+    });
+
+    test('create incident', () async {
+      final settings = Settings(
+        tdBranchId: 'a',
+        tdCallerId: 'aa',
+        tdCategoryId: 'a',
+        tdSubcategoryId: 'aa',
+        tdDurationId: 'a',
+        tdOperatorId: 'a',
+      );
+      final nr = await apiTdProvider.createTdIncident(
+        settings: settings,
+        briefDescription: '',
+      );
+
+      expect(nr, isNotEmpty);
     });
   });
 }

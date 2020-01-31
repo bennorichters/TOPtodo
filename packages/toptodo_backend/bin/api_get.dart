@@ -28,7 +28,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
         (await tdProvider.tdBranch(id: id)).toJson(),
     'persons/id': (String id) async =>
         fixPerson(await tdProvider.tdCaller(id: id)),
-    'operators': (String id) async => fixPerson(
+    'operators/id': (String id) async => fixPerson(
           await tdProvider.tdOperator(id: id),
         ),
     'avatars/person': (String id) async => getAvatar(
