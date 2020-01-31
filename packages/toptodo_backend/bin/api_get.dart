@@ -18,7 +18,7 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
       };
 
   final pathPlain = {
-    'version': () async => {'version': '3.1.0'},
+    'version': () async => {'version': await tdProvider.apiVersion()},
     'operators/current': () async =>
         fixPerson(await tdProvider.currentTdOperator()),
   };

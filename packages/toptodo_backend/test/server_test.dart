@@ -55,6 +55,44 @@ void main() {
       );
     });
 
+    test('all branches', () async {
+      expect(
+        await apiTdProvider.tdBranches(startsWith: ''),
+        await fakeTdProvider.tdBranches(startsWith: ''),
+      );
+    });
+
+    test('branches startswith TOP', () async {
+      expect(
+        await apiTdProvider.tdBranches(startsWith: 'TOP'),
+        await fakeTdProvider.tdBranches(startsWith: 'TOP'),
+      );
+    });
+
+    test('caller by id', () async {
+      expect(
+        await apiTdProvider.tdCaller(id: 'aa'),
+        await fakeTdProvider.tdCaller(id: 'aa'),
+      );
+    });
+
+    test('all callers from branch a for now returns all callers', () async {
+      final branchA = await apiTdProvider.tdBranch(id: 'a');
+      final allCallers = await apiTdProvider.tdCallers(
+        tdBranch: branchA,
+        startsWith: '',
+      );
+      final callersBranchA = await fakeTdProvider.tdCallers(
+        tdBranch: branchA,
+        startsWith: '',
+      );
+
+      expect(
+        callersBranchA.every((c) => allCallers.contains(c)),
+        isTrue,
+      );
+    });
+
     test('current operator', () async {
       expect(
         await apiTdProvider.currentTdOperator(),
