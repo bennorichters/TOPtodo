@@ -2,18 +2,16 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_mock/json/avatar.dart' as json_avatar;
-import 'package:toptodo_topdesk_provider_mock/json/branches.dart'
-    as json_branches;
-import 'package:toptodo_topdesk_provider_mock/json/callers.dart'
-    as json_callers;
-import 'package:toptodo_topdesk_provider_mock/json/categories.dart'
+import 'package:toptodo_topdesk_test_data/json/avatar.dart' as json_avatar;
+import 'package:toptodo_topdesk_test_data/json/branches.dart' as json_branches;
+import 'package:toptodo_topdesk_test_data/json/callers.dart' as json_callers;
+import 'package:toptodo_topdesk_test_data/json/categories.dart'
     as json_categories;
-import 'package:toptodo_topdesk_provider_mock/json/durations.dart'
+import 'package:toptodo_topdesk_test_data/json/durations.dart'
     as json_durations;
-import 'package:toptodo_topdesk_provider_mock/json/operators.dart'
+import 'package:toptodo_topdesk_test_data/json/operators.dart'
     as json_operators;
-import 'package:toptodo_topdesk_provider_mock/json/sub_categories.dart'
+import 'package:toptodo_topdesk_test_data/json/sub_categories.dart'
     as json_sub_categories;
 
 /// A [TopdeskProvider] that returns dummy data.

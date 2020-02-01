@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_mock/'
-    'toptodo_topdesk_provider_mock.dart';
+import 'package:toptodo_topdesk_test_data/'
+    'toptodo_topdesk_test_data.dart';
 
 void main() {
   group('FakeTopdeskProvider', () {
