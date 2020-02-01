@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 
-abstract class IncidentState extends Equatable {
+class IncidentState extends Equatable {
   const IncidentState({@required this.currentOperator});
   final TdOperator currentOperator;
 
@@ -12,16 +12,6 @@ abstract class IncidentState extends Equatable {
 
   @override
   String toString() => '$runtimeType currentOperator: $currentOperator';
-}
-
-class InitialIncidentState extends IncidentState {
-  const InitialIncidentState()
-      : super(currentOperator: null);
-}
-
-class OperatorLoaded extends IncidentState {
-  const OperatorLoaded({@required TdOperator currentOperator})
-      : super(currentOperator: currentOperator);
 }
 
 class SubmittingIncident extends IncidentState {

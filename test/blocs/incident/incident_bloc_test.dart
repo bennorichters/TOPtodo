@@ -48,7 +48,7 @@ void main() {
         settingsProvider: sp,
         topdeskProvider: tdp,
       ),
-      expect: [InitialIncidentState()],
+      expect: [IncidentState(currentOperator: null)],
     );
 
     blocTest<IncidentBloc, IncidentEvent, IncidentState>(
@@ -59,8 +59,8 @@ void main() {
       ),
       act: (bloc) async => {bloc.add(IncidentShowForm())},
       expect: [
-        InitialIncidentState(),
-        OperatorLoaded(currentOperator: currentOperator),
+        IncidentState(currentOperator: null),
+        IncidentState(currentOperator: currentOperator),
       ],
     );
 
@@ -77,7 +77,7 @@ void main() {
         ))
       },
       expect: [
-        InitialIncidentState(),
+        IncidentState(currentOperator: null),
         SubmittingIncident(currentOperator: null),
         IncidentCreated(
           currentOperator: currentOperator,
@@ -100,8 +100,8 @@ void main() {
         ));
       },
       expect: [
-        InitialIncidentState(),
-        OperatorLoaded(currentOperator: currentOperator),
+        IncidentState(currentOperator: null),
+        IncidentState(currentOperator: currentOperator),
         SubmittingIncident(currentOperator: currentOperator),
         IncidentCreated(
           currentOperator: currentOperator,
@@ -142,7 +142,7 @@ void main() {
       expect(
         actual,
         [
-          InitialIncidentState(),
+          IncidentState(currentOperator: null),
           SubmittingIncident(currentOperator: null),
           IncidentCreationError(
             cause: exc,
@@ -168,7 +168,7 @@ void main() {
 
     test('WithOperatorState toString contains operator', () {
       expect(
-          OperatorLoaded(
+          IncidentState(
             currentOperator: TdOperator(
               id: 'a',
               name: 'the operator',

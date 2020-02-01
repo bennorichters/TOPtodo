@@ -18,7 +18,7 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   TdOperator _currentOperator;
 
   @override
-  IncidentState get initialState => const InitialIncidentState();
+  IncidentState get initialState => const IncidentState(currentOperator: null);
 
   @override
   Stream<IncidentState> mapEventToState(
@@ -26,7 +26,7 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   ) async* {
     if (event is IncidentShowForm) {
       _currentOperator = await topdeskProvider.currentTdOperator();
-      yield OperatorLoaded(currentOperator: _currentOperator);
+      yield IncidentState(currentOperator: _currentOperator);
     } else if (event is IncidentSubmit) {
       yield SubmittingIncident(currentOperator: _currentOperator);
 
@@ -43,7 +43,8 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
         final number = results[0];
         _currentOperator = results[1];
 
-        yield IncidentCreated(number: number, currentOperator: _currentOperator);
+        yield IncidentCreated(
+            number: number, currentOperator: _currentOperator);
       } catch (error) {
         yield IncidentCreationError(
           cause: error,
