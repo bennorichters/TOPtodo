@@ -3,7 +3,7 @@ description: App to quickly create a new incident in TOPdesk as a todo item
 author: Benno Richters <b.richters@gmail.com>
 repository: https://github.com/bennorichters/toptodo/
 issue_tracker: https://github.com/bennorichters/toptodo/issues
-homepage: https://github.com/bennorichters/toptodo/
+homepage: https://bennorichters.github.io/TOPtodo/
 
 version: 0.1.3
 
