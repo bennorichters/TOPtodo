@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:toptodo_topdesk_provider_mock/'
-    'toptodo_topdesk_provider_mock.dart';
+import 'package:toptodo_topdesk_test_data/toptodo_topdesk_test_data.dart';
 
 import 'api_get.dart';
 import 'api_post.dart';

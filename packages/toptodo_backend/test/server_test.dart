@@ -4,10 +4,11 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:mock_request/mock_request.dart';
 import 'package:test/test.dart';
+
 import 'package:toptodo_backend/toptodo_backend.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_api/toptodo_topdesk_provider_api.dart';
-import 'package:toptodo_topdesk_provider_mock/toptodo_topdesk_provider_mock.dart';
+import 'package:toptodo_topdesk_api/toptodo_topdesk_api.dart';
+import 'package:toptodo_topdesk_test_data/toptodo_topdesk_test_data.dart';
 
 void main() {
   group('requestHandler with ApiTopdeskProvider', () {
@@ -29,7 +30,8 @@ void main() {
       password: 'secret',
     );
 
-    final apiTdProvider = ApiTopdeskProvider();
+    var apiTopdeskProvider = ApiTopdeskProvider();
+    final apiTdProvider = apiTopdeskProvider;
     final fakeTdProvider = FakeTopdeskProvider(latency: Duration.zero);
 
     setUp(() async {
