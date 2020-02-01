@@ -20,7 +20,16 @@ import 'package:toptodo_topdesk_test_data/json/sub_categories.dart'
 /// on static json objects. The [init] and [dispose] methods of this object do
 /// not do anything.
 class FakeTopdeskProvider implements TopdeskProvider {
-  FakeTopdeskProvider({this.latency = const Duration(milliseconds: 1500)});
+  /// Creates a [FakeTopdeskProvider].
+  ///
+  /// The `latency` parameter is optional, if none is given [latency] is
+  /// initialized with the value `Duration.zero`.
+  FakeTopdeskProvider({this.latency = Duration.zero});
+
+  /// The latency this provider 'fakes' to have. Every request to this provider
+  /// will wait for the duration of this latency before responding. Calls to the
+  /// method [currentTdOperator] are an exception, this value is cached and only
+  /// the first call will result in this latency.
   final Duration latency;
 
   int _incidentNumber = 0;
