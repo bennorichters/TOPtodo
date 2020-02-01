@@ -2,10 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_repository_providers_impl/'
-    'toptodo_repository_providers_impl.dart';
-import 'package:toptodo_topdesk_provider_api/'
-    'toptodo_topdesk_provider_api.dart';
+import 'package:toptodo_local_storage/toptodo_local_storage.dart';
+import 'package:toptodo_topdesk_api/toptodo_topdesk_api.dart';
 
 import 'package:toptodo/blocs/all_blocs.dart';
 import 'package:toptodo/screens/all_screens.dart';
