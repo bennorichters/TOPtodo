@@ -1,8 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_repository_providers_impl/src/credentials_provider.dart';
+import 'package:toptodo_local_storage/toptodo_local_storage.dart';
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 

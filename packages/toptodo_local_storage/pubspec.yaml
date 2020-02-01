@@ -1,4 +1,4 @@
-name: toptodo_repository_providers_impl
+name: toptodo_local_storage
 description: Implementations for Credentials and Settings RepositoryProviders defined in the toptodo_data package.
 version: 0.0.1
 author: Benno Richters <b.richters@gmail.com>
