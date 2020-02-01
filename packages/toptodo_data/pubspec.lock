@@ -63,7 +63,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.4"
+    version: "0.13.5"
   crypto:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: http_multi_server
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   http_parser:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: lcov
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.0"
+    version: "5.6.0"
   logging:
     dependency: transitive
     description:
@@ -387,4 +387,4 @@ packages:
     source: hosted
     version: "2.2.0"
 sdks:
-  dart: ">=2.6.1 <3.0.0"
+  dart: ">=2.7.0 <3.0.0"
