@@ -30,9 +30,8 @@ void main() {
       password: 'secret',
     );
 
-    var apiTopdeskProvider = ApiTopdeskProvider();
-    final apiTdProvider = apiTopdeskProvider;
-    final fakeTdProvider = FakeTopdeskProvider(latency: Duration.zero);
+    final apiTdProvider = ApiTopdeskProvider();
+    final fakeTdProvider = FakeTopdeskProvider();
 
     setUp(() async {
       await apiTdProvider.init(credentials, client: client);

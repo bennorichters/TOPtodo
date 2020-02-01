@@ -5,7 +5,7 @@ import 'package:toptodo_topdesk_test_data/toptodo_topdesk_test_data.dart';
 import 'api_get.dart';
 import 'api_post.dart';
 
-final _tdProvider = FakeTopdeskProvider(latency: Duration.zero);
+final _tdProvider = FakeTopdeskProvider();
 
 /// Processes all TOPdesk API http requests that are used by TOPtodo.
 ///
