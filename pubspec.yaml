@@ -8,7 +8,7 @@ homepage: https://github.com/bennorichters/toptodo/
 version: 0.1.3
 
 environment:
-  sdk: ">=2.6.1 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 # For internal toptodo packages a git repo is used instead of a relative path
 # because of this issue: https://github.com/dart-lang/pub/issues/950
@@ -29,12 +29,12 @@ dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_local_storage
-      ref: e203dd69515094d18c61b656878e5ca397922993
+      ref: fc1178b534edb6d7bf23761d312c26111ff94e2d
   toptodo_topdesk_api:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_api
-      ref: e203dd69515094d18c61b656878e5ca397922993
+      ref: fc1178b534edb6d7bf23761d312c26111ff94e2d
   url_launcher: ^5.4.1
 
 dev_dependencies:
@@ -48,7 +48,7 @@ dev_dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_test_data
-      ref: e203dd69515094d18c61b656878e5ca397922993
+      ref: fc1178b534edb6d7bf23761d312c26111ff94e2d
 
 # used to override flutter_test that uses an older version
 dependency_overrides:

@@ -8,7 +8,7 @@ import 'package:toptodo/blocs/td_model_search/bloc.dart';
 
 void main() {
   group('td model search bloc', () {
-    final TopdeskProvider tp = FakeTopdeskProvider(latency: Duration.zero);
+    final TopdeskProvider tp = FakeTopdeskProvider();
     var bloc;
 
     setUp(() async {

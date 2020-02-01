@@ -16,7 +16,7 @@ void main() {
   group('settings bloc', () {
     group('FakeTopdeskProvider', () {
       final settingsProvider = MockSettingsProvider();
-      final topdeskProvider = FakeTopdeskProvider(latency: Duration.zero);
+      final topdeskProvider = FakeTopdeskProvider();
       var bloc,
           branchA,
           callerAa,
