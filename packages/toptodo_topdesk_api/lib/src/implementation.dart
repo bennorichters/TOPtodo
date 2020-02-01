@@ -5,7 +5,7 @@ import 'package:async/async.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_api/src/version.dart';
+import 'package:toptodo_topdesk_api/src/version.dart';
 
 typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 
