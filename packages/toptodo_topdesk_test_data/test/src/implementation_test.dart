@@ -5,9 +5,7 @@ import 'package:toptodo_topdesk_test_data/'
 
 void main() {
   group('FakeTopdeskProvider', () {
-    final ftp = FakeTopdeskProvider(
-      latency: Duration(microseconds: 0),
-    );
+    final ftp = FakeTopdeskProvider();
 
     group('init dispose version', () {
       test('init does nothing', () {
