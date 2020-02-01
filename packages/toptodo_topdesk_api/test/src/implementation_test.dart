@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:test/test.dart';
 import 'package:toptodo_data/toptodo_data.dart';
-import 'package:toptodo_topdesk_provider_api/toptodo_topdesk_provider_api.dart';
+import 'package:toptodo_topdesk_api/toptodo_topdesk_api.dart';
 
 typedef _ClientResponse = Future<Response> Function(Request request);
 

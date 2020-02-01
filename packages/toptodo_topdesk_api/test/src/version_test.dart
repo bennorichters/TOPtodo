@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:toptodo_topdesk_provider_api/src/version.dart';
+import 'package:toptodo_topdesk_api/src/version.dart';
 
 void main() {
   group('version', () {

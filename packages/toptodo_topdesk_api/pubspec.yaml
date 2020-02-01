@@ -1,4 +1,4 @@
-name: toptodo_topdesk_provider_api
+name: toptodo_topdesk_api
 description: Implementation for TopdeskProvider from the toptodo_data package that calls the TOPdesk API
 version: 0.0.1
 author: Benno Richters <b.richters@gmail.com>
