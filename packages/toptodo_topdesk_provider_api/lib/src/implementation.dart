@@ -22,8 +22,9 @@ const _minTdApiVersion = Version(3, 1, 0);
 /// See [timeOut] for details on how this object deals with requests to the
 /// TOPdesk server that take too long.
 ///
-/// See [currentOperatorCacheDuration] for details on how this object caches
-/// calls to the [currentTdOperator] method.
+/// Calls to [currentTdOperator] are cached for a period of time. Via the
+/// optional constructor parameter `currentOperatorCacheDuration` the duration
+/// of this period can be set.
 ///
 /// When the TOPdesk sever code responds with a success code the methods of this
 /// object return the following:
@@ -66,12 +67,6 @@ class ApiTopdeskProvider extends TopdeskProvider {
   /// methods of this object.
   final Duration timeOut;
 
-  /// Time the current operator will be cached.
-  ///
-  /// When the first call is made to [currentTdOperator] its result will be
-  /// cached. The same result will be returned during this time period. When
-  /// the current operator is requested after this period, the cache is cleared
-  /// and this cycle starts agauin.
   final AsyncCache<TdOperator> _currentOperatorCache;
 
   static final _acceptHeaders = {
