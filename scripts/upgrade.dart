@@ -12,7 +12,11 @@ void main() {
 
 void upgrade(String currentDir, String packageName) {
   Directory.current = Directory('$currentDir/packages/$packageName');
-  Process.run('pub', ['upgrade']).then((ProcessResult pr) {
+  Process.run(
+    'pub',
+    ['upgrade'],
+    runInShell: true,
+  ).then((ProcessResult pr) {
     print(pr.exitCode);
     print(pr.stdout);
     print(pr.stderr);
