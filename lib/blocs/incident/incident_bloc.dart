@@ -24,7 +24,7 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
   Stream<IncidentState> mapEventToState(
     IncidentEvent event,
   ) async* {
-    if (event is IncidentShowForm) {
+    if (event is IncidentInit) {
       _currentOperator = await topdeskProvider.currentTdOperator();
       yield IncidentState(currentOperator: _currentOperator);
     } else if (event is IncidentSubmit) {

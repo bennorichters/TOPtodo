@@ -57,7 +57,7 @@ void main() {
         settingsProvider: sp,
         topdeskProvider: tdp,
       ),
-      act: (bloc) async => {bloc.add(IncidentShowForm())},
+      act: (bloc) async => {bloc.add(IncidentInit())},
       expect: [
         IncidentState(currentOperator: null),
         IncidentState(currentOperator: currentOperator),
@@ -93,7 +93,7 @@ void main() {
         topdeskProvider: tdp,
       ),
       act: (bloc) async {
-        bloc.add(IncidentShowForm());
+        bloc.add(IncidentInit());
         bloc.add(IncidentSubmit(
           briefDescription: 'bd',
           request: '',
@@ -153,8 +153,8 @@ void main() {
     });
 
     test('IncidentEvent equals', () {
-      final e1 = IncidentShowForm();
-      final e2 = IncidentShowForm();
+      final e1 = IncidentInit();
+      final e2 = IncidentInit();
 
       expect(e1 == e2, isTrue);
     });
