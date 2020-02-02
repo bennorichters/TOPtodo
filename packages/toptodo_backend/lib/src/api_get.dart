@@ -159,10 +159,10 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
 
     final path = requestPath.substring(pathTasApiPrefix.length);
 
-    var jsonResult = await respondToPathPlain(path);
-    jsonResult = jsonResult ?? await respondToPathById(path);
-    jsonResult = jsonResult ?? await respondToPathSearch(path);
-    jsonResult = jsonResult ?? await respondToPathList(path);
+    final jsonResult = await respondToPathPlain(path) ??
+        await respondToPathById(path) ??
+        await respondToPathSearch(path) ??
+        await respondToPathList(path);
 
     if (jsonResult == null) {
       request.response.statusCode = 404;
