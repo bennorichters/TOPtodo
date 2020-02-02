@@ -53,9 +53,10 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
           number: number,
           currentOperator: _currentOperator,
         );
-      } catch (error) {
+      } catch (error, stackTrace) {
         yield IncidentCreationError(
           cause: error,
+          stackTrace: stackTrace,
           currentOperator: _currentOperator,
         );
       }

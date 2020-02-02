@@ -66,8 +66,9 @@ class SettingsSaved extends SettingsWithFormState {
 }
 
 class SettingsError extends SettingsState {
-  const SettingsError(this.cause);
+  const SettingsError(this.cause, this.stackTrace);
   final Object cause;
+  final StackTrace stackTrace;
 
   @override
   List<Object> get props => super.props..addAll([cause]);

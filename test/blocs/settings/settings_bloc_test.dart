@@ -696,7 +696,7 @@ void main() {
           },
           expect: [
             InitialSettingsState(),
-            SettingsError(error),
+            SettingsError(error, null),
           ],
         );
       });

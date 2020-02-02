@@ -53,6 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   context: context,
                   builder: (BuildContext context) => ErrorDialog(
                     cause: state.cause,
+                    stackTrace: state.stackTrace,
                     activeScreenIsLogin: false,
                   ),
                 );

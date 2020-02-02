@@ -66,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 context: context,
                 builder: (BuildContext context) => ErrorDialog(
                   cause: state.cause,
+                  stackTrace: state.stackTrace,
                   activeScreenIsLogin: true,
                 ),
               );

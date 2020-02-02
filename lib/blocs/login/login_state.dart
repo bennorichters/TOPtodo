@@ -77,10 +77,12 @@ class LoginFailed extends WithSavedData {
     @required Credentials savedData,
     @required bool remember,
     @required this.cause,
+    @required this.stackTrace,
   }) : super(savedData, remember);
 
   final Object cause;
+  final StackTrace stackTrace;
 
   @override
-  List<Object> get props => super.props..addAll([cause]);
+  List<Object> get props => super.props..addAll([cause, stackTrace]);
 }

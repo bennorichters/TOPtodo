@@ -30,7 +30,7 @@ void main() {
       );
 
       expect(
-        SettingsError('the cause').toString().contains('the cause'),
+        SettingsError('the cause', null).toString().contains('the cause'),
         isTrue,
       );
     });

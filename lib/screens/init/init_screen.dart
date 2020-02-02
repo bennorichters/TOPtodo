@@ -33,6 +33,7 @@ class _InitScreenState extends State<InitScreen> {
               context: context,
               builder: (BuildContext context) => ErrorDialog(
                 cause: state.cause,
+                stackTrace: state.stackTrace,
                 activeScreenIsLogin: false,
               ),
             );

@@ -5,8 +5,13 @@ import 'package:toptodo_data/toptodo_data.dart';
 typedef DialogCloser = void Function(BuildContext context);
 
 class ErrorDialog extends StatefulWidget {
-  ErrorDialog({this.cause, this.activeScreenIsLogin});
+  ErrorDialog({
+    @required this.cause,
+    @required this.stackTrace,
+    @required this.activeScreenIsLogin,
+  });
   final Object cause;
+  final StackTrace stackTrace;
   final bool activeScreenIsLogin;
 
   static final keyNameOkButton =
@@ -25,7 +30,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
       title: details
           ? const Text('Error details')
           : const Text('Error contacting TOPdesk'),
-      content: details ? Text(widget.cause.toString()) : _tldrMessage(),
+      content: details ? _errorDetails() : _tldrMessage(),
       actions: _actions(),
     );
   }
@@ -120,6 +125,20 @@ class _ErrorDialogState extends State<ErrorDialog> {
     return const Text(
       'An unexpected error happened. '
       'Please try again later.',
+    );
+  }
+
+  Widget _errorDetails() {
+    return Container(
+      width: double
+          .maxFinite, // see: https://github.com/flutter/flutter/issues/18108
+      child: ListView(
+        children: [
+          Text(widget.cause.toString()),
+          Divider(),
+          Text(widget.stackTrace.toString()),
+        ],
+      ),
     );
   }
 }

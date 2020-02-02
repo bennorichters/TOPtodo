@@ -65,6 +65,7 @@ class _TestOpenErrorDialogScreen extends StatelessWidget {
             context: context,
             builder: (BuildContext context) => ErrorDialog(
               cause: _errorToThrow,
+              stackTrace: StackTrace.current,
               activeScreenIsLogin: false,
             ),
           );

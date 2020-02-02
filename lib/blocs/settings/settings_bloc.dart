@@ -65,8 +65,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           formState: _formState,
         );
       }
-    } catch (error) {
-      yield SettingsError(error);
+    } catch (error, stackTrace) {
+      yield SettingsError(error, stackTrace);
     }
   }
 

@@ -49,11 +49,13 @@ class IncidentCreated extends IncidentState {
 class IncidentCreationError extends IncidentState {
   const IncidentCreationError({
     @required this.cause,
+    @required this.stackTrace,
     @required TdOperator currentOperator,
   }) : super(currentOperator: currentOperator);
 
   /// the cause of the error
   final Object cause;
+  final StackTrace stackTrace;
 
   @override
   List<Object> get props => super.props..addAll([cause]);

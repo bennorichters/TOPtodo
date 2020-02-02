@@ -398,11 +398,13 @@ void main() {
                 savedData: credentials,
                 remember: true,
                 cause: 1,
+                stackTrace: null,
               ) ==
               LoginFailed(
                 savedData: credentials,
                 remember: true,
                 cause: 1,
+                stackTrace: null,
               ),
           isTrue,
         );

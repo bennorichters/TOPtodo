@@ -58,9 +58,10 @@ class IncompleteCredentials extends InitState {
 }
 
 class LoadingDataFailed extends InitState {
-  const LoadingDataFailed(this.cause);
+  const LoadingDataFailed(this.cause, this.stackTrace);
   final Object cause;
+  final StackTrace stackTrace;
 
   @override
-  List<Object> get props => <Object>[cause];
+  List<Object> get props => [cause];
 }

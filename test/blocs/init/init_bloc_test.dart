@@ -190,7 +190,7 @@ void main() {
         await bloc.close();
         await subscription.cancel();
 
-        expect(actual.last, LoadingDataFailed(exc));
+        expect(actual.last, LoadingDataFailed(exc, null));
       });
 
       test('timeout', () async {
@@ -216,7 +216,7 @@ void main() {
         await bloc.close();
         await subscription.cancel();
 
-        expect(actual.last, LoadingDataFailed(exc));
+        expect(actual.last, LoadingDataFailed(exc, null));
       });
 
       test(
@@ -249,7 +249,7 @@ void main() {
         await bloc.close();
         await subscription.cancel();
 
-        expect(actual.last, LoadingDataFailed(exc));
+        expect(actual.last, LoadingDataFailed(exc, null));
       });
     });
   });

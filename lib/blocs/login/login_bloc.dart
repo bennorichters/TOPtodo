@@ -74,11 +74,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             settings: settings,
           );
         }
-      } catch (e) {
+      } catch (error, stackTrace) {
         yield LoginFailed(
           savedData: _credentials,
           remember: _remember,
-          cause: e,
+          cause: error,
+          stackTrace: stackTrace,
         );
       }
     }

@@ -146,6 +146,7 @@ void main() {
           IncidentSubmitted(currentOperator: null),
           IncidentCreationError(
             cause: exc,
+            stackTrace: null,
             currentOperator: null,
           ),
         ],
