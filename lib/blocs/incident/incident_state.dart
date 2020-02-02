@@ -7,7 +7,10 @@ import 'package:toptodo_data/toptodo_data.dart';
 ///
 /// This is the base class for all other incident states.
 class IncidentState extends Equatable {
+  /// Creates an instance of [IncidentState]
   const IncidentState({@required this.currentOperator});
+
+  /// the current operator
   final TdOperator currentOperator;
 
   @override
@@ -19,14 +22,16 @@ class IncidentState extends Equatable {
 
 /// State that is emmitted directly after a request to create an incident has
 /// been made, but before a result has been received.
-class SubmittingIncident extends IncidentState {
-  const SubmittingIncident({@required TdOperator currentOperator})
+class IncidentSubmitted extends IncidentState {
+  /// Creates an instance of [IncidentSubmitted]
+  const IncidentSubmitted({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
 /// State that is emitted after a new incident number has been received
 /// following an incident creating request.
 class IncidentCreated extends IncidentState {
+  /// Creates an instance of [IncidentCreated]
   const IncidentCreated({
     @required this.number,
     @required TdOperator currentOperator,

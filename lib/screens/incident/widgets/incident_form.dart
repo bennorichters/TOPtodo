@@ -42,7 +42,7 @@ class IncidentForm extends StatelessWidget {
                   maxLines: null,
                 ),
                 _verticalSpace,
-                (state is SubmittingIncident)
+                (state is IncidentSubmitted)
                     ? CircularProgressIndicator()
                     : TdButton(
                         text: 'submit',

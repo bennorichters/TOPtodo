@@ -7,12 +7,18 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo/blocs/incident/bloc.dart';
 
+/// Business logic component for creating incidents
 class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
+  /// Creates an incidents of [IncidentBloc]
   IncidentBloc({
     @required this.topdeskProvider,
     @required this.settingsProvider,
   });
+
+  /// the [TopdeskProvider]
   final TopdeskProvider topdeskProvider;
+
+  /// the [SettingsProvider]
   final SettingsProvider settingsProvider;
 
   TdOperator _currentOperator;
@@ -28,7 +34,7 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
       _currentOperator = await topdeskProvider.currentTdOperator();
       yield IncidentState(currentOperator: _currentOperator);
     } else if (event is IncidentSubmit) {
-      yield SubmittingIncident(currentOperator: _currentOperator);
+      yield IncidentSubmitted(currentOperator: _currentOperator);
 
       try {
         final results = await Future.wait([

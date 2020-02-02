@@ -78,7 +78,7 @@ void main() {
       },
       expect: [
         IncidentState(currentOperator: null),
-        SubmittingIncident(currentOperator: null),
+        IncidentSubmitted(currentOperator: null),
         IncidentCreated(
           currentOperator: currentOperator,
           number: '1',
@@ -102,7 +102,7 @@ void main() {
       expect: [
         IncidentState(currentOperator: null),
         IncidentState(currentOperator: currentOperator),
-        SubmittingIncident(currentOperator: currentOperator),
+        IncidentSubmitted(currentOperator: currentOperator),
         IncidentCreated(
           currentOperator: currentOperator,
           number: '1',
@@ -143,7 +143,7 @@ void main() {
         actual,
         [
           IncidentState(currentOperator: null),
-          SubmittingIncident(currentOperator: null),
+          IncidentSubmitted(currentOperator: null),
           IncidentCreationError(
             cause: exc,
             currentOperator: null,

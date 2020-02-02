@@ -16,6 +16,7 @@ class IncidentInit extends IncidentEvent {
 
 /// Incident submit event
 class IncidentSubmit extends IncidentEvent {
+  /// creates an incidents of [IncidentSubmit]
   const IncidentSubmit({
     @required this.briefDescription,
     @required this.request,
