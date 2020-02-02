@@ -1,13 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
+
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// Base class for all states related to initialization of TOPtodo
 abstract class InitState extends Equatable {
   const InitState();
 }
 
+/// State emmitted
 class InitData extends InitState {
   const InitData({
-    this.credentials,
+    @required this.credentials,
     this.currentOperator,
     this.settings,
   });
@@ -35,6 +39,11 @@ class InitData extends InitState {
   bool isComplete() =>
       credentials != null && currentOperator != null && settings != null;
 
+  bool isCredentialsComplete() =>
+      credentials != null && credentials.isComplete();
+
+  bool isSettingssComplete() => settings != null && settings.isComplete();
+
   @override
   List<Object> get props => [credentials, currentOperator, settings];
 
@@ -43,18 +52,6 @@ class InitData extends InitState {
       'credentials: $credentials, '
       'currentOperator: $currentOperator, '
       'settings: $settings';
-}
-
-class IncompleteCredentials extends InitState {
-  const IncompleteCredentials(this.credentials);
-  final Credentials credentials;
-
-  @override
-  List<Object> get props => [credentials];
-
-  @override
-  String toString() => 'IncompleteCredentials - '
-      'credentials: $credentials';
 }
 
 class LoadingDataFailed extends InitState {

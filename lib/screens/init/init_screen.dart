@@ -37,17 +37,17 @@ class _InitScreenState extends State<InitScreen> {
                 activeScreenIsLogin: false,
               ),
             );
-          } else if (state is IncompleteCredentials) {
-            Navigator.pushReplacementNamed(
-              context,
-              'login',
-              arguments: LoginScreenArguments(logOut: false),
-            );
-          } else if ((state is InitData) && state.isComplete()) {
-            if (state.settings.isComplete()) {
-              Navigator.pushReplacementNamed(context, 'incident');
-            } else {
+          } else if (state is InitData) {
+            if (!state.isCredentialsComplete()) {
+              Navigator.pushReplacementNamed(
+                context,
+                'login',
+                arguments: LoginScreenArguments(logOut: false),
+              );
+            } else if (!state.isSettingssComplete()) {
               Navigator.pushReplacementNamed(context, 'settings');
+            } else {
+              Navigator.pushReplacementNamed(context, 'incident');
             }
           }
         },

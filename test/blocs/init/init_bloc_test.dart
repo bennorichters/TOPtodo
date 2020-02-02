@@ -87,8 +87,11 @@ void main() {
 
     test('incomplete credentials', () async {
       final incompleteCredentialsProvider = MockCredentialsProvider();
-      final incompleteCredentials =
-          Credentials(url: 'a', loginName: null, password: null);
+      final incompleteCredentials = Credentials(
+        url: 'a',
+        loginName: null,
+        password: null,
+      );
       when(incompleteCredentialsProvider.provide())
           .thenAnswer((_) => Future.value(incompleteCredentials));
 
@@ -104,7 +107,7 @@ void main() {
         bloc,
         [
           InitData.empty(),
-          IncompleteCredentials(incompleteCredentials),
+          InitData(credentials: incompleteCredentials),
         ],
       );
     });
@@ -162,10 +165,65 @@ void main() {
       expect(s.toString().contains('Credentials'), isTrue);
     });
 
-    test('IncompleteCredentials toString contains info', () {
-      final s = IncompleteCredentials(credentials);
+    test('isComplete', () {
+      expect(
+        InitData(
+          credentials: credentials,
+          currentOperator: currentOperator,
+          settings: settings,
+        ).isComplete(),
+        isTrue,
+      );
 
-      expect(s.toString().contains('Credentials'), isTrue);
+      expect(
+        InitData(
+          credentials: credentials,
+          settings: settings,
+        ).isComplete(),
+        isFalse,
+      );
+    });
+
+    test('isCredentialsComplete', () {
+      expect(
+        InitData(
+          credentials: credentials,
+        ).isCredentialsComplete(),
+        isTrue,
+      );
+
+      expect(
+        InitData(
+          credentials: Credentials(url: 'a'),
+          settings: settings,
+        ).isCredentialsComplete(),
+        isFalse,
+      );
+    });
+
+    test('isSettingsComplete', () {
+      expect(
+        InitData(
+          credentials: credentials,
+        ).isSettingssComplete(),
+        isFalse,
+      );
+
+      expect(
+        InitData(
+          credentials: Credentials(url: 'a'),
+          settings: settings,
+        ).isSettingssComplete(),
+        isTrue,
+      );
+
+      expect(
+        InitData(
+          credentials: Credentials(url: 'a'),
+          settings: Settings(tdBranchId: 'a'),
+        ).isSettingssComplete(),
+        isFalse,
+      );
     });
 
     group('errors', () {
