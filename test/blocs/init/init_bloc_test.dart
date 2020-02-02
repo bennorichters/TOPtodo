@@ -171,7 +171,7 @@ void main() {
           credentials: credentials,
           currentOperator: currentOperator,
           settings: settings,
-        ).isComplete(),
+        ).isReady(),
         isTrue,
       );
 
@@ -179,7 +179,7 @@ void main() {
         InitData(
           credentials: credentials,
           settings: settings,
-        ).isComplete(),
+        ).isReady(),
         isFalse,
       );
     });

@@ -36,7 +36,7 @@ class InitData extends InitState {
         settings: updatedSettings ?? settings,
       );
 
-  bool isComplete() =>
+  bool isReady() =>
       credentials != null && currentOperator != null && settings != null;
 
   bool isCredentialsComplete() =>
