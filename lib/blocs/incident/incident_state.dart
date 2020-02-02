@@ -55,6 +55,8 @@ class IncidentCreationError extends IncidentState {
 
   /// the cause of the error
   final Object cause;
+
+  /// the stack trace at the moment the error occured
   final StackTrace stackTrace;
 
   @override
