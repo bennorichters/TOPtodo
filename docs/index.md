@@ -18,7 +18,7 @@ This app is currently under development. A beta release is available on the [Goo
 
 ## TOPdesk authorization
 
-You need to have the right authorization levels within TOPdesk to be able to use this app. Of course you need to be able to create incidents, but you also need to be allowed to use the _REST API_ and to create application passwords. You might need to contact your TOPdesk application manager to enable these.
+You need to have the right authorization levels within TOPdesk to be able to use this app. Of course you need to be able to create incidents, but you also need to be allowed to use the _REST API_ and to create _application passwords_. You might need to contact your TOPdesk application manager to enable these.
 
 ![authorization-api](./images/authorization-api.png)
 
