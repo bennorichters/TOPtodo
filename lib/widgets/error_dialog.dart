@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -37,18 +38,28 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
   List<Widget> _actions() {
     final result = <Widget>[];
-    if (!details) {
-      result.add(
-        FlatButton(
-          child: const Text('View details...'),
-          onPressed: () {
-            setState(() {
-              details = true;
-            });
-          },
-        ),
-      );
-    }
+
+    result.add(
+      details
+          ? FlatButton(
+              child: const Text('Copy text'),
+              onPressed: () => Clipboard.setData(
+                ClipboardData(
+                  text: widget.cause.toString() +
+                      '\n\n' +
+                      widget.stackTrace.toString(),
+                ),
+              ),
+            )
+          : FlatButton(
+              child: const Text('View details...'),
+              onPressed: () {
+                setState(() {
+                  details = true;
+                });
+              },
+            ),
+    );
 
     result.add(
       FlatButton(
