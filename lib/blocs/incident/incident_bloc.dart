@@ -50,7 +50,9 @@ class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
         _currentOperator = results[1];
 
         yield IncidentCreated(
-            number: number, currentOperator: _currentOperator);
+          number: number,
+          currentOperator: _currentOperator,
+        );
       } catch (error) {
         yield IncidentCreationError(
           cause: error,
