@@ -42,7 +42,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
     result.add(
       details
           ? FlatButton(
-              child: const Text('Copy text'),
+              child: const Text('Copy error'),
               onPressed: () => Clipboard.setData(
                 ClipboardData(
                   text: widget.cause.toString() +
@@ -53,11 +53,9 @@ class _ErrorDialogState extends State<ErrorDialog> {
             )
           : FlatButton(
               child: const Text('View details...'),
-              onPressed: () {
-                setState(() {
-                  details = true;
-                });
-              },
+              onPressed: () => setState(() {
+                details = true;
+              }),
             ),
     );
 
