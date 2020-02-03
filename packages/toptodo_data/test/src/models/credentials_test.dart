@@ -22,41 +22,41 @@ void main() {
     });
 
     test('isComplete', () {
-      expect(Credentials().isComplete(), isFalse);
+      expect(Credentials().isComplete, isFalse);
       expect(
           Credentials(
             url: 'url',
             loginName: null,
             password: null,
-          ).isComplete(),
+          ).isComplete,
           isFalse);
       expect(
           Credentials(
             url: 'url',
             loginName: 'a',
             password: 'b',
-          ).isComplete(),
+          ).isComplete,
           isTrue);
     });
 
     test('equals', () {
       final a = Credentials(
-            url: 'url',
-            loginName: 'a',
-            password: 'b',
-          );
-      
+        url: 'url',
+        loginName: 'a',
+        password: 'b',
+      );
+
       final b = Credentials(
-            url: 'url',
-            loginName: 'a',
-            password: 'b',
-          );
+        url: 'url',
+        loginName: 'a',
+        password: 'b',
+      );
 
       final c = Credentials(
-            url: 'url',
-            loginName: 'a',
-            password: 'c',
-          );
+        url: 'url',
+        loginName: 'a',
+        password: 'c',
+      );
 
       expect(a == b, isTrue);
       expect(a == c, isFalse);

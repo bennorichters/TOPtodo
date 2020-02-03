@@ -7,8 +7,8 @@ import 'package:toptodo_data/toptodo_data.dart';
 void main() {
   group('settings', () {
     test('isComplete', () {
-      expect(Settings().isComplete(), isFalse);
-      expect(Settings(tdBranchId: 'a', tdCallerId: 'a').isComplete(), isFalse);
+      expect(Settings().isComplete, isFalse);
+      expect(Settings(tdBranchId: 'a', tdCallerId: 'a').isComplete, isFalse);
       expect(
           Settings(
             tdBranchId: 'a',
@@ -17,7 +17,7 @@ void main() {
             tdSubcategoryId: 'a',
             tdDurationId: 'a',
             tdOperatorId: 'a',
-          ).isComplete(),
+          ).isComplete,
           isTrue);
     });
 

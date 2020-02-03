@@ -46,8 +46,8 @@ class Settings extends Equatable {
   /// foreign key to a [TdOperator]
   final String tdOperatorId;
 
-  /// Returns `true` if none of the fields are null, `false` otherwise.
-  bool isComplete() => !props.contains(null);
+  /// `true` if none of the fields are null, `false` otherwise.
+  bool get isComplete => !props.contains(null);
 
   /// Converts this instance to a json object
   Map<String, dynamic> toJson() => {
