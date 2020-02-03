@@ -37,9 +37,9 @@ class InitData extends InitState {
       credentials != null && currentOperator != null && settings != null;
 
   bool get isCredentialsComplete =>
-      credentials != null && credentials.isComplete();
+      credentials != null && credentials.isComplete;
 
-  bool get isSettingssComplete => settings != null && settings.isComplete();
+  bool get isSettingssComplete => settings != null && settings.isComplete;
 
   InitData update({
     Credentials updatedCredentials,

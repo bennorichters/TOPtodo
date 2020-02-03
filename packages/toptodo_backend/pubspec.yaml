@@ -15,12 +15,12 @@ dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: 28b52e7b8c5c6446ca6e0e415da7ccb04d32306f
+      ref: 6517f6af4e4104a943cbe279aa5c57ff385e4a94
   toptodo_topdesk_test_data:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_test_data
-      ref: fc1178b534edb6d7bf23761d312c26111ff94e2d
+      ref: e6c052835d815da27aa3273c27ea8327c2034921
 
 dev_dependencies:
   mock_request: ^1.0.6
@@ -30,4 +30,4 @@ dev_dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_topdesk_api
-      ref: fc1178b534edb6d7bf23761d312c26111ff94e2d
+      ref: e6c052835d815da27aa3273c27ea8327c2034921

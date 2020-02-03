@@ -29,7 +29,7 @@ class InitBloc extends Bloc<InitEvent, InitState> {
         final credentials = await credentialsProvider.provide();
 
         controller.add(_initData = InitData(credentials: credentials));
-        if (credentials.isComplete()) {
+        if (credentials.isComplete) {
           _finishLoadingData(controller, credentials);
         } else {
           await controller.close();
