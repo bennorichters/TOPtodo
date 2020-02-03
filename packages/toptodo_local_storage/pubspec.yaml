@@ -7,7 +7,7 @@ issue_tracker: https://github.com/bennorichters/toptodo/issues
 homepage: https://github.com/bennorichters/toptodo/
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.7.1 <3.0.0"
 
 dependencies:
   flutter:
@@ -16,7 +16,7 @@ dependencies:
     git:
       url: git://github.com/bennorichters/toptodo
       path: packages/toptodo_data
-      ref: 28b52e7b8c5c6446ca6e0e415da7ccb04d32306f
+      ref: cade742dbc3bef48ec5fdf4b7942fd1836d6793f
   flutter_secure_storage: ^3.3.1+1
   shared_preferences: ^0.5.6+1
   crypto: ^2.1.3
