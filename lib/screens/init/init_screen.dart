@@ -37,7 +37,7 @@ class _InitScreenState extends State<InitScreen> {
                 activeScreenIsLogin: false,
               ),
             );
-          } else if (state is InitData) {
+          } else if (state is InitData && state.isReady()) {
             if (!state.isCredentialsComplete()) {
               Navigator.pushReplacementNamed(
                 context,
