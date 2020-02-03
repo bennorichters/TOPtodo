@@ -4,15 +4,23 @@ import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// Business logic component that takes care of initializing the TOPtodo
+/// application.
 class InitBloc extends Bloc<InitEvent, InitState> {
+  /// Creates an [InitBloc]
   InitBloc({
     @required this.credentialsProvider,
     @required this.topdeskProvider,
     @required this.settingsProvider,
   });
 
+  /// The [CredentialsProvider]
   final CredentialsProvider credentialsProvider;
+
+  /// The [TopdeskProvider]
   final TopdeskProvider topdeskProvider;
+
+  /// The [SettingsProvider]
   final SettingsProvider settingsProvider;
 
   InitData _initData;

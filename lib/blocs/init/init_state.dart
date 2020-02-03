@@ -32,15 +32,21 @@ class InitData extends InitState {
   /// The Settings. This can be `null`.
   final Settings settings;
 
-  /// `true` if none of the fields are null, `false` otherwise
+  /// `true` if none of [credentials], [currentOperator] and [settings] are
+  /// null, `false` otherwise
   bool get isReady =>
       credentials != null && currentOperator != null && settings != null;
 
+  /// `true` if [credentials] is not `null` and is complete, `false` otherwise.
   bool get isCredentialsComplete =>
       credentials != null && credentials.isComplete;
 
+  /// `true` if [settings] is not `null` and is complete, `false` otherwise.
   bool get isSettingssComplete => settings != null && settings.isComplete;
 
+  /// Returns a new instance of [InitData] with the given parameters if they are
+  /// not `null`. Otherwise the new instance copies the fields from `this`
+  /// instance.
   InitData update({
     Credentials updatedCredentials,
     TdOperator updatedCurrentOperator,
@@ -62,9 +68,16 @@ class InitData extends InitState {
       'settings: $settings';
 }
 
+/// State that is emitted when the initialization data could not be loaded.
 class LoadingDataFailed extends InitState {
+  /// Creates a new instance of [LoadingDataFailed]
   const LoadingDataFailed(this.cause, this.stackTrace);
+
+  /// The cause of the exception that lead to the emission of this state
   final Object cause;
+
+  /// The stack trace at the moment the exception was thrown and that lead to
+  /// the emission of this state
   final StackTrace stackTrace;
 
   @override
