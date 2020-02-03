@@ -19,8 +19,9 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
 
   final pathPlain = {
     'version': () async => {'version': await tdProvider.apiVersion()},
-    'operators/current': () async =>
-        fixPerson(await tdProvider.currentTdOperator()),
+    'operators/current': () async => fixPerson(
+          await tdProvider.currentTdOperator(),
+        ),
   };
 
   final pathById = {
@@ -154,8 +155,10 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
   if (requestPath == '/') {
     request.response..write('TOPtodo');
   } else if (requestPath.startsWith(pathTasApiPrefix)) {
-    request.response.headers
-        .add(HttpHeaders.contentTypeHeader, 'application/json');
+    request.response.headers.add(
+      HttpHeaders.contentTypeHeader,
+      'application/json',
+    );
 
     final path = requestPath.substring(pathTasApiPrefix.length);
 
