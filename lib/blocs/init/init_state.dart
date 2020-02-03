@@ -36,13 +36,13 @@ class InitData extends InitState {
         settings: updatedSettings ?? settings,
       );
 
-  bool isReady() =>
+  bool get isReady =>
       credentials != null && currentOperator != null && settings != null;
 
-  bool isCredentialsComplete() =>
+  bool get isCredentialsComplete =>
       credentials != null && credentials.isComplete();
 
-  bool isSettingssComplete() => settings != null && settings.isComplete();
+  bool get isSettingssComplete => settings != null && settings.isComplete();
 
   @override
   List<Object> get props => [credentials, currentOperator, settings];

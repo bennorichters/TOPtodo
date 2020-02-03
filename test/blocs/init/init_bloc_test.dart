@@ -171,7 +171,7 @@ void main() {
           credentials: credentials,
           currentOperator: currentOperator,
           settings: settings,
-        ).isReady(),
+        ).isReady,
         isTrue,
       );
 
@@ -179,7 +179,7 @@ void main() {
         InitData(
           credentials: credentials,
           settings: settings,
-        ).isReady(),
+        ).isReady,
         isFalse,
       );
     });
@@ -188,7 +188,7 @@ void main() {
       expect(
         InitData(
           credentials: credentials,
-        ).isCredentialsComplete(),
+        ).isCredentialsComplete,
         isTrue,
       );
 
@@ -196,7 +196,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).isCredentialsComplete(),
+        ).isCredentialsComplete,
         isFalse,
       );
     });
@@ -205,7 +205,7 @@ void main() {
       expect(
         InitData(
           credentials: credentials,
-        ).isSettingssComplete(),
+        ).isSettingssComplete,
         isFalse,
       );
 
@@ -213,7 +213,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).isSettingssComplete(),
+        ).isSettingssComplete,
         isTrue,
       );
 
@@ -221,7 +221,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: Settings(tdBranchId: 'a'),
-        ).isSettingssComplete(),
+        ).isSettingssComplete,
         isFalse,
       );
     });
