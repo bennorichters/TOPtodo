@@ -34,7 +34,7 @@ void main() {
           settingsProvider: MockSettingsProvider(),
           topdeskProvider: MockTopdeskProvider(),
         ),
-        expect: [LoginWaitingForSavedData()],
+        expect: [AwaitingCredentials()],
       );
 
       blocTest<LoginBloc, LoginEvent, LoginState>(
@@ -47,8 +47,8 @@ void main() {
         ),
         act: (LoginBloc bloc) async => bloc.add(CredentialsInit()),
         expect: [
-          LoginWaitingForSavedData(),
-          RetrievedSavedData(Credentials(), false),
+          AwaitingCredentials(),
+          RetrievedCredentials(Credentials(), false),
         ],
       );
 
@@ -62,8 +62,8 @@ void main() {
         ),
         act: (LoginBloc bloc) async => bloc.add(CredentialsInit()),
         expect: [
-          LoginWaitingForSavedData(),
-          RetrievedSavedData(credentials, true),
+          AwaitingCredentials(),
+          RetrievedCredentials(credentials, true),
         ],
       );
 
@@ -84,8 +84,8 @@ void main() {
           ),
         ),
         expect: [
-          LoginWaitingForSavedData(),
-          RetrievedSavedData(
+          AwaitingCredentials(),
+          RetrievedCredentials(
             Credentials(
               url: 'a',
               loginName: 'b',
@@ -117,9 +117,9 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
-            LoginWaitingForSavedData(),
-            RetrievedSavedData(credentials, true),
-            RetrievedSavedData(userEnteredCredentials, false),
+            AwaitingCredentials(),
+            RetrievedCredentials(credentials, true),
+            RetrievedCredentials(userEnteredCredentials, false),
           ],
         );
 
@@ -142,10 +142,10 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
-            LoginWaitingForSavedData(),
-            RetrievedSavedData(credentials, true),
-            LoginWaitingForSavedData(),
-            RetrievedSavedData(Credentials(), false),
+            AwaitingCredentials(),
+            RetrievedCredentials(credentials, true),
+            AwaitingCredentials(),
+            RetrievedCredentials(Credentials(), false),
           ],
         );
 
@@ -168,7 +168,7 @@ void main() {
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
-          [LoginWaitingForSavedData(), RetrievedSavedData(credentials, true)],
+          [AwaitingCredentials(), RetrievedCredentials(credentials, true)],
         );
       });
     });
@@ -203,8 +203,8 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
-            LoginWaitingForSavedData(),
-            RetrievedSavedData(Credentials(), false),
+            AwaitingCredentials(),
+            RetrievedCredentials(Credentials(), false),
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
@@ -232,9 +232,9 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
-            LoginWaitingForSavedData(),
-            RetrievedSavedData(Credentials(), false),
-            RetrievedSavedData(credentials, true),
+            AwaitingCredentials(),
+            RetrievedCredentials(Credentials(), false),
+            RetrievedCredentials(credentials, true),
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
@@ -267,8 +267,8 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
-            LoginWaitingForSavedData(),
-            RetrievedSavedData(credentials, true),
+            AwaitingCredentials(),
+            RetrievedCredentials(credentials, true),
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
@@ -323,7 +323,7 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
-            LoginWaitingForSavedData(),
+            AwaitingCredentials(),
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
@@ -356,7 +356,7 @@ void main() {
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           <dynamic>[
-            LoginWaitingForSavedData(),
+            AwaitingCredentials(),
             LoginSubmitting(),
             isA<LoginFailed>(),
           ],
@@ -414,7 +414,7 @@ void main() {
     group('toString', () {
       test('WithSavedData', () {
         expect(
-          RetrievedSavedData(Credentials(), true).toString().contains('true'),
+          RetrievedCredentials(Credentials(), true).toString().contains('true'),
           isTrue,
         );
       });

@@ -71,11 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (BuildContext context, LoginState state) {
-              if (state is LoginWaitingForSavedData) {
+              if (state is AwaitingCredentials) {
                 return const _Loading();
-              } else if (state is WithSavedData) {
+              } else if (state is WithCredentials) {
                 return CredentialsForm.withSavedDate(
-                  state.savedData,
+                  state.credentials,
                   state.remember,
                 );
               } else if (state is LoginSuccess) {

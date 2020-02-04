@@ -19,23 +19,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   bool _remember = false;
 
   @override
-  LoginState get initialState => const LoginWaitingForSavedData();
+  LoginState get initialState => const AwaitingCredentials();
 
   @override
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
     if (event is CredentialsInit) {
-      yield const LoginWaitingForSavedData();
+      yield const AwaitingCredentials();
       _credentials = await credentialsProvider.provide();
       _remember = _credentials.isComplete;
-      yield RetrievedSavedData(_credentials, _remember);
+      yield RetrievedCredentials(_credentials, _remember);
     } else if (event is LogOut) {
-      yield const LoginWaitingForSavedData();
+      yield const AwaitingCredentials();
       await credentialsProvider.delete();
       _credentials = Credentials();
       _remember = false;
-      yield RetrievedSavedData(_credentials, _remember);
+      yield RetrievedCredentials(_credentials, _remember);
     } else if (event is RememberToggle) {
       _credentials = event.credentials;
       _remember = !_remember;
@@ -44,7 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await credentialsProvider.delete();
       }
 
-      yield RetrievedSavedData(_credentials, _remember);
+      yield RetrievedCredentials(_credentials, _remember);
     } else if (event is TryLogin) {
       yield const LoginSubmitting();
 
