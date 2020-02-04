@@ -52,26 +52,6 @@ class LoginSuccess extends LoginState {
   List<Object> get props => super.props..addAll([topdeskProvider, settings]);
 }
 
-class LoginSuccessIncompleteSettings extends LoginSuccess {
-  const LoginSuccessIncompleteSettings({
-    @required TopdeskProvider topdeskProvider,
-    @required Settings settings,
-  }) : super(
-          topdeskProvider: topdeskProvider,
-          settings: settings,
-        );
-}
-
-class LoginSuccessValidSettings extends LoginSuccess {
-  const LoginSuccessValidSettings({
-    @required TopdeskProvider topdeskProvider,
-    @required Settings settings,
-  }) : super(
-          topdeskProvider: topdeskProvider,
-          settings: settings,
-        );
-}
-
 class LoginFailed extends WithSavedData {
   const LoginFailed({
     @required Credentials savedData,
@@ -84,5 +64,5 @@ class LoginFailed extends WithSavedData {
   final StackTrace stackTrace;
 
   @override
-  List<Object> get props => super.props..addAll([cause, stackTrace]);
+  List<Object> get props => super.props..addAll([cause]);
 }

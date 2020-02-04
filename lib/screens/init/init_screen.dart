@@ -98,14 +98,14 @@ class _InitDataProgress extends StatelessWidget {
                   padding: EdgeInsetsDirectional.only(start: _padding + 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: (state.credentials == null)
+                    children: (state.isCredentialsComplete)
                         ? [
-                            Text('TOPdesk address'),
-                            Text('login name'),
-                          ]
-                        : [
                             Text(state.credentials.url),
                             Text(state.credentials.loginName),
+                          ]
+                        : [
+                            Text('TOPdesk address'),
+                            Text('login name'),
                           ],
                   ),
                 ),

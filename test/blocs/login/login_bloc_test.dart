@@ -206,7 +206,7 @@ void main() {
             LoginWaitingForSavedData(),
             RetrievedSavedData(Credentials(), false),
             LoginSubmitting(),
-            LoginSuccessValidSettings(
+            LoginSuccess(
               topdeskProvider: topdeskProvider,
               settings: settings,
             ),
@@ -236,7 +236,7 @@ void main() {
             RetrievedSavedData(Credentials(), false),
             RetrievedSavedData(credentials, true),
             LoginSubmitting(),
-            LoginSuccessValidSettings(
+            LoginSuccess(
               topdeskProvider: topdeskProvider,
               settings: settings,
             ),
@@ -270,7 +270,7 @@ void main() {
             LoginWaitingForSavedData(),
             RetrievedSavedData(credentials, true),
             LoginSubmitting(),
-            LoginSuccessValidSettings(
+            LoginSuccess(
               topdeskProvider: topdeskProvider,
               settings: settings,
             ),
@@ -325,7 +325,7 @@ void main() {
           [
             LoginWaitingForSavedData(),
             LoginSubmitting(),
-            LoginSuccessIncompleteSettings(
+            LoginSuccess(
               topdeskProvider: topdeskProvider,
               settings: incomplete,
             ),
