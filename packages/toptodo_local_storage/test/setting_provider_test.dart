@@ -13,7 +13,7 @@ void main() {
   });
 
   group('basics', () {
-    Settings settingsToSave = Settings(
+    final settingsToSave = Settings(
       tdBranchId: 'a',
       tdCallerId: 'a',
       tdCategoryId: 'a',
@@ -23,8 +23,7 @@ void main() {
     );
 
     test('first empty settings then retrieve same as saved', () async {
-      final SharedPreferencesSettingsProvider p =
-          SharedPreferencesSettingsProvider();
+      final p = SharedPreferencesSettingsProvider();
       p.init('url', 'loginName');
 
       expect(await p.provide(), const Settings());
@@ -36,8 +35,7 @@ void main() {
     });
 
     test('retrieve same as saved after dispose', () async {
-      final SharedPreferencesSettingsProvider p =
-          SharedPreferencesSettingsProvider();
+      final p = SharedPreferencesSettingsProvider();
       p.init('url', 'loginName');
       await p.save(settingsToSave);
       p.dispose();
@@ -48,8 +46,7 @@ void main() {
     });
 
     test('retrieve empty after save and delete', () async {
-      final SharedPreferencesSettingsProvider p =
-          SharedPreferencesSettingsProvider();
+      final p = SharedPreferencesSettingsProvider();
       p.init('url', 'loginName');
       await p.save(settingsToSave);
       p.dispose();
@@ -60,8 +57,7 @@ void main() {
     });
 
     test('retrieve twice', () async {
-      final SharedPreferencesSettingsProvider p =
-          SharedPreferencesSettingsProvider();
+      final p = SharedPreferencesSettingsProvider();
       p.init('url', 'loginName');
 
       expect(await p.provide(), const Settings());
@@ -76,14 +72,12 @@ void main() {
     });
 
     test('different url does not contain the same settings', () async {
-      final SharedPreferencesSettingsProvider p1 =
-          SharedPreferencesSettingsProvider();
+      final p1 = SharedPreferencesSettingsProvider();
       p1.init('url1', 'loginName');
 
       await p1.save(settingsToSave);
 
-      final SharedPreferencesSettingsProvider p2 =
-          SharedPreferencesSettingsProvider();
+      final p2 = SharedPreferencesSettingsProvider();
       p2.init('url2', 'loginName');
 
       expect(await p2.provide(), const Settings());
