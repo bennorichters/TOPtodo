@@ -184,11 +184,11 @@ void main() {
       );
     });
 
-    test('isCredentialsComplete', () {
+    test('hasCompleteCredentials', () {
       expect(
         InitData(
           credentials: credentials,
-        ).isCredentialsComplete,
+        ).hasCompleteCredentials,
         isTrue,
       );
 
@@ -196,16 +196,35 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).isCredentialsComplete,
+        ).hasCompleteCredentials,
         isFalse,
       );
     });
 
-    test('isSettingsComplete', () {
+    test('hasIncompleteCredentials', () {
       expect(
         InitData(
           credentials: credentials,
-        ).isSettingssComplete,
+        ).hasIncompleteCredentials,
+        isFalse,
+      );
+
+      expect(InitData.empty().hasIncompleteCredentials, isFalse);
+
+      expect(
+        InitData(
+          credentials: Credentials(url: 'a'),
+          settings: settings,
+        ).hasIncompleteCredentials,
+        isTrue,
+      );
+    });
+
+    test('hasCompleteSettings', () {
+      expect(
+        InitData(
+          credentials: credentials,
+        ).hasCompleteSettings,
         isFalse,
       );
 
@@ -213,7 +232,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).isSettingssComplete,
+        ).hasCompleteSettings,
         isTrue,
       );
 
@@ -221,8 +240,33 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: Settings(tdBranchId: 'a'),
-        ).isSettingssComplete,
+        ).hasCompleteSettings,
         isFalse,
+      );
+    });
+
+    test('hasIncompleteSettings', () {
+      expect(
+        InitData(
+          credentials: credentials,
+        ).hasIncompleteSettings,
+        isFalse,
+      );
+
+      expect(
+        InitData(
+          credentials: Credentials(url: 'a'),
+          settings: settings,
+        ).hasIncompleteSettings,
+        isFalse,
+      );
+
+      expect(
+        InitData(
+          credentials: Credentials(url: 'a'),
+          settings: Settings(tdBranchId: 'a'),
+        ).hasIncompleteSettings,
+        isTrue,
       );
     });
 

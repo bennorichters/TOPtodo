@@ -37,16 +37,16 @@ class _InitScreenState extends State<InitScreen> {
                 activeScreenIsLogin: false,
               ),
             );
-          } else if (state is InitData && state.isReady) {
-            if (!state.isCredentialsComplete) {
+          } else if (state is InitData) {
+            if (state.hasIncompleteCredentials) {
               Navigator.pushReplacementNamed(
                 context,
                 'login',
                 arguments: LoginScreenArguments(logOut: false),
               );
-            } else if (!state.isSettingssComplete) {
+            } else if (state.hasIncompleteSettings) {
               Navigator.pushReplacementNamed(context, 'settings');
-            } else {
+            } else if (state.isReady) {
               Navigator.pushReplacementNamed(context, 'incident');
             }
           }
@@ -98,7 +98,7 @@ class _InitDataProgress extends StatelessWidget {
                   padding: EdgeInsetsDirectional.only(start: _padding + 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: (state.isCredentialsComplete)
+                    children: (state.hasCompleteCredentials)
                         ? [
                             Text(state.credentials.url),
                             Text(state.credentials.loginName),

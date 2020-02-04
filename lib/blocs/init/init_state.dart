@@ -32,17 +32,25 @@ class InitData extends InitState {
   /// The Settings. This can be `null`.
   final Settings settings;
 
+  /// `true` if [credentials] is not `null` and is complete, `false` otherwise
+  bool get hasCompleteCredentials =>
+      (credentials != null) && credentials.isComplete;
+
+  /// `true` if [credentials] is not `null` and is not complete, `false`
+  /// otherwise
+  bool get hasIncompleteCredentials =>
+      (credentials != null) && !credentials.isComplete;
+
+  /// `true` if [settings] is not `null` and is complete, `false` otherwise
+  bool get hasCompleteSettings => (settings != null) && settings.isComplete;
+
+  /// `true` if [settings] is not `null` and is not complete, `false` otherwise
+  bool get hasIncompleteSettings => (settings != null) && !settings.isComplete;
+
   /// `true` if none of [credentials], [currentOperator] and [settings] are
-  /// null, `false` otherwise
+  /// `null`, `false` otherwise
   bool get isReady =>
       credentials != null && currentOperator != null && settings != null;
-
-  /// `true` if [credentials] is not `null` and is complete, `false` otherwise.
-  bool get isCredentialsComplete =>
-      credentials != null && credentials.isComplete;
-
-  /// `true` if [settings] is not `null` and is complete, `false` otherwise.
-  bool get isSettingssComplete => settings != null && settings.isComplete;
 
   /// Returns a new instance of [InitData] with the given parameters if they are
   /// not `null`. Otherwise the new instance copies the fields from `this`
