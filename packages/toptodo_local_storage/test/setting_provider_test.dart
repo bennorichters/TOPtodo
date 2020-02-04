@@ -64,10 +64,10 @@ void main() {
 
       await p.save(settingsToSave);
 
-      final Settings provided = await p.provide();
+      final provided = await p.provide();
       expect(provided, settingsToSave);
 
-      final Settings provided2 = await p.provide();
+      final provided2 = await p.provide();
       expect(provided2, settingsToSave);
     });
 
