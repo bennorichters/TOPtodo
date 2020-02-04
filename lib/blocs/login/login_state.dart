@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// Base class for all state objects related to login
 abstract class LoginState extends Equatable {
   const LoginState();
 
@@ -9,10 +10,14 @@ abstract class LoginState extends Equatable {
   List<Object> get props => <Object>[];
 }
 
+/// State emitted when the login bloc requested the credential
+/// data and is waiting for it
 class LoginWaitingForSavedData extends LoginState {
   const LoginWaitingForSavedData();
 }
 
+/// Base class for all state objects related to login with 
+/// credential data
 abstract class WithSavedData extends LoginState {
   const WithSavedData(this.savedData, this.remember);
   final Credentials savedData;
