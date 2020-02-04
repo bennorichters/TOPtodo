@@ -4,16 +4,28 @@ import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// Business logic component related to login
+///
+/// This component can retrieve, save and delete [Credentials] information from
+/// a [CredentialsProvider]. It can retrieve [Settings] from a
+/// [SettingsProvider] and can retrieve the current operator from an
+/// [TopdeskProvider].
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  /// Creates an instance of a [LoginBloc]
   LoginBloc({
     @required this.credentialsProvider,
-    @required this.topdeskProvider,
     @required this.settingsProvider,
+    @required this.topdeskProvider,
   });
 
+  /// the credentials provider
   final CredentialsProvider credentialsProvider;
-  final TopdeskProvider topdeskProvider;
+
+  /// the settings provider
   final SettingsProvider settingsProvider;
+
+  /// the topdesk provider
+  final TopdeskProvider topdeskProvider;
 
   Credentials _credentials;
   bool _remember = false;
