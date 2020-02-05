@@ -32,32 +32,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
         await _fillFormWithSearchLists();
         yield await _currentData();
-      } else if (event is CategorySelected) {
-        _formState = _formState.update(
-          updatedTdCategory: event.category,
-        );
-        yield await _currentData();
-
-        _formState = _formState.update(
-          updatedTdSubcategories:
-              await topdeskProvider.tdSubcategories(tdCategory: event.category),
-        );
-        yield await _currentData();
-      } else if (event is DurationSelected) {
-        _formState = _formState.update(updatedTdDuration: event.duration);
-        yield await _currentData();
-      } else if (event is BranchSelected) {
-        _formState = _formState.update(updatedTdBranch: event.branch);
-        yield await _currentData();
-      } else if (event is OperatorSelected) {
-        _formState = _formState.update(updatedTdOperator: event.tdOperator);
-        yield await _currentData();
-      } else if (event is CallerSelected) {
-        _formState = _formState.update(updatedTdCaller: event.caller);
-        yield await _currentData();
-      } else if (event is SubcategorySelected) {
-        _formState = _formState.update(updatedTdSubcategory: event.subcategory);
-        yield await _currentData();
+      } else if (event is ValueSelected) {
+        yield* _updateCurrentData(event);
       } else if (event is SettingsSave) {
         await settingsProvider.save(_formState.toSettings());
         yield SettingsSaved(
@@ -68,6 +44,31 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } catch (error, stackTrace) {
       yield SettingsError(error, stackTrace);
     }
+  }
+
+  Stream<SettingsState> _updateCurrentData(ValueSelected event) async* {
+    if (event.tdBranch != null) {
+      _formState = _formState.update(updatedTdBranch: event.tdBranch);
+    } else if (event.tdCaller != null) {
+      _formState = _formState.update(updatedTdCaller: event.tdCaller);
+    } else if (event.tdCategory != null) {
+      _formState = _formState.update(updatedTdCategory: event.tdCategory);
+      yield await _currentData();
+
+      _formState = _formState.update(
+        updatedTdSubcategories: await topdeskProvider.tdSubcategories(
+          tdCategory: event.tdCategory,
+        ),
+      );
+    } else if (event.tdSubcategory != null) {
+      _formState = _formState.update(updatedTdSubcategory: event.tdSubcategory);
+    } else if (event.tdDuration != null) {
+      _formState = _formState.update(updatedTdDuration: event.tdDuration);
+    } else if (event.tdOperator != null) {
+      _formState = _formState.update(updatedTdOperator: event.tdOperator);
+    }
+
+    yield await _currentData();
   }
 
   Future<void> _fillFormWithSettings() async {

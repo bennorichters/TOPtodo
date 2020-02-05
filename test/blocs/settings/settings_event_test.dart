@@ -12,45 +12,15 @@ void main() {
       avatar: 'img',
       branch: branchA,
     );
-    final categoryA = TdCategory(id: '1', name: 'category A');
-    final subcategoryA = TdSubcategory(
-      id: '11',
-      name: 'subcategory A',
-      category: categoryA,
-    );
-    final durationA = TdDuration(id: '1', name: 'duration A');
-    final operatorA = TdOperator(
-      id: '1',
-      name: 'operator A',
-      avatar: 'img',
-      firstLine: true,
-      secondLine: true,
-    );
 
     test('equals', () {
       expect(
-        BranchSelected(branchA) == BranchSelected(branchA),
+        ValueSelected(tdBranch: branchA) == ValueSelected(tdBranch: branchA),
         isTrue,
       );
       expect(
-        CallerSelected(callerA) == CallerSelected(callerA),
-        isTrue,
-      );
-      expect(
-        CategorySelected(categoryA) == CategorySelected(categoryA),
-        isTrue,
-      );
-      expect(
-        SubcategorySelected(subcategoryA) == SubcategorySelected(subcategoryA),
-        isTrue,
-      );
-      expect(
-        DurationSelected(durationA) == DurationSelected(durationA),
-        isTrue,
-      );
-      expect(
-        OperatorSelected(operatorA) == OperatorSelected(operatorA),
-        isTrue,
+        ValueSelected(tdBranch: branchA) == ValueSelected(tdCaller: callerA),
+        isFalse,
       );
     });
   });

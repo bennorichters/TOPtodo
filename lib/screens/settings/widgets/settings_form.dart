@@ -55,7 +55,7 @@ class SettingsForm extends StatelessWidget {
                   selectedItem: state.formState.tdCategory,
                   onChangedCallBack: (TdCategory newValue) {
                     BlocProvider.of<SettingsBloc>(context)
-                      ..add(CategorySelected(newValue));
+                      ..add(ValueSelected(tdCategory: newValue));
                   },
                 ),
                 _SubcategoryWidget(formState: state.formState),
@@ -66,7 +66,7 @@ class SettingsForm extends StatelessWidget {
                   selectedItem: state.formState.tdDuration,
                   onChangedCallBack: (TdDuration newValue) {
                     BlocProvider.of<SettingsBloc>(context)
-                      ..add(DurationSelected(newValue));
+                      ..add(ValueSelected(tdDuration: newValue));
                   },
                 ),
                 SearchField<TdOperator>(
@@ -107,7 +107,8 @@ class SettingsForm extends StatelessWidget {
         delegate: TdModelSearchDelegate<TdBranch>.allBranches(),
       );
 
-      BlocProvider.of<SettingsBloc>(context)..add(BranchSelected(chosenBranch));
+      BlocProvider.of<SettingsBloc>(context)
+        ..add(ValueSelected(tdBranch: chosenBranch));
     };
   }
 
@@ -124,7 +125,7 @@ class SettingsForm extends StatelessWidget {
             );
 
             BlocProvider.of<SettingsBloc>(context)
-              ..add(CallerSelected(chosenCaller));
+              ..add(ValueSelected(tdCaller: chosenCaller));
           };
   }
 
@@ -137,7 +138,7 @@ class SettingsForm extends StatelessWidget {
       );
 
       BlocProvider.of<SettingsBloc>(context)
-        ..add(OperatorSelected(chosenOperator));
+        ..add(ValueSelected(tdOperator: chosenOperator));
     };
   }
 
@@ -168,7 +169,7 @@ class _SubcategoryWidget extends StatelessWidget {
       selectedItem: formState.tdSubcategory,
       onChangedCallBack: (TdSubcategory newValue) {
         BlocProvider.of<SettingsBloc>(context)
-          ..add(SubcategorySelected(newValue));
+          ..add(ValueSelected(tdSubcategory: newValue));
       },
     );
   }
