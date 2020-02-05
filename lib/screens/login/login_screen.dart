@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => state.settings.isComplete
+                  builder: (_) => state.settings.isComplete()
                       ? const IncidentScreen()
                       : const SettingsScreen(),
                 ),

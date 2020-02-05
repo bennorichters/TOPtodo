@@ -34,18 +34,19 @@ class InitData extends InitState {
 
   /// `true` if [credentials] is not `null` and is complete, `false` otherwise
   bool get hasCompleteCredentials =>
-      (credentials != null) && credentials.isComplete;
+      (credentials != null) && credentials.isComplete();
 
   /// `true` if [credentials] is not `null` and is not complete, `false`
   /// otherwise
   bool get hasIncompleteCredentials =>
-      (credentials != null) && !credentials.isComplete;
+      (credentials != null) && !credentials.isComplete();
 
   /// `true` if [settings] is not `null` and is complete, `false` otherwise
-  bool get hasCompleteSettings => (settings != null) && settings.isComplete;
+  bool get hasCompleteSettings => (settings != null) && settings.isComplete();
 
   /// `true` if [settings] is not `null` and is not complete, `false` otherwise
-  bool get hasIncompleteSettings => (settings != null) && !settings.isComplete;
+  bool get hasIncompleteSettings =>
+      (settings != null) && !settings.isComplete();
 
   /// `true` if none of [credentials], [currentOperator] and [settings] are
   /// `null`, `false` otherwise
