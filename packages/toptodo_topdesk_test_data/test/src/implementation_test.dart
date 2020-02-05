@@ -18,7 +18,7 @@ void main() {
       });
 
       test('version', () async {
-        expect(await ftp.apiVersion(), '3.1.0');
+        expect(await ftp.apiVersion(), '3.1.1');
       });
     });
 
