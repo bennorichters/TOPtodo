@@ -32,25 +32,27 @@ class InitData extends InitState {
   /// The Settings. This can be `null`.
   final Settings settings;
 
-  /// `true` if [credentials] is not `null` and is complete, `false` otherwise
-  bool get hasCompleteCredentials =>
+  /// Returns `true` if [credentials] is not `null` and is complete, `false`
+  /// otherwise
+  bool hasCompleteCredentials() =>
       (credentials != null) && credentials.isComplete();
 
-  /// `true` if [credentials] is not `null` and is not complete, `false`
+  /// Returns `true` if [credentials] is not `null` and is not complete, `false`
   /// otherwise
-  bool get hasIncompleteCredentials =>
+  bool hasIncompleteCredentials() =>
       (credentials != null) && !credentials.isComplete();
 
-  /// `true` if [settings] is not `null` and is complete, `false` otherwise
-  bool get hasCompleteSettings => (settings != null) && settings.isComplete();
+  /// Returns `true` if [settings] is not `null` and is complete, `false`
+  /// otherwise
+  bool hasCompleteSettings() => (settings != null) && settings.isComplete();
 
-  /// `true` if [settings] is not `null` and is not complete, `false` otherwise
-  bool get hasIncompleteSettings =>
-      (settings != null) && !settings.isComplete();
+  /// Returns `true` if [settings] is not `null` and is not complete, `false`
+  /// otherwise
+  bool hasIncompleteSettings() => (settings != null) && !settings.isComplete();
 
-  /// `true` if none of [credentials], [currentOperator] and [settings] are
-  /// `null`, `false` otherwise
-  bool get isReady =>
+  /// Returns `true` if none of [credentials], [currentOperator] and [settings]
+  /// are `null`, `false` otherwise
+  bool isReady() =>
       credentials != null && currentOperator != null && settings != null;
 
   /// Returns a new instance of [InitData] with the given parameters if they are

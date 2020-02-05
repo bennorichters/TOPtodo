@@ -165,13 +165,13 @@ void main() {
       expect(s.toString().contains('Credentials'), isTrue);
     });
 
-    test('isComplete', () {
+    test('isReady', () {
       expect(
         InitData(
           credentials: credentials,
           currentOperator: currentOperator,
           settings: settings,
-        ).isReady,
+        ).isReady(),
         isTrue,
       );
 
@@ -179,7 +179,7 @@ void main() {
         InitData(
           credentials: credentials,
           settings: settings,
-        ).isReady,
+        ).isReady(),
         isFalse,
       );
     });
@@ -188,7 +188,7 @@ void main() {
       expect(
         InitData(
           credentials: credentials,
-        ).hasCompleteCredentials,
+        ).hasCompleteCredentials(),
         isTrue,
       );
 
@@ -196,7 +196,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).hasCompleteCredentials,
+        ).hasCompleteCredentials(),
         isFalse,
       );
     });
@@ -205,17 +205,17 @@ void main() {
       expect(
         InitData(
           credentials: credentials,
-        ).hasIncompleteCredentials,
+        ).hasIncompleteCredentials(),
         isFalse,
       );
 
-      expect(InitData.empty().hasIncompleteCredentials, isFalse);
+      expect(InitData.empty().hasIncompleteCredentials(), isFalse);
 
       expect(
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).hasIncompleteCredentials,
+        ).hasIncompleteCredentials(),
         isTrue,
       );
     });
@@ -224,7 +224,7 @@ void main() {
       expect(
         InitData(
           credentials: credentials,
-        ).hasCompleteSettings,
+        ).hasCompleteSettings(),
         isFalse,
       );
 
@@ -232,7 +232,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).hasCompleteSettings,
+        ).hasCompleteSettings(),
         isTrue,
       );
 
@@ -240,7 +240,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: Settings(tdBranchId: 'a'),
-        ).hasCompleteSettings,
+        ).hasCompleteSettings(),
         isFalse,
       );
     });
@@ -249,7 +249,7 @@ void main() {
       expect(
         InitData(
           credentials: credentials,
-        ).hasIncompleteSettings,
+        ).hasIncompleteSettings(),
         isFalse,
       );
 
@@ -257,7 +257,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: settings,
-        ).hasIncompleteSettings,
+        ).hasIncompleteSettings(),
         isFalse,
       );
 
@@ -265,7 +265,7 @@ void main() {
         InitData(
           credentials: Credentials(url: 'a'),
           settings: Settings(tdBranchId: 'a'),
-        ).hasIncompleteSettings,
+        ).hasIncompleteSettings(),
         isTrue,
       );
     });

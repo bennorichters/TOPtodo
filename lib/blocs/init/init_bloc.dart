@@ -64,7 +64,7 @@ class InitBloc extends Bloc<InitEvent, InitState> {
         );
       }
 
-      if (_initData.isReady) {
+      if (_initData.isReady()) {
         await controller.close();
       }
     });
@@ -77,7 +77,7 @@ class InitBloc extends Bloc<InitEvent, InitState> {
         _initData = _initData.update(updatedCurrentOperator: tdOperator),
       );
 
-      if (_initData.isReady) {
+      if (_initData.isReady()) {
         await controller.close();
       }
     }).catchError((e) async {
