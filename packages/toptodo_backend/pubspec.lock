@@ -49,7 +49,7 @@ packages:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "2.0.0"
   charcode:
     dependency: transitive
     description:
@@ -406,21 +406,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.1"
+    version: "1.12.0"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.13"
+    version: "0.2.14"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.18"
+    version: "0.3.0"
   test_coverage:
     dependency: "direct dev"
     description:
@@ -432,8 +432,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_data"
-      ref: "6517f6af4e4104a943cbe279aa5c57ff385e4a94"
-      resolved-ref: "6517f6af4e4104a943cbe279aa5c57ff385e4a94"
+      ref: "30a48a1b28dabfebf7251bfd589db7cc0f048653"
+      resolved-ref: "30a48a1b28dabfebf7251bfd589db7cc0f048653"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -441,8 +441,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/toptodo_topdesk_api"
-      ref: "0a1cc879c06530fb2175c9857a011f88486d8fb8"
-      resolved-ref: "0a1cc879c06530fb2175c9857a011f88486d8fb8"
+      ref: "9ecf2dceb7691aaa71a0a73848f31eed5290532a"
+      resolved-ref: "9ecf2dceb7691aaa71a0a73848f31eed5290532a"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -450,8 +450,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/toptodo_topdesk_test_data"
-      ref: "0a1cc879c06530fb2175c9857a011f88486d8fb8"
-      resolved-ref: "0a1cc879c06530fb2175c9857a011f88486d8fb8"
+      ref: "9ecf2dceb7691aaa71a0a73848f31eed5290532a"
+      resolved-ref: "9ecf2dceb7691aaa71a0a73848f31eed5290532a"
       url: "git://github.com/bennorichters/toptodo"
     source: git
     version: "0.0.1"
@@ -483,6 +483,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  webkit_inspection_protocol:
+    dependency: transitive
+    description:
+      name: webkit_inspection_protocol
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   yaml:
     dependency: transitive
     description:

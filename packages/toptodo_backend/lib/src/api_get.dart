@@ -40,6 +40,16 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
         ),
   };
 
+  String valueFromFiql(List<String> parts, String key) {
+    final part = parts.firstWhere(
+      (p) => p.startsWith(key),
+      orElse: () => null,
+    );
+
+    if (part == null) return null;
+    return part.substring(key.length);
+  }
+
   final pathSearch = {
     'branches': {
       'parameter': 'nameFragment',
@@ -49,20 +59,20 @@ void respondToGet(HttpRequest request, TopdeskProvider tdProvider) async {
           ),
     },
     'persons': {
-      'parameter': 'lastname',
+      'parameter': 'query',
       'hasAvatar': true,
-      'call': (String search) async {
-        final allBranches = await tdProvider.tdBranches(startsWith: '');
-        final result = <TdCaller>[];
-        for (final branch in allBranches) {
-          final callers = await tdProvider.tdCallers(
-            tdBranch: branch,
-            startsWith: search,
-          );
-          result.addAll(callers);
-        }
+      'call': (String query) async {
+        final parts = query.split(';');
+        final branchId = valueFromFiql(parts, 'branch.id==');
+        final startsWith = valueFromFiql(parts, 'dynamicName=sw=');
 
-        return result..sort((c1, c2) => c1.name.compareTo(c2.name));
+        if (branchId == null || startsWith == null) return null;
+
+        final branch = await tdProvider.tdBranch(id: branchId);
+        return await tdProvider.tdCallers(
+          tdBranch: branch,
+          startsWith: startsWith,
+        );
       }
     },
     'operators': {

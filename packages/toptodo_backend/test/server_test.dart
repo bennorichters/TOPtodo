@@ -77,21 +77,32 @@ void main() {
         );
       });
 
-      test('all callers from branch a for now returns all callers', () async {
+      test('all callers from branch a', () async {
         final branchA = await apiTdProvider.tdBranch(id: 'a');
-        final allCallers = await apiTdProvider.tdCallers(
+        final actual = await apiTdProvider.tdCallers(
           tdBranch: branchA,
           startsWith: '',
         );
-        final callersBranchA = await fakeTdProvider.tdCallers(
+        final expected = await fakeTdProvider.tdCallers(
           tdBranch: branchA,
           startsWith: '',
         );
 
-        expect(
-          callersBranchA.every((c) => allCallers.contains(c)),
-          isTrue,
+        expect(actual, expected);
+      });
+
+      test('all callers starting with b from branch a', () async {
+        final branchA = await apiTdProvider.tdBranch(id: 'a');
+        final actual = await apiTdProvider.tdCallers(
+          tdBranch: branchA,
+          startsWith: 'b',
         );
+        final expected = await fakeTdProvider.tdCallers(
+          tdBranch: branchA,
+          startsWith: 'b',
+        );
+
+        expect(actual, expected);
       });
 
       test('category by id', () async {
