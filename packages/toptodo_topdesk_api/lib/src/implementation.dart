@@ -9,7 +9,7 @@ import 'package:toptodo_topdesk_api/src/version.dart';
 
 typedef _HttpMethod = Future<http.Response> Function(String endPoint);
 
-const _minTdApiVersion = Version(3, 1, 0);
+const _minTdApiVersion = Version(3, 1, 1);
 
 /// A [TopdeskProvider] that makes API calls to a TOPdesk server.
 ///
@@ -187,8 +187,14 @@ class ApiTopdeskProvider extends TopdeskProvider {
     @required TdBranch tdBranch,
   }) async {
     final sanitized = _sanatizeUserInput(startsWith);
+
     final List<dynamic> response = await _apiGet(
-      'persons?lastname=$sanitized&\$fields=id,dynamicName,branch',
+      'persons?'
+      'query='
+      'archived==false;'
+      'branch.id==${tdBranch.id};'
+      'dynamicName=sw=$sanitized&'
+      '\$fields=id,dynamicName,branch',
     );
 
     final fixed = await Future.wait<TdCaller>(

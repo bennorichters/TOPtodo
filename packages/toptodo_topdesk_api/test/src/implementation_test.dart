@@ -24,7 +24,7 @@ void main() {
         }
 
         if (request.url.path == credentials.url + '/tas/api/version') {
-          return Response('{"version": "3.1.0"}', 200);
+          return Response('{"version": "3.1.1"}', 200);
         }
 
         return call(request);
@@ -796,7 +796,7 @@ void main() {
               personPath: 'tas/api/persons',
               expectedPersonQueryParameters: {
                 '\$fields': 'id,dynamicName,branch',
-                'lastname': 'ab',
+                'query': 'archived==false;branch.id==a;dynamicName=sw=ab',
               },
               personResponseJson:
                   '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
@@ -824,7 +824,8 @@ void main() {
               personPath: 'tas/api/persons',
               expectedPersonQueryParameters: {
                 '\$fields': 'id,dynamicName,branch',
-                'lastname': 'a&hourlyRate=50',
+                'query': 'archived==false;branch.id==a;'
+                    'dynamicName=sw=a&hourlyRate=50',
               },
               personResponseJson:
                   '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
