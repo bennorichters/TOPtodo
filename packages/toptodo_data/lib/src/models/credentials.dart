@@ -24,8 +24,8 @@ class Credentials extends Equatable {
   /// The password `Credentials` contains
   final String password;
 
-  /// `true` if none of the fields are null, `false` otherwise.
-  bool get isComplete => !props.contains(null);
+  /// Return `true` if none of the fields are null, `false` otherwise.
+  bool isComplete() => !props.contains(null);
 
   @override
   List<Object> get props => [url, loginName, password];

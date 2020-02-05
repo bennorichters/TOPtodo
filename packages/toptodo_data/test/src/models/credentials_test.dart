@@ -22,20 +22,20 @@ void main() {
     });
 
     test('isComplete', () {
-      expect(Credentials().isComplete, isFalse);
+      expect(Credentials().isComplete(), isFalse);
       expect(
           Credentials(
             url: 'url',
             loginName: null,
             password: null,
-          ).isComplete,
+          ).isComplete(),
           isFalse);
       expect(
           Credentials(
             url: 'url',
             loginName: 'a',
             password: 'b',
-          ).isComplete,
+          ).isComplete(),
           isTrue);
     });
 
