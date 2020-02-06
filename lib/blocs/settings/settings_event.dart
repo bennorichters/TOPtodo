@@ -3,6 +3,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 /// Base class for all events related to settings
 abstract class SettingsEvent extends Equatable {
+  /// Creates a [SettingsEvent]
   const SettingsEvent();
 
   @override
@@ -11,6 +12,7 @@ abstract class SettingsEvent extends Equatable {
 
 /// Event that triggers the bloc to load all settings data
 class SettingsInit extends SettingsEvent {
+  /// Creates a [SettingsInit]
   const SettingsInit();
 }
 
@@ -64,5 +66,6 @@ class ValueSelected extends SettingsEvent {
 
 /// Events that triggers the bloc to save the chosen data
 class SettingsSave extends SettingsEvent {
+  /// Creates a [SettingsSave]
   const SettingsSave();
 }
