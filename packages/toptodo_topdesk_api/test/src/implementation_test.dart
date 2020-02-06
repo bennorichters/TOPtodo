@@ -819,7 +819,7 @@ void main() {
             expect(cs.last.avatar, 'avatarForac');
           });
 
-          test('sanatized starts with', () async {
+          test('sanatized starts with "a&hourlyRate=50"', () async {
             await personApiTopdeskProvider(
               personPath: 'tas/api/persons',
               expectedPersonQueryParameters: {
@@ -837,6 +837,69 @@ void main() {
             await personProvider.tdCallers(
               tdBranch: branchForCaller,
               startsWith: 'a&hourlyRate=50',
+            );
+          });
+
+          test('sanatized starts with "="', () async {
+            await personApiTopdeskProvider(
+              personPath: 'tas/api/persons',
+              expectedPersonQueryParameters: {
+                '\$fields': 'id,dynamicName,branch',
+                'query': 'archived==false;branch.id==a;'
+                    'dynamicName=sw==',
+              },
+              personResponseJson:
+                  '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
+                  ' "branch": {"id": "a", "name": "branchA"}}]',
+              avatarPath: 'tas/api/avatars/person/',
+              personIds: {'aa'},
+            );
+
+            await personProvider.tdCallers(
+              tdBranch: branchForCaller,
+              startsWith: '=',
+            );
+          });
+
+          test('sanatized starts with ";branch.id=b"', () async {
+            await personApiTopdeskProvider(
+              personPath: 'tas/api/persons',
+              expectedPersonQueryParameters: {
+                '\$fields': 'id,dynamicName,branch',
+                'query': 'archived==false;branch.id==a;'
+                    'dynamicName=sw=;branch.id=b',
+              },
+              personResponseJson:
+                  '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
+                  ' "branch": {"id": "a", "name": "branchA"}}]',
+              avatarPath: 'tas/api/avatars/person/',
+              personIds: {'aa'},
+            );
+
+            await personProvider.tdCallers(
+              tdBranch: branchForCaller,
+              startsWith: ';branch.id=b',
+            );
+          });
+
+          test('sanatized starts with nothing', () async {
+            await personApiTopdeskProvider(
+              personPath: 'tas/api/persons',
+              expectedPersonQueryParameters: {
+                '\$fields': 'id,dynamicName,branch',
+                'query': 'archived==false;branch.id==a;'
+                    'dynamicName=sw=',
+              },
+              personResponseJson:
+                  '[{"id": "aa", "dynamicName": "Augustin Sheryll",'
+                  ' "branch": {"id": "a", "name": "branchA"}}]',
+              avatarPath: 'tas/api/avatars/person/',
+              personIds: {'aa'},
+            );
+
+            await personProvider.tdCallers(
+              tdBranch: branchForCaller,
+              startsWith: '',
             );
           });
         });
