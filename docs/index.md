@@ -8,7 +8,7 @@ A mobile app that connects to [TOPdesk](https://topdesk.com). Quickly create an 
 
 With TOPtodo you can only create incidents. Use TOPdesk to see and modify the incidents.
 
-## Status
+## Download
 
 TOPtodo is available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.github.bennorichters.toptodo) and [Apple's App Store](https://apps.apple.com/app/id1496496893).
 
