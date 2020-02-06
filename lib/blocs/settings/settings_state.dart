@@ -88,7 +88,12 @@ class SettingsSaved extends SettingsWithForm {
 class SettingsError extends SettingsState {
   /// Creates a new instance of [SettingsError]
   const SettingsError(this.cause, this.stackTrace);
+
+  /// The cause of the exception that lead to the emission of this state
   final Object cause;
+
+  /// The stack trace at the moment the exception was thrown and that lead to
+  /// the emission of this state
   final StackTrace stackTrace;
 
   @override
