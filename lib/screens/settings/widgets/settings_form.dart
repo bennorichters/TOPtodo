@@ -16,7 +16,7 @@ import 'package:toptodo/widgets/td_shape.dart';
 
 class SettingsForm extends StatelessWidget {
   const SettingsForm(this.state);
-  final SettingsWithFormState state;
+  final SettingsWithForm state;
 
   static final Widget _verticalSpace = const SizedBox(height: 10);
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

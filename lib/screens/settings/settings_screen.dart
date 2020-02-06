@@ -59,7 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               }
             },
-            child: (state is SettingsWithFormState)
+            child: (state is SettingsWithForm)
                 ? SettingsForm(state)
                 : const TdShapeBackground(
                     longSide: LongSide.right,

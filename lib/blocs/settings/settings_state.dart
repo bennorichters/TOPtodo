@@ -36,8 +36,8 @@ class SettingsLoading extends SettingsWithOperator {
       : super(currentOperator: currentOperator);
 }
 
-abstract class SettingsWithFormState extends SettingsWithOperator {
-  const SettingsWithFormState({
+abstract class SettingsWithForm extends SettingsWithOperator {
+  const SettingsWithForm({
     @required TdOperator currentOperator,
     @required this.formState,
   }) : super(currentOperator: currentOperator);
@@ -50,8 +50,8 @@ abstract class SettingsWithFormState extends SettingsWithOperator {
   String toString() => super.toString() + ', formState: $formState';
 }
 
-class UpdatedFormState extends SettingsWithFormState {
-  const UpdatedFormState({
+class UpdatedSettingsForm extends SettingsWithForm {
+  const UpdatedSettingsForm({
     @required TdOperator currentOperator,
     @required SettingsFormState formState,
   }) : super(
@@ -60,7 +60,7 @@ class UpdatedFormState extends SettingsWithFormState {
         );
 }
 
-class SettingsSaved extends SettingsWithFormState {
+class SettingsSaved extends SettingsWithForm {
   const SettingsSaved({
     @required TdOperator currentOperator,
     @required SettingsFormState formState,
