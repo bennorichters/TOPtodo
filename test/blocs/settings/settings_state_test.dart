@@ -22,7 +22,7 @@ void main() {
       );
 
       expect(
-        SettingsTdData(
+        UpdatedFormState(
           currentOperator: operatorA,
           formState: null,
         ).toString().contains('formState'),

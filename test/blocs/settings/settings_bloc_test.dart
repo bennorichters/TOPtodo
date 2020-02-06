@@ -75,7 +75,7 @@ void main() {
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -86,7 +86,7 @@ void main() {
                   tdOperator: operatorA,
                 ),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -127,7 +127,7 @@ void main() {
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -138,7 +138,7 @@ void main() {
                   tdOperator: operatorA,
                 ),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -179,7 +179,7 @@ void main() {
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -190,7 +190,7 @@ void main() {
                   tdOperator: operatorA,
                 ),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -220,13 +220,13 @@ void main() {
             [
               InitialSettingsState(),
               SettingsLoading(currentOperator: currentOperator),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: SettingsFormState(
                   tdOperator: currentOperator,
                 ),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: SettingsFormState(
                   tdCategories: categories,
@@ -268,11 +268,11 @@ void main() {
             [
               InitialSettingsState(),
               SettingsLoading(currentOperator: currentOperator),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: SettingsFormState(),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: SettingsFormState(
                   tdCategories: categories,
@@ -341,15 +341,15 @@ void main() {
             [
               InitialSettingsState(),
               SettingsLoading(currentOperator: currentOperator),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: originalWithoutLists,
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: originalWithLists,
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: currentOperator,
                 formState: changedOperator,
               ),
@@ -386,7 +386,7 @@ void main() {
               SettingsLoading(
                 currentOperator: await topdeskProvider.currentTdOperator(),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -397,7 +397,7 @@ void main() {
                   tdOperator: operatorA,
                 ),
               ),
-              SettingsTdData(
+              UpdatedFormState(
                 currentOperator: await topdeskProvider.currentTdOperator(),
                 formState: SettingsFormState(
                   tdBranch: branchA,
@@ -483,13 +483,13 @@ void main() {
         expect: [
           InitialSettingsState(),
           SettingsLoading(currentOperator: currentOperator),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -497,7 +497,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -506,7 +506,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -533,13 +533,13 @@ void main() {
         expect: [
           InitialSettingsState(),
           SettingsLoading(currentOperator: currentOperator),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -547,7 +547,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             // First emit with chosen category
             currentOperator: currentOperator,
             formState: SettingsFormState(
@@ -557,7 +557,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             // Then emit with found subcategories
             currentOperator: currentOperator,
             formState: SettingsFormState(
@@ -568,7 +568,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             // Then emit chosen subcategory
             currentOperator: currentOperator,
             formState: SettingsFormState(
@@ -596,13 +596,13 @@ void main() {
         expect: [
           InitialSettingsState(),
           SettingsLoading(currentOperator: currentOperator),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -610,7 +610,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -635,13 +635,13 @@ void main() {
         expect: [
           InitialSettingsState(),
           SettingsLoading(currentOperator: currentOperator),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],
@@ -649,7 +649,7 @@ void main() {
               tdOperator: currentOperator,
             ),
           ),
-          SettingsTdData(
+          UpdatedFormState(
             currentOperator: currentOperator,
             formState: SettingsFormState(
               tdCategories: [],

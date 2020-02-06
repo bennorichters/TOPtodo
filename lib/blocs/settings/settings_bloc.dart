@@ -109,13 +109,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  Future<SettingsTdData> _currentData() async {
+  Future<UpdatedFormState> _currentData() async {
     final currentOperator = await topdeskProvider.currentTdOperator();
     if (_formState.tdOperator == null && currentOperator.firstLine) {
       _formState = _formState.update(updatedTdOperator: currentOperator);
     }
 
-    return SettingsTdData(
+    return UpdatedFormState(
       currentOperator: currentOperator,
       formState: _formState,
     );

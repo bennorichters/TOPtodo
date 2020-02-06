@@ -45,8 +45,8 @@ abstract class SettingsWithFormState extends SettingsWithOperator {
   String toString() => super.toString() + ', formState: $formState';
 }
 
-class SettingsTdData extends SettingsWithFormState {
-  const SettingsTdData({
+class UpdatedFormState extends SettingsWithFormState {
+  const UpdatedFormState({
     @required TdOperator currentOperator,
     @required SettingsFormState formState,
   }) : super(
