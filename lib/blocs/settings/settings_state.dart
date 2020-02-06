@@ -3,18 +3,23 @@ import 'package:meta/meta.dart';
 import 'package:toptodo/blocs/settings/settings_form_state.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// Base class for all state objects related to settings
 abstract class SettingsState extends Equatable {
+  /// Creates a [SettingsSate]
   const SettingsState();
 
   @override
   List<Object> get props => [];
 }
 
+/// State emitted when the bloc is initialized
 class InitialSettingsState extends SettingsState {
+  /// Creates a [InitialSettingsState]
   const InitialSettingsState();
 }
 
-class SettingsWithOperator extends SettingsState {
+/// Base class for state objects that hold the current operator
+abstract class SettingsWithOperator extends SettingsState {
   const SettingsWithOperator({@required this.currentOperator});
   final TdOperator currentOperator;
 
