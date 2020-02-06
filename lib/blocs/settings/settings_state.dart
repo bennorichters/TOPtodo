@@ -18,9 +18,12 @@ class InitialSettingsState extends SettingsState {
   const InitialSettingsState();
 }
 
-/// Base class for state objects that hold the current operator
+/// Base class for setting state objects that hold the current operator
 abstract class SettingsWithOperator extends SettingsState {
+  /// Creates an instance of [SettingsWithOperator]
   const SettingsWithOperator({@required this.currentOperator});
+
+  /// the current operator
   final TdOperator currentOperator;
 
   @override
@@ -31,16 +34,23 @@ abstract class SettingsWithOperator extends SettingsState {
       'currentOperator: $currentOperator';
 }
 
+/// State emitted when the bloc started to load saved settings and is waiting
+/// for the results.
 class SettingsLoading extends SettingsWithOperator {
+  /// Creates an instance of [SettingsLoading]
   const SettingsLoading({@required TdOperator currentOperator})
       : super(currentOperator: currentOperator);
 }
 
+/// Base class for all setting state objects that hold a [SettingFormState]
 abstract class SettingsWithForm extends SettingsWithOperator {
+  /// Creates an instance of [SettingsWithForm]
   const SettingsWithForm({
     @required TdOperator currentOperator,
     @required this.formState,
   }) : super(currentOperator: currentOperator);
+
+  /// The form state
   final SettingsFormState formState;
 
   @override
@@ -50,7 +60,9 @@ abstract class SettingsWithForm extends SettingsWithOperator {
   String toString() => super.toString() + ', formState: $formState';
 }
 
+/// State emitted when the bloc has updated form state
 class UpdatedSettingsForm extends SettingsWithForm {
+  /// Creates an instance of [UpdatedSettingsForm]
   const UpdatedSettingsForm({
     @required TdOperator currentOperator,
     @required SettingsFormState formState,
@@ -60,7 +72,9 @@ class UpdatedSettingsForm extends SettingsWithForm {
         );
 }
 
+/// State emitted when the settings have been saved by the bloc
 class SettingsSaved extends SettingsWithForm {
+  /// Creates a new instance of [SettingsSaved]
   const SettingsSaved({
     @required TdOperator currentOperator,
     @required SettingsFormState formState,
@@ -70,7 +84,9 @@ class SettingsSaved extends SettingsWithForm {
         );
 }
 
+/// State emitted when the bloc encountered an error
 class SettingsError extends SettingsState {
+  /// Creates a new instance of [SettingsError]
   const SettingsError(this.cause, this.stackTrace);
   final Object cause;
   final StackTrace stackTrace;
