@@ -6,13 +6,22 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 typedef ProvideModel = Future<TdModel> Function({String id});
 
+/// Business logic component to process for settings.
+///
+/// This bloc retrieves saved settings, processes user chosen values and saves
+/// settings.
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc({
     @required this.topdeskProvider,
     @required this.settingsProvider,
   });
+
+  /// the topdesk provider
   final TopdeskProvider topdeskProvider;
+
+  /// this settings provider
   final SettingsProvider settingsProvider;
+
   SettingsFormState _formState;
 
   @override

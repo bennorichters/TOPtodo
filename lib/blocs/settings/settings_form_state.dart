@@ -2,8 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// State of the form the user fills with all settings
 @immutable
 class SettingsFormState extends Equatable {
+  /// Creates an instance of [SettingsFormState]
   const SettingsFormState({
     this.tdBranch,
     this.tdCaller,
@@ -17,17 +19,41 @@ class SettingsFormState extends Equatable {
     this.tdSubcategory,
   });
 
+  /// the filled in branch
   final TdBranch tdBranch;
+
+  /// the filled in caller
   final TdCaller tdCaller;
+
+  /// all categories
   final Iterable<TdCategory> tdCategories;
+
+  /// the filled in category
   final TdCategory tdCategory;
+
+  /// all durations
   final Iterable<TdDuration> tdDurations;
+
+  /// the chose duration
   final TdDuration tdDuration;
+
+  /// all operators
   final Iterable<TdOperator> tdOperators;
+
+  /// the chosen operator
   final TdOperator tdOperator;
+
+  /// all subcategories that belong the [tdCategory]
   final Iterable<TdSubcategory> tdSubcategories;
+
+  /// the chosen subcategory
   final TdSubcategory tdSubcategory;
 
+  /// Returns a new instance of [SettingsFormState] with updated values.
+  ///
+  /// The provided arguments are used as updated values for the returned new
+  /// instance. For all fields that do not have an updated value the current
+  /// value of `this` object is copied.
   SettingsFormState update({
     TdBranch updatedTdBranch,
     TdCaller updatedTdCaller,
@@ -77,6 +103,7 @@ class SettingsFormState extends Equatable {
       value ??
       ((linkedTo == null || linkedTo == oldLinkedTo) ? oldValue : null);
 
+  /// Returns a new instance of [Settings] based on the values of `this` object.
   Settings toSettings() => Settings(
         tdBranchId: tdBranch.id,
         tdCallerId: tdCaller.id,
