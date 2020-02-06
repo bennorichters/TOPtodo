@@ -7,16 +7,22 @@ void main(List<String> args) async {
   List<String> pubOptions;
   final command = args[0];
   switch (command) {
-    case 'upgrade':
+    case 'get':
       {
-        flutterOptions = ['pub', 'upgrade'];
-        pubOptions = ['upgrade'];
+        flutterOptions = ['pub', 'get'];
+        pubOptions = ['get'];
         break;
       }
     case 'test':
       {
         flutterOptions = ['test'];
         pubOptions = ['run', 'test'];
+        break;
+      }
+    case 'upgrade':
+      {
+        flutterOptions = ['pub', 'upgrade'];
+        pubOptions = ['upgrade'];
         break;
       }
     default:
