@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 typedef DialogCloser = void Function(BuildContext context);
@@ -14,9 +15,6 @@ class ErrorDialog extends StatefulWidget {
   final Object cause;
   final StackTrace stackTrace;
   final bool activeScreenIsLogin;
-
-  static final keyNameOkButton =
-      'com.github.bennorichters.toptodo_error_dialog_ok';
 
   @override
   State<StatefulWidget> createState() => _ErrorDialogState();
@@ -61,7 +59,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
     result.add(
       FlatButton(
-        key: Key(ErrorDialog.keyNameOkButton),
+        key: TtdKeys.errorDialogOkButton,
         child: const Text('Ok'),
         onPressed: () => _closeDialog(context),
       ),
