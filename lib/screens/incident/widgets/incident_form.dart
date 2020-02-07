@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/landscape_padding.dart';
 import 'package:toptodo/widgets/td_button.dart';
@@ -45,6 +46,7 @@ class IncidentForm extends StatelessWidget {
                 (state is IncidentSubmitted)
                     ? CircularProgressIndicator()
                     : TdButton(
+                        key: TtdKeys.incidentSubmitButton,
                         text: 'submit',
                         onTap: () {
                           if (_formKey.currentState.validate()) {

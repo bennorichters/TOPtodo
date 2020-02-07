@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TdButton extends StatelessWidget {
-  const TdButton({@required this.text, @required this.onTap});
+  const TdButton({
+    @required this.text,
+    @required this.onTap,
+    Key key,
+  }) : super(key: key);
+
   final String text;
   final GestureTapCallback onTap;
 
