@@ -3,12 +3,15 @@ import 'package:bloc/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+/// Business logic component for searching a [TdModel]
 class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
+  /// Creates a new instance of [TdModelSearchBloc]
   TdModelSearchBloc({
     this.topdeskProvider,
     Duration debounceTime = const Duration(milliseconds: 500),
   }) : _debouncer = _Debouncer(duration: debounceTime);
 
+  /// the topdesk provider
   final TopdeskProvider topdeskProvider;
   final _Debouncer _debouncer;
 
