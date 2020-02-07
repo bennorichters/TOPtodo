@@ -5,14 +5,14 @@ import 'package:toptodo/blocs/td_model_search/bloc.dart';
 void main() {
   group('td model search event', () {
     test('equals', () {
-      expect(TdModelNewSearch() == TdModelNewSearch(), isTrue);
+      expect(NewSearch() == NewSearch(), isTrue);
 
       expect(
-        TdModelSearchFinishedQuery(
+        SearchFinishedQuery(
               linkedTo: null,
               query: 'testing',
             ) ==
-            TdModelSearchFinishedQuery(
+            SearchFinishedQuery(
               linkedTo: null,
               query: 'testing',
             ),
@@ -22,7 +22,7 @@ void main() {
 
     test('toString', () {
       expect(
-        TdModelSearchFinishedQuery(
+        SearchFinishedQuery(
           linkedTo: null,
           query: 'testing',
         ).toString().contains('testing'),

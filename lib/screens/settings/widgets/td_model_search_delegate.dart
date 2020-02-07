@@ -48,7 +48,7 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
 
     BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
-        TdModelSearchFinishedQuery<T>(
+        SearchFinishedQuery<T>(
           linkedTo: _linkedTo,
           query: query,
         ),
@@ -64,7 +64,7 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
 
     BlocProvider.of<TdModelSearchBloc>(context)
       ..add(
-        TdModelSearchIncompleteQuery<T>(
+        SearchIncompleteQuery<T>(
           linkedTo: _linkedTo,
           query: query,
         ),

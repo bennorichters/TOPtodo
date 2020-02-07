@@ -22,16 +22,16 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
     StreamController<TdModelSearchState> controller;
 
     void addToController() async {
-      if (event is TdModelNewSearch) {
+      if (event is NewSearch) {
         controller.add(initialState);
         await controller.close();
-      } else if (event is TdModelSearchFinishedQuery) {
+      } else if (event is SearchFinishedQuery) {
         controller.add(TdModelSearching());
         await controller.addStream(
           _queryBasedResults(searchInfo: event),
         );
         await controller.close();
-      } else if (event is TdModelSearchIncompleteQuery) {
+      } else if (event is SearchIncompleteQuery) {
         controller.add(TdModelSearching());
 
         _debouncer.run(() async {
@@ -40,7 +40,7 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
           );
           await controller.close();
         });
-      } 
+      }
     }
 
     controller = StreamController<TdModelSearchState>(
@@ -50,27 +50,27 @@ class TdModelSearchBloc extends Bloc<TdModelSearchEvent, TdModelSearchState> {
   }
 
   Stream<TdModelSearchState> _queryBasedResults<T extends TdModel>(
-      {TdModelSearchInfoEvent searchInfo}) async* {
-    if (searchInfo is TdModelSearchInfoEvent<TdBranch>) {
+      {SearchInfo searchInfo}) async* {
+    if (searchInfo is SearchInfo<TdBranch>) {
       yield TdModelSearchResults<TdBranch>(
         await topdeskProvider.tdBranches(
           startsWith: searchInfo.query,
         ),
       );
-    } else if (searchInfo is TdModelSearchInfoEvent<TdCaller>) {
+    } else if (searchInfo is SearchInfo<TdCaller>) {
       yield TdModelSearchResults<TdCaller>(
         await topdeskProvider.tdCallers(
           tdBranch: searchInfo.linkedTo as TdBranch,
           startsWith: searchInfo.query,
         ),
       );
-    } else if (searchInfo is TdModelSearchInfoEvent<TdOperator>) {
+    } else if (searchInfo is SearchInfo<TdOperator>) {
       yield TdModelSearchResults<TdOperator>(
         await topdeskProvider.tdOperators(
           startsWith: searchInfo.query,
         ),
       );
-    } 
+    }
   }
 }
 

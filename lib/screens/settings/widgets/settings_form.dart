@@ -143,7 +143,7 @@ class SettingsForm extends StatelessWidget {
   }
 
   void _initNewSearch(BuildContext context) {
-    BlocProvider.of<TdModelSearchBloc>(context)..add(TdModelNewSearch());
+    BlocProvider.of<TdModelSearchBloc>(context)..add(NewSearch());
   }
 }
 

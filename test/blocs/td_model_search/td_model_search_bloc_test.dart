@@ -22,7 +22,7 @@ void main() {
       final branches = await tp.tdBranches(startsWith: 'br');
 
       bloc.add(
-        TdModelSearchIncompleteQuery<TdBranch>(
+        SearchIncompleteQuery<TdBranch>(
           linkedTo: null,
           query: 'br',
         ),
@@ -43,7 +43,7 @@ void main() {
       final callers = await tp.tdCallers(startsWith: 's', tdBranch: branchA);
 
       bloc.add(
-        TdModelSearchIncompleteQuery<TdCaller>(
+        SearchIncompleteQuery<TdCaller>(
           linkedTo: branchA,
           query: 's',
         ),
@@ -63,7 +63,7 @@ void main() {
       final operators = await tp.tdOperators(startsWith: 'a');
 
       bloc.add(
-        TdModelSearchIncompleteQuery<TdOperator>(
+        SearchIncompleteQuery<TdOperator>(
           linkedTo: null,
           query: 'a',
         ),
@@ -83,7 +83,7 @@ void main() {
       final operators = await tp.tdOperators(startsWith: 'a');
 
       bloc.add(
-        TdModelSearchFinishedQuery<TdOperator>(
+        SearchFinishedQuery<TdOperator>(
           linkedTo: null,
           query: 'a',
         ),
@@ -114,15 +114,15 @@ void main() {
         final subscription = bloc.listen(actual.add);
 
         bloc.add(
-          TdModelSearchIncompleteQuery<TdBranch>(
+          SearchIncompleteQuery<TdBranch>(
             linkedTo: null,
             query: 'br',
           ),
         );
 
-        bloc.add(TdModelNewSearch());
+        bloc.add(NewSearch());
         bloc.add(
-          TdModelSearchIncompleteQuery<TdCaller>(
+          SearchIncompleteQuery<TdCaller>(
             linkedTo: branchA,
             query: 's',
           ),

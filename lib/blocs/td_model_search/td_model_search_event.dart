@@ -9,13 +9,12 @@ abstract class TdModelSearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TdModelNewSearch extends TdModelSearchEvent {
-  const TdModelNewSearch();
+class NewSearch extends TdModelSearchEvent {
+  const NewSearch();
 }
 
-abstract class TdModelSearchInfoEvent<T extends TdModel>
-    extends TdModelSearchEvent {
-  const TdModelSearchInfoEvent({
+abstract class SearchInfo<T extends TdModel> extends TdModelSearchEvent {
+  const SearchInfo({
     @required this.linkedTo,
     @required this.query,
   });
@@ -30,17 +29,15 @@ abstract class TdModelSearchInfoEvent<T extends TdModel>
       'TdModelSearchInfoEvent - linkedTo: $linkedTo query: $query';
 }
 
-class TdModelSearchFinishedQuery<T extends TdModel>
-    extends TdModelSearchInfoEvent<T> {
-  const TdModelSearchFinishedQuery({
+class SearchFinishedQuery<T extends TdModel> extends SearchInfo<T> {
+  const SearchFinishedQuery({
     @required TdModel linkedTo,
     @required String query,
   }) : super(linkedTo: linkedTo, query: query);
 }
 
-class TdModelSearchIncompleteQuery<T extends TdModel>
-    extends TdModelSearchInfoEvent<T> {
-  const TdModelSearchIncompleteQuery({
+class SearchIncompleteQuery<T extends TdModel> extends SearchInfo<T> {
+  const SearchIncompleteQuery({
     @required TdModel linkedTo,
     @required String query,
   }) : super(linkedTo: linkedTo, query: query);
