@@ -27,7 +27,7 @@ class IncidentForm extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Column(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   controller: _briefDescription,
                   decoration: InputDecoration(labelText: 'Brief description'),
