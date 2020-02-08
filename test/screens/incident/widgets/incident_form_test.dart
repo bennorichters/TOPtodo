@@ -23,7 +23,7 @@ void main() {
       secondLine: true,
     );
 
-    MockIncidentBloc bloc;
+    IncidentBloc bloc;
 
     void pumpForm(
       WidgetTester tester,
@@ -39,8 +39,6 @@ void main() {
           ),
         ),
       );
-
-      // await tester.pumpAndSettle();
     }
 
     setUp(() {
@@ -53,25 +51,29 @@ void main() {
 
     testWidgets('find one button when not submitting',
         (WidgetTester tester) async {
-      when(bloc.state).thenReturn(IncidentState(currentOperator: null));
+      await tester.runAsync(() async {
+        when(bloc.state).thenReturn(IncidentState(currentOperator: null));
 
-      await pumpForm(
-        tester,
-        IncidentState(
-          currentOperator: currentOperator,
-        ),
-      );
-      expect(find.byKey(TtdKeys.incidentSubmitButton), findsOneWidget);
+        await pumpForm(
+          tester,
+          IncidentState(
+            currentOperator: currentOperator,
+          ),
+        );
+        expect(find.byKey(TtdKeys.incidentSubmitButton), findsOneWidget);
+      });
     });
 
     testWidgets('find no button when submitting', (WidgetTester tester) async {
-      await pumpForm(
-        tester,
-        IncidentSubmitted(
-          currentOperator: currentOperator,
-        ),
-      );
-      expect(find.byKey(TtdKeys.incidentSubmitButton), findsNothing);
+      await tester.runAsync(() async {
+        await pumpForm(
+          tester,
+          IncidentSubmitted(
+            currentOperator: currentOperator,
+          ),
+        );
+        expect(find.byKey(TtdKeys.incidentSubmitButton), findsNothing);
+      });
     });
 
     // testWidgets('tap button', (WidgetTester tester) async {
