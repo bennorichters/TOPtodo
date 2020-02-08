@@ -30,6 +30,7 @@ class IncidentForm extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
+                  key: TtdKeys.incidentBriefDescriptionField,
                   controller: _briefDescription,
                   decoration: InputDecoration(labelText: 'Brief description'),
                   validator: (value) =>
@@ -37,6 +38,7 @@ class IncidentForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TextFormField(
+                  key: TtdKeys.incidentRequestField,
                   controller: _request,
                   decoration: InputDecoration(labelText: 'Request'),
                   maxLength: null,

@@ -51,57 +51,52 @@ void main() {
 
     testWidgets('find one button when not submitting',
         (WidgetTester tester) async {
-      await tester.runAsync(() async {
-        when(bloc.state).thenReturn(IncidentState(currentOperator: null));
-
-        await pumpForm(
-          tester,
-          IncidentState(
-            currentOperator: currentOperator,
-          ),
-        );
-        expect(find.byKey(TtdKeys.incidentSubmitButton), findsOneWidget);
-      });
+      await pumpForm(
+        tester,
+        IncidentState(
+          currentOperator: currentOperator,
+        ),
+      );
+      expect(find.byKey(TtdKeys.incidentSubmitButton), findsOneWidget);
     });
 
     testWidgets('find no button when submitting', (WidgetTester tester) async {
-      await tester.runAsync(() async {
-        await pumpForm(
-          tester,
-          IncidentSubmitted(
-            currentOperator: currentOperator,
-          ),
-        );
-        expect(find.byKey(TtdKeys.incidentSubmitButton), findsNothing);
-      });
+      await pumpForm(
+        tester,
+        IncidentSubmitted(
+          currentOperator: currentOperator,
+        ),
+      );
+      expect(find.byKey(TtdKeys.incidentSubmitButton), findsNothing);
     });
 
-    // testWidgets('tap button', (WidgetTester tester) async {
-    //   await pumpForm(
-    //     tester,
-    //     IncidentState(
-    //       currentOperator: currentOperator,
-    //     ),
-    //   );
+    testWidgets('tap button', (WidgetTester tester) async {
+      when(bloc.state).thenReturn(IncidentState(currentOperator: null));
+      await pumpForm(
+        tester,
+        IncidentState(
+          currentOperator: currentOperator,
+        ),
+      );
 
-    //   await tester.enterText(
-    //     find.byKey(TtdKeys.incidentBriefDescriptionField),
-    //     'todo',
-    //   );
-    //   await tester.enterText(
-    //     find.byKey(TtdKeys.incidentRequestField),
-    //     'more text',
-    //   );
-    //   await tester.tap(find.byKey(TtdKeys.incidentSubmitButton));
-    //   await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byKey(TtdKeys.incidentBriefDescriptionField),
+        'todo',
+      );
+      await tester.enterText(
+        find.byKey(TtdKeys.incidentRequestField),
+        'more text',
+      );
+      await tester.tap(find.byKey(TtdKeys.incidentSubmitButton));
+      await tester.pumpAndSettle();
 
-    //   verify(bloc.add(
-    //     IncidentSubmit(
-    //       briefDescription: 'todo',
-    //       request: 'more text',
-    //     ),
-    //   ));
-    // });
+      verify(bloc.add(
+        IncidentSubmit(
+          briefDescription: 'todo',
+          request: 'more text',
+        ),
+      ));
+    });
   });
 }
 
