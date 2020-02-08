@@ -1,15 +1,14 @@
-import 'dart:ui' as ui;
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
 import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo_data/toptodo_data.dart';
+
+import '../../../helper.dart';
 
 class MockIncidentBloc extends MockBloc<IncidentEvent, IncidentState>
     implements IncidentBloc {}
@@ -98,30 +97,4 @@ void main() {
       ));
     });
   });
-}
-
-class TestableWidgetWithMediaQuery extends StatelessWidget {
-  const TestableWidgetWithMediaQuery({
-    this.child,
-    this.width,
-    this.height,
-  });
-
-  final Widget child;
-  final double width;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Material(
-        child: MediaQuery(
-          data: MediaQueryData.fromWindow(ui.window).copyWith(
-            size: Size(width, height),
-          ),
-          child: child,
-        ),
-      ),
-    );
-  }
 }
