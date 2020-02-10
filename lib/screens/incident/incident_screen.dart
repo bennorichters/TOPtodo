@@ -33,30 +33,31 @@ class _IncidentScreenState extends State<IncidentScreen> {
             ],
           ),
           body: BlocListener<IncidentBloc, IncidentState>(
-            listener: (context, state) {
-              if (state is IncidentCreated) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: TdColors.moss,
-                    content:
-                        Text('Incident created with number ${state.number}'),
-                  ),
-                );
-              } else if (state is IncidentCreationError) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => ErrorDialog(
-                    cause: state.cause,
-                    stackTrace: state.stackTrace,
-                    activeScreenIsLogin: false,
-                  ),
-                );
-              }
-            },
+            listener: _onEvent,
             child: IncidentForm(state),
           ),
         );
       },
     );
+  }
+
+  void _onEvent(context, state) {
+    if (state is IncidentCreated) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: TdColors.moss,
+          content: Text('Incident created with number ${state.number}'),
+        ),
+      );
+    } else if (state is IncidentCreationError) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorDialog(
+          cause: state.cause,
+          stackTrace: state.stackTrace,
+          activeScreenIsLogin: false,
+        ),
+      );
+    }
   }
 }
