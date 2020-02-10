@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:toptodo/widgets/error_dialog.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -10,29 +11,35 @@ import 'package:toptodo/widgets/menu_operator_button.dart';
 
 import '../../helper.dart';
 
-const incidentCreatedState = IncidentCreated(
-  currentOperator: null,
-  number: '123',
-);
+class _TriggerCreateIncident extends IncidentEvent {}
 
-const withOperatorState = IncidentState(
-  currentOperator: TdOperator(
-    id: 'a',
-    name: 'a',
-    firstLine: true,
-    secondLine: true,
-  ),
-);
+class _TriggerError extends IncidentEvent {}
 
-class NeedOperator extends IncidentEvent {}
+class _TriggerOperator extends IncidentEvent {}
 
-class SimpleIncidentBloc extends IncidentBloc {
+class _SimpleIncidentBloc extends IncidentBloc {
   @override
   Stream<IncidentState> mapEventToState(IncidentEvent event) async* {
-    if (event is NeedOperator) {
-      yield withOperatorState;
-    } else if (event is IncidentSubmit) {
-      yield incidentCreatedState;
+    if (event is _TriggerCreateIncident) {
+      yield const IncidentCreated(
+        currentOperator: null,
+        number: '123',
+      );
+    } else if (event is _TriggerError) {
+      yield IncidentCreationError(
+        cause: 'just testing',
+        stackTrace: StackTrace.current,
+        currentOperator: null,
+      );
+    } else if (event is _TriggerOperator) {
+      yield const IncidentState(
+        currentOperator: TdOperator(
+          id: 'a',
+          name: 'a',
+          firstLine: true,
+          secondLine: true,
+        ),
+      );
     }
   }
 }
@@ -57,7 +64,7 @@ void main() {
     }
 
     setUp(() {
-      bloc = SimpleIncidentBloc();
+      bloc = _SimpleIncidentBloc();
     });
 
     tearDown(() {
@@ -73,7 +80,7 @@ void main() {
 
     testWidgets('with current operator', (WidgetTester tester) async {
       await tester.runAsync(() async {
-        bloc.add(NeedOperator());
+        bloc.add(_TriggerOperator());
         await Future.delayed(Duration(milliseconds: 100));
 
         await pumpScreen(tester);
@@ -84,11 +91,22 @@ void main() {
     testWidgets('show snackbar after incident created', (tester) async {
       await tester.runAsync(() async {
         await pumpScreen(tester);
-        bloc.add(IncidentSubmit(briefDescription: '', request: ''));
+        bloc.add(_TriggerCreateIncident());
 
         await Future.delayed(Duration(milliseconds: 100));
         await tester.pump();
         expect(find.text('Incident created with number 123'), findsOneWidget);
+      });
+    });
+
+    testWidgets('show error dialog after error', (tester) async {
+      await tester.runAsync(() async {
+        await pumpScreen(tester);
+        bloc.add(_TriggerError());
+
+        await Future.delayed(Duration(milliseconds: 100));
+        await tester.pump();
+        expect(find.byType(ErrorDialog), findsOneWidget);
       });
     });
   });
