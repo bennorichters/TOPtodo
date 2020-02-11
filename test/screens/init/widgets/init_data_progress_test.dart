@@ -59,6 +59,16 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
+    testWidgets('credentials and operator done', (WidgetTester tester) async {
+      await pumpInitDataProgress(
+        tester,
+        InitData(credentials: credentials, currentOperator: currentOperator),
+      );
+
+      expect(find.byIcon(Icons.done), findsNWidgets(2));
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
     testWidgets('all done', (WidgetTester tester) async {
       await pumpInitDataProgress(
         tester,
