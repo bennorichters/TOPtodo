@@ -12,8 +12,6 @@ void main() {
       final data = InitData.empty();
       await tester.pumpWidget(
         TestableWidgetWithMediaQuery(
-          width: 600,
-          height: 800,
           child: InitDataProgress(data),
         ),
       );

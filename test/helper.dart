@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class TestableWidgetWithMediaQuery extends StatelessWidget {
   const TestableWidgetWithMediaQuery({
     this.child,
-    this.width,
-    this.height,
+    this.width = 600,
+    this.height = 800,
   });
 
   final Widget child;

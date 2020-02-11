@@ -27,8 +27,6 @@ void main() {
         BlocProvider.value(
           value: bloc,
           child: TestableWidgetWithMediaQuery(
-            width: 800,
-            height: 600,
             child: IncidentScreen(),
           ),
         ),
