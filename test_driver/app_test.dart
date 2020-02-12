@@ -16,15 +16,34 @@ void main() {
       }
     });
 
-    test('fill in your login name', () async {
+    test('error messages when nothing filled in', () async {
       await Future.delayed(Duration(milliseconds: 500));
 
       final buttonFinder = find.byValueKey(TtdKeys.credentialsFormLoginButton);
       await driver.tap(buttonFinder);
 
+      const urlMsg = 'fill in the url of your TOPdesk environment';
+      expect(await driver.getText(find.text(urlMsg)), urlMsg);
+
       const loginMsg = 'fill in your login name';
-      final loginMsgFinder = find.text(loginMsg);
-      expect(await driver.getText(loginMsgFinder), loginMsg);
+      expect(await driver.getText(find.text(loginMsg)), loginMsg);
+
+      const passwordMsg = 'fill in your application password';
+      expect(await driver.getText(find.text(passwordMsg)), passwordMsg);
+    });
+
+    test('succesfull login after filling in fields', () async {
+      await driver.tap(find.byValueKey(TtdKeys.credentialsFormUrlField));
+      await driver.enterText('theurl');
+
+      await driver.tap(find.byValueKey(TtdKeys.credentialsFormLoginNameField));
+      await driver.enterText('dawnm');
+
+      await driver.tap(find.byValueKey(TtdKeys.credentialsFormPasswordField));
+      await driver.enterText('s3cRet!');
+
+      final buttonFinder = find.byValueKey(TtdKeys.credentialsFormLoginButton);
+      await driver.tap(buttonFinder);
     });
   });
 }

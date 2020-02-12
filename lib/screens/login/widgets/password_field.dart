@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toptodo/utils/keys.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField(this._controller);
@@ -17,6 +18,7 @@ class _PasswordFieldState extends State<PasswordField> {
       children: [
         Expanded(
           child: TextFormField(
+            key: Key(TtdKeys.credentialsFormPasswordField),
             autocorrect: false,
             controller: widget._controller,
             obscureText: _obscured,

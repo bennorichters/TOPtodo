@@ -39,6 +39,7 @@ class CredentialsForm extends StatelessWidget {
             child: ListView(
               children: [
                 TextFormField(
+                  key: Key(TtdKeys.credentialsFormUrlField),
                   controller: _urlController,
                   autocorrect: false,
                   decoration: const InputDecoration(
@@ -51,6 +52,7 @@ class CredentialsForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TextFormField(
+                  key: Key(TtdKeys.credentialsFormLoginNameField),
                   autocorrect: false,
                   controller: _loginNameController,
                   decoration: const InputDecoration(
