@@ -9,7 +9,7 @@ import 'package:toptodo/blocs/incident/bloc.dart';
 
 /// Business logic component for creating incidents
 class IncidentBloc extends Bloc<IncidentEvent, IncidentState> {
-  /// Creates an incidents of [IncidentBloc]
+  /// Creates an instance of [IncidentBloc]
   IncidentBloc({
     @required this.topdeskProvider,
     @required this.settingsProvider,
