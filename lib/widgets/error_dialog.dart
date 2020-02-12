@@ -59,7 +59,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
     result.add(
       FlatButton(
-        key: TtdKeys.errorDialogOkButton,
+        key: Key(TtdKeys.errorDialogOkButton),
         child: const Text('Ok'),
         onPressed: () => _closeDialog(context),
       ),

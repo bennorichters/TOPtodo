@@ -22,7 +22,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('test_open_error_dialog')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(TtdKeys.errorDialogOkButton));
+    await tester.tap(find.byKey(Key(TtdKeys.errorDialogOkButton)));
     await tester.pumpAndSettle();
 
     expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
@@ -45,7 +45,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('test_open_error_dialog')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(TtdKeys.errorDialogOkButton));
+    await tester.tap(find.byKey(Key(TtdKeys.errorDialogOkButton)));
     await tester.pumpAndSettle();
 
     expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);

@@ -30,7 +30,7 @@ class IncidentForm extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  key: TtdKeys.incidentBriefDescriptionField,
+                  key: Key(TtdKeys.incidentBriefDescriptionField),
                   controller: _briefDescription,
                   decoration: InputDecoration(labelText: 'Brief description'),
                   validator: (value) =>
@@ -38,7 +38,7 @@ class IncidentForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TextFormField(
-                  key: TtdKeys.incidentRequestField,
+                  key: Key(TtdKeys.incidentRequestField),
                   controller: _request,
                   decoration: InputDecoration(labelText: 'Request'),
                   maxLength: null,
@@ -48,7 +48,7 @@ class IncidentForm extends StatelessWidget {
                 (state is IncidentSubmitted)
                     ? CircularProgressIndicator()
                     : TdButton(
-                        key: TtdKeys.incidentSubmitButton,
+                        key: Key(TtdKeys.incidentSubmitButton),
                         text: 'submit',
                         onTap: () {
                           if (_formKey.currentState.validate()) {

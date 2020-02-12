@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/widgets/password_field.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/landscape_padding.dart';
 import 'package:toptodo/widgets/td_button.dart';
@@ -75,6 +76,7 @@ class CredentialsForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TdButton(
+                  key: Key(TtdKeys.credentialsFormLoginButton),
                   text: 'log in',
                   onTap: () => _connect(
                     context,

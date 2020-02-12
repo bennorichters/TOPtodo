@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,7 +55,7 @@ void main() {
           currentOperator: currentOperator,
         ),
       );
-      expect(find.byKey(TtdKeys.incidentSubmitButton), findsOneWidget);
+      expect(find.byKey(Key(TtdKeys.incidentSubmitButton)), findsOneWidget);
     });
 
     testWidgets('find no button when submitting', (WidgetTester tester) async {
@@ -64,7 +65,7 @@ void main() {
           currentOperator: currentOperator,
         ),
       );
-      expect(find.byKey(TtdKeys.incidentSubmitButton), findsNothing);
+      expect(find.byKey(Key(TtdKeys.incidentSubmitButton)), findsNothing);
     });
 
     testWidgets('tap button', (WidgetTester tester) async {
@@ -77,14 +78,14 @@ void main() {
       );
 
       await tester.enterText(
-        find.byKey(TtdKeys.incidentBriefDescriptionField),
+        find.byKey(Key(TtdKeys.incidentBriefDescriptionField)),
         'todo',
       );
       await tester.enterText(
-        find.byKey(TtdKeys.incidentRequestField),
+        find.byKey(Key(TtdKeys.incidentRequestField)),
         'more text',
       );
-      await tester.tap(find.byKey(TtdKeys.incidentSubmitButton));
+      await tester.tap(find.byKey(Key(TtdKeys.incidentSubmitButton)));
       await tester.pumpAndSettle();
 
       verify(bloc.add(
