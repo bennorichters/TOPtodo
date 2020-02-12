@@ -8,7 +8,7 @@ abstract class InitState extends Equatable {
   const InitState();
 }
 
-/// State emmitted with the data needed to start the application.
+/// State that is emmitted with the data needed to start the application.
 class InitData extends InitState {
   const InitData({
     @required this.credentials,
