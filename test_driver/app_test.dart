@@ -16,15 +16,15 @@ void main() {
       }
     });
 
-    test('...', () async {
-      await Future.delayed(Duration(seconds: 2));
+    test('fill in your login name', () async {
+      await Future.delayed(Duration(milliseconds: 500));
 
       final buttonFinder = find.byValueKey(TtdKeys.credentialsFormLoginButton);
       await driver.tap(buttonFinder);
 
       const loginMsg = 'fill in your login name';
-      final textFinder = find.text(loginMsg);
-      expect(await driver.getText(textFinder), loginMsg);
+      final loginMsgFinder = find.text(loginMsg);
+      expect(await driver.getText(loginMsgFinder), loginMsg);
     });
   });
 }
