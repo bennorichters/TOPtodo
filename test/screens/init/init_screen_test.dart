@@ -15,6 +15,29 @@ class MockInitBloc extends MockBloc<InitEvent, InitState> implements InitBloc {}
 
 void main() {
   group('InitScreen', () {
+    final completeCredentials = Credentials(
+      url: 'a',
+      loginName: 'a',
+      password: 'a',
+    );
+
+    final completeSettings = Settings(
+      tdBranchId: 'a',
+      tdCallerId: 'a',
+      tdCategoryId: 'a',
+      tdSubcategoryId: 'a',
+      tdDurationId: 'a',
+      tdOperatorId: 'a',
+    );
+
+    final currentOperator = TdOperator(
+      id: 'a',
+      name: 'a',
+      avatar: 'a',
+      firstLine: true,
+      secondLine: true,
+    );
+
     InitBloc bloc;
 
     void pumpScreen(
@@ -64,16 +87,72 @@ void main() {
 
       await pumpScreen(
         tester,
-        routes: {'login': (_) => _TestLoginScreen()},
+        routes: {'login': (_) => _TestScreen()},
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(_TestLoginScreen), findsOneWidget);
+      expect(find.byType(_TestScreen), findsOneWidget);
     });
+
+    testWidgets(
+      'complete credentials, incomplete settings, '
+      'navigates to settings screen',
+      (WidgetTester tester) async {
+        final initialState = InitData.empty();
+        when(bloc.state).thenReturn(initialState);
+        whenListen(
+          bloc,
+          Stream.fromIterable(
+            [
+              initialState,
+              InitData(credentials: completeCredentials, settings: Settings()),
+            ],
+          ),
+        );
+
+        await pumpScreen(
+          tester,
+          routes: {'settings': (_) => _TestScreen()},
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(_TestScreen), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'complete credentials, complete settings, '
+      'navigates to incident screen',
+      (WidgetTester tester) async {
+        final initialState = InitData.empty();
+        when(bloc.state).thenReturn(initialState);
+        whenListen(
+          bloc,
+          Stream.fromIterable(
+            [
+              initialState,
+              InitData(
+                credentials: completeCredentials,
+                settings: completeSettings,
+                currentOperator: currentOperator,
+              ),
+            ],
+          ),
+        );
+
+        await pumpScreen(
+          tester,
+          routes: {'incident': (_) => _TestScreen()},
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(_TestScreen), findsOneWidget);
+      },
+    );
   });
 }
 
-class _TestLoginScreen extends StatelessWidget {
+class _TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container();
 }
