@@ -6,7 +6,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 typedef ProvideModel = Future<TdModel> Function({String id});
 
-/// Business logic component to process for settings.
+/// Business logic component to process saved and changing settings.
 ///
 /// This bloc retrieves saved settings, processes user chosen values and saves
 /// settings.
