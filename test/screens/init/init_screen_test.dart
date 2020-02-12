@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo/screens/init/init_screen.dart';
 import 'package:toptodo/screens/init/widgets/init_data_progress.dart';
+import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../helper.dart';
@@ -147,6 +148,28 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(_TestScreen), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'loading data failed, show error dialog',
+      (WidgetTester tester) async {
+        final initialState = InitData.empty();
+        when(bloc.state).thenReturn(initialState);
+        whenListen(
+          bloc,
+          Stream.fromIterable(
+            [
+              initialState,
+              LoadingDataFailed('just testing', StackTrace.current),
+            ],
+          ),
+        );
+
+        await pumpScreen(tester);
+        await tester.pumpAndSettle();
+
+        expect(find.byType(ErrorDialog), findsOneWidget);
       },
     );
   });
