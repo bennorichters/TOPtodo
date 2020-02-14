@@ -4,6 +4,8 @@ class TtdKeys {
       'credentials_form_login_name_field';
   static const credentialsFormPasswordField = 'credentials_form_password_field';
   static const credentialsFormLoginButton = 'credentials_form_login_button';
+  static const credentialsFormRememberCheckbox =
+      'credentials_form_remember_checkbox';
 
   static const errorDialogOkButton = 'error_dialog_ok';
 

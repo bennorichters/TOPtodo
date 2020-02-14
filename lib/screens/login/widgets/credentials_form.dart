@@ -67,6 +67,7 @@ class CredentialsForm extends StatelessWidget {
                 Row(
                   children: [
                     Checkbox(
+                      key: Key(TtdKeys.credentialsFormRememberCheckbox),
                       value: _remember,
                       onChanged: (bool value) {
                         BlocProvider.of<LoginBloc>(context)
