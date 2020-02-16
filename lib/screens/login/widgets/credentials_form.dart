@@ -69,10 +69,9 @@ class CredentialsForm extends StatelessWidget {
                     Checkbox(
                       key: Key(TtdKeys.credentialsFormRememberCheckbox),
                       value: _remember,
-                      onChanged: (bool value) {
-                        BlocProvider.of<LoginBloc>(context)
-                          ..add(RememberToggle(_createCredentials()));
-                      },
+                      onChanged: (bool value) =>
+                          BlocProvider.of<LoginBloc>(context)
+                            .add(RememberToggle(_createCredentials())),
                     ),
                     const Text('remember'),
                   ],
@@ -95,9 +94,12 @@ class CredentialsForm extends StatelessWidget {
   }
 
   Credentials _createCredentials() => Credentials(
-        url: _urlController.text,
-        loginName: _loginNameController.text,
-        password: _passwordController.text,
+        url: _urlController.text.isEmpty ? null : _urlController.text,
+        loginName: _loginNameController.text.isEmpty
+            ? null
+            : _loginNameController.text,
+        password:
+            _passwordController.text.isEmpty ? null : _passwordController.text,
       );
 
   void _connect(BuildContext context, Credentials credentials) {

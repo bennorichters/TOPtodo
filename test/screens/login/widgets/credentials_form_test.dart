@@ -76,5 +76,41 @@ void main() {
 
       expect(tester.widget<Checkbox>(remember).value, true);
     });
+
+    testWidgets('toggle remember', (WidgetTester tester) async {
+      when(bloc.state).thenReturn(AwaitingCredentials());
+
+      await pumpForm(
+        tester,
+        credentials: Credentials(),
+        remember: true,
+      );
+
+      final remember = find.byKey(
+        Key(TtdKeys.credentialsFormRememberCheckbox),
+      );
+      await tester.tap(remember);
+
+      verify(bloc.add(RememberToggle(Credentials()))).called(1);
+    });
+
+    testWidgets('press button', (WidgetTester tester) async {
+      when(bloc.state).thenReturn(AwaitingCredentials());
+
+      var credentials = Credentials(url: 'a', loginName: 'a', password: 'a');
+      await pumpForm(
+        tester,
+        credentials: credentials,
+        remember: true,
+      );
+
+      final button = find.byKey(
+        Key(TtdKeys.credentialsFormLoginButton),
+      );
+
+      await tester.tap(button);
+
+      verify(bloc.add(TryLogin(credentials))).called(1);
+    });
   });
 }
