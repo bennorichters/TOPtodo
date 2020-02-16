@@ -13,4 +13,6 @@ class TtdKeys {
       'incident_brief_description_field';
   static const incidentRequestField = 'incident_request_field';
   static const incidentSubmitButton = 'incident_submit_button';
+
+  static const loginHelpDialogUrlLauncher = 'login_help_dialog_url_launcher';
 }
