@@ -6,8 +6,11 @@ import 'package:mockito/mockito.dart';
 
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
+import 'package:toptodo/screens/login/widgets/credentials_form.dart';
 import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
 import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/widgets/error_dialog.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../helper.dart';
 
@@ -19,13 +22,15 @@ void main() {
     LoginBloc bloc;
 
     void pumpScreen(
-      WidgetTester tester,
-      bool logOut,
-    ) async {
+      WidgetTester tester, {
+      bool logOut = false,
+      Map<String, WidgetBuilder> routes,
+    }) async {
       await tester.pumpWidget(
         BlocProvider.value(
           value: bloc,
           child: TestableWidgetWithMediaQuery(
+            routes: routes,
             child: LoginScreen(logOut: logOut),
           ),
         ),
@@ -40,17 +45,36 @@ void main() {
       bloc.close();
     });
 
+    testWidgets('WithCredentials shows filled form',
+        (WidgetTester tester) async {
+      when(bloc.state).thenReturn(RetrievedCredentials(
+        TestConstants.credentials,
+        true,
+      ));
+      await pumpScreen(tester);
+
+      expect(find.byType(CredentialsForm), findsOneWidget);
+    });
+
     testWidgets('AwaitingCredentials shows CircularProgressIndicator',
         (WidgetTester tester) async {
       when(bloc.state).thenReturn(AwaitingCredentials());
-      await pumpScreen(tester, false);
+      await pumpScreen(tester);
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets('LoginSubmitting shows CircularProgressIndicator',
+        (WidgetTester tester) async {
+      when(bloc.state).thenReturn(LoginSubmitting());
+      await pumpScreen(tester);
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
     testWidgets('help button opens dialog', (WidgetTester tester) async {
       when(bloc.state).thenReturn(AwaitingCredentials());
-      await pumpScreen(tester, false);
+      await pumpScreen(tester);
 
       final helpButton = find.byKey(Key(TtdKeys.loginScreenHelpButton));
       await tester.tap(helpButton);
@@ -58,18 +82,79 @@ void main() {
       expect(find.byType(LoginHelpDialog), findsOneWidget);
     });
 
-    // testWidgets('login success with complete settings navigates to incident',
-    //     (WidgetTester tester) async {
-    //   final initialState = AwaitingCredentials();
-    //   when(bloc.state).thenReturn(initialState);
-    //   whenListen(
-    //     bloc,
-    //     Stream.fromIterable(
-    //       [
-    //         initialState,
-    //       ],
-    //     ),
-    //   );
-    // });
+    testWidgets('login success with complete settings navigates to incident',
+        (WidgetTester tester) async {
+      final initialState = AwaitingCredentials();
+      when(bloc.state).thenReturn(initialState);
+      whenListen(
+        bloc,
+        Stream.fromIterable(
+          [
+            initialState,
+            LoginSuccess(settings: TestConstants.settings),
+          ],
+        ),
+      );
+
+      await pumpScreen(
+        tester,
+        routes: {'incident': (_) => _TestScreen()},
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(_TestScreen), findsOneWidget);
+    });
+
+    testWidgets('login success with incomplete settings navigates to settings',
+        (WidgetTester tester) async {
+      final initialState = AwaitingCredentials();
+      when(bloc.state).thenReturn(initialState);
+      whenListen(
+        bloc,
+        Stream.fromIterable(
+          [
+            initialState,
+            LoginSuccess(settings: Settings()),
+          ],
+        ),
+      );
+
+      await pumpScreen(
+        tester,
+        routes: {'settings': (_) => _TestScreen()},
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(_TestScreen), findsOneWidget);
+    });
+
+    testWidgets('login failed shows error dialog', (WidgetTester tester) async {
+      final initialState = AwaitingCredentials();
+      when(bloc.state).thenReturn(initialState);
+      whenListen(
+        bloc,
+        Stream.fromIterable(
+          [
+            initialState,
+            LoginFailed(
+              savedData: TestConstants.credentials,
+              remember: true,
+              cause: 'just testing',
+              stackTrace: StackTrace.current,
+            ),
+          ],
+        ),
+      );
+
+      await pumpScreen(tester);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ErrorDialog), findsOneWidget);
+    });
   });
+}
+
+class _TestScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container();
 }
