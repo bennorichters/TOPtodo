@@ -5,6 +5,7 @@ import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/login/widgets/credentials_form.dart';
 import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
 import 'package:toptodo/screens/settings/settings_screen.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 
 class LoginScreenArguments {
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: const Text('Welcome to TOPtodo'),
           actions: [
             IconButton(
+              key: Key(TtdKeys.loginScreenHelpButton),
               icon: const Icon(Icons.help),
               onPressed: () {
                 showDialog(

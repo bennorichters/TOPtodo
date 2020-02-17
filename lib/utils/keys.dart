@@ -15,4 +15,6 @@ class TtdKeys {
   static const incidentSubmitButton = 'incident_submit_button';
 
   static const loginHelpDialogUrlLauncher = 'login_help_dialog_url_launcher';
+
+  static const loginScreenHelpButton = 'login_screen_help_button';
 }
