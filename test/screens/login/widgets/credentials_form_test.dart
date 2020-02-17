@@ -97,10 +97,9 @@ void main() {
     testWidgets('press button', (WidgetTester tester) async {
       when(bloc.state).thenReturn(AwaitingCredentials());
 
-      var credentials = Credentials(url: 'a', loginName: 'a', password: 'a');
       await pumpForm(
         tester,
-        credentials: credentials,
+        credentials: TestConstants.credentials,
         remember: true,
       );
 
@@ -110,7 +109,7 @@ void main() {
 
       await tester.tap(button);
 
-      verify(bloc.add(TryLogin(credentials))).called(1);
+      verify(bloc.add(TryLogin(TestConstants.credentials))).called(1);
     });
   });
 }
