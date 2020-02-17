@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
 import 'package:toptodo/utils/keys.dart';
-import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../../helper.dart';
 
@@ -16,13 +15,6 @@ class MockIncidentBloc extends MockBloc<IncidentEvent, IncidentState>
 
 void main() {
   group('IncidentForm', () {
-    final currentOperator = TdOperator(
-      id: 'a',
-      name: 'a',
-      firstLine: true,
-      secondLine: true,
-    );
-
     IncidentBloc bloc;
 
     void pumpForm(
@@ -52,7 +44,7 @@ void main() {
       await pumpForm(
         tester,
         IncidentState(
-          currentOperator: currentOperator,
+          currentOperator: TestConstants.currentOperator,
         ),
       );
       expect(find.byKey(Key(TtdKeys.incidentSubmitButton)), findsOneWidget);
@@ -62,7 +54,7 @@ void main() {
       await pumpForm(
         tester,
         IncidentSubmitted(
-          currentOperator: currentOperator,
+          currentOperator: TestConstants.currentOperator,
         ),
       );
       expect(find.byKey(Key(TtdKeys.incidentSubmitButton)), findsNothing);
@@ -73,7 +65,7 @@ void main() {
       await pumpForm(
         tester,
         IncidentState(
-          currentOperator: currentOperator,
+          currentOperator: TestConstants.currentOperator,
         ),
       );
 
