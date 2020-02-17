@@ -78,9 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 return const _Loading();
               } else if (state is LoginSubmitting) {
                 return const _Loading();
-              } else {
-                throw StateError('unknown state: $state');
-              }
+              } 
             },
           ),
         ),
