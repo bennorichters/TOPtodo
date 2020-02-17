@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:toptodo_data/toptodo_data.dart';
-
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
@@ -52,12 +50,7 @@ void main() {
 
     testWidgets('with current operator', (WidgetTester tester) async {
       when(bloc.state).thenReturn(IncidentState(
-        currentOperator: TdOperator(
-          id: 'a',
-          name: 'a',
-          firstLine: true,
-          secondLine: true,
-        ),
+        currentOperator: TestConstants.currentOperator,
       ));
 
       await pumpScreen(tester);

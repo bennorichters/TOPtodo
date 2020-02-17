@@ -52,7 +52,7 @@ class TestConstants {
   static const currentOperator = TdOperator(
     id: 'a',
     name: 'a',
-    avatar: 'a',
+    avatar: 'R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', // Black dot
     firstLine: true,
     secondLine: true,
   );
