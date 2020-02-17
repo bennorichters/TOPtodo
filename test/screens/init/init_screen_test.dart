@@ -16,29 +16,6 @@ class MockInitBloc extends MockBloc<InitEvent, InitState> implements InitBloc {}
 
 void main() {
   group('InitScreen', () {
-    final completeCredentials = Credentials(
-      url: 'a',
-      loginName: 'a',
-      password: 'a',
-    );
-
-    final completeSettings = Settings(
-      tdBranchId: 'a',
-      tdCallerId: 'a',
-      tdCategoryId: 'a',
-      tdSubcategoryId: 'a',
-      tdDurationId: 'a',
-      tdOperatorId: 'a',
-    );
-
-    final currentOperator = TdOperator(
-      id: 'a',
-      name: 'a',
-      avatar: 'a',
-      firstLine: true,
-      secondLine: true,
-    );
-
     InitBloc bloc;
 
     void pumpScreen(
@@ -106,7 +83,10 @@ void main() {
           Stream.fromIterable(
             [
               initialState,
-              InitData(credentials: completeCredentials, settings: Settings()),
+              InitData(
+                credentials: TestConstants.credentials,
+                settings: Settings(),
+              ),
             ],
           ),
         );
@@ -133,9 +113,9 @@ void main() {
             [
               initialState,
               InitData(
-                credentials: completeCredentials,
-                settings: completeSettings,
-                currentOperator: currentOperator,
+                credentials: TestConstants.credentials,
+                settings: TestConstants.settings,
+                currentOperator: TestConstants.currentOperator,
               ),
             ],
           ),

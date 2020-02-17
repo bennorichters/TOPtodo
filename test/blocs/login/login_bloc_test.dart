@@ -5,6 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+import '../../helper.dart';
+
 class MockCredentialsProvider extends Mock implements CredentialsProvider {}
 
 class MockSettingsProvider extends Mock implements SettingsProvider {}
@@ -176,16 +178,9 @@ void main() {
     group('TryLogin', () {
       final topdeskProvider = MockTopdeskProvider();
       final SettingsProvider completeSettings = MockSettingsProvider();
-      final settings = Settings(
-        tdBranchId: 'a',
-        tdCallerId: 'a',
-        tdCategoryId: 'a',
-        tdSubcategoryId: 'a',
-        tdDurationId: 'a',
-        tdOperatorId: 'a',
-      );
+
       when(completeSettings.provide()).thenAnswer(
-        (_) => Future<Settings>.value(settings),
+        (_) => Future<Settings>.value(TestConstants.settings),
       );
 
       test(
@@ -208,7 +203,7 @@ void main() {
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
-              settings: settings,
+              settings: TestConstants.settings,
             ),
           ],
         );
@@ -238,7 +233,7 @@ void main() {
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
-              settings: settings,
+              settings: TestConstants.settings,
             ),
           ],
         );
@@ -272,7 +267,7 @@ void main() {
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
-              settings: settings,
+              settings: TestConstants.settings,
             ),
           ],
         );

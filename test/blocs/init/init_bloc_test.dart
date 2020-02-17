@@ -7,6 +7,8 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
+import '../../helper.dart';
+
 class MockCredentialsProvider extends Mock implements CredentialsProvider {}
 
 class MockSettingsProvider extends Mock implements SettingsProvider {}
@@ -15,32 +17,16 @@ class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 
 void main() {
   group('init bloc', () {
-    final credentials = Credentials(url: 'u', loginName: 'ln', password: 'pw');
-    final settings = Settings(
-      tdBranchId: 'a',
-      tdCallerId: 'a',
-      tdCategoryId: 'a',
-      tdSubcategoryId: 'a',
-      tdDurationId: 'a',
-      tdOperatorId: 'a',
-    );
-    final currentOperator = TdOperator(
-      id: 'a',
-      name: 'a',
-      avatar: 'a',
-      firstLine: true,
-      secondLine: true,
-    );
-
     final cp = MockCredentialsProvider();
     final sp = MockSettingsProvider();
     final tdp = MockTopdeskProvider();
 
-    when(cp.provide()).thenAnswer((_) => Future.value(credentials));
-    when(sp.provide()).thenAnswer((_) => Future.value(settings));
+    when(cp.provide())
+        .thenAnswer((_) => Future.value(TestConstants.credentials));
+    when(sp.provide()).thenAnswer((_) => Future.value(TestConstants.settings));
     when(tdp.init(any)).thenAnswer((_) => Future.value());
     when(tdp.currentTdOperator())
-        .thenAnswer((_) => Future.value(currentOperator));
+        .thenAnswer((_) => Future.value(TestConstants.currentOperator));
 
     test('initial state', () async {
       final bloc = InitBloc(
@@ -74,13 +60,13 @@ void main() {
 
       expect(actual.length, 4);
       expect(actual.first, InitData.empty());
-      expect(actual[1], InitData(credentials: credentials));
+      expect(actual[1], InitData(credentials: TestConstants.credentials));
       expect(
         actual[3],
         InitData(
-          credentials: credentials,
-          currentOperator: currentOperator,
-          settings: settings,
+          credentials: TestConstants.credentials,
+          currentOperator: TestConstants.currentOperator,
+          settings: TestConstants.settings,
         ),
       );
     });
@@ -114,8 +100,8 @@ void main() {
 
     test('SettingsProvider comes last', () async {
       final settingsWithDelay = MockSettingsProvider();
-      when(settingsWithDelay.provide()).thenAnswer(
-          (_) => Future.delayed(Duration(milliseconds: 10), () => settings));
+      when(settingsWithDelay.provide()).thenAnswer((_) => Future.delayed(
+          Duration(milliseconds: 10), () => TestConstants.settings));
 
       final bloc = InitBloc(
         credentialsProvider: cp,
@@ -136,19 +122,19 @@ void main() {
 
       expect(actual.length, 4);
       expect(actual.first, InitData.empty());
-      expect(actual[1], InitData(credentials: credentials));
+      expect(actual[1], InitData(credentials: TestConstants.credentials));
       expect(
           actual[2],
           InitData(
-            credentials: credentials,
-            currentOperator: currentOperator,
+            credentials: TestConstants.credentials,
+            currentOperator: TestConstants.currentOperator,
           ));
       expect(
         actual[3],
         InitData(
-          credentials: credentials,
-          currentOperator: currentOperator,
-          settings: settings,
+          credentials: TestConstants.credentials,
+          currentOperator: TestConstants.currentOperator,
+          settings: TestConstants.settings,
         ),
       );
     });
@@ -160,7 +146,7 @@ void main() {
     });
 
     test('InitData toString contains info', () {
-      final s = InitData(credentials: credentials);
+      final s = InitData(credentials: TestConstants.credentials);
 
       expect(s.toString().contains('Credentials'), isTrue);
     });
@@ -168,17 +154,17 @@ void main() {
     test('isReady', () {
       expect(
         InitData(
-          credentials: credentials,
-          currentOperator: currentOperator,
-          settings: settings,
+          credentials: TestConstants.credentials,
+          currentOperator: TestConstants.currentOperator,
+          settings: TestConstants.settings,
         ).isReady(),
         isTrue,
       );
 
       expect(
         InitData(
-          credentials: credentials,
-          settings: settings,
+          credentials: TestConstants.credentials,
+          settings: TestConstants.settings,
         ).isReady(),
         isFalse,
       );
@@ -187,7 +173,7 @@ void main() {
     test('hasCompleteCredentials', () {
       expect(
         InitData(
-          credentials: credentials,
+          credentials: TestConstants.credentials,
         ).hasCompleteCredentials(),
         isTrue,
       );
@@ -195,7 +181,7 @@ void main() {
       expect(
         InitData(
           credentials: Credentials(url: 'a'),
-          settings: settings,
+          settings: TestConstants.settings,
         ).hasCompleteCredentials(),
         isFalse,
       );
@@ -204,7 +190,7 @@ void main() {
     test('hasIncompleteCredentials', () {
       expect(
         InitData(
-          credentials: credentials,
+          credentials: TestConstants.credentials,
         ).hasIncompleteCredentials(),
         isFalse,
       );
@@ -214,7 +200,7 @@ void main() {
       expect(
         InitData(
           credentials: Credentials(url: 'a'),
-          settings: settings,
+          settings: TestConstants.settings,
         ).hasIncompleteCredentials(),
         isTrue,
       );
@@ -223,7 +209,7 @@ void main() {
     test('hasCompleteSettings', () {
       expect(
         InitData(
-          credentials: credentials,
+          credentials: TestConstants.credentials,
         ).hasCompleteSettings(),
         isFalse,
       );
@@ -231,7 +217,7 @@ void main() {
       expect(
         InitData(
           credentials: Credentials(url: 'a'),
-          settings: settings,
+          settings: TestConstants.settings,
         ).hasCompleteSettings(),
         isTrue,
       );
@@ -248,7 +234,7 @@ void main() {
     test('hasIncompleteSettings', () {
       expect(
         InitData(
-          credentials: credentials,
+          credentials: TestConstants.credentials,
         ).hasIncompleteSettings(),
         isFalse,
       );
@@ -256,7 +242,7 @@ void main() {
       expect(
         InitData(
           credentials: Credentials(url: 'a'),
-          settings: settings,
+          settings: TestConstants.settings,
         ).hasIncompleteSettings(),
         isFalse,
       );
@@ -325,8 +311,8 @@ void main() {
           'TopdeskProvider gives error. Stream is closed. '
           'Settings are not added to closed stream', () async {
         final settingsWithDelay = MockSettingsProvider();
-        when(settingsWithDelay.provide()).thenAnswer(
-            (_) => Future.delayed(Duration(milliseconds: 10), () => settings));
+        when(settingsWithDelay.provide()).thenAnswer((_) => Future.delayed(
+            Duration(milliseconds: 10), () => TestConstants.settings));
 
         final initFailsProvider = MockTopdeskProvider();
         final exc = SocketException('error test');
