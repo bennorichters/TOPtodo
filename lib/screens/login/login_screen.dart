@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
 
     BlocProvider.of<LoginBloc>(context)
-      ..add(widget.logOut ? const LogOut() : const CredentialsInit());
+        .add(widget.logOut ? const LogOut() : const CredentialsInit());
   }
 
   @override
@@ -67,31 +67,18 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (BuildContext context, LoginState state) {
-              if (state is AwaitingCredentials) {
-                return const _Loading();
-              } else if (state is WithCredentials) {
+              if (state is WithCredentials) {
                 return CredentialsForm.withSavedDate(
                   state.credentials,
                   state.remember,
                 );
-              } else if (state is LoginSuccess) {
-                return const _Loading();
-              } else if (state is LoginSubmitting) {
-                return const _Loading();
-              } 
+              } else {
+                return const CircularProgressIndicator();
+              }
             },
           ),
         ),
       ),
     );
   }
-}
-
-class _Loading extends StatelessWidget {
-  const _Loading();
-
-  @override
-  Widget build(BuildContext context) => const Center(
-        child: CircularProgressIndicator(),
-      );
 }
