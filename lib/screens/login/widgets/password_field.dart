@@ -18,7 +18,7 @@ class _PasswordFieldState extends State<PasswordField> {
       children: [
         Expanded(
           child: TextFormField(
-            key: Key(TtdKeys.credentialsFormPasswordField),
+            key: Key(TtdKeys.passwordFieldTextFormField),
             autocorrect: false,
             controller: widget._controller,
             obscureText: _obscured,
@@ -31,6 +31,7 @@ class _PasswordFieldState extends State<PasswordField> {
           ),
         ),
         IconButton(
+          key: Key(TtdKeys.passwordFieldVisibleButton),
           icon: _obscured
               ? const Icon(Icons.visibility)
               : const Icon(Icons.visibility_off),

@@ -39,7 +39,7 @@ void main() {
       await driver.tap(find.byValueKey(TtdKeys.credentialsFormLoginNameField));
       await driver.enterText('dawnm');
 
-      await driver.tap(find.byValueKey(TtdKeys.credentialsFormPasswordField));
+      await driver.tap(find.byValueKey(TtdKeys.passwordFieldTextFormField));
       await driver.enterText('s3cRet!');
 
       final buttonFinder = find.byValueKey(TtdKeys.credentialsFormLoginButton);
