@@ -52,13 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (BuildContext context, LoginState state) {
             if (state is LoginSuccess) {
-              Navigator.pushReplacement(
+              Navigator.pushReplacementNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => state.settings.isComplete()
-                      ? const IncidentScreen()
-                      : const SettingsScreen(),
-                ),
+                state.settings.isComplete() ? 'incident' : 'settings',
               );
             } else if (state is LoginFailed) {
               showDialog(
