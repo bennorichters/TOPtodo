@@ -183,7 +183,6 @@ void main() {
             RetrievedCredentials(Credentials(), false),
             LoginSubmitting(),
             LoginSuccess(
-              topdeskProvider: topdeskProvider,
               settings: TestConstants.settings,
             ),
           ],
@@ -213,7 +212,6 @@ void main() {
             RetrievedCredentials(TestConstants.credentials, true),
             LoginSubmitting(),
             LoginSuccess(
-              topdeskProvider: topdeskProvider,
               settings: TestConstants.settings,
             ),
           ],
@@ -241,7 +239,6 @@ void main() {
             RetrievedCredentials(TestConstants.credentials, true),
             LoginSubmitting(),
             LoginSuccess(
-              topdeskProvider: topdeskProvider,
               settings: TestConstants.settings,
             ),
           ],
@@ -289,10 +286,7 @@ void main() {
           [
             AwaitingCredentials(),
             LoginSubmitting(),
-            LoginSuccess(
-              topdeskProvider: topdeskProvider,
-              settings: incomplete,
-            ),
+            LoginSuccess(settings: incomplete),
           ],
         );
       });

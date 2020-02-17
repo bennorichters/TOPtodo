@@ -57,5 +57,19 @@ void main() {
       await tester.pump();
       expect(find.byType(LoginHelpDialog), findsOneWidget);
     });
+
+    // testWidgets('login success with complete settings navigates to incident',
+    //     (WidgetTester tester) async {
+    //   final initialState = AwaitingCredentials();
+    //   when(bloc.state).thenReturn(initialState);
+    //   whenListen(
+    //     bloc,
+    //     Stream.fromIterable(
+    //       [
+    //         initialState,
+    //       ],
+    //     ),
+    //   );
+    // });
   });
 }

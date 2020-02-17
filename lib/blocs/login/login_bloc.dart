@@ -75,10 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         final settings = await settingsProvider.provide() ?? const Settings();
 
-        yield LoginSuccess(
-          topdeskProvider: topdeskProvider,
-          settings: settings,
-        );
+        yield LoginSuccess(settings: settings);
       } catch (error, stackTrace) {
         yield LoginFailed(
           savedData: _credentials,

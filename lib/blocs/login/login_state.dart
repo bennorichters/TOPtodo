@@ -53,18 +53,14 @@ class LoginSubmitting extends LoginState {
 class LoginSuccess extends LoginState {
   /// Creates an instance of [LoginSuccess]
   const LoginSuccess({
-    @required this.topdeskProvider,
     @required this.settings,
   });
 
-  /// The topdesk provider
-  final TopdeskProvider topdeskProvider;
-
-  /// The settings
+  /// The settings that are stored locally for the current credentials
   final Settings settings;
 
   @override
-  List<Object> get props => super.props..addAll([topdeskProvider, settings]);
+  List<Object> get props => super.props..addAll([settings]);
 }
 
 /// Emittes when logging in faild
