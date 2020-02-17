@@ -19,14 +19,9 @@ void main() {
     when(withoutCredentials.provide())
         .thenAnswer((_) => Future.value(Credentials()));
 
-    final credentials = Credentials(
-      url: 'https://your-environment.topdesk.net',
-      loginName: 'usera',
-      password: 'S3CrEt!',
-    );
     CredentialsProvider withCredentials = MockCredentialsProvider();
     when(withCredentials.provide())
-        .thenAnswer((_) => Future.value(credentials));
+        .thenAnswer((_) => Future.value(TestConstants.credentials));
 
     group('basic flow', () {
       blocTest<LoginBloc, LoginEvent, LoginState>(
@@ -65,7 +60,7 @@ void main() {
         act: (LoginBloc bloc) async => bloc.add(CredentialsInit()),
         expect: [
           AwaitingCredentials(),
-          RetrievedCredentials(credentials, true),
+          RetrievedCredentials(TestConstants.credentials, true),
         ],
       );
 
@@ -77,24 +72,11 @@ void main() {
           topdeskProvider: MockTopdeskProvider(),
         ),
         act: (LoginBloc bloc) async => bloc.add(
-          RememberToggle(
-            Credentials(
-              url: 'a',
-              loginName: 'b',
-              password: 'c',
-            ),
-          ),
+          RememberToggle(TestConstants.credentials),
         ),
         expect: [
           AwaitingCredentials(),
-          RetrievedCredentials(
-            Credentials(
-              url: 'a',
-              loginName: 'b',
-              password: 'c',
-            ),
-            true,
-          ),
+          RetrievedCredentials(TestConstants.credentials, true),
         ],
       );
 
@@ -109,19 +91,15 @@ void main() {
         );
 
         bloc.add(CredentialsInit());
-        final userEnteredCredentials = Credentials(
-          url: 'a',
-          loginName: 'b',
-          password: 'c',
-        );
-        bloc.add(RememberToggle(userEnteredCredentials));
+
+        bloc.add(RememberToggle(TestConstants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(credentials, true),
-            RetrievedCredentials(userEnteredCredentials, false),
+            RetrievedCredentials(TestConstants.credentials, true),
+            RetrievedCredentials(TestConstants.credentials, false),
           ],
         );
 
@@ -145,7 +123,7 @@ void main() {
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(credentials, true),
+            RetrievedCredentials(TestConstants.credentials, true),
             AwaitingCredentials(),
             RetrievedCredentials(Credentials(), false),
           ],
@@ -170,7 +148,10 @@ void main() {
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
-          [AwaitingCredentials(), RetrievedCredentials(credentials, true)],
+          [
+            AwaitingCredentials(),
+            RetrievedCredentials(TestConstants.credentials, true)
+          ],
         );
       });
     });
@@ -193,7 +174,7 @@ void main() {
         );
 
         bloc.add(CredentialsInit());
-        bloc.add(TryLogin(credentials));
+        bloc.add(TryLogin(TestConstants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
@@ -221,15 +202,15 @@ void main() {
         );
 
         bloc.add(CredentialsInit()); // Make sure `remember` will be true
-        bloc.add(RememberToggle(credentials));
-        bloc.add(TryLogin(credentials));
+        bloc.add(RememberToggle(TestConstants.credentials));
+        bloc.add(TryLogin(TestConstants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
             AwaitingCredentials(),
             RetrievedCredentials(Credentials(), false),
-            RetrievedCredentials(credentials, true),
+            RetrievedCredentials(TestConstants.credentials, true),
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
@@ -238,7 +219,7 @@ void main() {
           ],
         );
 
-        verify(withoutCredentials.save(credentials)).called(1);
+        verify(withoutCredentials.save(TestConstants.credentials)).called(1);
       });
 
       test('fix credentials', () async {
@@ -250,20 +231,14 @@ void main() {
 
         bloc.add(CredentialsInit()); // Make sure `remember` will be true
         bloc.add(
-          TryLogin(
-            Credentials(
-              url: 'a///',
-              loginName: 'B',
-              password: ' aBc ',
-            ),
-          ),
+          TryLogin(TestConstants.credentials),
         );
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(credentials, true),
+            RetrievedCredentials(TestConstants.credentials, true),
             LoginSubmitting(),
             LoginSuccess(
               topdeskProvider: topdeskProvider,
@@ -272,13 +247,7 @@ void main() {
           ],
         );
 
-        verify(withCredentials.save(
-          Credentials(
-            url: 'https://a',
-            loginName: 'b',
-            password: ' aBc ',
-          ),
-        )).called(1);
+        verify(withCredentials.save(TestConstants.credentials)).called(1);
       });
 
       test('incomplete settings', () async {
@@ -313,7 +282,7 @@ void main() {
           (_) => Future<Settings>.value(saved),
         );
 
-        bloc.add(TryLogin(credentials));
+        bloc.add(TryLogin(TestConstants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
@@ -330,12 +299,6 @@ void main() {
     });
 
     group('TryLogin errors', () {
-      final credentials = Credentials(
-        url: 'a',
-        loginName: 'userA',
-        password: 'S3CrEt!',
-      );
-
       Future<void> testException(Exception e) async {
         final topdeskProvider = MockTopdeskProvider();
         when(topdeskProvider.currentTdOperator()).thenThrow(e);
@@ -346,11 +309,11 @@ void main() {
           topdeskProvider: topdeskProvider,
         );
 
-        bloc.add(TryLogin(credentials));
+        bloc.add(TryLogin(TestConstants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
-          <dynamic>[
+          [
             AwaitingCredentials(),
             LoginSubmitting(),
             isA<LoginFailed>(),
@@ -375,8 +338,13 @@ void main() {
       test('CredentialsInit', () {
         expect(CredentialsInit() == CredentialsInit(), isTrue);
         expect(
-            RememberToggle(credentials) == RememberToggle(credentials), isTrue);
-        expect(TryLogin(credentials) == TryLogin(credentials), isTrue);
+            RememberToggle(TestConstants.credentials) ==
+                RememberToggle(TestConstants.credentials),
+            isTrue);
+        expect(
+            TryLogin(TestConstants.credentials) ==
+                TryLogin(TestConstants.credentials),
+            isTrue);
       });
     });
 
@@ -384,19 +352,23 @@ void main() {
       test('CredentialsInit', () {
         expect(CredentialsInit() == CredentialsInit(), isTrue);
         expect(
-          RememberToggle(credentials) == RememberToggle(credentials),
+          RememberToggle(TestConstants.credentials) ==
+              RememberToggle(TestConstants.credentials),
           isTrue,
         );
-        expect(TryLogin(credentials) == TryLogin(credentials), isTrue);
+        expect(
+            TryLogin(TestConstants.credentials) ==
+                TryLogin(TestConstants.credentials),
+            isTrue);
         expect(
           LoginFailed(
-                savedData: credentials,
+                savedData: TestConstants.credentials,
                 remember: true,
                 cause: 1,
                 stackTrace: null,
               ) ==
               LoginFailed(
-                savedData: credentials,
+                savedData: TestConstants.credentials,
                 remember: true,
                 cause: 1,
                 stackTrace: null,

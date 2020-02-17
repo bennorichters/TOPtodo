@@ -35,7 +35,7 @@ class TestConstants {
   TestConstants._();
 
   static const credentials = Credentials(
-    url: 'a',
+    url: 'https://your-environment.topdesk.net',
     loginName: 'a',
     password: 'a',
   );
