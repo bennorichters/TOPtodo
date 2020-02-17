@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   state.remember,
                 );
               } else {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
             },
           ),
