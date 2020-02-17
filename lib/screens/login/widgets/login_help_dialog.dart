@@ -26,9 +26,9 @@ class LoginHelpDialog extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
-                        text:
-                            'Fill in the TOPdesk address and your credentials. '
-                            'Note that the '),
+                      text: 'Fill in the TOPdesk address and your credentials. '
+                          'Note that the ',
+                    ),
                     TextSpan(
                       text: 'application password ',
                       style: TextStyle(fontStyle: FontStyle.italic),

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
@@ -7,7 +8,7 @@ import '../../../helper.dart';
 
 void main() {
   group('LoginHelpDialog', () {
-    testWidgets('find link', (WidgetTester tester) async {
+    testWidgets('plain text', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: LoginHelpDialog(),
       ));
@@ -19,6 +20,27 @@ void main() {
         'Note that the application password differs from your normal password. '
         'Read the online documentation for more details.',
       );
+    });
+
+    testWidgets('find link', (WidgetTester tester) async {
+      await tester.pumpWidget(TestableWidgetWithMediaQuery(
+        child: LoginHelpDialog(),
+      ));
+
+      var foundLink = false;
+      final rt = find.byKey(Key(TtdKeys.loginHelpDialogUrlLauncher));
+      tester.widget<RichText>(rt).text.visitChildren((visitor) {
+        if (visitor is TextSpan && visitor.text == 'online documentation ') {
+          foundLink = true;
+
+          /// Calling for code coverage. Not sure how to test this does
+          /// the right thing.
+          (visitor.recognizer as TapGestureRecognizer).onTap();
+        }
+        return true;
+      });
+
+      expect(foundLink, true);
     });
   });
 }
