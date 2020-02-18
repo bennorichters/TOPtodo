@@ -1,8 +1,19 @@
+import 'package:bloc_test/bloc_test.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+
 import 'package:toptodo/blocs/settings/bloc.dart';
+import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../../helper.dart';
+
+class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
+    implements SettingsBloc {}
 
 void main() {
   group('SubcategorySearchList', () {
@@ -17,6 +28,76 @@ void main() {
         find.text('Subcategory (first choose a category)'),
         findsOneWidget,
       );
+      expect(find.byType(TextFormField), findsOneWidget);
+      expect(find.byWidgetPredicate((w) => w is SearchList), findsNothing);
+    });
+
+    testWidgets('with category', (WidgetTester tester) async {
+      final catA = TdCategory(id: 'a', name: 'a');
+      final subAa = TdSubcategory(id: 'aa', name: 'aa', category: catA);
+      final subAb = TdSubcategory(id: 'ab', name: 'ab', category: catA);
+
+      await tester.pumpWidget(TestableWidgetWithMediaQuery(
+        child: SubcategorySearchList(
+          formState: SettingsFormState(
+            tdCategory: catA,
+            tdSubcategories: [subAa, subAb],
+            tdSubcategory: subAa,
+          ),
+        ),
+      ));
+
+      expect(
+        find.text('Subcategory (first choose a category)'),
+        findsNothing,
+      );
+      expect(find.byType(TextFormField), findsNothing);
+      expect(find.byWidgetPredicate((w) => w is SearchList), findsOneWidget);
+    });
+
+    testWidgets('onChangedCallBack', (WidgetTester tester) async {
+      SettingsBloc bloc = MockSettingsBloc();
+
+      final catA = TdCategory(id: 'a', name: 'a');
+      final subAa = TdSubcategory(id: 'aa', name: 'aa', category: catA);
+      final subAb = TdSubcategory(id: 'ab', name: 'ab', category: catA);
+
+      await tester.pumpWidget(TestableWidgetWithMediaQuery(
+        child: BlocProvider.value(
+          value: bloc,
+          child: SubcategorySearchList(
+            formState: SettingsFormState(
+              tdCategory: catA,
+              tdSubcategories: [subAa, subAb],
+              tdSubcategory: subAa,
+            ),
+          ),
+        ),
+      ));
+
+      final dropDown =
+          find.byWidgetPredicate((w) => w is DropdownButton);
+      await tester.tap(dropDown);
+      await tester.pump();
+
+      final items = find.byWidgetPredicate((w) {
+        if (w is DropdownMenuItem) {
+          final child = w.child;
+          if (child is Text) {
+            return child.data == 'ab';
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      });
+
+      // print(tester.getCenter(items.first));
+      // print(tester.getCenter(items.last));
+      await tester.tap(items.last);
+
+      verify(bloc.add(ValueSelected(tdSubcategory: subAb))).called(1);
     });
   });
 }
