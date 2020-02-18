@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
 import 'package:toptodo/widgets/landscape_padding.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
@@ -55,10 +56,10 @@ class SettingsForm extends StatelessWidget {
                   selectedItem: state.formState.tdCategory,
                   onChangedCallBack: (TdCategory newValue) {
                     BlocProvider.of<SettingsBloc>(context)
-                      ..add(ValueSelected(tdCategory: newValue));
+                      .add(ValueSelected(tdCategory: newValue));
                   },
                 ),
-                _SubcategoryWidget(formState: state.formState),
+                SubcategorySearchList(formState: state.formState),
                 SearchList<TdDuration>(
                   name: 'Duration',
                   validationText: 'Choose a Duration',
@@ -66,7 +67,7 @@ class SettingsForm extends StatelessWidget {
                   selectedItem: state.formState.tdDuration,
                   onChangedCallBack: (TdDuration newValue) {
                     BlocProvider.of<SettingsBloc>(context)
-                      ..add(ValueSelected(tdDuration: newValue));
+                      .add(ValueSelected(tdDuration: newValue));
                   },
                 ),
                 SearchField<TdOperator>(
@@ -87,7 +88,7 @@ class SettingsForm extends StatelessWidget {
                       );
                     } else if (_formKey.currentState.validate()) {
                       BlocProvider.of<SettingsBloc>(context)
-                        ..add(SettingsSave());
+                        .add(SettingsSave());
                     }
                   },
                 ),
@@ -108,7 +109,7 @@ class SettingsForm extends StatelessWidget {
       );
 
       BlocProvider.of<SettingsBloc>(context)
-        ..add(ValueSelected(tdBranch: chosenBranch));
+          .add(ValueSelected(tdBranch: chosenBranch));
     };
   }
 
@@ -125,7 +126,7 @@ class SettingsForm extends StatelessWidget {
             );
 
             BlocProvider.of<SettingsBloc>(context)
-              ..add(ValueSelected(tdCaller: chosenCaller));
+                .add(ValueSelected(tdCaller: chosenCaller));
           };
   }
 
@@ -138,39 +139,11 @@ class SettingsForm extends StatelessWidget {
       );
 
       BlocProvider.of<SettingsBloc>(context)
-        ..add(ValueSelected(tdOperator: chosenOperator));
+          .add(ValueSelected(tdOperator: chosenOperator));
     };
   }
 
   void _initNewSearch(BuildContext context) {
-    BlocProvider.of<TdModelSearchBloc>(context)..add(NewSearch());
-  }
-}
-
-class _SubcategoryWidget extends StatelessWidget {
-  const _SubcategoryWidget({this.formState});
-  final SettingsFormState formState;
-
-  @override
-  Widget build(BuildContext context) {
-    if (formState.tdCategory == null) {
-      return TextFormField(
-        enabled: false,
-        decoration: const InputDecoration(
-          labelText: 'Subcategory (first choose a category)',
-        ),
-      );
-    }
-
-    return SearchList<TdSubcategory>(
-      name: 'Subcategory',
-      validationText: 'Choose a subcategory',
-      items: formState.tdSubcategories,
-      selectedItem: formState.tdSubcategory,
-      onChangedCallBack: (TdSubcategory newValue) {
-        BlocProvider.of<SettingsBloc>(context)
-          ..add(ValueSelected(tdSubcategory: newValue));
-      },
-    );
+    BlocProvider.of<TdModelSearchBloc>(context).add(NewSearch());
   }
 }
