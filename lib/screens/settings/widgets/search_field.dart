@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class SearchField<T extends TdModel> extends FormField<T> {
@@ -14,6 +15,7 @@ class SearchField<T extends TdModel> extends FormField<T> {
               child: GestureDetector(
                 onTap: search,
                 child: Row(
+                  key: Key(TtdKeys.searchFieldRow),
                   children: [
                     Expanded(
                       child: Text((value?.name) ?? ''),

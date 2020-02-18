@@ -19,4 +19,6 @@ class TtdKeys {
 
   static const passwordFieldTextFormField = 'password_field_text_form_field';
   static const passwordFieldVisibleButton = 'password_field_visible_button';
+
+  static const searchFieldRow = 'search_field_row';
 }
