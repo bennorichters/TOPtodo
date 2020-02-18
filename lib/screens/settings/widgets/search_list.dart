@@ -26,9 +26,9 @@ class SearchList<T extends TdModel> extends StatelessWidget {
       validator: (T _) => selectedItem == null ? validationText : null,
       onChanged: onChangedCallBack,
       hint: (items == null)
-          ? Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: const SizedBox(
+          ? const Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(),
