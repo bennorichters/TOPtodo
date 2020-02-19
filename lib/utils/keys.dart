@@ -21,4 +21,6 @@ class TtdKeys {
   static const passwordFieldVisibleButton = 'password_field_visible_button';
 
   static const searchFieldRow = 'search_field_row';
+
+  static const searchListItemPrefix = 'search_list_item_';
 }

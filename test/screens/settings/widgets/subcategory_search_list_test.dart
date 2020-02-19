@@ -8,6 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../../helper.dart';
@@ -55,7 +56,7 @@ void main() {
       expect(find.byWidgetPredicate((w) => w is SearchList), findsOneWidget);
     });
 
-    testWidgets('onChangedCallBack', (WidgetTester tester) async {
+    testWidgets('searchListItemPrefix', (WidgetTester tester) async {
       SettingsBloc bloc = MockSettingsBloc();
 
       final catA = TdCategory(id: 'a', name: 'a');
@@ -75,26 +76,14 @@ void main() {
         ),
       ));
 
-      final dropDown =
-          find.byWidgetPredicate((w) => w is DropdownButton);
+      final dropDown = find.byWidgetPredicate((w) => w is DropdownButton);
       await tester.tap(dropDown);
       await tester.pump();
 
-      final items = find.byWidgetPredicate((w) {
-        if (w is DropdownMenuItem) {
-          final child = w.child;
-          if (child is Text) {
-            return child.data == 'ab';
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      });
+      final items =
+          find.byKey(Key(TtdKeys.searchListItemPrefix + 'Subcategory_ab'));
 
-      // print(tester.getCenter(items.first));
-      // print(tester.getCenter(items.last));
+      /// For some reason two items are found, the last one needs to be tapped
       await tester.tap(items.last);
 
       verify(bloc.add(ValueSelected(tdSubcategory: subAb))).called(1);

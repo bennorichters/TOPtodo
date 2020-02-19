@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toptodo/utils/keys.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 class SearchList<T extends TdModel> extends StatelessWidget {
@@ -38,7 +39,12 @@ class SearchList<T extends TdModel> extends StatelessWidget {
       items: items
           ?.map((T tdModel) => DropdownMenuItem<T>(
                 value: tdModel,
-                child: Text(tdModel.name),
+                child: Text(
+                  tdModel.name,
+                  // TODO: dont use name as unique identifier
+                  key: Key(
+                      TtdKeys.searchListItemPrefix + name + '_' + tdModel.id),
+                ),
               ))
           ?.toList(),
     );
