@@ -15,8 +15,9 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
 
   final TdModel _linkedTo;
 
-  static const Widget _emptyQueryText =
-      Center(child: Text('Start typing in the bar at the top'));
+  static const Widget _emptyQueryText = Center(
+    child: Text('Start typing in the bar at the top'),
+  );
 
   @override
   List<Widget> buildActions(BuildContext context) {
