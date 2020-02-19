@@ -84,6 +84,7 @@ void main() {
           find.byKey(Key(TtdKeys.searchListItemPrefix + 'Subcategory_ab'));
 
       /// For some reason two items are found, the last one needs to be tapped
+      /// See: https://github.com/flutter/flutter/issues/5951
       await tester.tap(items.last);
 
       verify(bloc.add(ValueSelected(tdSubcategory: subAb))).called(1);
