@@ -18,8 +18,11 @@ const Map<int, Color> _denimSwatch = <int, Color>{
   800: Color(0xFF064B60),
   900: Color(0xFF043644),
 };
-const MaterialColor materialDenim =
-    MaterialColor(_denimPrimaryValue, _denimSwatch);
+
+const MaterialColor materialDenim = MaterialColor(
+  _denimPrimaryValue,
+  _denimSwatch,
+);
 
 const Color duckEgg = Color(0xFFE0F1E6);
 
