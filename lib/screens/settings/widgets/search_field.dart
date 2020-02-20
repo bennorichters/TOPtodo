@@ -9,7 +9,9 @@ class SearchField<T extends TdModel> extends FormField<T> {
     @required this.label,
     @required this.search,
     @required this.validationText,
+    Key key,
   }) : super(
+          key: key,
           validator: (T _) => value == null ? validationText : null,
           builder: (FormFieldState<T> state) {
             return InputDecorator(
