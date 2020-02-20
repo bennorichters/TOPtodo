@@ -80,12 +80,13 @@ void main() {
       await tester.tap(dropDown);
       await tester.pump();
 
-      final items =
-          find.byKey(Key(TtdKeys.searchListItemPrefix + 'Subcategory_ab'));
+      final item = find
+          .byKey(Key(TtdKeys.searchListItemPrefix + 'Subcategory_ab'))
+          .hitTestable();
 
-      /// For some reason two items are found, the last one needs to be tapped
-      /// See: https://github.com/flutter/flutter/issues/5951
-      await tester.tap(items.last);
+      expect(item, findsOneWidget);
+
+      await tester.tap(item);
 
       verify(bloc.add(ValueSelected(tdSubcategory: subAb))).called(1);
     });
