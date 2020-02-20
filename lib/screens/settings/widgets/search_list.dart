@@ -41,7 +41,6 @@ class SearchList<T extends TdModel> extends StatelessWidget {
                 value: tdModel,
                 child: Text(
                   tdModel.name,
-                  // TODO: dont use name as unique identifier
                   key: Key(
                       TtdKeys.searchListItemPrefix + name + '_' + tdModel.id),
                 ),
