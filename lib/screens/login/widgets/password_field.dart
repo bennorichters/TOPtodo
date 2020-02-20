@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 class PasswordField extends StatefulWidget {
   const PasswordField(this._controller);
@@ -18,7 +18,7 @@ class _PasswordFieldState extends State<PasswordField> {
       children: [
         Expanded(
           child: TextFormField(
-            key: Key(TtdKeys.passwordFieldTextFormField),
+            key: Key(ttd_keys.passwordFieldTextFormField),
             autocorrect: false,
             controller: widget._controller,
             obscureText: _obscured,
@@ -31,7 +31,7 @@ class _PasswordFieldState extends State<PasswordField> {
           ),
         ),
         IconButton(
-          key: Key(TtdKeys.passwordFieldVisibleButton),
+          key: Key(ttd_keys.passwordFieldVisibleButton),
           icon: _obscured
               ? const Icon(Icons.visibility)
               : const Icon(Icons.visibility_off),

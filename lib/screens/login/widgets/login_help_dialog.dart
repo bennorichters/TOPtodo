@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/widgets/dialog_header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,7 +21,7 @@ class LoginHelpDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
               child: RichText(
-                key: Key(TtdKeys.loginHelpDialogUrlLauncher),
+                key: Key(ttd_keys.loginHelpDialogUrlLauncher),
                 text: TextSpan(
                   style: TextStyle(color: Colors.black),
                   children: [

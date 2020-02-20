@@ -8,7 +8,7 @@ import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/screens/login/widgets/credentials_form.dart';
 import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -76,7 +76,7 @@ void main() {
       when(bloc.state).thenReturn(AwaitingCredentials());
       await pumpScreen(tester);
 
-      final helpButton = find.byKey(Key(TtdKeys.loginScreenHelpButton));
+      final helpButton = find.byKey(Key(ttd_keys.loginScreenHelpButton));
       await tester.tap(helpButton);
       await tester.pump();
       expect(find.byType(LoginHelpDialog), findsOneWidget);

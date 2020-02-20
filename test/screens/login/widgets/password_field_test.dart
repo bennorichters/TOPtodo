@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/screens/login/widgets/password_field.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 import '../../../helper.dart';
 
@@ -13,7 +13,7 @@ void main() {
         child: PasswordField(controller),
       ));
 
-      final field = find.byKey(Key(TtdKeys.passwordFieldTextFormField));
+      final field = find.byKey(Key(ttd_keys.passwordFieldTextFormField));
       await tester.enterText(field, 's3Cret!');
 
       expect(controller.text, 's3Cret!');
@@ -35,8 +35,7 @@ void main() {
         child: PasswordField(controller),
       ));
 
-
-      final toggle = find.byKey(Key(TtdKeys.passwordFieldVisibleButton));
+      final toggle = find.byKey(Key(ttd_keys.passwordFieldVisibleButton));
       await tester.tap(toggle);
       await tester.pump();
 

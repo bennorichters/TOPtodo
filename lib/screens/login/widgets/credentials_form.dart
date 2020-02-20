@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo/screens/login/widgets/password_field.dart';
-import 'package:toptodo/utils/keys.dart';
-import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/landscape_padding.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
@@ -30,7 +30,7 @@ class CredentialsForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TdShapeBackground(
       longSide: LongSide.left,
-      color: TdColors.forest100,
+      color: ttd_colors.forest100,
       child: LandscapePadding(
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -39,7 +39,7 @@ class CredentialsForm extends StatelessWidget {
             child: ListView(
               children: [
                 TextFormField(
-                  key: Key(TtdKeys.credentialsFormUrlField),
+                  key: Key(ttd_keys.credentialsFormUrlField),
                   controller: _urlController,
                   autocorrect: false,
                   decoration: const InputDecoration(
@@ -52,7 +52,7 @@ class CredentialsForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TextFormField(
-                  key: Key(TtdKeys.credentialsFormLoginNameField),
+                  key: Key(ttd_keys.credentialsFormLoginNameField),
                   autocorrect: false,
                   controller: _loginNameController,
                   decoration: const InputDecoration(
@@ -67,18 +67,18 @@ class CredentialsForm extends StatelessWidget {
                 Row(
                   children: [
                     Checkbox(
-                      key: Key(TtdKeys.credentialsFormRememberCheckbox),
+                      key: Key(ttd_keys.credentialsFormRememberCheckbox),
                       value: _remember,
                       onChanged: (bool value) =>
                           BlocProvider.of<LoginBloc>(context)
-                            .add(RememberToggle(_createCredentials())),
+                              .add(RememberToggle(_createCredentials())),
                     ),
                     const Text('remember'),
                   ],
                 ),
                 _verticalSpace,
                 TdButton(
-                  key: Key(TtdKeys.credentialsFormLoginButton),
+                  key: Key(ttd_keys.credentialsFormLoginButton),
                   text: 'log in',
                   onTap: () => _connect(
                     context,

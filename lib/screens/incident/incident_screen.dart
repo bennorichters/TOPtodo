@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
-import 'package:toptodo/utils/td_colors.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';
 
@@ -45,7 +45,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
     if (state is IncidentCreated) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: TdColors.moss,
+          backgroundColor: ttd_colors.moss,
           content: Text('Incident created with number ${state.number}'),
         ),
       );

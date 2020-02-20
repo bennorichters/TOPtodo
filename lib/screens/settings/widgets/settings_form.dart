@@ -11,7 +11,7 @@ import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/screens/settings/widgets/td_model_search_delegate.dart';
-import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
 
@@ -26,7 +26,7 @@ class SettingsForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TdShapeBackground(
       longSide: LongSide.right,
-      color: TdColors.duckEgg,
+      color: ttd_colors.duckEgg,
       child: LandscapePadding(
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -56,7 +56,7 @@ class SettingsForm extends StatelessWidget {
                   selectedItem: state.formState.tdCategory,
                   onChangedCallBack: (TdCategory newValue) {
                     BlocProvider.of<SettingsBloc>(context)
-                      .add(ValueSelected(tdCategory: newValue));
+                        .add(ValueSelected(tdCategory: newValue));
                   },
                 ),
                 SubcategorySearchList(formState: state.formState),
@@ -67,7 +67,7 @@ class SettingsForm extends StatelessWidget {
                   selectedItem: state.formState.tdDuration,
                   onChangedCallBack: (TdDuration newValue) {
                     BlocProvider.of<SettingsBloc>(context)
-                      .add(ValueSelected(tdDuration: newValue));
+                        .add(ValueSelected(tdDuration: newValue));
                   },
                 ),
                 SearchField<TdOperator>(
@@ -88,7 +88,7 @@ class SettingsForm extends StatelessWidget {
                       );
                     } else if (_formKey.currentState.validate()) {
                       BlocProvider.of<SettingsBloc>(context)
-                        .add(SettingsSave());
+                          .add(SettingsSave());
                     }
                   },
                 ),

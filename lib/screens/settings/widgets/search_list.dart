@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo_data/toptodo_data.dart';
 
 class SearchList<T extends TdModel> extends StatelessWidget {
@@ -42,7 +42,7 @@ class SearchList<T extends TdModel> extends StatelessWidget {
                 child: Text(
                   tdModel.name,
                   key: Key(
-                      TtdKeys.searchListItemPrefix + name + '_' + tdModel.id),
+                      ttd_keys.searchListItemPrefix + name + '_' + tdModel.id),
                 ),
               ))
           ?.toList(),

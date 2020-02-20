@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -55,7 +55,7 @@ void main() {
       );
 
       final remember = find.byKey(
-        Key(TtdKeys.credentialsFormRememberCheckbox),
+        Key(ttd_keys.credentialsFormRememberCheckbox),
       );
 
       expect(tester.widget<Checkbox>(remember).value, false);
@@ -71,7 +71,7 @@ void main() {
       );
 
       final remember = find.byKey(
-        Key(TtdKeys.credentialsFormRememberCheckbox),
+        Key(ttd_keys.credentialsFormRememberCheckbox),
       );
 
       expect(tester.widget<Checkbox>(remember).value, true);
@@ -87,7 +87,7 @@ void main() {
       );
 
       final remember = find.byKey(
-        Key(TtdKeys.credentialsFormRememberCheckbox),
+        Key(ttd_keys.credentialsFormRememberCheckbox),
       );
       await tester.tap(remember);
 
@@ -104,7 +104,7 @@ void main() {
       );
 
       final button = find.byKey(
-        Key(TtdKeys.credentialsFormLoginButton),
+        Key(ttd_keys.credentialsFormLoginButton),
       );
 
       await tester.tap(button);

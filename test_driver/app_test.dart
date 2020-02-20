@@ -1,6 +1,6 @@
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 void main() {
   group('TopToDo App', () {
@@ -19,7 +19,7 @@ void main() {
     test('error messages when nothing filled in', () async {
       await Future.delayed(Duration(milliseconds: 500));
 
-      final buttonFinder = find.byValueKey(TtdKeys.credentialsFormLoginButton);
+      final buttonFinder = find.byValueKey(ttd_keys.credentialsFormLoginButton);
       await driver.tap(buttonFinder);
 
       const urlMsg = 'fill in the url of your TOPdesk environment';
@@ -33,16 +33,16 @@ void main() {
     });
 
     test('succesfull login after filling in fields', () async {
-      await driver.tap(find.byValueKey(TtdKeys.credentialsFormUrlField));
+      await driver.tap(find.byValueKey(ttd_keys.credentialsFormUrlField));
       await driver.enterText('theurl');
 
-      await driver.tap(find.byValueKey(TtdKeys.credentialsFormLoginNameField));
+      await driver.tap(find.byValueKey(ttd_keys.credentialsFormLoginNameField));
       await driver.enterText('dawnm');
 
-      await driver.tap(find.byValueKey(TtdKeys.passwordFieldTextFormField));
+      await driver.tap(find.byValueKey(ttd_keys.passwordFieldTextFormField));
       await driver.enterText('s3cRet!');
 
-      final buttonFinder = find.byValueKey(TtdKeys.credentialsFormLoginButton);
+      final buttonFinder = find.byValueKey(ttd_keys.credentialsFormLoginButton);
       await driver.tap(buttonFinder);
     });
   });

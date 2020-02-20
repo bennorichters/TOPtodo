@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
-import 'package:toptodo/utils/keys.dart';
-import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/landscape_padding.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
@@ -21,7 +21,7 @@ class IncidentForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TdShapeBackground(
       longSide: LongSide.bottom,
-      color: TdColors.squash,
+      color: ttd_colors.squash,
       child: LandscapePadding(
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -30,7 +30,7 @@ class IncidentForm extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  key: Key(TtdKeys.incidentBriefDescriptionField),
+                  key: Key(ttd_keys.incidentBriefDescriptionField),
                   controller: _briefDescription,
                   decoration: InputDecoration(labelText: 'Brief description'),
                   validator: (value) =>
@@ -38,7 +38,7 @@ class IncidentForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TextFormField(
-                  key: Key(TtdKeys.incidentRequestField),
+                  key: Key(ttd_keys.incidentRequestField),
                   controller: _request,
                   decoration: InputDecoration(labelText: 'Request'),
                   maxLength: null,
@@ -48,7 +48,7 @@ class IncidentForm extends StatelessWidget {
                 (state is IncidentSubmitted)
                     ? CircularProgressIndicator()
                     : TdButton(
-                        key: Key(TtdKeys.incidentSubmitButton),
+                        key: Key(ttd_keys.incidentSubmitButton),
                         text: 'submit',
                         onTap: () {
                           if (_formKey.currentState.validate()) {

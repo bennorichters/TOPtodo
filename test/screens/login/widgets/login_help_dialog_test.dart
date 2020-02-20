@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 import '../../../helper.dart';
 
@@ -13,7 +13,7 @@ void main() {
         child: LoginHelpDialog(),
       ));
 
-      final txt = find.byKey(Key(TtdKeys.loginHelpDialogUrlLauncher));
+      final txt = find.byKey(Key(ttd_keys.loginHelpDialogUrlLauncher));
       expect(
         tester.widget<RichText>(txt).text.toPlainText(),
         'Fill in the TOPdesk address and your credentials. '
@@ -28,7 +28,7 @@ void main() {
       ));
 
       var foundLink = false;
-      final rt = find.byKey(Key(TtdKeys.loginHelpDialogUrlLauncher));
+      final rt = find.byKey(Key(ttd_keys.loginHelpDialogUrlLauncher));
       tester.widget<RichText>(rt).text.visitChildren((visitor) {
         if (visitor is TextSpan && visitor.text == 'online documentation ') {
           foundLink = true;

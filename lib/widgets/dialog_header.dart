@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 
 class DialogHeader extends StatelessWidget {
   @override
@@ -17,7 +17,7 @@ class DialogHeader extends StatelessWidget {
           child: Text(
             'TOPtodo',
             style: TextStyle(
-              color: TdColors.materialDenim,
+              color: ttd_colors.materialDenim,
               fontFamily: 'BreeSerif',
               fontSize: 18,
             ),

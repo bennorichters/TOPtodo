@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
-import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/td_shape.dart';
 
 class InitDataProgress extends StatelessWidget {
@@ -15,7 +14,7 @@ class InitDataProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TdShapeBackground(
-      color: TdColors.duckEgg,
+      color: ttd_colors.duckEgg,
       longSide: LongSide.top,
       child: Center(
         child: Table(
@@ -78,7 +77,7 @@ class InitDataProgress extends StatelessWidget {
               ? CircularProgressIndicator()
               : Icon(
                   Icons.done,
-                  color: TdColors.moss,
+                  color: ttd_colors.moss,
                 ),
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/widgets/settings_form.dart';
-import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
@@ -63,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ? SettingsForm(state)
                 : const TdShapeBackground(
                     longSide: LongSide.right,
-                    color: TdColors.duckEgg,
+                    color: ttd_colors.duckEgg,
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),

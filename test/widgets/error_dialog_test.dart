@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -22,7 +22,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('test_open_error_dialog')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(Key(TtdKeys.errorDialogOkButton)));
+    await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
     await tester.pumpAndSettle();
 
     expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
@@ -45,7 +45,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('test_open_error_dialog')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(Key(TtdKeys.errorDialogOkButton)));
+    await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
     await tester.pumpAndSettle();
 
     expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);

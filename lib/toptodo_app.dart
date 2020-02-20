@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptodo/utils/td_colors.dart';
+import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import 'blocs/all_blocs.dart';
@@ -83,7 +83,7 @@ class _TopToDoAppState extends State<TopToDoApp> {
           );
         },
         theme: ThemeData(
-          primarySwatch: TdColors.materialDenim,
+          primarySwatch: ttd_colors.materialDenim,
           fontFamily: 'OpenSans',
           appBarTheme: const AppBarTheme(
             textTheme: TextTheme(

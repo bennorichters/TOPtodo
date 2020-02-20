@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 import '../../../helper.dart';
 
@@ -47,7 +47,7 @@ void main() {
           currentOperator: TestConstants.currentOperator,
         ),
       );
-      expect(find.byKey(Key(TtdKeys.incidentSubmitButton)), findsOneWidget);
+      expect(find.byKey(Key(ttd_keys.incidentSubmitButton)), findsOneWidget);
     });
 
     testWidgets('find no button when submitting', (WidgetTester tester) async {
@@ -57,7 +57,7 @@ void main() {
           currentOperator: TestConstants.currentOperator,
         ),
       );
-      expect(find.byKey(Key(TtdKeys.incidentSubmitButton)), findsNothing);
+      expect(find.byKey(Key(ttd_keys.incidentSubmitButton)), findsNothing);
     });
 
     testWidgets('tap button', (WidgetTester tester) async {
@@ -70,14 +70,14 @@ void main() {
       );
 
       await tester.enterText(
-        find.byKey(Key(TtdKeys.incidentBriefDescriptionField)),
+        find.byKey(Key(ttd_keys.incidentBriefDescriptionField)),
         'todo',
       );
       await tester.enterText(
-        find.byKey(Key(TtdKeys.incidentRequestField)),
+        find.byKey(Key(ttd_keys.incidentRequestField)),
         'more text',
       );
-      await tester.tap(find.byKey(Key(TtdKeys.incidentSubmitButton)));
+      await tester.tap(find.byKey(Key(ttd_keys.incidentSubmitButton)));
       await tester.pumpAndSettle();
 
       verify(bloc.add(

@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
-import 'package:toptodo/utils/keys.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../../helper.dart';
@@ -81,7 +81,7 @@ void main() {
       await tester.pump();
 
       final item = find
-          .byKey(Key(TtdKeys.searchListItemPrefix + 'Subcategory_ab'))
+          .byKey(Key(ttd_keys.searchListItemPrefix + 'Subcategory_ab'))
           .hitTestable();
 
       expect(item, findsOneWidget);
