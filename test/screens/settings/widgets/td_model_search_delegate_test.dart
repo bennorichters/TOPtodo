@@ -59,84 +59,73 @@ void main() {
       expect(find.text('Start typing in the bar at the top'), findsOneWidget);
     });
 
-    testWidgets('buildResults with query', (WidgetTester tester) async {
-      TdModelSearchBloc bloc = MockTdModelSearchBloc();
-      when(bloc.state).thenReturn(TdModelSearchInitialState());
+    group('with bloc', () {
+      TdModelSearchBloc bloc;
+      setUp(() {
+        bloc = MockTdModelSearchBloc();
+      });
 
-      final delegate = _DelegateWrapper.create();
-      delegate.query = 'x';
+      tearDown(() {
+        bloc.close();
+      });
 
-      await tester.pumpWidget(BlocProvider.value(
-        value: bloc,
-        child: TestableWidgetWithMediaQuery(
-          child: Builder(
-            builder: (context) => delegate.buildResults(context),
+      void pumpBuilder(
+        WidgetTester tester,
+        TdModelSearchDelegate delegate,
+      ) async {
+        await tester.pumpWidget(BlocProvider.value(
+          value: bloc,
+          child: TestableWidgetWithMediaQuery(
+            child: Builder(
+              builder: (context) => delegate.buildResults(context),
+            ),
           ),
-        ),
-      ));
+        ));
+      }
 
-      verify(bloc.add(SearchFinishedQuery(
-        linkedTo: null,
-        query: 'x',
-      ))).called(1);
-      expect(find.text('Start typing in the bar at the top'), findsOneWidget);
-    });
+      testWidgets('buildResults with query', (WidgetTester tester) async {
+        when(bloc.state).thenReturn(TdModelSearchInitialState());
 
-    testWidgets('TdModelSearching', (WidgetTester tester) async {
-      TdModelSearchBloc bloc = MockTdModelSearchBloc();
-      when(bloc.state).thenReturn(TdModelSearching());
+        final delegate = _DelegateWrapper.create()..query = 'x';
+        await pumpBuilder(tester, delegate);
 
-      final delegate = TdModelSearchDelegate.allBranches();
-      delegate.query = 'x';
-      await tester.pumpWidget(BlocProvider.value(
-        value: bloc,
-        child: TestableWidgetWithMediaQuery(
-          child: Builder(
-            builder: (context) => delegate.buildResults(context),
-          ),
-        ),
-      ));
+        verify(bloc.add(SearchFinishedQuery(
+          linkedTo: null,
+          query: 'x',
+        ))).called(1);
+        expect(find.text('Start typing in the bar at the top'), findsOneWidget);
+      });
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
+      testWidgets('TdModelSearching', (WidgetTester tester) async {
+        when(bloc.state).thenReturn(TdModelSearching());
 
-    testWidgets('TdModelSearchResults no results', (WidgetTester tester) async {
-      TdModelSearchBloc bloc = MockTdModelSearchBloc();
-      when(bloc.state).thenReturn(TdModelSearchResults(<TdBranch>[]));
+        final delegate = TdModelSearchDelegate.allBranches()..query = 'x';
+        await pumpBuilder(tester, delegate);
 
-      final delegate = TdModelSearchDelegate.allBranches();
-      delegate.query = 'x';
-      await tester.pumpWidget(BlocProvider.value(
-        value: bloc,
-        child: TestableWidgetWithMediaQuery(
-          child: Builder(
-            builder: (context) => delegate.buildResults(context),
-          ),
-        ),
-      ));
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      });
 
-      expect(find.text("No results for 'x'"), findsOneWidget);
-    });
+      testWidgets('TdModelSearchResults no results',
+          (WidgetTester tester) async {
+        when(bloc.state).thenReturn(TdModelSearchResults(<TdBranch>[]));
 
-    testWidgets('TdModelSearchResults with results',
-        (WidgetTester tester) async {
-      TdModelSearchBloc bloc = MockTdModelSearchBloc();
-      when(bloc.state).thenReturn(TdModelSearchResults([
-        TestConstants.branch,
-      ]));
+        final delegate = TdModelSearchDelegate.allBranches()..query = 'x';
+        await pumpBuilder(tester, delegate);
 
-      final delegate = TdModelSearchDelegate.allBranches();
-      delegate.query = 'x';
-      await tester.pumpWidget(BlocProvider.value(
-        value: bloc,
-        child: TestableWidgetWithMediaQuery(
-          child: Builder(
-            builder: (context) => delegate.buildResults(context),
-          ),
-        ),
-      ));
+        expect(find.text("No results for 'x'"), findsOneWidget);
+      });
 
-      expect(find.text(TestConstants.branch.name), findsOneWidget);
+      testWidgets('TdModelSearchResults with results',
+          (WidgetTester tester) async {
+        when(bloc.state).thenReturn(TdModelSearchResults([
+          TestConstants.branch,
+        ]));
+
+        final delegate = TdModelSearchDelegate.allBranches()..query = 'x';
+        await pumpBuilder(tester, delegate);
+
+        expect(find.text(TestConstants.branch.name), findsOneWidget);
+      });
     });
   });
 }
