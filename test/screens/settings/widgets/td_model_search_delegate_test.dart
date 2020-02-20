@@ -65,19 +65,15 @@ void main() {
         bloc = MockTdModelSearchBloc();
       });
 
-      tearDown(() {
-        bloc.close();
-      });
+      final buildResults = (SearchDelegate delegate) =>
+          (BuildContext context) => delegate.buildResults(context);
 
-      void pumpBuilder(
-        WidgetTester tester,
-        TdModelSearchDelegate delegate,
-      ) async {
+      void pumpBuilder(WidgetTester tester, SearchDelegate delegate) async {
         await tester.pumpWidget(BlocProvider.value(
           value: bloc,
           child: TestableWidgetWithMediaQuery(
             child: Builder(
-              builder: (context) => delegate.buildResults(context),
+              builder: buildResults(delegate),
             ),
           ),
         ));
