@@ -79,7 +79,7 @@ void main() {
           String key,
           SettingsFormState state,
           TdModel itemToChoose,
-          ValueSelected event,
+          ValueSelected expectedEvent,
         }) async {
           await pumpForm(tester, state);
 
@@ -92,7 +92,7 @@ void main() {
           final item =
               find.byKey(Key(key + '_' + itemToChoose.id)).hitTestable();
           await tester.tap(item);
-          verify(settingsBloc.add(event)).called(1);
+          verify(settingsBloc.add(expectedEvent)).called(1);
         }
 
         testWidgets(
@@ -127,7 +127,9 @@ void main() {
                     ],
                   ),
                   itemToChoose: test_constants.categoryB,
-                  event: ValueSelected(tdCategory: test_constants.categoryB),
+                  expectedEvent: ValueSelected(
+                    tdCategory: test_constants.categoryB,
+                  ),
                 ));
 
         testWidgets(
@@ -143,7 +145,9 @@ void main() {
                     ],
                   ),
                   itemToChoose: test_constants.durationB,
-                  event: ValueSelected(tdDuration: test_constants.durationB),
+                  expectedEvent: ValueSelected(
+                    tdDuration: test_constants.durationB,
+                  ),
                 ));
       });
 
