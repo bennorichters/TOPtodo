@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
+import 'package:toptodo/constants/colors.dart' as ttd_colors;
 
 class DialogHeader extends StatelessWidget {
   @override

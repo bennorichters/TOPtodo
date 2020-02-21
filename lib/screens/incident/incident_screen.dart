@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
-import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
+import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';

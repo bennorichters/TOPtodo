@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
-import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
+import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/screens/login/widgets/password_field.dart';
 import 'package:toptodo/widgets/landscape_padding.dart';
 import 'package:toptodo/widgets/td_button.dart';

@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
+import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/td_shape.dart';
 
 void main() {

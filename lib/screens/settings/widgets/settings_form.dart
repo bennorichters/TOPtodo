@@ -7,7 +7,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
-import 'package:toptodo/constants/td_colors.dart' as ttd_colors;
+import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
