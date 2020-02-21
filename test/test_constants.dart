@@ -21,6 +21,10 @@ const branchA = TdBranch(id: 'a', name: 'a');
 const branchB = TdBranch(id: 'b', name: 'b');
 const branchC = TdBranch(id: 'c', name: 'c');
 
+const categoryA = TdCategory(id: 'a', name: 'a');
+const categoryB = TdCategory(id: 'b', name: 'b');
+const categoryC = TdCategory(id: 'c', name: 'c');
+
 const currentOperator = TdOperator(
   id: 'a',
   name: 'a',

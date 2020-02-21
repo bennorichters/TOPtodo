@@ -80,9 +80,8 @@ void main() {
       await tester.tap(dropDown);
       await tester.pump();
 
-      final item = find
-          .byKey(Key(ttd_keys.searchListItemPrefix + 'Subcategory_ab'))
-          .hitTestable();
+      final item =
+          find.byKey(Key(ttd_keys.subcategorySearchList + '_ab')).hitTestable();
 
       expect(item, findsOneWidget);
 

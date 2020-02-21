@@ -43,6 +43,7 @@ class SettingsForm extends StatelessWidget {
                   validationText: 'Choose a branch',
                 ),
                 SearchField<TdCaller>(
+                  key: Key(ttd_keys.settingsFormSearchFieldCaller),
                   value: state.formState.tdCaller,
                   label: 'Caller' +
                       (state.formState.tdBranch == null
@@ -52,6 +53,7 @@ class SettingsForm extends StatelessWidget {
                   validationText: 'Choose a caller',
                 ),
                 SearchList<TdCategory>(
+                  key: Key(ttd_keys.settingsFormSearchFieldCategory),
                   name: 'Category',
                   validationText: 'Choose a Category',
                   items: state.formState.tdCategories,
@@ -63,6 +65,7 @@ class SettingsForm extends StatelessWidget {
                 ),
                 SubcategorySearchList(formState: state.formState),
                 SearchList<TdDuration>(
+                  key: Key(ttd_keys.settingsFormSearchFieldDuration),
                   name: 'Duration',
                   validationText: 'Choose a Duration',
                   items: state.formState.tdDurations,
@@ -73,6 +76,7 @@ class SettingsForm extends StatelessWidget {
                   },
                 ),
                 SearchField<TdOperator>(
+                  key: Key(ttd_keys.settingsFormSearchFieldOperator),
                   label: 'Operator',
                   value: state.formState.tdOperator,
                   search: _searchOperator(context),

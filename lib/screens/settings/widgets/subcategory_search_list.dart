@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -20,6 +21,7 @@ class SubcategorySearchList extends StatelessWidget {
     }
 
     return SearchList<TdSubcategory>(
+      key: Key(ttd_keys.subcategorySearchList),
       name: 'Subcategory',
       validationText: 'Choose a subcategory',
       items: formState.tdSubcategories,

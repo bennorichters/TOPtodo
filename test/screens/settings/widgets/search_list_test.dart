@@ -13,6 +13,7 @@ void main() {
     testWidgets('find label', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchList<TdBranch>(
+          key: Key('testing'),
           name: 'name',
           validationText: 'validation',
         ),
@@ -25,6 +26,7 @@ void main() {
     testWidgets('with items', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchList<TdBranch>(
+          key: Key('testing'),
           name: 'name',
           validationText: 'validation',
           items: [
@@ -46,6 +48,7 @@ void main() {
         child: Form(
           key: formKey,
           child: SearchList<TdBranch>(
+            key: Key('testing'),
             name: 'name',
             validationText: 'validation',
             items: [

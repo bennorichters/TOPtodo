@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo_data/toptodo_data.dart';
 
 class SearchList<T extends TdModel> extends StatelessWidget {
   const SearchList({
+    @required this.key,
     @required this.name,
     @required this.validationText,
     this.items,
     this.selectedItem,
     this.onChangedCallBack,
-  });
+  }) : super(key: key);
 
   final String name;
   final String validationText;
   final Iterable<T> items;
   final T selectedItem;
   final ValueChanged<T> onChangedCallBack;
+
+  @override
+  final ValueKey<String> key;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +44,7 @@ class SearchList<T extends TdModel> extends StatelessWidget {
                 value: tdModel,
                 child: Text(
                   tdModel.name,
-                  key: Key(
-                      ttd_keys.searchListItemPrefix + name + '_' + tdModel.id),
+                  key: Key(key.value + '_' + tdModel.id),
                 ),
               ))
           ?.toList(),

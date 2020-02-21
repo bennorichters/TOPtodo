@@ -21,14 +21,6 @@ class MockTdModelSearchBloc
 
 void main() {
   group('SettingsForm', () {
-    SettingsBloc settingsBloc;
-    TdModelSearchBloc searchBloc;
-
-    setUp(() {
-      settingsBloc = MockSettingsBloc();
-      searchBloc = MockTdModelSearchBloc();
-    });
-
     testWidgets('basics', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SettingsForm(UpdatedSettingsForm(
@@ -40,28 +32,87 @@ void main() {
       expect(find.text('Caller (first choose a branch)'), findsOneWidget);
     });
 
-    testWidgets('tapping branch', (WidgetTester tester) async {
-      await tester.pumpWidget(MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: searchBloc),
-          BlocProvider.value(value: settingsBloc),
-        ],
-        child: TestableWidgetWithMediaQuery(
-          child: SettingsForm(UpdatedSettingsForm(
-            currentOperator: test_constants.currentOperator,
-            formState: SettingsFormState(),
-          )),
-        ),
-      ));
+    group('tap', () {
+      SettingsBloc settingsBloc;
+      TdModelSearchBloc searchBloc;
 
-      await tester.tap(find.descendant(
-        of: find.byKey(Key(ttd_keys.settingsFormSearchFieldBranch)),
-        matching: find.byType(Row),
-      ));
-      verify(searchBloc.add(NewSearch())).called(1);
-      await tester.pumpAndSettle();
-      await tester.tap(find.byIcon(Icons.arrow_back));
-      verify(settingsBloc.add(ValueSelected(tdBranch: null))).called(1);
+      setUp(() {
+        settingsBloc = MockSettingsBloc();
+        searchBloc = MockTdModelSearchBloc();
+      });
+
+      void pumpForm(WidgetTester tester, SettingsFormState state) async {
+        await tester.pumpWidget(MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: searchBloc),
+            BlocProvider.value(value: settingsBloc),
+          ],
+          child: TestableWidgetWithMediaQuery(
+            child: SettingsForm(UpdatedSettingsForm(
+              currentOperator: test_constants.currentOperator,
+              formState: state,
+            )),
+          ),
+        ));
+      }
+
+      void tapSearchField(
+        WidgetTester tester,
+        String key, [
+        SettingsFormState state = const SettingsFormState(),
+      ]) async {
+        await pumpForm(tester, state);
+        await tester.tap(find.descendant(
+          of: find.byKey(Key(key)),
+          matching: find.byType(Row),
+        ));
+        verify(searchBloc.add(NewSearch())).called(1);
+        await tester.pumpAndSettle();
+        await tester.tap(find.byIcon(Icons.arrow_back));
+        verify(settingsBloc.add(ValueSelected())).called(1);
+      }
+
+      void tapSearchList(
+        WidgetTester tester,
+        String key,
+        SettingsFormState state,
+      ) async {
+        await pumpForm(tester, state);
+        await tester.tap(find.byKey(Key(key)));
+      }
+
+      testWidgets(
+          'branch',
+          (WidgetTester tester) async =>
+              tapSearchField(tester, ttd_keys.settingsFormSearchFieldBranch));
+
+      testWidgets(
+        'caller',
+        (WidgetTester tester) async => tapSearchField(
+          tester,
+          ttd_keys.settingsFormSearchFieldCaller,
+          SettingsFormState(tdBranch: test_constants.branchA),
+        ),
+      );
+
+      testWidgets(
+          'operator',
+          (WidgetTester tester) async =>
+              tapSearchField(tester, ttd_keys.settingsFormSearchFieldOperator));
+
+      testWidgets('category', (WidgetTester tester) async {
+        tapSearchList(
+          tester,
+          ttd_keys.settingsFormSearchFieldCategory,
+          SettingsFormState(
+            tdCategories: [
+              test_constants.categoryA,
+              test_constants.categoryB,
+              test_constants.categoryC,
+            ],
+          ),
+        );
+      });
     });
   });
 }
