@@ -18,8 +18,6 @@ const loginScreenHelpButton = 'login_screen_help_button';
 const passwordFieldTextFormField = 'password_field_text_form_field';
 const passwordFieldVisibleButton = 'password_field_visible_button';
 
-const searchFieldRow = 'search_field_row';
-
 const searchListItemPrefix = 'search_list_item_';
 
 const settingsFormSearchFieldBranch = 'settings_from_search_field_branch';

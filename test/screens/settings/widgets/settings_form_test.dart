@@ -13,11 +13,11 @@ class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
 
 void main() {
   group('SettingsForm', () {
-    SettingsBloc bloc;
+    // SettingsBloc bloc;
 
-    setUp(() {
-      bloc = MockSettingsBloc();
-    });
+    // setUp(() {
+    //   bloc = MockSettingsBloc();
+    // });
 
     testWidgets('basics', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(

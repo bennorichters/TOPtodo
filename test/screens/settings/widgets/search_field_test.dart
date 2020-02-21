@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
-import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -48,7 +47,7 @@ void main() {
 
       expect(hasSearched, isFalse);
 
-      final findRow = find.byKey(Key(ttd_keys.searchFieldRow));
+      final findRow = find.byType(Row);
       await tester.tap(findRow);
       await tester.pump();
 
