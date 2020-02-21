@@ -22,15 +22,15 @@ void main() {
     });
 
     testWidgets('with items', (WidgetTester tester) async {
-      final branchA = TestConstants.branch;
-      final branchB = TdBranch(id: 'b', name: 'b');
-      final branchC = TdBranch(id: 'c', name: 'c');
-
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchList<TdBranch>(
           name: 'name',
           validationText: 'validation',
-          items: [branchA, branchB, branchC],
+          items: [
+            TestConstants.branchA,
+            TestConstants.branchB,
+            TestConstants.branchC,
+          ],
         ),
       ));
 
@@ -40,10 +40,6 @@ void main() {
 
     testWidgets('with items - nothing selected - show validation text',
         (WidgetTester tester) async {
-      final branchA = TestConstants.branch;
-      final branchB = TdBranch(id: 'b', name: 'b');
-      final branchC = TdBranch(id: 'c', name: 'c');
-
       final formKey = GlobalKey<FormState>();
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: Form(
@@ -51,7 +47,11 @@ void main() {
           child: SearchList<TdBranch>(
             name: 'name',
             validationText: 'validation',
-            items: [branchA, branchB, branchC],
+            items: [
+              TestConstants.branchA,
+              TestConstants.branchB,
+              TestConstants.branchC,
+            ],
           ),
         ),
       ));
@@ -59,6 +59,19 @@ void main() {
       expect(formKey.currentState.validate(), isFalse);
       await tester.pump();
       expect(find.text('validation'), findsOneWidget);
+    });
+
+    testWidgets('search', (WidgetTester tester) async {
+      await tester.pumpWidget(TestableWidgetWithMediaQuery(
+        child: SearchList<TdBranch>(
+          name: 'name',
+          validationText: 'validation',
+          items: [TestConstants.branchA],
+        ),
+      ));
+
+      expect(find.text('name'), findsNothing);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
   });
 }

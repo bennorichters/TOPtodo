@@ -24,7 +24,7 @@ void main() {
     testWidgets('find value', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchField<TdBranch>(
-          value: TestConstants.branch,
+          value: TestConstants.branchA,
           label: 'label',
           validationText: 'validation',
           search: () {},
@@ -34,11 +34,11 @@ void main() {
       expect(find.text('a'), findsOneWidget);
     });
 
-    testWidgets('click row', (WidgetTester tester) async {
+    testWidgets('tap row triggers search', (WidgetTester tester) async {
       var hasSearched = false;
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchField<TdBranch>(
-          value: TestConstants.branch,
+          value: TestConstants.branchA,
           label: 'label',
           validationText: 'validation',
           search: () => hasSearched = true,
@@ -60,7 +60,7 @@ void main() {
         child: Form(
           key: formKey,
           child: SearchField<TdBranch>(
-            value: TestConstants.branch,
+            value: TestConstants.branchA,
             label: 'label',
             validationText: 'validation',
             search: () {},

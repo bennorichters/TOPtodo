@@ -49,7 +49,9 @@ class TestConstants {
     tdOperatorId: 'a',
   );
 
-  static const branch = TdBranch(id: 'a', name: 'a');
+  static const branchA = TdBranch(id: 'a', name: 'a');
+  static const branchB = TdBranch(id: 'b', name: 'b');
+  static const branchC = TdBranch(id: 'c', name: 'c');
 
   static const currentOperator = TdOperator(
     id: 'a',

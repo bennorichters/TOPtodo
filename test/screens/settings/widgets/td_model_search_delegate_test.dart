@@ -84,7 +84,7 @@ void main() {
 
     testWidgets('callersForBranch', (WidgetTester tester) async {
       final delegate = TdModelSearchDelegate.callersForBranch(
-        branch: TestConstants.branch,
+        branch: TestConstants.branchA,
       );
 
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
@@ -223,16 +223,16 @@ void main() {
           _DelegateBuilder delegateBuilder,
         ) async {
           when(bloc.state).thenReturn(TdModelSearchResults([
-            TestConstants.branch,
+            TestConstants.branchA,
           ]));
 
           final delegate = _DelegateWrapper.create()..query = 'x';
           await pumpBuilder(tester, delegate, delegateBuilder);
 
-          final result = find.text(TestConstants.branch.name);
+          final result = find.text(TestConstants.branchA.name);
           expect(result, findsOneWidget);
           await tester.tap(result);
-          expect(delegate.chosen, TestConstants.branch);
+          expect(delegate.chosen, TestConstants.branchA);
         });
       });
 
