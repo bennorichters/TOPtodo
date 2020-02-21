@@ -60,18 +60,5 @@ void main() {
       await tester.pump();
       expect(find.text('validation'), findsOneWidget);
     });
-
-    testWidgets('search', (WidgetTester tester) async {
-      await tester.pumpWidget(TestableWidgetWithMediaQuery(
-        child: SearchList<TdBranch>(
-          name: 'name',
-          validationText: 'validation',
-          items: [TestConstants.branchA],
-        ),
-      ));
-
-      expect(find.text('name'), findsNothing);
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
   });
 }
