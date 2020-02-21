@@ -40,7 +40,7 @@ void main() {
       expect(find.text('Caller (first choose a branch)'), findsOneWidget);
     });
 
-    testWidgets('tapping', (WidgetTester tester) async {
+    testWidgets('tapping branch', (WidgetTester tester) async {
       await tester.pumpWidget(MultiBlocProvider(
         providers: [
           BlocProvider.value(value: searchBloc),
@@ -54,12 +54,14 @@ void main() {
         ),
       ));
 
-      final branch = find.byKey(Key(ttd_keys.settingsFormSearchFieldBranch));
-      final row = find.descendant(of: branch, matching: find.byType(Row));
-      await tester.tap(row);
-
+      await tester.tap(find.descendant(
+        of: find.byKey(Key(ttd_keys.settingsFormSearchFieldBranch)),
+        matching: find.byType(Row),
+      ));
       verify(searchBloc.add(NewSearch())).called(1);
-      // TODO: test search result
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.arrow_back));
+      verify(settingsBloc.add(ValueSelected(tdBranch: null))).called(1);
     });
   });
 }
