@@ -6,7 +6,8 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/settings/widgets/settings_form.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
     implements SettingsBloc {}
@@ -22,7 +23,7 @@ void main() {
     testWidgets('basics', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SettingsForm(UpdatedSettingsForm(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
           formState: SettingsFormState(),
         )),
       ));
@@ -33,7 +34,7 @@ void main() {
     testWidgets('tapping', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SettingsForm(UpdatedSettingsForm(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
           formState: SettingsFormState(),
         )),
       ));

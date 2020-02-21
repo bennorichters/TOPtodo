@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/screens/login/widgets/login_help_dialog.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
 
 void main() {
   group('LoginHelpDialog', () {

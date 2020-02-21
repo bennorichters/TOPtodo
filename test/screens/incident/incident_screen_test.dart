@@ -9,7 +9,8 @@ import 'package:toptodo/screens/incident/widgets/incident_form.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';
 
-import '../../helper.dart';
+import '../../test_helper.dart';
+import '../../test_constants.dart' as test_constants;
 
 class MockIncidentBloc extends MockBloc<IncidentEvent, IncidentState>
     implements IncidentBloc {}
@@ -50,7 +51,7 @@ void main() {
 
     testWidgets('with current operator', (WidgetTester tester) async {
       when(bloc.state).thenReturn(IncidentState(
-        currentOperator: TestConstants.currentOperator,
+        currentOperator: test_constants.currentOperator,
       ));
 
       await pumpScreen(tester);

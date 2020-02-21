@@ -4,7 +4,8 @@ import 'package:toptodo/screens/settings/widgets/search_field.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 void main() {
   group('SearchField', () {
@@ -24,7 +25,7 @@ void main() {
     testWidgets('find value', (WidgetTester tester) async {
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchField<TdBranch>(
-          value: TestConstants.branchA,
+          value: test_constants.branchA,
           label: 'label',
           validationText: 'validation',
           search: () {},
@@ -38,7 +39,7 @@ void main() {
       var hasSearched = false;
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
         child: SearchField<TdBranch>(
-          value: TestConstants.branchA,
+          value: test_constants.branchA,
           label: 'label',
           validationText: 'validation',
           search: () => hasSearched = true,
@@ -60,7 +61,7 @@ void main() {
         child: Form(
           key: formKey,
           child: SearchField<TdBranch>(
-            value: TestConstants.branchA,
+            value: test_constants.branchA,
             label: 'label',
             validationText: 'validation',
             search: () {},

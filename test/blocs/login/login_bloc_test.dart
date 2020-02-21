@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../../helper.dart';
+import '../../test_constants.dart' as test_constants;
 
 class MockCredentialsProvider extends Mock implements CredentialsProvider {}
 
@@ -21,7 +21,7 @@ void main() {
 
     CredentialsProvider withCredentials = MockCredentialsProvider();
     when(withCredentials.provide())
-        .thenAnswer((_) => Future.value(TestConstants.credentials));
+        .thenAnswer((_) => Future.value(test_constants.credentials));
 
     group('basic flow', () {
       blocTest<LoginBloc, LoginEvent, LoginState>(
@@ -60,7 +60,7 @@ void main() {
         act: (LoginBloc bloc) async => bloc.add(CredentialsInit()),
         expect: [
           AwaitingCredentials(),
-          RetrievedCredentials(TestConstants.credentials, true),
+          RetrievedCredentials(test_constants.credentials, true),
         ],
       );
 
@@ -72,11 +72,11 @@ void main() {
           topdeskProvider: MockTopdeskProvider(),
         ),
         act: (LoginBloc bloc) async => bloc.add(
-          RememberToggle(TestConstants.credentials),
+          RememberToggle(test_constants.credentials),
         ),
         expect: [
           AwaitingCredentials(),
-          RetrievedCredentials(TestConstants.credentials, true),
+          RetrievedCredentials(test_constants.credentials, true),
         ],
       );
 
@@ -92,14 +92,14 @@ void main() {
 
         bloc.add(CredentialsInit());
 
-        bloc.add(RememberToggle(TestConstants.credentials));
+        bloc.add(RememberToggle(test_constants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(TestConstants.credentials, true),
-            RetrievedCredentials(TestConstants.credentials, false),
+            RetrievedCredentials(test_constants.credentials, true),
+            RetrievedCredentials(test_constants.credentials, false),
           ],
         );
 
@@ -123,7 +123,7 @@ void main() {
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(TestConstants.credentials, true),
+            RetrievedCredentials(test_constants.credentials, true),
             AwaitingCredentials(),
             RetrievedCredentials(Credentials(), false),
           ],
@@ -150,7 +150,7 @@ void main() {
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(TestConstants.credentials, true)
+            RetrievedCredentials(test_constants.credentials, true)
           ],
         );
       });
@@ -161,7 +161,7 @@ void main() {
       final SettingsProvider completeSettings = MockSettingsProvider();
 
       when(completeSettings.provide()).thenAnswer(
-        (_) => Future<Settings>.value(TestConstants.settings),
+        (_) => Future<Settings>.value(test_constants.settings),
       );
 
       test(
@@ -174,7 +174,7 @@ void main() {
         );
 
         bloc.add(CredentialsInit());
-        bloc.add(TryLogin(TestConstants.credentials));
+        bloc.add(TryLogin(test_constants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
@@ -183,7 +183,7 @@ void main() {
             RetrievedCredentials(Credentials(), false),
             LoginSubmitting(),
             LoginSuccess(
-              settings: TestConstants.settings,
+              settings: test_constants.settings,
             ),
           ],
         );
@@ -201,23 +201,23 @@ void main() {
         );
 
         bloc.add(CredentialsInit()); // Make sure `remember` will be true
-        bloc.add(RememberToggle(TestConstants.credentials));
-        bloc.add(TryLogin(TestConstants.credentials));
+        bloc.add(RememberToggle(test_constants.credentials));
+        bloc.add(TryLogin(test_constants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
             AwaitingCredentials(),
             RetrievedCredentials(Credentials(), false),
-            RetrievedCredentials(TestConstants.credentials, true),
+            RetrievedCredentials(test_constants.credentials, true),
             LoginSubmitting(),
             LoginSuccess(
-              settings: TestConstants.settings,
+              settings: test_constants.settings,
             ),
           ],
         );
 
-        verify(withoutCredentials.save(TestConstants.credentials)).called(1);
+        verify(withoutCredentials.save(test_constants.credentials)).called(1);
       });
 
       test('fix credentials', () async {
@@ -229,22 +229,22 @@ void main() {
 
         bloc.add(CredentialsInit()); // Make sure `remember` will be true
         bloc.add(
-          TryLogin(TestConstants.credentials),
+          TryLogin(test_constants.credentials),
         );
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
           [
             AwaitingCredentials(),
-            RetrievedCredentials(TestConstants.credentials, true),
+            RetrievedCredentials(test_constants.credentials, true),
             LoginSubmitting(),
             LoginSuccess(
-              settings: TestConstants.settings,
+              settings: test_constants.settings,
             ),
           ],
         );
 
-        verify(withCredentials.save(TestConstants.credentials)).called(1);
+        verify(withCredentials.save(test_constants.credentials)).called(1);
       });
 
       test('incomplete settings', () async {
@@ -279,7 +279,7 @@ void main() {
           (_) => Future<Settings>.value(saved),
         );
 
-        bloc.add(TryLogin(TestConstants.credentials));
+        bloc.add(TryLogin(test_constants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
@@ -303,7 +303,7 @@ void main() {
           topdeskProvider: topdeskProvider,
         );
 
-        bloc.add(TryLogin(TestConstants.credentials));
+        bloc.add(TryLogin(test_constants.credentials));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
@@ -332,12 +332,12 @@ void main() {
       test('CredentialsInit', () {
         expect(CredentialsInit() == CredentialsInit(), isTrue);
         expect(
-            RememberToggle(TestConstants.credentials) ==
-                RememberToggle(TestConstants.credentials),
+            RememberToggle(test_constants.credentials) ==
+                RememberToggle(test_constants.credentials),
             isTrue);
         expect(
-            TryLogin(TestConstants.credentials) ==
-                TryLogin(TestConstants.credentials),
+            TryLogin(test_constants.credentials) ==
+                TryLogin(test_constants.credentials),
             isTrue);
       });
     });
@@ -346,23 +346,23 @@ void main() {
       test('CredentialsInit', () {
         expect(CredentialsInit() == CredentialsInit(), isTrue);
         expect(
-          RememberToggle(TestConstants.credentials) ==
-              RememberToggle(TestConstants.credentials),
+          RememberToggle(test_constants.credentials) ==
+              RememberToggle(test_constants.credentials),
           isTrue,
         );
         expect(
-            TryLogin(TestConstants.credentials) ==
-                TryLogin(TestConstants.credentials),
+            TryLogin(test_constants.credentials) ==
+                TryLogin(test_constants.credentials),
             isTrue);
         expect(
           LoginFailed(
-                savedData: TestConstants.credentials,
+                savedData: test_constants.credentials,
                 remember: true,
                 cause: 1,
                 stackTrace: null,
               ) ==
               LoginFailed(
-                savedData: TestConstants.credentials,
+                savedData: test_constants.credentials,
                 remember: true,
                 cause: 1,
                 stackTrace: null,

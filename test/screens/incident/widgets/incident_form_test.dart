@@ -8,7 +8,8 @@ import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/screens/incident/widgets/incident_form.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 class MockIncidentBloc extends MockBloc<IncidentEvent, IncidentState>
     implements IncidentBloc {}
@@ -44,7 +45,7 @@ void main() {
       await pumpForm(
         tester,
         IncidentState(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
         ),
       );
       expect(find.byKey(Key(ttd_keys.incidentSubmitButton)), findsOneWidget);
@@ -54,7 +55,7 @@ void main() {
       await pumpForm(
         tester,
         IncidentSubmitted(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
         ),
       );
       expect(find.byKey(Key(ttd_keys.incidentSubmitButton)), findsNothing);
@@ -65,7 +66,7 @@ void main() {
       await pumpForm(
         tester,
         IncidentState(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
         ),
       );
 

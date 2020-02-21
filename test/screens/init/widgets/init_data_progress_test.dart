@@ -4,7 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo/screens/init/widgets/init_data_progress.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 void main() {
   group('InitDataProgress', () {
@@ -25,11 +26,11 @@ void main() {
     testWidgets('credentials done', (WidgetTester tester) async {
       await pumpInitDataProgress(
         tester,
-        InitData(credentials: TestConstants.credentials),
+        InitData(credentials: test_constants.credentials),
       );
 
-      expect(find.text(TestConstants.credentials.url), findsOneWidget);
-      expect(find.text(TestConstants.credentials.loginName), findsOneWidget);
+      expect(find.text(test_constants.credentials.url), findsOneWidget);
+      expect(find.text(test_constants.credentials.loginName), findsOneWidget);
       expect(find.byIcon(Icons.done), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsNWidgets(2));
     });
@@ -38,8 +39,8 @@ void main() {
       await pumpInitDataProgress(
         tester,
         InitData(
-            credentials: TestConstants.credentials,
-            settings: TestConstants.settings),
+            credentials: test_constants.credentials,
+            settings: test_constants.settings),
       );
 
       expect(find.byIcon(Icons.done), findsNWidgets(2));
@@ -50,8 +51,8 @@ void main() {
       await pumpInitDataProgress(
         tester,
         InitData(
-            credentials: TestConstants.credentials,
-            currentOperator: TestConstants.currentOperator),
+            credentials: test_constants.credentials,
+            currentOperator: test_constants.currentOperator),
       );
 
       expect(find.byIcon(Icons.done), findsNWidgets(2));
@@ -62,9 +63,9 @@ void main() {
       await pumpInitDataProgress(
         tester,
         InitData(
-          credentials: TestConstants.credentials,
-          settings: TestConstants.settings,
-          currentOperator: TestConstants.currentOperator,
+          credentials: test_constants.credentials,
+          settings: test_constants.settings,
+          currentOperator: test_constants.currentOperator,
         ),
       );
 

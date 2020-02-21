@@ -10,7 +10,8 @@ import 'package:toptodo/screens/init/widgets/init_data_progress.dart';
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../../helper.dart';
+import '../../test_helper.dart';
+import '../../test_constants.dart' as test_constants;
 
 class MockInitBloc extends MockBloc<InitEvent, InitState> implements InitBloc {}
 
@@ -84,7 +85,7 @@ void main() {
             [
               initialState,
               InitData(
-                credentials: TestConstants.credentials,
+                credentials: test_constants.credentials,
                 settings: Settings(),
               ),
             ],
@@ -113,9 +114,9 @@ void main() {
             [
               initialState,
               InitData(
-                credentials: TestConstants.credentials,
-                settings: TestConstants.settings,
-                currentOperator: TestConstants.currentOperator,
+                credentials: test_constants.credentials,
+                settings: test_constants.settings,
+                currentOperator: test_constants.currentOperator,
               ),
             ],
           ),

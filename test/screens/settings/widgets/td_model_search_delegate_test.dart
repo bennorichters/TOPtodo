@@ -9,7 +9,8 @@ import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/td_model_search_delegate.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 typedef _DelegateBuilder = WidgetBuilder Function(SearchDelegate delegate);
 
@@ -84,7 +85,7 @@ void main() {
 
     testWidgets('callersForBranch', (WidgetTester tester) async {
       final delegate = TdModelSearchDelegate.callersForBranch(
-        branch: TestConstants.branchA,
+        branch: test_constants.branchA,
       );
 
       await tester.pumpWidget(TestableWidgetWithMediaQuery(
@@ -223,16 +224,16 @@ void main() {
           _DelegateBuilder delegateBuilder,
         ) async {
           when(bloc.state).thenReturn(TdModelSearchResults([
-            TestConstants.branchA,
+            test_constants.branchA,
           ]));
 
           final delegate = _DelegateWrapper.create()..query = 'x';
           await pumpBuilder(tester, delegate, delegateBuilder);
 
-          final result = find.text(TestConstants.branchA.name);
+          final result = find.text(test_constants.branchA.name);
           expect(result, findsOneWidget);
           await tester.tap(result);
-          expect(delegate.chosen, TestConstants.branchA);
+          expect(delegate.chosen, test_constants.branchA);
         });
       });
 

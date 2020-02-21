@@ -8,7 +8,7 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo/blocs/incident/bloc.dart';
 
-import '../../helper.dart';
+import '../../test_constants.dart' as test_constants;
 
 class MockSettingsProvider extends Mock implements SettingsProvider {}
 
@@ -17,11 +17,11 @@ class MockTopdeskProvider extends Mock implements TopdeskProvider {}
 void main() {
   group('incident bloc', () {
     final sp = MockSettingsProvider();
-    when(sp.provide()).thenAnswer((_) => Future.value(TestConstants.settings));
+    when(sp.provide()).thenAnswer((_) => Future.value(test_constants.settings));
 
     final tdp = MockTopdeskProvider();
     when(tdp.currentTdOperator())
-        .thenAnswer((_) => Future.value(TestConstants.currentOperator));
+        .thenAnswer((_) => Future.value(test_constants.currentOperator));
     when(tdp.createTdIncident(
       briefDescription: anyNamed('briefDescription'),
       request: anyNamed('request'),
@@ -46,7 +46,7 @@ void main() {
       act: (bloc) async => {bloc.add(IncidentInit())},
       expect: [
         IncidentState(currentOperator: null),
-        IncidentState(currentOperator: TestConstants.currentOperator),
+        IncidentState(currentOperator: test_constants.currentOperator),
       ],
     );
 
@@ -66,7 +66,7 @@ void main() {
         IncidentState(currentOperator: null),
         IncidentSubmitted(currentOperator: null),
         IncidentCreated(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
           number: '1',
         ),
       ],
@@ -87,10 +87,10 @@ void main() {
       },
       expect: [
         IncidentState(currentOperator: null),
-        IncidentState(currentOperator: TestConstants.currentOperator),
-        IncidentSubmitted(currentOperator: TestConstants.currentOperator),
+        IncidentState(currentOperator: test_constants.currentOperator),
+        IncidentSubmitted(currentOperator: test_constants.currentOperator),
         IncidentCreated(
-          currentOperator: TestConstants.currentOperator,
+          currentOperator: test_constants.currentOperator,
           number: '1',
         ),
       ],
@@ -100,7 +100,7 @@ void main() {
       final timeOutTdProvider = MockTopdeskProvider();
       final exc = TdTimeOutException('error test');
       when(timeOutTdProvider.currentTdOperator())
-          .thenAnswer((_) => Future.value(TestConstants.currentOperator));
+          .thenAnswer((_) => Future.value(test_constants.currentOperator));
       when(timeOutTdProvider.createTdIncident(
         briefDescription: anyNamed('briefDescription'),
         request: anyNamed('request'),

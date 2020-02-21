@@ -5,7 +5,8 @@ import 'package:toptodo_data/toptodo_data.dart';
 
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 void main() {
   group('SearchList', () {
@@ -27,9 +28,9 @@ void main() {
           name: 'name',
           validationText: 'validation',
           items: [
-            TestConstants.branchA,
-            TestConstants.branchB,
-            TestConstants.branchC,
+            test_constants.branchA,
+            test_constants.branchB,
+            test_constants.branchC,
           ],
         ),
       ));
@@ -48,9 +49,9 @@ void main() {
             name: 'name',
             validationText: 'validation',
             items: [
-              TestConstants.branchA,
-              TestConstants.branchB,
-              TestConstants.branchC,
+              test_constants.branchA,
+              test_constants.branchB,
+              test_constants.branchC,
             ],
           ),
         ),

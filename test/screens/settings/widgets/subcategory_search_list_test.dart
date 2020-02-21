@@ -11,7 +11,7 @@ import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
 
 class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
     implements SettingsBloc {}

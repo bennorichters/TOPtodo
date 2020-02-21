@@ -10,7 +10,8 @@ import 'package:toptodo_data/toptodo_data.dart';
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/screens/login/widgets/credentials_form.dart';
 
-import '../../../helper.dart';
+import '../../../test_helper.dart';
+import '../../../test_constants.dart' as test_constants;
 
 class MockLoginBloc extends MockBloc<LoginEvent, LoginState>
     implements LoginBloc {}
@@ -99,7 +100,7 @@ void main() {
 
       await pumpForm(
         tester,
-        credentials: TestConstants.credentials,
+        credentials: test_constants.credentials,
         remember: true,
       );
 
@@ -109,7 +110,7 @@ void main() {
 
       await tester.tap(button);
 
-      verify(bloc.add(TryLogin(TestConstants.credentials))).called(1);
+      verify(bloc.add(TryLogin(test_constants.credentials))).called(1);
     });
   });
 }

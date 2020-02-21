@@ -12,7 +12,8 @@ import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
-import '../../helper.dart';
+import '../../test_helper.dart';
+import '../../test_constants.dart' as test_constants;
 
 class MockLoginBloc extends MockBloc<LoginEvent, LoginState>
     implements LoginBloc {}
@@ -48,7 +49,7 @@ void main() {
     testWidgets('WithCredentials shows filled form',
         (WidgetTester tester) async {
       when(bloc.state).thenReturn(RetrievedCredentials(
-        TestConstants.credentials,
+        test_constants.credentials,
         true,
       ));
       await pumpScreen(tester);
@@ -91,7 +92,7 @@ void main() {
         Stream.fromIterable(
           [
             initialState,
-            LoginSuccess(settings: TestConstants.settings),
+            LoginSuccess(settings: test_constants.settings),
           ],
         ),
       );
@@ -137,7 +138,7 @@ void main() {
           [
             initialState,
             LoginFailed(
-              savedData: TestConstants.credentials,
+              savedData: test_constants.credentials,
               remember: true,
               cause: 'just testing',
               stackTrace: StackTrace.current,
