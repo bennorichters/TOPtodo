@@ -18,10 +18,10 @@ const loginScreenHelpButton = 'login_screen_help_button';
 const passwordFieldTextFormField = 'password_field_text_form_field';
 const passwordFieldVisibleButton = 'password_field_visible_button';
 
-const settingsFormSearchFieldBranch = 'settings_from_search_field_branch';
-const settingsFormSearchFieldCaller = 'settings_from_search_field_caller';
-const settingsFormSearchFieldCategory = 'settings_from_search_field_category';
-const settingsFormSearchFieldDuration = 'settings_from_search_field_duration';
-const settingsFormSearchFieldOperator = 'settings_from_search_field_operator';
+const settingsFormSearchFieldBranch = 'settings_form_search_field_branch';
+const settingsFormSearchFieldCaller = 'settings_form_search_field_caller';
+const settingsFormSearchFieldCategory = 'settings_form_search_field_category';
+const settingsFormSearchFieldDuration = 'settings_form_search_field_duration';
+const settingsFormSearchFieldOperator = 'settings_form_search_field_operator';
 
 const subcategorySearchList = 'subcategory_search_list';

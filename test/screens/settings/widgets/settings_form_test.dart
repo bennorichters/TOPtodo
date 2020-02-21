@@ -8,6 +8,7 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/settings/widgets/settings_form.dart';
+import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../../test_helper.dart';
 import '../../../test_constants.dart' as test_constants;
@@ -32,7 +33,7 @@ void main() {
       expect(find.text('Caller (first choose a branch)'), findsOneWidget);
     });
 
-    group('tap', () {
+    group('with blocs', () {
       SettingsBloc settingsBloc;
       TdModelSearchBloc searchBloc;
 
@@ -56,62 +57,100 @@ void main() {
         ));
       }
 
-      void tapSearchField(
-        WidgetTester tester,
-        String key, [
-        SettingsFormState state = const SettingsFormState(),
-      ]) async {
-        await pumpForm(tester, state);
-        await tester.tap(find.descendant(
-          of: find.byKey(Key(key)),
-          matching: find.byType(Row),
-        ));
-        verify(searchBloc.add(NewSearch())).called(1);
-        await tester.pumpAndSettle();
-        await tester.tap(find.byIcon(Icons.arrow_back));
-        verify(settingsBloc.add(ValueSelected())).called(1);
-      }
+      group('tap', () {
+        void tapSearchField(
+          WidgetTester tester,
+          String key, [
+          SettingsFormState state = const SettingsFormState(),
+        ]) async {
+          await pumpForm(tester, state);
+          await tester.tap(find.descendant(
+            of: find.byKey(Key(key)),
+            matching: find.byType(Row),
+          ));
+          verify(searchBloc.add(NewSearch())).called(1);
+          await tester.pumpAndSettle();
+          await tester.tap(find.byIcon(Icons.arrow_back));
+          verify(settingsBloc.add(ValueSelected())).called(1);
+        }
 
-      void tapSearchList(
-        WidgetTester tester,
-        String key,
-        SettingsFormState state,
-      ) async {
-        await pumpForm(tester, state);
-        await tester.tap(find.byKey(Key(key)));
-      }
+        void tapSearchList({
+          WidgetTester tester,
+          String key,
+          SettingsFormState state,
+          TdModel itemToChoose,
+          ValueSelected event,
+        }) async {
+          await pumpForm(tester, state);
 
-      testWidgets(
-          'branch',
-          (WidgetTester tester) async =>
-              tapSearchField(tester, ttd_keys.settingsFormSearchFieldBranch));
+          await tester.tap(find.descendant(
+            of: find.byKey(Key(key)),
+            matching: find.byWidgetPredicate((w) => w is DropdownButton),
+          ));
+          await tester.pump();
 
-      testWidgets(
-        'caller',
-        (WidgetTester tester) async => tapSearchField(
-          tester,
-          ttd_keys.settingsFormSearchFieldCaller,
-          SettingsFormState(tdBranch: test_constants.branchA),
-        ),
-      );
+          final item =
+              find.byKey(Key(key + '_' + itemToChoose.id)).hitTestable();
+          await tester.tap(item);
+          verify(settingsBloc.add(event)).called(1);
+        }
 
-      testWidgets(
-          'operator',
-          (WidgetTester tester) async =>
-              tapSearchField(tester, ttd_keys.settingsFormSearchFieldOperator));
+        testWidgets(
+            'branch',
+            (WidgetTester tester) async =>
+                tapSearchField(tester, ttd_keys.settingsFormSearchFieldBranch));
 
-      testWidgets('category', (WidgetTester tester) async {
-        tapSearchList(
-          tester,
-          ttd_keys.settingsFormSearchFieldCategory,
-          SettingsFormState(
-            tdCategories: [
-              test_constants.categoryA,
-              test_constants.categoryB,
-              test_constants.categoryC,
-            ],
+        testWidgets(
+          'caller',
+          (WidgetTester tester) async => tapSearchField(
+            tester,
+            ttd_keys.settingsFormSearchFieldCaller,
+            SettingsFormState(tdBranch: test_constants.branchA),
           ),
         );
+
+        testWidgets(
+            'operator',
+            (WidgetTester tester) async => tapSearchField(
+                tester, ttd_keys.settingsFormSearchFieldOperator));
+
+        testWidgets(
+            'category',
+            (WidgetTester tester) async => tapSearchList(
+                  tester: tester,
+                  key: ttd_keys.settingsFormSearchFieldCategory,
+                  state: SettingsFormState(
+                    tdCategories: [
+                      test_constants.categoryA,
+                      test_constants.categoryB,
+                      test_constants.categoryC,
+                    ],
+                  ),
+                  itemToChoose: test_constants.categoryB,
+                  event: ValueSelected(tdCategory: test_constants.categoryB),
+                ));
+
+        testWidgets(
+            'duration',
+            (WidgetTester tester) async => tapSearchList(
+                  tester: tester,
+                  key: ttd_keys.settingsFormSearchFieldDuration,
+                  state: SettingsFormState(
+                    tdDurations: [
+                      test_constants.durationA,
+                      test_constants.durationB,
+                      test_constants.durationC,
+                    ],
+                  ),
+                  itemToChoose: test_constants.durationB,
+                  event: ValueSelected(tdDuration: test_constants.durationB),
+                ));
+      });
+
+      group('save', () {
+        testWidgets('tap button', (WidgetTester tester) async {
+          // TODO
+        });
       });
     });
   });

@@ -11,14 +11,13 @@ class SearchList<T extends TdModel> extends StatelessWidget {
     this.onChangedCallBack,
   }) : super(key: key);
 
+  @override
+  final ValueKey<String> key;
   final String name;
   final String validationText;
   final Iterable<T> items;
   final T selectedItem;
   final ValueChanged<T> onChangedCallBack;
-
-  @override
-  final ValueKey<String> key;
 
   @override
   Widget build(BuildContext context) {

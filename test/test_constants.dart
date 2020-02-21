@@ -25,6 +25,10 @@ const categoryA = TdCategory(id: 'a', name: 'a');
 const categoryB = TdCategory(id: 'b', name: 'b');
 const categoryC = TdCategory(id: 'c', name: 'c');
 
+const durationA = TdDuration(id: 'a', name: 'a');
+const durationB = TdDuration(id: 'b', name: 'b');
+const durationC = TdDuration(id: 'c', name: 'c');
+
 const currentOperator = TdOperator(
   id: 'a',
   name: 'a',
