@@ -18,7 +18,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<SettingsBloc>(context)..add(SettingsInit());
+    BlocProvider.of<SettingsBloc>(context).add(SettingsInit());
   }
 
   @override
@@ -60,9 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 : const TdShapeBackground(
                     longSide: LongSide.right,
                     color: ttd_colors.duckEgg,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: Center(child: CircularProgressIndicator()),
                   ),
           ),
         );
