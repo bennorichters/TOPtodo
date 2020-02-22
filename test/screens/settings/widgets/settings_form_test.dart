@@ -8,6 +8,7 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/settings/widgets/settings_form.dart';
+import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 import '../../../test_helper.dart';
@@ -56,6 +57,22 @@ void main() {
           ),
         ));
       }
+
+      testWidgets('save', (WidgetTester tester) async {
+        final state = SettingsFormState(
+          tdBranch: test_constants.branchA,
+          tdCaller: test_constants.callerA,
+          tdCategory: test_constants.categoryA,
+          tdSubcategory: test_constants.subcategoryA,
+          tdDuration: test_constants.durationA,
+          tdOperator: test_constants.currentOperator,
+        );
+
+        await pumpForm(tester, state);
+        await tester.tap(find.byType(TdButton));
+
+        verify(settingsBloc.add(SettingsSave())).called(1);
+      });
 
       group('tap', () {
         void tapSearchField(
@@ -149,12 +166,6 @@ void main() {
                     tdDuration: test_constants.durationB,
                   ),
                 ));
-      });
-
-      group('save', () {
-        testWidgets('tap button', (WidgetTester tester) async {
-          // TODO
-        });
       });
     });
   });
