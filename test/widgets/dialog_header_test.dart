@@ -1,17 +1,12 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/widgets/menu_dialog.dart';
 
 import '../test_constants.dart' as test_constants;
 import '../test_helper.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
-
-class MockIncidentBloc extends MockBloc<IncidentEvent, IncidentState>
-    implements IncidentBloc {}
 
 void main() {
   group('DialogHeader', () {
