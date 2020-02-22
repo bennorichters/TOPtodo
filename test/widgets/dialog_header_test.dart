@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/screens/incident/incident_screen.dart';
-import 'package:toptodo/widgets/dialog_header.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';
 
 import '../test_constants.dart' as test_constants;
