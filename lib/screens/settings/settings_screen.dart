@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toptodo/blocs/settings/bloc.dart';
-import 'package:toptodo/screens/incident/incident_screen.dart';
 import 'package:toptodo/screens/settings/widgets/settings_form.dart';
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/error_dialog.dart';
@@ -27,10 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return BlocListener<SettingsBloc, SettingsState>(
       listener: (BuildContext context, SettingsState state) {
         if (state is SettingsSaved) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => IncidentScreen()),
-          );
+          Navigator.pushReplacementNamed(context, 'incident');
         }
       },
       child: BlocBuilder<SettingsBloc, SettingsState>(
