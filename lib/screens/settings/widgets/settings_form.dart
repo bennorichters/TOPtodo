@@ -86,13 +86,7 @@ class SettingsForm extends StatelessWidget {
                 TdButton(
                   text: 'save',
                   onTap: () {
-                    if (state is SettingsSaved) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => IncidentScreen()),
-                      );
-                    } else if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState.validate()) {
                       BlocProvider.of<SettingsBloc>(context)
                           .add(SettingsSave());
                     }
