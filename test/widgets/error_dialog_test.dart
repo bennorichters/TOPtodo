@@ -5,50 +5,52 @@ import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
 
 void main() {
-  testWidgets('closing error dialog puts only login screen on stack',
-      (WidgetTester tester) async {
-    final afterErrorScreenKey = GlobalKey();
+  group('ErrorDialog', () {
+    testWidgets('closing error dialog puts only login screen on stack',
+        (WidgetTester tester) async {
+      final afterErrorScreenKey = GlobalKey();
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: _TestOpenErrorDialogScreen(
-          'unspecified error that redirects to login screen',
+      await tester.pumpWidget(
+        MaterialApp(
+          home: _TestOpenErrorDialogScreen(
+            'unspecified error that redirects to login screen',
+          ),
+          routes: {
+            'login': (context) => _TestAfterErrorScreen(afterErrorScreenKey),
+          },
         ),
-        routes: {
-          'login': (context) => _TestAfterErrorScreen(afterErrorScreenKey),
-        },
-      ),
-    );
+      );
 
-    await tester.tap(find.byKey(Key('test_open_error_dialog')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
-    await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key('test_open_error_dialog')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
+      await tester.pumpAndSettle();
 
-    expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
-  });
+      expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
+    });
 
-  testWidgets('closing error dialog puts only settings screen on stack',
-      (WidgetTester tester) async {
-    final afterErrorScreenKey = GlobalKey();
+    testWidgets('closing error dialog puts only settings screen on stack',
+        (WidgetTester tester) async {
+      final afterErrorScreenKey = GlobalKey();
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: _TestOpenErrorDialogScreen(
-          TdBadRequestException('error that redirects to settings screen'),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: _TestOpenErrorDialogScreen(
+            TdBadRequestException('error that redirects to settings screen'),
+          ),
+          routes: {
+            'settings': (context) => _TestAfterErrorScreen(afterErrorScreenKey),
+          },
         ),
-        routes: {
-          'settings': (context) => _TestAfterErrorScreen(afterErrorScreenKey),
-        },
-      ),
-    );
+      );
 
-    await tester.tap(find.byKey(Key('test_open_error_dialog')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
-    await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key('test_open_error_dialog')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
+      await tester.pumpAndSettle();
 
-    expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
+      expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
+    });
   });
 }
 
