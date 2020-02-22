@@ -1,11 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/blocs/incident/bloc.dart';
-import 'package:toptodo/screens/incident/incident_screen.dart';
-import 'package:toptodo/widgets/menu_operator_button.dart';
+import 'package:toptodo/widgets/menu_dialog.dart';
 
 import '../test_constants.dart' as test_constants;
 import '../test_helper.dart';
@@ -17,23 +15,30 @@ class MockIncidentBloc extends MockBloc<IncidentEvent, IncidentState>
 
 void main() {
   group('DialogHeader', () {
-    testWidgets('open and close dialog from incident screen', (WidgetTester tester) async {
+    testWidgets('open and close dialog',
+        (WidgetTester tester) async {
       final observer = MockNavigatorObserver();
-      final IncidentBloc bloc = MockIncidentBloc();
-      when(bloc.state).thenReturn(IncidentState(
-        currentOperator: test_constants.currentOperator,
-      ));
 
       await tester.pumpWidget(
-        BlocProvider.value(
-          value: bloc,
-          child: TestableWidgetWithMediaQuery(
-            navigatorObservers: [observer],
-            child: IncidentScreen(),
+        TestableWidgetWithMediaQuery(
+          navigatorObservers: [observer],
+          child: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => MenuDialog(
+                    currentOperator: test_constants.currentOperator,
+                    showSettings: false,
+                  ),
+                );
+              },
+              child: Text('open dialog'),
+            ),
           ),
         ),
       );
-      await tester.tap(find.byType(MenuOperatorButton));
+      await tester.tap(find.text('open dialog'));
       await tester.pump();
       await tester.tap(find.byIcon(Icons.close));
       await tester.pump();
