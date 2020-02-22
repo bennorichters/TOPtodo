@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/widgets/error_dialog.dart';
 import 'package:toptodo_data/toptodo_data.dart';
+
+import '../test_helper.dart';
+
+class MockStackTrace extends Mock implements StackTrace {}
 
 void main() {
   group('ErrorDialog', () {
@@ -50,6 +55,39 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
+    });
+
+    testWidgets('view details', (WidgetTester tester) async {
+      final mockStackTrace = MockStackTrace();
+
+      await tester.pumpWidget(TestableWidgetWithMediaQuery(
+        child: ErrorDialog(
+          cause: 'error',
+          stackTrace: mockStackTrace,
+          activeScreenIsLogin: true,
+        ),
+      ));
+
+      await tester.tap(find.text('View details...'));
+      await tester.pump();
+      expect(find.text('MockStackTrace'), findsOneWidget);
+    });
+
+    testWidgets('copy error', (WidgetTester tester) async {
+      await tester.pumpWidget(TestableWidgetWithMediaQuery(
+        child: ErrorDialog(
+          cause: 'error',
+          stackTrace: StackTrace.current,
+          activeScreenIsLogin: true,
+        ),
+      ));
+
+      await tester.tap(find.text('View details...'));
+      await tester.pump();
+      await tester.tap(find.text('Copy error'));
+
+      // not sure how to test if error is copied to clipboard
+      // see: https://github.com/flutter/flutter/issues/47448
     });
   });
 }
