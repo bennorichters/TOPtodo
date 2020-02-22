@@ -7,17 +7,20 @@ class TestableWidgetWithMediaQuery extends StatelessWidget {
     this.width = 600,
     this.height = 800,
     this.routes,
+    this.navigatorObservers,
   });
 
   final Widget child;
   final double width;
   final double height;
   final Map<String, WidgetBuilder> routes;
+  final List<NavigatorObserver> navigatorObservers;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: routes ?? const <String, WidgetBuilder>{},
+      navigatorObservers: navigatorObservers ?? const <NavigatorObserver>[],
       home: Material(
         child: MediaQuery(
           data: MediaQueryData.fromWindow(ui.window).copyWith(
