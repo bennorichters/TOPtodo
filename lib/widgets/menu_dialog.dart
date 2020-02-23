@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/widgets/dialog_header.dart';
 import 'package:toptodo/widgets/td_model_avatar.dart';
@@ -91,10 +92,11 @@ class MenuDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RichText(
+                    key: Key(ttd_keys.menuDialogRichText),
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'TOPtodo ',
+                          text: 'TOPtodo',
                           style: TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -104,7 +106,7 @@ class MenuDialog extends StatelessWidget {
                             },
                         ),
                         TextSpan(
-                          text: 'is an open source project.',
+                          text: ' is an open source project.',
                           style: TextStyle(color: Colors.black),
                         ),
                       ],

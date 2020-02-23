@@ -66,11 +66,11 @@ void main() {
 
       await pumpScreen(
         tester,
-        routes: {'login': (_) => _TestScreen()},
+        routes: {'login': (_) => TestScreen()},
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(_TestScreen), findsOneWidget);
+      expect(find.byType(TestScreen), findsOneWidget);
     });
 
     testWidgets(
@@ -94,11 +94,11 @@ void main() {
 
         await pumpScreen(
           tester,
-          routes: {'settings': (_) => _TestScreen()},
+          routes: {'settings': (_) => TestScreen()},
         );
         await tester.pumpAndSettle();
 
-        expect(find.byType(_TestScreen), findsOneWidget);
+        expect(find.byType(TestScreen), findsOneWidget);
       },
     );
 
@@ -124,11 +124,11 @@ void main() {
 
         await pumpScreen(
           tester,
-          routes: {'incident': (_) => _TestScreen()},
+          routes: {'incident': (_) => TestScreen()},
         );
         await tester.pumpAndSettle();
 
-        expect(find.byType(_TestScreen), findsOneWidget);
+        expect(find.byType(TestScreen), findsOneWidget);
       },
     );
 
@@ -154,9 +154,4 @@ void main() {
       },
     );
   });
-}
-
-class _TestScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Container();
 }

@@ -99,16 +99,11 @@ void main() {
 
       await pumpScreen(
         tester,
-        routes: {'incident': (_) => _TestScreen()},
+        routes: {'incident': (_) => TestScreen()},
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(_TestScreen), findsOneWidget);
+      expect(find.byType(TestScreen), findsOneWidget);
     });
   });
-}
-
-class _TestScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Container();
 }

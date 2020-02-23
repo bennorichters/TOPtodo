@@ -15,6 +15,8 @@ const loginHelpDialogUrlLauncher = 'login_help_dialog_url_launcher';
 
 const loginScreenHelpButton = 'login_screen_help_button';
 
+const menuDialogRichText = 'menu_dialog_rich_text';
+
 const passwordFieldTextFormField = 'password_field_text_form_field';
 const passwordFieldVisibleButton = 'password_field_visible_button';
 
