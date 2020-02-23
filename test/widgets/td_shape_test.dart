@@ -10,24 +10,28 @@ import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/td_shape.dart';
 
 void main() {
-  testWidgets('better name needed', (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      final recorder = PictureRecorder();
-      final canvas = Canvas(recorder);
-      final tdShape = TdShape(LongSide.left, ttd_colors.forest100);
+  group('TdShape', () {
+    testWidgets('pixel right color', (WidgetTester tester) async {
+      await tester.runAsync(() async {
+        final recorder = PictureRecorder();
+        final canvas = Canvas(recorder);
+        final tdShape = TdShape(LongSide.left, ttd_colors.forest100);
 
-      tdShape.paint(canvas, const Size(400, 425));
+        tdShape.paint(canvas, const Size(400, 425));
 
-      final picture = recorder.endRecording();
-      final image = await picture.toImage(400, 425);
-      final bd = await image.toByteData(
-        format: ui.ImageByteFormat.png,
-      );
-      final values = bd.buffer.asUint8List();
-      final myImage = img.decodeImage(values);
+        final picture = recorder.endRecording();
+        final image = await picture.toImage(400, 425);
+        final bd = await image.toByteData(
+          format: ui.ImageByteFormat.png,
+        );
+        final values = bd.buffer.asUint8List();
+        final myImage = img.decodeImage(values);
 
-      expect(
-          _argbIsAbgr(ttd_colors.forest100, myImage.getPixel(10, 10)), isTrue);
+        expect(
+          _argbIsAbgr(ttd_colors.forest100, myImage.getPixel(10, 10)),
+          isTrue,
+        );
+      });
     });
   });
 }
