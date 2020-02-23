@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/all_screens.dart';
 import 'package:toptodo/widgets/menu_dialog.dart';
+import 'package:toptodo/widgets/menu_operator_button.dart';
 
 import '../test_constants.dart' as test_constants;
 import '../test_helper.dart';
@@ -18,7 +19,7 @@ void main() {
         child: _TestOpenMenuDialogScreen(true),
       ));
 
-      await tester.tap(find.byKey(Key('test_open_menu_dialog')));
+      await tester.tap(find.byType(MenuOperatorButton));
       await tester.pump();
 
       expect(find.text('settings'), findsOneWidget);
@@ -29,7 +30,7 @@ void main() {
         child: _TestOpenMenuDialogScreen(false),
       ));
 
-      await tester.tap(find.byKey(Key('test_open_menu_dialog')));
+      await tester.tap(find.byType(MenuOperatorButton));
       await tester.pump();
 
       expect(find.text('settings'), findsNothing);
@@ -41,7 +42,7 @@ void main() {
         child: _TestOpenMenuDialogScreen(true),
       ));
 
-      await tester.tap(find.byKey(Key('test_open_menu_dialog')));
+      await tester.tap(find.byType(MenuOperatorButton));
       await tester.pump();
 
       await tester.tap(find.byIcon(Icons.settings));
@@ -58,7 +59,7 @@ void main() {
         child: _TestOpenMenuDialogScreen(true),
       ));
 
-      await tester.tap(find.byKey(Key('test_open_menu_dialog')));
+      await tester.tap(find.byType(MenuOperatorButton));
       await tester.pump();
 
       await tester.tap(find.byIcon(Icons.power_settings_new));
@@ -80,7 +81,7 @@ void main() {
         child: _TestOpenMenuDialogScreen(false),
       ));
 
-      await tester.tap(find.byKey(Key('test_open_menu_dialog')));
+      await tester.tap(find.byType(MenuOperatorButton));
       await tester.pump();
 
       var foundLink = false;
@@ -109,19 +110,10 @@ class _TestOpenMenuDialogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FlatButton(
-        key: Key('test_open_menu_dialog'),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => MenuDialog(
-              currentOperator: test_constants.currentOperator,
-              showSettings: showSettings,
-            ),
-          );
-        },
-        child: Container(),
+      child: MenuOperatorButton(
+        test_constants.currentOperator,
+        showSettings: showSettings,
       ),
     );
-}
   }
+}
