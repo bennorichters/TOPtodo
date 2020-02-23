@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/all_screens.dart';
-import 'package:toptodo/widgets/menu_dialog.dart';
 import 'package:toptodo/widgets/menu_operator_button.dart';
 
 import '../test_constants.dart' as test_constants;
