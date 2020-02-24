@@ -33,7 +33,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
             ],
           ),
           body: BlocListener<IncidentBloc, IncidentState>(
-            listener: _onEvent,
+            listener: _onStateChange,
             child: IncidentForm(state),
           ),
         );
@@ -41,7 +41,7 @@ class _IncidentScreenState extends State<IncidentScreen> {
     );
   }
 
-  void _onEvent(context, state) {
+  void _onStateChange(context, state) {
     if (state is IncidentCreated) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
