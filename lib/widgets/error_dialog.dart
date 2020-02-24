@@ -103,7 +103,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
     if (widget.cause is TdNotAuthorizedException) {
       return const Text(
         'You do not have sufficient authorization '
-        'or you password is incorrect. '
+        'or your password is incorrect. '
         'Contact your TOPdesk application manager.',
       );
     }
