@@ -104,7 +104,7 @@ class CredentialsForm extends StatelessWidget {
 
   void _connect(BuildContext context, Credentials credentials) {
     if (_formKey.currentState.validate()) {
-      BlocProvider.of<LoginBloc>(context)..add(TryLogin(credentials));
+      BlocProvider.of<LoginBloc>(context).add(TryLogin(credentials));
     }
   }
 }

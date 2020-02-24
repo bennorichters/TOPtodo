@@ -16,7 +16,7 @@ class _InitScreenState extends State<InitScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<InitBloc>(context)..add(const RequestInitData());
+    BlocProvider.of<InitBloc>(context).add(const RequestInitData());
   }
 
   @override

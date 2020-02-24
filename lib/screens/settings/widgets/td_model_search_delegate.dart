@@ -47,13 +47,12 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
       return _emptyQueryText;
     }
 
-    BlocProvider.of<TdModelSearchBloc>(context)
-      ..add(
-        SearchFinishedQuery<T>(
-          linkedTo: _linkedTo,
-          query: query,
-        ),
-      );
+    BlocProvider.of<TdModelSearchBloc>(context).add(
+      SearchFinishedQuery<T>(
+        linkedTo: _linkedTo,
+        query: query,
+      ),
+    );
     return _stateDependendResult();
   }
 
@@ -63,13 +62,12 @@ class TdModelSearchDelegate<T extends TdModel> extends SearchDelegate<T> {
       return _emptyQueryText;
     }
 
-    BlocProvider.of<TdModelSearchBloc>(context)
-      ..add(
-        SearchIncompleteQuery<T>(
-          linkedTo: _linkedTo,
-          query: query,
-        ),
-      );
+    BlocProvider.of<TdModelSearchBloc>(context).add(
+      SearchIncompleteQuery<T>(
+        linkedTo: _linkedTo,
+        query: query,
+      ),
+    );
     return _stateDependendResult();
   }
 

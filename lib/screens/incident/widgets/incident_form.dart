@@ -52,13 +52,12 @@ class IncidentForm extends StatelessWidget {
                         text: 'submit',
                         onTap: () {
                           if (_formKey.currentState.validate()) {
-                            BlocProvider.of<IncidentBloc>(context)
-                              ..add(
-                                IncidentSubmit(
-                                  briefDescription: _briefDescription.text,
-                                  request: _request.text,
-                                ),
-                              );
+                            BlocProvider.of<IncidentBloc>(context).add(
+                              IncidentSubmit(
+                                briefDescription: _briefDescription.text,
+                                request: _request.text,
+                              ),
+                            );
                           }
                         },
                       ),
