@@ -228,9 +228,19 @@ void main() {
         );
 
         bloc.add(CredentialsInit()); // Make sure `remember` will be true
-        bloc.add(
-          TryLogin(test_constants.credentials),
+        final original = Credentials(
+          url: 'a.b///',
+          loginName: 'a',
+          password: 'a',
         );
+
+        final fixed = Credentials(
+          url: 'https://a.b',
+          loginName: 'a',
+          password: 'a',
+        );
+
+        bloc.add(TryLogin(original));
 
         await emitsExactly<LoginBloc, LoginState>(
           bloc,
@@ -238,13 +248,11 @@ void main() {
             AwaitingCredentials(),
             RetrievedCredentials(test_constants.credentials, true),
             LoginSubmitting(),
-            LoginSuccess(
-              settings: test_constants.settings,
-            ),
+            LoginSuccess(settings: test_constants.settings),
           ],
         );
 
-        verify(withCredentials.save(test_constants.credentials)).called(1);
+        verify(withCredentials.save(fixed)).called(1);
       });
 
       test('incomplete settings', () async {
