@@ -9,6 +9,8 @@ import '../test_helper.dart';
 
 class MockStackTrace extends Mock implements StackTrace {}
 
+class MockNavigatorObserver extends Mock implements NavigatorObserver {}
+
 void main() {
   group('ErrorDialog', () {
     testWidgets('closing error dialog puts only login screen on stack',
@@ -55,6 +57,38 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(Navigator.canPop(afterErrorScreenKey.currentContext), isFalse);
+    });
+
+    testWidgets('close dialog for login screen only pops',
+        (WidgetTester tester) async {
+      final observer = MockNavigatorObserver();
+
+      await tester.pumpWidget(
+        TestableWidgetWithMediaQuery(
+          navigatorObservers: [observer],
+          child: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ErrorDialog(
+                    cause: 'just testing',
+                    stackTrace: StackTrace.current,
+                    activeScreenIsLogin: true,
+                  ),
+                );
+              },
+              child: Text('open dialog'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open dialog'));
+      await tester.pump();
+      await tester.tap(find.byKey(Key(ttd_keys.errorDialogOkButton)));
+      await tester.pump();
+
+      verify(observer.didPop(any, any)).called(1);
     });
 
     testWidgets('view details', (WidgetTester tester) async {
