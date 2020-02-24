@@ -45,5 +45,15 @@ void main() {
       final buttonFinder = find.byValueKey(ttd_keys.credentialsFormLoginButton);
       await driver.tap(buttonFinder);
     });
+
+    test('set fields in settings screen', () async {
+      await driver.tap(find.byValueKey(ttd_keys.settingsFormSearchFieldBranch));
+      await Future.delayed(Duration(milliseconds: 500));
+
+      await driver.enterText('TOP');
+      await Future.delayed(Duration(milliseconds: 500));
+
+      await driver.tap(find.text('TOPdesk UK'));
+    });
   });
 }
