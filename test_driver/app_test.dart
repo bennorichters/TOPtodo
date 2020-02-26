@@ -49,11 +49,52 @@ void main() {
     test('set fields in settings screen', () async {
       await driver.tap(find.byValueKey(ttd_keys.settingsFormSearchFieldBranch));
       await Future.delayed(Duration(milliseconds: 500));
-
       await driver.enterText('TOP');
       await Future.delayed(Duration(milliseconds: 500));
-
       await driver.tap(find.text('TOPdesk UK'));
+
+      await driver.tap(find.byValueKey(ttd_keys.settingsFormSearchFieldCaller));
+      await Future.delayed(Duration(milliseconds: 500));
+      await driver.enterText('Dawn');
+      await Future.delayed(Duration(milliseconds: 500));
+      await driver.tap(find.text('Dawn Meadows'));
+
+      await driver
+          .tap(find.byValueKey(ttd_keys.settingsFormSearchFieldCategory));
+      await Future.delayed(Duration(milliseconds: 500));
+      await driver.tap(find.text('Personal'));
+
+      await driver.tap(find.byValueKey(ttd_keys.subcategorySearchList));
+      await Future.delayed(Duration(milliseconds: 500));
+      await driver.tap(find.text('Todo'));
+
+      await driver
+          .tap(find.byValueKey(ttd_keys.settingsFormSearchFieldDuration));
+      await Future.delayed(Duration(milliseconds: 500));
+      await driver.tap(find.text('1 day'));
+
+      await driver.tap(find.text('save'));
+    });
+
+    test('submit todo', () async {
+      final briefDescription = 'Call Peter';
+      final request = 'Discuss:\\n- Team outing\\n- Budget';
+
+      await driver.tap(find.byValueKey(ttd_keys.incidentBriefDescriptionField));
+      await driver.enterText(briefDescription);
+
+      await driver.tap(find.byValueKey(ttd_keys.incidentRequestField));
+      await driver.enterText(request);
+
+      await driver.tap(find.byValueKey(ttd_keys.incidentSubmitButton));
+
+      await Future.delayed(Duration(milliseconds: 500));
+
+      expect(
+        await driver.requestData('lastBriefdescription'),
+        briefDescription,
+      );
+      expect(await driver.requestData('lastRequest'), request);
     });
   });
 }
