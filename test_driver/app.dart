@@ -13,8 +13,42 @@ void main() {
         return topdeskProvider.lastBriefDescription;
       case 'lastRequest':
         return topdeskProvider.lastRequest;
-      case 'lastSettings':
-        return topdeskProvider.lastSettings.toJson().toString();
+      case 'lastBranch':
+        {
+          final id = topdeskProvider.lastSettings.tdBranchId;
+          final branch = await topdeskProvider.tdBranch(id: id);
+          return branch.name;
+        }
+      case 'lastCaller':
+        {
+          final id = topdeskProvider.lastSettings.tdCallerId;
+          final caller = await topdeskProvider.tdCaller(id: id);
+          return caller.name;
+        }
+      case 'lastCategory':
+        {
+          final id = topdeskProvider.lastSettings.tdCategoryId;
+          final category = await topdeskProvider.tdCategory(id: id);
+          return category.name;
+        }
+      case 'lastSubcategory':
+        {
+          final id = topdeskProvider.lastSettings.tdSubcategoryId;
+          final subcategory = await topdeskProvider.tdSubcategory(id: id);
+          return subcategory.name;
+        }
+      case 'lastDuration':
+        {
+          final id = topdeskProvider.lastSettings.tdDurationId;
+          final duration = await topdeskProvider.tdDuration(id: id);
+          return duration.name;
+        }
+      case 'lastOperator':
+        {
+          final id = topdeskProvider.lastSettings.tdOperatorId;
+          final tdOperator = await topdeskProvider.tdOperator(id: id);
+          return tdOperator.name;
+        }
       default:
         return null;
     }

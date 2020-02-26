@@ -76,7 +76,7 @@ void main() {
       await driver.tap(find.text('save'));
     });
 
-    test('submit todo', () async {
+    void submitTodo({String durationText}) async {
       final briefDescription = 'Call Peter';
       final request = 'Discuss:\\n- Team outing\\n- Budget';
 
@@ -95,6 +95,34 @@ void main() {
         briefDescription,
       );
       expect(await driver.requestData('lastRequest'), request);
+      expect(await driver.requestData('lastBranch'), 'TOPdesk UK');
+      expect(await driver.requestData('lastCaller'), 'Dawn Meadows');
+      expect(await driver.requestData('lastCategory'), 'Personal');
+      expect(await driver.requestData('lastSubcategory'), 'Todo');
+      expect(await driver.requestData('lastDuration'), durationText);
+      expect(await driver.requestData('lastOperator'), 'Dawn Meadows');
+    }
+
+    test('submit todo', () async {
+      await submitTodo(durationText: '1 day');
+    });
+
+    test('change settings', () async {
+      await driver.tap(find.byType('MenuOperatorButton'));
+      await Future.delayed(Duration(milliseconds: 500));
+
+      await driver.tap(find.text('settings'));
+
+      await driver
+          .tap(find.byValueKey(ttd_keys.settingsFormSearchFieldDuration));
+      await Future.delayed(Duration(milliseconds: 500));
+      await driver.tap(find.text('2 hours'));
+
+      await driver.tap(find.text('save'));
+    });
+
+    test('submit todo again', () async {
+      await submitTodo(durationText: '2 hours');
     });
   });
 }
