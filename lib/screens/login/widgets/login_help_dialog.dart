@@ -1,10 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:toptodo/constants/keys.dart' as ttd_keys;
-import 'package:toptodo/widgets/dialog_header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:toptodo/constants/keys.dart' as ttd_keys;
+import 'package:toptodo/widgets/dialog_header.dart';
+
 class LoginHelpDialog extends StatelessWidget {
+  const LoginHelpDialog({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -12,33 +15,33 @@ class LoginHelpDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        constraints: BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DialogHeader(),
+            const DialogHeader(),
             Padding(
               padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
               child: RichText(
-                key: Key(ttd_keys.loginHelpDialogUrlLauncher),
+                key: const Key(ttd_keys.loginHelpDialogUrlLauncher),
                 text: TextSpan(
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Fill in the TOPdesk address and your credentials. '
                           'Note that the ',
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'application password ',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'differs from your normal password. Read the ',
                     ),
                     TextSpan(
                       text: 'online documentation ',
-                      style: TextStyle(color: Colors.blue),
+                      style: const TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           launch(
@@ -46,7 +49,7 @@ class LoginHelpDialog extends StatelessWidget {
                           );
                         },
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'for more details.',
                     ),
                   ],

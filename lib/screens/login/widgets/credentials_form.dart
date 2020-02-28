@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
@@ -24,7 +25,8 @@ class CredentialsForm extends StatelessWidget {
   final bool _remember;
 
   final _formKey = GlobalKey<FormState>();
-  final _verticalSpace = const SizedBox(height: 10);
+
+  static const _verticalSpace = SizedBox(height: 10);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class CredentialsForm extends StatelessWidget {
             child: ListView(
               children: [
                 TextFormField(
-                  key: Key(ttd_keys.credentialsFormUrlField),
+                  key: const Key(ttd_keys.credentialsFormUrlField),
                   controller: _urlController,
                   autocorrect: false,
                   decoration: const InputDecoration(
@@ -52,7 +54,7 @@ class CredentialsForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TextFormField(
-                  key: Key(ttd_keys.credentialsFormLoginNameField),
+                  key: const Key(ttd_keys.credentialsFormLoginNameField),
                   autocorrect: false,
                   controller: _loginNameController,
                   decoration: const InputDecoration(
@@ -67,7 +69,7 @@ class CredentialsForm extends StatelessWidget {
                 Row(
                   children: [
                     Checkbox(
-                      key: Key(ttd_keys.credentialsFormRememberCheckbox),
+                      key: const Key(ttd_keys.credentialsFormRememberCheckbox),
                       value: _remember,
                       onChanged: (bool value) =>
                           BlocProvider.of<LoginBloc>(context)
@@ -78,7 +80,7 @@ class CredentialsForm extends StatelessWidget {
                 ),
                 _verticalSpace,
                 TdButton(
-                  key: Key(ttd_keys.credentialsFormLoginButton),
+                  key: const Key(ttd_keys.credentialsFormLoginButton),
                   text: 'log in',
                   onTap: () => _connect(
                     context,

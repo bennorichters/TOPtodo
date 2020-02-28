@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:toptodo/blocs/init/bloc.dart';
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/widgets/td_shape.dart';
@@ -19,8 +20,8 @@ class InitDataProgress extends StatelessWidget {
       child: Center(
         child: Table(
           columnWidths: {
-            0: FixedColumnWidth(_firstColumnWidth),
-            1: IntrinsicColumnWidth(),
+            0: const FixedColumnWidth(_firstColumnWidth),
+            1: const IntrinsicColumnWidth(),
           },
           children: [
             TableRow(
@@ -74,8 +75,8 @@ class InitDataProgress extends StatelessWidget {
         child: SizedBox(
           height: _progressDiameter,
           child: objectToLoad == null
-              ? CircularProgressIndicator()
-              : Icon(
+              ? const CircularProgressIndicator()
+              : const Icon(
                   Icons.done,
                   color: ttd_colors.moss,
                 ),
@@ -84,10 +85,10 @@ class InitDataProgress extends StatelessWidget {
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.middle,
         child: Padding(
-          padding: EdgeInsetsDirectional.only(start: _padding),
+          padding: const EdgeInsetsDirectional.only(start: _padding),
           child: Text(
             text,
-            style: TextStyle(fontSize: 22),
+            style: const TextStyle(fontSize: 22),
           ),
         ),
       ),

@@ -13,9 +13,10 @@ class IncidentForm extends StatelessWidget {
   final IncidentState state;
 
   final _formKey = GlobalKey<FormState>();
-  final _verticalSpace = const SizedBox(height: 10);
   final _briefDescription = TextEditingController();
   final _request = TextEditingController();
+
+  static const _verticalSpace = SizedBox(height: 10);
 
   @override
   Widget build(BuildContext context) {

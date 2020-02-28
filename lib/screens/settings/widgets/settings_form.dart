@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
-import 'package:toptodo/widgets/landscape_padding.dart';
 
 import 'package:toptodo_data/toptodo_data.dart';
 
@@ -9,8 +7,10 @@ import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/blocs/td_model_search/bloc.dart';
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
+import 'package:toptodo/widgets/landscape_padding.dart';
 import 'package:toptodo/screens/settings/widgets/search_field.dart';
 import 'package:toptodo/screens/settings/widgets/search_list.dart';
+import 'package:toptodo/screens/settings/widgets/subcategory_search_list.dart';
 import 'package:toptodo/screens/settings/widgets/td_model_search_delegate.dart';
 import 'package:toptodo/widgets/td_button.dart';
 import 'package:toptodo/widgets/td_shape.dart';
@@ -35,14 +35,14 @@ class SettingsForm extends StatelessWidget {
             child: ListView(
               children: [
                 SearchField<TdBranch>(
-                  key: Key(ttd_keys.settingsFormSearchFieldBranch),
+                  key: const Key(ttd_keys.settingsFormSearchFieldBranch),
                   value: state.formState.tdBranch,
                   label: 'Branch',
                   search: _searchBranch(context),
                   validationText: 'Choose a branch',
                 ),
                 SearchField<TdCaller>(
-                  key: Key(ttd_keys.settingsFormSearchFieldCaller),
+                  key: const Key(ttd_keys.settingsFormSearchFieldCaller),
                   value: state.formState.tdCaller,
                   label: 'Caller' +
                       (state.formState.tdBranch == null
@@ -52,7 +52,7 @@ class SettingsForm extends StatelessWidget {
                   validationText: 'Choose a caller',
                 ),
                 SearchList<TdCategory>(
-                  key: Key(ttd_keys.settingsFormSearchFieldCategory),
+                  key: const Key(ttd_keys.settingsFormSearchFieldCategory),
                   name: 'Category',
                   validationText: 'Choose a Category',
                   items: state.formState.tdCategories,
@@ -64,7 +64,7 @@ class SettingsForm extends StatelessWidget {
                 ),
                 SubcategorySearchList(formState: state.formState),
                 SearchList<TdDuration>(
-                  key: Key(ttd_keys.settingsFormSearchFieldDuration),
+                  key: const Key(ttd_keys.settingsFormSearchFieldDuration),
                   name: 'Duration',
                   validationText: 'Choose a Duration',
                   items: state.formState.tdDurations,
@@ -75,7 +75,7 @@ class SettingsForm extends StatelessWidget {
                   },
                 ),
                 SearchField<TdOperator>(
-                  key: Key(ttd_keys.settingsFormSearchFieldOperator),
+                  key: const Key(ttd_keys.settingsFormSearchFieldOperator),
                   label: 'Operator',
                   value: state.formState.tdOperator,
                   search: _searchOperator(context),
@@ -87,7 +87,7 @@ class SettingsForm extends StatelessWidget {
                   onTap: () {
                     if (_formKey.currentState.validate()) {
                       BlocProvider.of<SettingsBloc>(context)
-                          .add(SettingsSave());
+                          .add(const SettingsSave());
                     }
                   },
                 ),

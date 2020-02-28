@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:toptodo/blocs/login/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/login/widgets/credentials_form.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: const Text('Welcome to TOPtodo'),
           actions: [
             IconButton(
-              key: Key(ttd_keys.loginScreenHelpButton),
+              key: const Key(ttd_keys.loginScreenHelpButton),
               icon: const Icon(Icons.help),
               onPressed: () {
                 showDialog(

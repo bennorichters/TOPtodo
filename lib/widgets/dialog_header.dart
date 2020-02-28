@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
 
 class DialogHeader extends StatelessWidget {
+  const DialogHeader({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
