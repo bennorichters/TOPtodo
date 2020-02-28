@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:toptodo/blocs/incident/bloc.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
@@ -12,7 +13,6 @@ class IncidentForm extends StatelessWidget {
   final IncidentState state;
 
   final _formKey = GlobalKey<FormState>();
-
   final _verticalSpace = const SizedBox(height: 10);
   final _briefDescription = TextEditingController();
   final _request = TextEditingController();
@@ -30,25 +30,27 @@ class IncidentForm extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  key: Key(ttd_keys.incidentBriefDescriptionField),
+                  key: const Key(ttd_keys.incidentBriefDescriptionField),
                   controller: _briefDescription,
-                  decoration: InputDecoration(labelText: 'Brief description'),
+                  decoration: const InputDecoration(
+                    labelText: 'Brief description',
+                  ),
                   validator: (value) =>
                       value.isEmpty ? 'Fill in a brief description' : null,
                 ),
                 _verticalSpace,
                 TextFormField(
-                  key: Key(ttd_keys.incidentRequestField),
+                  key: const Key(ttd_keys.incidentRequestField),
                   controller: _request,
-                  decoration: InputDecoration(labelText: 'Request'),
+                  decoration: const InputDecoration(labelText: 'Request'),
                   maxLength: null,
                   maxLines: null,
                 ),
                 _verticalSpace,
                 (state is IncidentSubmitted)
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : TdButton(
-                        key: Key(ttd_keys.incidentSubmitButton),
+                        key: const Key(ttd_keys.incidentSubmitButton),
                         text: 'submit',
                         onTap: () {
                           if (_formKey.currentState.validate()) {
