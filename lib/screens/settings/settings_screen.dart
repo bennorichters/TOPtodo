@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:toptodo/blocs/settings/bloc.dart';
 import 'package:toptodo/screens/settings/widgets/settings_form.dart';
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
@@ -18,7 +19,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<SettingsBloc>(context).add(SettingsInit());
+    BlocProvider.of<SettingsBloc>(context).add(const SettingsInit());
   }
 
   @override

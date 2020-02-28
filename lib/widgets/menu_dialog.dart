@@ -1,12 +1,14 @@
 import 'package:flutter/gestures.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'package:toptodo_data/toptodo_data.dart';
+
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/widgets/dialog_header.dart';
 import 'package:toptodo/widgets/td_model_avatar.dart';
-import 'package:toptodo_data/toptodo_data.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MenuDialog extends StatelessWidget {
   const MenuDialog({
@@ -17,6 +19,12 @@ class MenuDialog extends StatelessWidget {
   final TdOperator currentOperator;
   final bool showSettings;
 
+  static const _divider = Divider(
+    thickness: 1,
+    indent: 10,
+    endIndent: 10,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -24,12 +32,12 @@ class MenuDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        constraints: BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DialogHeader(),
+            const DialogHeader(),
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Row(
@@ -44,11 +52,7 @@ class MenuDialog extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
-              thickness: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
+            _divider,
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
               child: Column(
@@ -65,7 +69,7 @@ class MenuDialog extends StatelessWidget {
                         Navigator.pushNamed(context, 'settings');
                       },
                     ),
-                  if (showSettings) SizedBox(height: 20),
+                  if (showSettings) const SizedBox(height: 20),
                   _MenuItem(
                     iconData: Icons.power_settings_new,
                     text: 'log out',
@@ -74,30 +78,26 @@ class MenuDialog extends StatelessWidget {
                       Navigator.pushReplacementNamed(
                         context,
                         'login',
-                        arguments: LoginScreenArguments(logOut: true),
+                        arguments: const LoginScreenArguments(logOut: true),
                       );
                     },
                   ),
                 ],
               ),
             ),
-            Divider(
-              thickness: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
+            _divider,
             Padding(
               padding: const EdgeInsets.only(bottom: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RichText(
-                    key: Key(ttd_keys.menuDialogRichText),
+                    key: const Key(ttd_keys.menuDialogRichText),
                     text: TextSpan(
                       children: [
                         TextSpan(
                           text: 'TOPtodo',
-                          style: TextStyle(color: Colors.blue),
+                          style: const TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               launch(
@@ -105,7 +105,7 @@ class MenuDialog extends StatelessWidget {
                               );
                             },
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: ' is an open source project.',
                           style: TextStyle(color: Colors.black),
                         ),

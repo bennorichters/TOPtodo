@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:toptodo/screens/login/login_screen.dart';
 import 'package:toptodo/constants/keys.dart' as ttd_keys;
 import 'package:toptodo_data/toptodo_data.dart';
@@ -59,7 +60,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
     result.add(
       FlatButton(
-        key: Key(ttd_keys.errorDialogOkButton),
+        key: const Key(ttd_keys.errorDialogOkButton),
         child: const Text('Ok'),
         onPressed: () => _closeDialog(context),
       ),
@@ -142,7 +143,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
       child: ListView(
         children: [
           Text(widget.cause.toString()),
-          Divider(),
+          const Divider(),
           Text(widget.stackTrace.toString()),
         ],
       ),

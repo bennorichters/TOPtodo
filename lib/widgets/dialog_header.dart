@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:toptodo/constants/colors.dart' as ttd_colors;
 
 class DialogHeader extends StatelessWidget {
@@ -16,7 +17,7 @@ class DialogHeader extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(
+          child: const Text(
             'TOPtodo',
             style: TextStyle(
               color: ttd_colors.materialDenim,

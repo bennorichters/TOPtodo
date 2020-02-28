@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toptodo/constants/colors.dart' as ttd_colors;
+
 import 'package:toptodo_data/toptodo_data.dart';
 
-import 'blocs/all_blocs.dart';
-import 'screens/all_screens.dart';
+import 'package:toptodo/blocs/all_blocs.dart';
+import 'package:toptodo/constants/colors.dart' as ttd_colors;
+import 'package:toptodo/screens/all_screens.dart';
 
 class TopToDoApp extends StatefulWidget {
   TopToDoApp({

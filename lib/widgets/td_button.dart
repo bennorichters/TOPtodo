@@ -14,7 +14,7 @@ class TdButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       alignment: AlignmentDirectional.center,
-      children: <Widget>[
+      children: [
         Image.asset('assets/button_denim.png'),
         Container(
           width: 230,
@@ -28,7 +28,7 @@ class TdButton extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 6.0),
                   child: Text(
                     text,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontFamily: 'BreeSerif',
