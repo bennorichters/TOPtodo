@@ -10,7 +10,6 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  appengine: ^0.10.4
   toptodo_data:
     git:
       url: git://github.com/bennorichters/toptodo

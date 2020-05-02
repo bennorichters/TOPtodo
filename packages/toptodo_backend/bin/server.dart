@@ -1,7 +1,14 @@
-import 'package:appengine/appengine.dart';
+import 'dart:io';
 
-import 'package:toptodo_backend/toptodo_backend.dart';
+import '../lib/src/request_handler.dart';
 
-void main() async {
-  await runAppEngine(requestHandler);
+Future main() async {
+  var server = await HttpServer.bind(
+    InternetAddress.loopbackIPv4,
+    3000,
+  );
+
+  await for (HttpRequest request in server) {
+    await requestHandler(request);
+  }
 }
