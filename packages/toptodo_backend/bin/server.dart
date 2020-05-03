@@ -4,7 +4,7 @@ import '../lib/src/request_handler.dart';
 
 Future main() async {
   var server = await HttpServer.bind(
-    InternetAddress.loopbackIPv4,
+    'localhost',
     3000,
   );
 
